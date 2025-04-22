@@ -190,6 +190,12 @@ internal static class RulesDisplay
             {
                 Main.Settings.UseWeaponMasterySystemPushSave = toggle;
             }
+
+            toggle = Main.Settings.UseWeaponMasterySystemAlternateProperties;
+            if (UI.Toggle(Gui.Localize("ModUi/&UseWeaponMasterySystemAlternateProperties"), ref toggle, UI.AutoWidth()))
+            {
+                Main.Settings.UseWeaponMasterySystemAlternateProperties = toggle;
+            }
         }
 
         toggle = Main.Settings.UseOfficialFlankingRules;
@@ -239,6 +245,13 @@ internal static class RulesDisplay
                     UI.AutoWidth()))
             {
                 Main.Settings.UseOfficialFlankingRulesButAddAttackModifier = toggle;
+            }
+
+            toggle = Main.Settings.UseOldOfficialFlankingRules;
+            if (UI.Toggle(Gui.Localize("ModUi/&UseOldOfficialFlankingRules"), ref toggle,
+                    UI.AutoWidth()))
+            {
+                Main.Settings.UseOldOfficialFlankingRules = toggle;
             }
         }
 
@@ -363,6 +376,20 @@ internal static class RulesDisplay
         if (UI.Toggle(Gui.Localize("ModUi/&StealthBreaksWhenCastingSomatic"), ref toggle, UI.AutoWidth()))
         {
             Main.Settings.StealthBreaksWhenCastingSomatic = toggle;
+        }
+
+        toggle = Main.Settings.StealthBreaksWhenMoving;
+        if (UI.Toggle(Gui.Localize("ModUi/&StealthBreaksWhenMoving"), ref toggle, UI.AutoWidth()))
+        {
+            Main.Settings.StealthBreaksWhenMoving = toggle;
+        }
+
+        UI.Label();
+
+        toggle = Main.Settings.StealthRollForBreak;
+        if (UI.Toggle(Gui.Localize("ModUi/&StealthRollForBreak"), ref toggle, UI.AutoWidth()))
+        {
+            Main.Settings.StealthRollForBreak = toggle;
         }
 
         UI.Label();

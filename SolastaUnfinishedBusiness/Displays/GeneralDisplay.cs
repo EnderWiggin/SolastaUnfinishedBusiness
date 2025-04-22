@@ -360,6 +360,12 @@ internal static class ToolsDisplay
             {
                 Main.Settings.UseWeaponMasterySystemPushSave = toggle;
             }
+
+            toggle = Main.Settings.UseWeaponMasterySystemAlternateProperties;
+            if (UI.Toggle(Gui.Localize("ModUi/&UseWeaponMasterySystemAlternateProperties"), ref toggle, UI.AutoWidth()))
+            {
+                Main.Settings.UseWeaponMasterySystemAlternateProperties = toggle;
+            }
         }
 
         UI.Label();
@@ -1352,6 +1358,20 @@ internal static class ToolsDisplay
         if (UI.Toggle(Gui.Localize("ModUi/&StealthBreaksWhenCastingVerbose"), ref toggle, UI.AutoWidth()))
         {
             Main.Settings.StealthBreaksWhenCastingVerbose = toggle;
+        }
+
+        toggle = Main.Settings.StealthBreaksWhenMoving;
+        if (UI.Toggle(Gui.Localize("ModUi/&StealthBreaksWhenMoving"), ref toggle, UI.AutoWidth()))
+        {
+            Main.Settings.StealthBreaksWhenMoving = toggle;
+        }
+
+        UI.Label();
+
+        toggle = Main.Settings.StealthRollForBreak;
+        if (UI.Toggle(Gui.Localize("ModUi/&StealthRollForBreak"), ref toggle, UI.AutoWidth()))
+        {
+            Main.Settings.StealthRollForBreak = toggle;
         }
 
         UI.Label();

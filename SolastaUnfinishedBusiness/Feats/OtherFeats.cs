@@ -1074,7 +1074,7 @@ internal static class OtherFeats
 
     private const string FeatStealthyName = "FeatStealthy";
 
-    private static readonly FeatDefinition FeatStealthy = FeatDefinitionBuilder
+    internal static readonly FeatDefinition FeatStealthy = FeatDefinitionBuilder
         .Create(FeatStealthyName)
         .SetGuiPresentation(Category.Feat)
         .SetFeatures(
@@ -1102,6 +1102,7 @@ internal static class OtherFeats
         if (rulesetHero == null ||
             !rulesetHero.TrainedFeats.Contains(FeatStealthy))
         {
+
             return;
         }
 

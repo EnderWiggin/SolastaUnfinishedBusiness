@@ -14,7 +14,9 @@ using SolastaUnfinishedBusiness.Feats;
 using SolastaUnfinishedBusiness.Interfaces;
 using SolastaUnfinishedBusiness.Models;
 using SolastaUnfinishedBusiness.Subclasses;
+using UnityEngine;
 using static RuleDefinitions;
+using static SolastaUnfinishedBusiness.Api.DatabaseHelper;
 
 namespace SolastaUnfinishedBusiness.Patches;
 
@@ -147,6 +149,14 @@ public static class CharacterActionPatcher
 
                 case CharacterActionMoveStepBase characterActionMoveStepBase:
                     OtherFeats.NotifyFeatStealth(characterActionMoveStepBase);
+
+                    break;
+                case CharacterActionMove:
+                    if (actingCharacter.Stealthy && Main.Settings.StealthBreaksWhenMoving)
+                    {
+                        var a = new ActionModifier();
+                        ComputeStealthBreakMovement(actingCharacter, Main.Settings.StealthRollForBreak, new ActionModifier());
+                    }
                     break;
                 case CharacterActionFreeFall:
                     actingCharacter.BreakGrapple();
@@ -286,7 +296,7 @@ public static class CharacterActionPatcher
                             && Main.Settings.StealthBreaksWhenAttackMisses))
                     {
                         ShouldBanter = false;
-                        roll = false;
+                        roll = Main.Settings.StealthRollForBreak;
                     }
 
                     break;
@@ -307,7 +317,7 @@ public static class CharacterActionPatcher
                                 && Main.Settings.StealthBreaksWhenAttackMisses))
                         {
                             ShouldBanter = false;
-                            roll = false;
+                            roll = Main.Settings.StealthRollForBreak;
                         }
                     }
                     else if (spell.EffectDescription.TargetSide != Side.Ally)
@@ -328,7 +338,7 @@ public static class CharacterActionPatcher
                             || (spell.VerboseComponent && Main.Settings.StealthBreaksWhenCastingVerbose && !isSubtle))
                         {
                             ShouldBanter = false;
-                            roll = false;
+                            roll = Main.Settings.StealthRollForBreak;
                         }
                     }
 
@@ -348,7 +358,7 @@ public static class CharacterActionPatcher
                                 && Main.Settings.StealthBreaksWhenAttackMisses))
                         {
                             ShouldBanter = false;
-                            roll = false;
+                            roll = Main.Settings.StealthRollForBreak;
                         }
                     }
 
@@ -358,5 +368,138 @@ public static class CharacterActionPatcher
 
             return __instance.ComputeStealthBreak(roll, actionModifier, detectorsWithAdvantage);
         }
+    }
+    /// <summary>
+    /// Customized version of ComputeStealthBreak on CharacterAction. 
+    /// </summary>
+    /// <param name="__instance"></param>
+    /// <param name="roll"></param>
+    /// <param name="actionModifier"></param>
+    /// <param name="detectorsWithAdvantage">Explicit list of enemies with advantage, otherwise all have disadvantage</param>
+    /// <remarks>Could patch the method if needed, but this method is only for movement rules. If we patch the base, it will affect bosses too </remarks>
+    /// <returns></returns>
+    public static bool ComputeStealthBreakMovement(GameLocationCharacter __instance, bool roll, ActionModifier actionModifier, List<GameLocationCharacter> detectorsWithAdvantage = null)
+    {
+        bool result = false;
+        if (!__instance.Stealthy )
+        {
+            return result;
+        }
+
+        bool flag = !roll;
+        GameLocationCharacter stealthBreaker = null;
+        bool flag2 = false;
+        if (roll)
+        {
+            __instance.cachePotentialDetectors.Clear();
+            __instance.cachePotentialDetectors.AddRange(__instance.CharactersInNoiseRange);
+            __instance.cachePotentialDetectors.AddRange(__instance.PerceivedFoes); //any foe character can see could potentially detect visually
+            if (detectorsWithAdvantage != null)
+            {
+                foreach (GameLocationCharacter item in detectorsWithAdvantage)
+                {
+                    __instance.cachePotentialDetectors.TryAdd(item);
+                }
+            }
+
+            if (!__instance.cachePotentialDetectors.Empty())
+            {
+                IGameLocationBattleService service = ServiceRepository.GetService<IGameLocationBattleService>();
+                bool flag3 = service != null && service.IsBattleInProgress && service.Battle.ActiveContender == __instance;
+                int num = 0;
+                GameLocationCharacter gameLocationCharacter = null;
+                foreach (GameLocationCharacter cachePotentialDetector in __instance.cachePotentialDetectors)
+                {
+                    if (!__instance.IsCharacterValidToAttemptStealthBreak(cachePotentialDetector)
+                        || cachePotentialDetector.RulesetCharacter.HasConditionOfType(ConditionDefinitions.ConditionSurprised))
+                    {
+                        continue;
+                    }
+
+                    flag2 = true;
+                    bool hasLightDisadvantage = false;
+                    int num2 = cachePotentialDetector.ComputePassivePerceptionOnTarget(__instance, out hasLightDisadvantage);
+                    int num3 = 10;
+                    num3 += cachePotentialDetector.RulesetCharacter.ComputeBaseAbilityCheckBonus("Wisdom", null, "Perception");
+                    if (num2 > num)
+                    {
+                        gameLocationCharacter = cachePotentialDetector;
+                        num = num2;
+                    }
+
+                    if (flag3)
+                    {
+                        actionModifier.Reset();
+                        RuleDefinitions.RollOutcome outcome = RuleDefinitions.RollOutcome.Success;
+                        int successDelta = 0;
+                        //either the detectors are explicitly set to detect movement, otherwise foes are at disadvantage
+                        RuleDefinitions.AdvantageType advantageType = ((detectorsWithAdvantage != null && detectorsWithAdvantage.Contains(cachePotentialDetector)) ? RuleDefinitions.AdvantageType.Advantage : RuleDefinitions.AdvantageType.Disadvantage);
+                        
+                        int baseBonus = cachePotentialDetector.RulesetCharacter.ComputeBaseAbilityCheckBonus("Wisdom", actionModifier.AbilityCheckModifierTrends, "Perception");
+                        
+                        switch (advantageType)
+                        {
+                            case RuleDefinitions.AdvantageType.Advantage:
+                                actionModifier.AbilityCheckAdvantageTrends.Add(new RuleDefinitions.TrendInfo(1, RuleDefinitions.FeatureSourceType.CharacterFeature, "Unknown", null));
+                                break;
+                            case RuleDefinitions.AdvantageType.Disadvantage:
+                                actionModifier.AbilityCheckAdvantageTrends.Add(new RuleDefinitions.TrendInfo(-1, RuleDefinitions.FeatureSourceType.CharacterFeature, "Unknown", null));
+                                break;
+                        }
+
+                        if (hasLightDisadvantage)
+                        {
+                            actionModifier.AbilityCheckAdvantageTrends.Add(new RuleDefinitions.TrendInfo(-1, RuleDefinitions.FeatureSourceType.Lighting, __instance.lightingState.ToString(), null));
+                        }
+
+                        cachePotentialDetector.ComputeAbilityCheckActionModifier("Wisdom", "Perception", actionModifier);
+                        __instance.ComputeAbilityCheckActionModifier("Wisdom", "Perception", actionModifier, 16);
+                        int diceRoll;
+                        int firstRoll;
+                        int secondRoll;
+                        int num4 = cachePotentialDetector.RulesetCharacter.RollAbilityCheck(baseBonus, "Wisdom", "Perception", actionModifier.AbilityCheckModifierTrends, actionModifier.AbilityCheckAdvantageTrends, actionModifier.AbilityCheckModifier, 0, passive: false, 0, out diceRoll, out firstRoll, out secondRoll, out outcome, out successDelta, rollDie: true, notify: false, displayDieOutcome: false, num3);
+                        if (num4 > num)
+                        {
+                            gameLocationCharacter = cachePotentialDetector;
+                            num = num4;
+                        }
+                    }
+                }
+
+                if (flag2)
+                {
+                    result = true;
+                    actionModifier.Reset();
+                    if (ServiceRepository.GetService<IGameLocationPositioningService>().IsNextToWall(__instance.LocationPosition))
+                    {
+                        __instance.ComputeAbilityCheckActionModifier("Dexterity", "Stealth", actionModifier, 32);
+                    }
+
+                    RuleDefinitions.RollOutcome outcome2 = RuleDefinitions.RollOutcome.Success;
+                    int successDelta2 = 0;
+                    //character with stealthy feat has advantage
+                    AdvantageType actorAdvantage = __instance.RulesetCharacter.GetOriginalHero().TrainedFeats.Contains(OtherFeats.FeatStealthy) ? AdvantageType.Advantage : AdvantageType.None;
+                    __instance.RollAbilityCheck("Dexterity", "Stealth", num, actorAdvantage, actionModifier, passive: false, -1, out outcome2, out successDelta2, rollDie: true);
+                    if (outcome2 != 0 && outcome2 != RuleDefinitions.RollOutcome.Success)
+                    {
+                        flag = true;
+                        stealthBreaker = gameLocationCharacter;
+                    }
+                }
+            }
+        }
+
+        if ((roll && flag2) || !roll)
+        {
+            __instance.StealthMayBeBrokenByAction?.Invoke(flag, __instance, stealthBreaker);
+        }
+
+        if (flag)
+        {
+            __instance.SetStealthy(state: false);
+            __instance.SetAlertPerception(state: false);
+        }
+
+        return result;
     }
 }

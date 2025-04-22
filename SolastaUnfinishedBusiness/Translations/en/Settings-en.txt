@@ -381,6 +381,8 @@ ModUi/&StealthBreaksWhenCastingMaterial=Enable stealth loss when casting <color=
 ModUi/&StealthBreaksWhenCastingSomatic=Enable stealth loss when casting <color=#D89555>Somatic</color> <i><color=#F0DAA0>[any non attack spell with target ALL or ENEMY]</color></i>
 ModUi/&StealthBreaksWhenCastingVerbose=Enable stealth loss when casting <color=#D89555>Verbal</color> <i><color=#F0DAA0>[any non attack spell with target ALL or ENEMY]</color></i>
 ModUi/&StealthDoesNotBreakWithSubtle=Enable stealth not rolling if <color=#D89555>Subtle Metamagic</color> and no <b>Material</b> component
+ModUi/&StealthRollForBreak=Enable stealth rolling for break (if stealth loss is enabled above) <b><i><color=#C04040E0>[Requires Restart]</color></i></b>
+ModUi/&StealthBreaksWhenMovingk=Enable stealth loss when moving. Stealthy feat will have advantage, normal enemies have disadvantage <b><i><color=#C04040E0>[Requires Restart]</color></i></b>
 ModUi/&StockGorimStoreWithAllNonMagicalClothing=Stock Gorim's store with all non-magical clothing <b><i><color=#C04040E0>[Requires Restart]</color></i></b>
 ModUi/&StockGorimStoreWithAllNonMagicalInstruments=Stock Gorim's store with all non-magical musical instruments <b><i><color=#C04040E0>[Requires Restart]</color></i></b>
 ModUi/&StockHugoStoreWithAdditionalFoci=Stock Hugo's store with <color=#D89555>Arcane Staff</color>, <color=#D89555>Druid Neck</color>, <color=#D89555>Staff</color> and <color=#D89555>Club</color> set as foci items
@@ -417,6 +419,7 @@ ModUi/&UseOfficialFlankingRules=Enable <color=#D89555>flanking</color> rules <i>
 ModUi/&UseOfficialFlankingRulesAlsoForRanged=<i>+ Also enable for ranged attacks <color=#F0DAA0>[disable precise math]</color></i>
 ModUi/&UseOfficialFlankingRulesAlsoForReach=<i>+ Also enable for reach attacks <color=#F0DAA0>[disable precise math]</color></i>
 ModUi/&UseOfficialFlankingRulesButAddAttackModifier=<i>+ Instead of advantage grant +1 to attack roll</i>
+ModUi/&UseOldOfficialFlankingRules=<i>+ The old flanking rule was just +2 to attack roll. Above flanking plus modifier rule take precedence</i>
 ModUi/&UseOfficialFoodRationsWeight=Enable <color=#D89555>food ration</color> weight of 2 pounds
 ModUi/&UseOfficialObscurementRules=Enable <color=#D89555>lighting, obscurement, and vision</color> combat rules
 ModUi/&UseOfficialObscurementRulesHelp=<i><color=#F0DAA0>[attacker who perceive defender who cannot perceive it gets ADV, and attacker who doesn't perceive defender who can perceive it gets DIS\n heavily obscured areas inflict blinded condition, where attack rolls against the creature have ADV, and the creature's attack rolls have DIS\n all distance spells targeting individuals cannot be cast if attacker has no sight, except for the ones that clearly don't state sight is required]</color></i>
@@ -427,4 +430,5 @@ ModUi/&UseWeaponMasterySystemAddWeaponTag=<i>+ Add mastery tag to all game weapo
 ModUi/&UseWeaponMasterySystemFlurryTriggersMastery=<i>+ Dual Flurry extra attack can trigger another mastery</i>
 ModUi/&UseWeaponMasterySystemNickExtraAttackTriggersMastery=<i>+ Nick mastery extra attack can trigger another mastery</i>
 ModUi/&UseWeaponMasterySystemPushSave=<i>+ Push mastery requires the creature to make a Strength saving throw (DC 8 + attack roll ability modifier + Proficiency Bonus)</i>
+ModUi/&UseWeaponMasterySystemAlternateProperties=<i>+ Alternate weapon properties to represent real-life properties from a little research. "Vex" on shortbow makes no sense <b><i><color=#C04040E0>[Requires Restart]</color></i></b></i>
 ModUi/&WildSurgeDieRollThreshold=<color=white>Set <color=#D89555>Sorcerer Wild Magic</color> chance die threshold:</color>\n<i><color=#F0DAA0>[wild surge triggers if rolls less or equal threshold]</color></i>

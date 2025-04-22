@@ -959,9 +959,13 @@ internal static partial class Tabletop2024Context
             var firstTarget = GameLocationCharacter.GetFromActor(rulesetFirstTarget);
 
             if (!attacker.IsWithinRange(target, attackMode.reachRange) ||
-                target == firstTarget)
+                    target == firstTarget)
             {
-                __instance.actionModifier.FailureFlags.Add(Gui.Localize("Failure/&CannotAttackTarget"));
+                if (target != firstTarget 
+                    && Main.Settings.UseWeaponMasterySystemAlternateProperties 
+                    && (attackMode.Thrown || attackMode.Ranged)) {  } //do nothing, using alternate weapon properties
+                else //then the attack is melee or reached, or alternate masteries is off
+                    __instance.actionModifier.FailureFlags.Add(Gui.Localize("Failure/&CannotAttackTarget"));
 
                 return false;
             }

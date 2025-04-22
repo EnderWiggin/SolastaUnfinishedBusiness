@@ -111,11 +111,13 @@ public class Settings : UnityModManager.ModSettings
     public bool UseWeaponMasterySystemFlurryTriggersMastery { get; set; }
     public bool UseWeaponMasterySystemNickExtraAttackTriggersMastery { get; set; }
     public bool UseWeaponMasterySystemPushSave { get; set; }
+    public bool UseWeaponMasterySystemAlternateProperties { get; set; }
     public bool UseOfficialFlankingRules { get; set; }
     public bool UseMathFlankingRules { get; set; }
     public bool UseOfficialFlankingRulesAlsoForReach { get; set; }
     public bool UseOfficialFlankingRulesAlsoForRanged { get; set; }
     public bool UseOfficialFlankingRulesButAddAttackModifier { get; set; }
+    [Tag(Type = TagType.T2014)] public bool UseOldOfficialFlankingRules { get; set; }
     public bool EnableInitiativeRollOnEveryRoundStart { get; set; }
     [Tag(Type = TagType.T2014)] public bool BlindedConditionDontAllowAttackOfOpportunity { get; set; }
     [Tag(Type = TagType.T2014)] public bool UseOfficialLightingObscurementAndVisionRules { get; set; }
@@ -128,6 +130,8 @@ public class Settings : UnityModManager.ModSettings
     [Tag(Type = TagType.T2014)] public bool StealthDoesNotBreakWithSubtle { get; set; }
     [Tag(Type = TagType.T2014)] public bool StealthBreaksWhenAttackHits { get; set; }
     [Tag(Type = TagType.T2014)] public bool StealthBreaksWhenAttackMisses { get; set; }
+    public bool StealthBreaksWhenMoving { get; set; }
+    [Tag(Type = TagType.T2014)] public bool StealthRollForBreak { get; set; }
     public bool StealthBreaksWhenCastingMaterial { get; set; }
     [Tag(Type = TagType.T2014)] public bool StealthBreaksWhenCastingVerbose { get; set; }
     public bool StealthBreaksWhenCastingSomatic { get; set; }
