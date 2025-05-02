@@ -18,6 +18,7 @@ using SolastaUnfinishedBusiness.Spells;
 using SolastaUnfinishedBusiness.Subclasses;
 using SolastaUnfinishedBusiness.Validators;
 using TA;
+using UnityEngine;
 using static RuleDefinitions;
 
 namespace SolastaUnfinishedBusiness.Patches;
@@ -582,16 +583,12 @@ public static class GameLocationBattleManagerPatcher
             }
             else //if this is ranged or thrown, it is next to impossible
             {
-                if (Main.Settings.EnableShotInDarknessPenalties && (attackParams.attackMode.Ranged || attackParams.attackMode.Thrown))
+                if (Main.Settings.EnableShotInDarknessPenalties)
                 {
                     int actualDistance = (int)int3.Distance(attackParams.attackPosition, attackParams.defensePosition);
-                    
-                    if (actualDistance <= 10) //then allow other modifiers
-                        attackParams.attackModifier.AttackRollModifier -= actualDistance;
-                    else//this is virtually impossible to hit.
-                        attackParams.attackModifier.AttackRollModifier = -actualDistance;
+                    //lose all bonus to attack: this is a shot in the dark
+                    attackParams.attackModifier.AttackRollModifier = -actualDistance;
                 }
-                    
             }
         }
     }

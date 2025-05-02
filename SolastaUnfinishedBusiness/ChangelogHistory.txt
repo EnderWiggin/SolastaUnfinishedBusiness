@@ -1,3 +1,6 @@
+1.5.97.50:
+- fixed bad bug with shot in the dark
+
 1.5.97.49:
 - changed Shine to be effective (DC 15 fixed save)
 - added Sorr-Akkath to have darkvision 
