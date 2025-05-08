@@ -64,17 +64,21 @@ internal static class GLBM
 
     internal static RuleDefinitions.RollOutcome GetAttackResult(int rawRoll, int modifier, RulesetCharacter defender)
     {
-        if (rawRoll == RuleDefinitions.DiceMaxValue[(int)RuleDefinitions.DieType.D20])
+        var defenderArmorClass = defender.TryGetAttributeValue(AttributeDefinitions.ArmorClass);
+        if (rawRoll == RuleDefinitions.DiceMaxValue[(int)RuleDefinitions.DieType.D20]
+            || Main.Settings.EnableCriticalHitsMissesAt10
+            && rawRoll + modifier - defenderArmorClass >=10)
         {
             return RuleDefinitions.RollOutcome.CriticalSuccess;
         }
 
-        if (rawRoll == RuleDefinitions.DiceMinValue[(int)RuleDefinitions.DieType.D20])
+        if (rawRoll == RuleDefinitions.DiceMinValue[(int)RuleDefinitions.DieType.D20]
+            || Main.Settings.EnableCriticalHitsMissesAt10
+            && rawRoll + modifier - defenderArmorClass <=-10)
         {
             return RuleDefinitions.RollOutcome.CriticalFailure;
         }
-
-        var defenderArmorClass = defender.TryGetAttributeValue(AttributeDefinitions.ArmorClass);
+        
         return rawRoll + modifier >= defenderArmorClass
             ? RuleDefinitions.RollOutcome.Success
             : RuleDefinitions.RollOutcome.Failure;

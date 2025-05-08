@@ -1,4 +1,7 @@
-﻿using JetBrains.Annotations;
+﻿using System;
+using System.Collections.Generic;
+using JetBrains.Annotations;
+using Mono.Cecil;
 using static RuleDefinitions;
 
 namespace SolastaUnfinishedBusiness.Api.Helpers;
@@ -7,6 +10,40 @@ internal static class GameConsoleHelper
 {
     private const string DefaultUseText = "Feedback/&ActivatePowerLine";
     private const string TriggerFeature = "Feedback/&TriggerFeatureLine";
+    
+    /// <summary>
+    /// TextParameters for GUI Console. Overriding base TextParamter to make enums straight up.
+    /// </summary>
+    internal class GUIConsoleParameter : TextParameter
+    {
+        internal GUIConsoleParameter(ConsoleStyleDuplet.ParameterType parameterType, string contentValue="", string toolTipContent="")
+        {
+            ParameterType = parameterType;
+            ContentValue = contentValue;
+            TooltipContent = tooltipContent;
+        }
+        internal new ConsoleStyleDuplet.ParameterType ParameterType { get; set; }
+    }
+
+    /// <summary>
+    /// Add a formatted line of text using a list of parameters to the GUI log
+    /// </summary>
+    /// <param name="stringFormat"></param>
+    /// <param name="textParameters"></param>
+    internal static void Log(string stringFormat, List<GUIConsoleParameter> textParameters )
+    {
+        var entry = new GameConsoleEntry(stringFormat,
+            Gui.Game.GameConsole.consoleTableDefinition);
+        foreach (var parameter in textParameters)
+        {            
+            entry.AddParameter(
+            parameter.ParameterType,
+            parameter.ContentValue,
+            tooltipContent: parameter.TooltipContent
+            );
+        }
+        Gui.Game.GameConsole.AddEntry(entry);
+    }
 
     internal static void LogCharacterUsedPower(
         [NotNull] this RulesetCharacter character,

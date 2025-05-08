@@ -47,4 +47,7 @@ Tooltip/&TagSapTitle=Sap
 Tooltip/&TagSlowTitle=Slow
 Tooltip/&TagToppleTitle=Topple
 Tooltip/&TagVexTitle=Vex
+Tooltip/&TagDeadlyTitle=Deadly
+Feature/&FeatureWeaponMasteryDeadlyDescription=On critical hits, the additional damage die is upgraded to the next die type.
+Feedback/&WeaponMasteryDeadlyTriggered={0} triggered {1}, upgrading {2} to {3} for {4} damage {5} + {4} = {6}
 UI/&CustomFeatureSelectionTooltipTypeWeaponMastery=Weapon Mastery Property
