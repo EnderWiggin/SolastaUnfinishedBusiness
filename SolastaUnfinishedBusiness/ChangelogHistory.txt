@@ -1,3 +1,9 @@
+1.5.97.51:
+- added Deadly weapon mastery (From Pathfinder)
+- updated Longbow and LongMace types with deadly for alternate weapon mastery properties
+- added option for critical hits and misses to happen when attack result is 10 under or over the AC
+- fixed the cleave on ranged weapons to have a maximum effectiveness of 16
+
 1.5.97.50:
 - fixed bad bug with shot in the dark
 

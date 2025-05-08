@@ -56,6 +56,7 @@ ModUi/&CriticalOption0=<color=#D89555><b>0</b></color>: game default, roll any d
 ModUi/&CriticalOption1=<color=#D89555><b>1</b></color>: sum the maximum result for the damage dice and add it to the attack's damage <i><color=#F0DAA0>[XdY+(X*Y)+Z]</color></i>
 ModUi/&CriticalOption2=<color=#D89555><b>2</b></color>: keep re-rolling any damage dice that roll the highest possible result and add it to the total damage
 ModUi/&CriticalOption3=<color=#D89555><b>3</b></color>: Double your attack's total damage instead of rolling additional dice. <i><color=#F0DAA0>[(XdY+Z)*2]</color></i>
+ModUI/&EnableCriticalHitsMissesAt10=Enable critical hits and misses when the difference between the AC and modified attack roll result is 10 or greater
 ModUi/&DisableAutoEquip=Disable auto-equip of items in inventory
 ModUi/&DisableCastSpellPreRequisitesOnModFeats=Disable cast spell pre-requisites on mod <color=#D89555>feats</color> <b><i><color=#C04040E0>[Requires Restart]</color></i></b>
 ModUi/&DisableClassPrerequisitesOnModFeats=Disable level pre-requisites on <color=#D89555>feats</color>

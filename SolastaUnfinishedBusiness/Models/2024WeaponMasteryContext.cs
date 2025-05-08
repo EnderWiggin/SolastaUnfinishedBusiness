@@ -21,7 +21,7 @@ using static RuleDefinitions;
 using static SolastaUnfinishedBusiness.Api.DatabaseHelper.CharacterClassDefinitions;
 using static SolastaUnfinishedBusiness.Api.DatabaseHelper.FeatureDefinitionActionAffinitys;
 using static SolastaUnfinishedBusiness.Api.DatabaseHelper;
-using UE = UnityEngine;
+using TA;
 
 namespace SolastaUnfinishedBusiness.Models;
 
@@ -306,7 +306,7 @@ internal static partial class Tabletop2024Context
             .SetEffectDescription(
                 EffectDescriptionBuilder
                     .Create()
-                    .SetTargetingData(Side.Enemy, RangeType.Distance, 6, TargetType.IndividualsUnique)
+                    .SetTargetingData(Side.Enemy, RangeType.Distance, 16, TargetType.IndividualsUnique)
                     .Build())
             .DelegatedToAction()
             .AddCustomSubFeatures(new CustomBehaviorCleave())
@@ -484,7 +484,7 @@ internal static partial class Tabletop2024Context
             : WeaponMasteryTable[rulesetItemWeaponType];
     }
 
-    private static MasteryProperty GetMainMastery(this RulesetCharacter character)
+    internal static MasteryProperty GetMainMastery(this RulesetCharacter character)
     {
         return character.GetMastery(character.GetMainWeapon());
     }
@@ -508,7 +508,7 @@ internal static partial class Tabletop2024Context
         return offhandWeaponMastery != MasteryProperty.None;
     }
 
-    private enum MasteryProperty
+    internal enum MasteryProperty
     {
         None = -1,
         Push = 0,
@@ -518,7 +518,8 @@ internal static partial class Tabletop2024Context
         Graze,
         Nick,
         Topple,
-        Vex
+        Vex,
+        Deadly
     }
 
     //
@@ -947,7 +948,7 @@ internal static partial class Tabletop2024Context
         {
             var attacker = __instance.ActionParams.ActingCharacter;
             var attackMode = attacker.FindActionAttackMode(Id.AttackMain);
-
+            
             if (!attacker.RulesetCharacter.TryGetConditionOfCategoryAndType(
                     AttributeDefinitions.TagEffect, ConditionWeaponMasteryCleave.Name, out var activeCondition))
             {
@@ -963,11 +964,11 @@ internal static partial class Tabletop2024Context
             {
                 if (target != firstTarget
                     && Main.Settings.UseWeaponMasterySystemAlternateProperties
-                    && (attackMode.Thrown || attackMode.Ranged)) {  } //do nothing, using alternate weapon properties
+                    && (attackMode.Thrown || attackMode.Ranged)) { } //do nothing, using alternate weapon properties
                 else //then the attack is melee or reached, or alternate masteries is off
                 {
                     __instance.actionModifier.FailureFlags.Add(Gui.Localize("Failure/&CannotAttackTarget"));
-
+            
                     return false;
                 }
             }
@@ -975,7 +976,7 @@ internal static partial class Tabletop2024Context
             if (firstTarget.IsWithinRange(target, (attackMode.Thrown || attackMode.Ranged) ? 3 : 1))
             {
                 return true;
-            };
+            };                        
             __instance.actionModifier.FailureFlags.Add("Failure/&SecondTargetNotWithinRange");
 
             return false;

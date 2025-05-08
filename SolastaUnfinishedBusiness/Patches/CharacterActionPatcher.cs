@@ -159,7 +159,7 @@ public static class CharacterActionPatcher
                         {
                             ComputeStealthBreakMovement(actingCharacter, Main.Settings.StealthRollForBreak, new ActionModifier());
                         }
-                        catch (Exception ex)
+                        catch 
                         {
                             //if we couldn't calculate stealth break, it probably isn't a hero, so nothing special
                         }
