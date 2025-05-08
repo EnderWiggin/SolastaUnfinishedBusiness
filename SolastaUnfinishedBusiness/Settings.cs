@@ -155,7 +155,7 @@ public class Settings : UnityModManager.ModSettings
     public int CriticalHitModeEnemies { get; set; }
     public int CriticalHitModeNeutral { get; set; }
 
-    public bool EnableCriticalHitsMissesAt10 { get;set }
+    public bool EnableCriticalHitsMissesAt10 { get; set; }
     //
     // Gameplay - Campaigns
     //
