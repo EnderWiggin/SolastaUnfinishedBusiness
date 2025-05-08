@@ -569,7 +569,7 @@ internal static class RulesDisplay
         }
 
         toggle = Main.Settings.EnableCriticalHitsMissesAt10;
-        if (UI.Toggle(Gui.Localize("ModUi/&EnableCriticalHitsMissesAt10"), ref toggle,
+        if (UI.Toggle(Gui.Localize("ModUI/&EnableCriticalHitsMissesAt10"), ref toggle,
                 UI.AutoWidth()))
         {
             Main.Settings.EnableCriticalHitsMissesAt10 = toggle;
