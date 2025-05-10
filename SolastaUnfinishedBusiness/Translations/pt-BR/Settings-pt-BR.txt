@@ -1,3 +1,9 @@
+ModUI/&EnableChanceToPerceiveCloseRange=<i>+ rolará para a percepção de alvos dentro de 10 pés quando não percebido </i>
+ModUI/&EnableCriticalHitsMissesAt10=Ativar sucessos e erros críticos quando a diferença entre o resultado do rolo de ataque AC e o ataque é 10 ou mais
+ModUI/&EnableShotInDarknessPenalties=<i>+ aplicará penalidades de modificador de ataque por ataques à distância a não percebidos </i>
+ModUI/&ModifyJumpRulesForArmorAndEncumberance=Aplique as multas e as penalidades da armadura para saltar
+ModUI/&ModifyThrowingRulesForStrength=Aplique penalidades de arremesso ao alcance por falta de força
+ModUI/&SwapShineCantrip=Ativar brilho DC 15
 ModUi/&AccountForAllDiceOnFollowUpStrike=Adicione todos os efeitos adicionais da arma base ao talento <color=#D89555>Ataque de Acompanhamento</color>
 ModUi/&AccountForAllDiceOnSavageAttack=Adicione todos os dados do dano base da arma aos recursos que adicionam dano base da arma em vez de apenas 1 dado <i><color=#F0DAA0>[Ataque Selvagem, armas 2H, etc.]</color></i>
 ModUi/&AddAllToStore=Adicione abaixo às lojas <i><color=#F0DAA0>[estas são receitas de jogos reutilizadas em outras categorias de armas]</color></i>
@@ -380,7 +386,9 @@ ModUi/&StealthBreaksWhenAttackMisses=Habilitar perda de furtividade quando o ata
 ModUi/&StealthBreaksWhenCastingMaterial=Habilitar perda de furtividade ao conjurar <color=#D89555>Material</color> <i><color=#F0DAA0>[qualquer magia que não seja de ataque com alvo TODOS ou INIMIGO]</color></i>
 ModUi/&StealthBreaksWhenCastingSomatic=Habilitar perda de furtividade ao conjurar <color=#D89555>Somático</color> <i><color=#F0DAA0>[qualquer magia que não seja de ataque com alvo TODOS ou INIMIGO]</color></i>
 ModUi/&StealthBreaksWhenCastingVerbose=Habilitar perda de furtividade ao conjurar <color=#D89555>Verbal</color> <i><color=#F0DAA0>[qualquer magia que não seja de ataque com alvo TODOS ou INIMIGO]</color></i>
+ModUi/&StealthBreaksWhenMoving=Habilite a perda furtiva ao se mover. Feat furtivo terá vantagem, os inimigos normais têm desvantagem <b> <i> <color =#c04040e0> [requer reinicialização] </ro Color> </i> </b>
 ModUi/&StealthDoesNotBreakWithSubtle=Habilitar stealth sem rolagem se <color=#D89555>Subtle Metamagic</color> e nenhum componente <b>Material</b>
+ModUi/&StealthRollForBreak=Ativar furtividade rolando para quebrar (se a perda furtiva estiver ativada acima) <b> <i> <color =#c04040e0> [requer reinicialização] </ro Color> </i> </b>
 ModUi/&StockGorimStoreWithAllNonMagicalClothing=Estoque a loja de Gorim com todas as roupas não mágicas <b><i><color=#C04040E0>[Requer reinicialização]</color></i></b>
 ModUi/&StockGorimStoreWithAllNonMagicalInstruments=Estoque a loja de Gorim com todos os instrumentos musicais não mágicos <b><i><color=#C04040E0>[Requer reinicialização]</color></i></b>
 ModUi/&StockHugoStoreWithAdditionalFoci=Estoque a loja de Hugo com <color=#D89555>Cajado Arcano</color>, <color=#D89555>Pescoço de Druida</color>, <color=#D89555>Cajado</color> e <color=#D89555>Clube</color> definidos como itens focais
@@ -421,9 +429,11 @@ ModUi/&UseOfficialFoodRationsWeight=Habilitar <color=#D89555>ração alimentar</
 ModUi/&UseOfficialObscurementRules=Habilitar regras de combate de <color=#D89555>iluminação, obscurecimento e visão</color>
 ModUi/&UseOfficialObscurementRulesHelp=<i><color=#F0DAA0>[atacante que percebe um defensor que não consegue percebê-lo recebe ADV, e atacante que não percebe um defensor que consegue percebê-lo recebe DIS\n áreas muito obscurecidas infligem condição de cegueira, onde jogadas de ataque contra a criatura têm ADV, e as jogadas de ataque da criatura têm DIS\n todas as magias de distância que tenham como alvo indivíduos não podem ser lançadas se o atacante não tiver visão, exceto aquelas que claramente não declaram que a visão é necessária]</color></i>
 ModUi/&UseOfficialSmallRacesDisWithHeavyWeapons=Habilitar <color=#D89555>pequenas raças</color> têm desvantagem ao empunhar armas pesadas
+ModUi/&UseOldOfficialFlankingRules=<i> + A antiga regra de flanqueamento era apenas +2 para atacar o rolo. Acima do flanqueamento mais regra do modificador, tenha precedência </i>
 ModUi/&UseWeaponMasterySystem=Habilitar regras de <color=#D89555>Maestria em Armas</color>
 ModUi/&UseWeaponMasterySystemAddCleaveDamage=<i>+ Domínio de Fenda adiciona modificador de pontuação de atributo ao dano do segundo ataque</i>
 ModUi/&UseWeaponMasterySystemAddWeaponTag=<i>+ Adicionar tag de maestria a todas as armas do jogo</i>
+ModUi/&UseWeaponMasterySystemAlternateProperties=<i>+ Propriedades alternativas da arma para representar propriedades da vida real de uma pequena pesquisa. "VEX" em Shortbow não faz sentido <b> <i> <color =#c04040e0> [requer reinicialização] </color> </i> </b> </i>
 ModUi/&UseWeaponMasterySystemFlurryTriggersMastery=<i>+ Ataque extra de Dual Flurry pode desencadear outra maestria</i>
 ModUi/&UseWeaponMasterySystemNickExtraAttackTriggersMastery=<i>+ Ataque extra de maestria de Nick pode desencadear outra maestria</i>
 ModUi/&UseWeaponMasterySystemPushSave=<i>+ A maestria em empurrar requer que a criatura faça um teste de resistência de Força (CD 8 + modificador de habilidade de ataque + Bônus de Proficiência)</i>

@@ -1,3 +1,9 @@
+ModUI/&EnableChanceToPerceiveCloseRange=<i>+ rotolerà per la percezione per gli obiettivi entro 10 piedi quando non percepito </i>
+ModUI/&EnableCriticalHitsMissesAt10=Abilita colpi e mancati critici quando la differenza tra l'AC e il risultato del tiro di attacco modificato è 10 o superiore
+ModUI/&EnableShotInDarknessPenalties=<i>+ applicherà le sanzioni del modificatore di attacco per gli attacchi a distanza su </i> non percepiti
+ModUI/&ModifyJumpRulesForArmorAndEncumberance=Applicare le penalità di encumberance e armature per saltare
+ModUI/&ModifyThrowingRulesForStrength=Applicare sanzioni per il lancio per variare per mancanza di forza
+ModUI/&SwapShineCantrip=Abilita Shine DC 15
 ModUi/&AccountForAllDiceOnFollowUpStrike=Aggiungi tutti gli effetti aggiuntivi dell'arma base al talento <color=#D89555>Colpo successivo</color>
 ModUi/&AccountForAllDiceOnSavageAttack=Aggiungi tutti i dadi del danno base dell'arma alle caratteristiche che aggiungono danno base dell'arma invece di 1 solo dado <i><color=#F0DAA0>[Attacco selvaggio, armi a 2 mani, ecc.]</color></i>
 ModUi/&AddAllToStore=Aggiungi qui sotto ai negozi <i><color=#F0DAA0>[queste sono ricette di gioco riutilizzate in altre categorie di armi]</color></i>
@@ -380,7 +386,9 @@ ModUi/&StealthBreaksWhenAttackMisses=Abilita la perdita furtiva quando l'attacco
 ModUi/&StealthBreaksWhenCastingMaterial=Abilita la perdita furtiva quando lanci <color=#D89555>Materiale</color> <i><color=#F0DAA0>[qualsiasi incantesimo non di attacco con bersaglio TUTTI o NEMICO]</color></i>
 ModUi/&StealthBreaksWhenCastingSomatic=Abilita la perdita furtiva quando lanci <color=#D89555>Somatico</color> <i><color=#F0DAA0>[qualsiasi incantesimo non di attacco con bersaglio TUTTI o NEMICO]</color></i>
 ModUi/&StealthBreaksWhenCastingVerbose=Abilita la perdita furtiva quando lanci <color=#D89555>Verbale</color> <i><color=#F0DAA0>[qualsiasi incantesimo non di attacco con bersaglio TUTTI o NEMICO]</color></i>
+ModUi/&StealthBreaksWhenMoving=Abilita la perdita invisibile quando si sposta. Feat invisibile avrà un vantaggio, i nemici normali hanno svantaggio <b> <i> <color =#c04040e0> [richiede riavvio] </ color> </i> </b>
 ModUi/&StealthDoesNotBreakWithSubtle=Abilita la furtività senza rotolamento se <color=#D89555>Metamagia sottile</color> e nessun componente <b>Materiale</b>
+ModUi/&StealthRollForBreak=Abilita il rotolamento invisibile per la pausa (se la perdita invisibile è abilitata sopra) <b> <i> <color =#c04040e0> [richiede riavvio] </ color> </i> </b>
 ModUi/&StockGorimStoreWithAllNonMagicalClothing=Riempi il negozio di Gorim con tutti gli abiti non magici <b><i><color=#C04040E0>[Richiede riavvio]</color></i></b>
 ModUi/&StockGorimStoreWithAllNonMagicalInstruments=Riempi il negozio di Gorim con tutti gli strumenti musicali non magici <b><i><color=#C04040E0>[Richiede riavvio]</color></i></b>
 ModUi/&StockHugoStoreWithAdditionalFoci=Fai scorta nel negozio di Hugo con <color=#D89555>Bastone Arcano</color>, <color=#D89555>Collo del Druido</color>, <color=#D89555>Bastone</color> e <color=#D89555>Mazza</color> impostati come oggetti principali
@@ -421,9 +429,11 @@ ModUi/&UseOfficialFoodRationsWeight=Abilita <color=#D89555>razione alimentare</c
 ModUi/&UseOfficialObscurementRules=Abilita le regole di combattimento <color=#D89555>illuminazione, oscuramento e visione</color>
 ModUi/&UseOfficialObscurementRulesHelp=<i><color=#F0DAA0>[l'attaccante che percepisce il difensore che non riesce a percepirlo ottiene ADV, e l'attaccante che non percepisce il difensore che riesce a percepirlo ottiene DIS\n le aree pesantemente oscurate infliggono la condizione di accecamento, dove i tiri per colpire contro la creatura hanno ADV, e i tiri per colpire della creatura hanno DIS\n tutti gli incantesimi a distanza che prendono di mira gli individui non possono essere lanciati se l'attaccante non ha vista, eccetto quelli che chiaramente non dichiarano che la vista è richiesta]</color></i>
 ModUi/&UseOfficialSmallRacesDisWithHeavyWeapons=Abilita le <color=#D89555>razze piccole</color> che hanno svantaggio quando impugnano armi pesanti
+ModUi/&UseOldOfficialFlankingRules=<i> + La vecchia regola del fianco era solo +2 per l'attacco. Sopra il fianco più la regola del modificatore ha la precedenza </i>
 ModUi/&UseWeaponMasterySystem=Abilita le regole <color=#D89555>Padronanza delle armi</color>
 ModUi/&UseWeaponMasterySystemAddCleaveDamage=<i>+ La maestria di Cleave aggiunge il modificatore del punteggio attributo al danno del secondo attacco</i>
 ModUi/&UseWeaponMasterySystemAddWeaponTag=<i>+ Aggiungi tag di maestria a tutte le armi del gioco</i>
+ModUi/&UseWeaponMasterySystemAlternateProperties=<i>+ Proprietà dell'arma alternative per rappresentare le proprietà della vita reale da una piccola ricerca. "Vex" su corta non ha senso <b> <i> <color =#c04040e0> [richiede riavvio] </ color> </i> </b> </i>
 ModUi/&UseWeaponMasterySystemFlurryTriggersMastery=<i>+ L'attacco extra Dual Flurry può innescare un'altra maestria</i>
 ModUi/&UseWeaponMasterySystemNickExtraAttackTriggersMastery=<i>+ L'attacco extra di Nick Mastery può innescare un'altra maestria</i>
 ModUi/&UseWeaponMasterySystemPushSave=<i>+ La padronanza della spinta richiede che la creatura effettui un tiro salvezza su Forza (CD 8 + modificatore di caratteristica del tiro per colpire + bonus di competenza)</i>

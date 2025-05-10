@@ -1,3 +1,4 @@
+Failure/&FailureFlagTargetOutOfRangeStrength=Alvo fora do alcance (força)
 Tutorial/&TutorialActionSwitchingDescription=Quando você tem mais de uma ação principal ou bônus disponível, você pode clicar no símbolo de status da ação para torná-la sua ação ativa no momento. Isso permite atacar usando a ação Haste ou Horde Breaker e então conjurar magia com a ação padrão. Ou qualquer outra combinação que você possa precisar.\nPassar o mouse sobre o símbolo de status da ação mostra a dica de ferramenta com o nome do recurso ou condição que concedeu a ação.
 Tutorial/&TutorialActionSwitchingTitle=Ações múltiplas
 UI/&Add=Add

@@ -1,3 +1,4 @@
+Failure/&FailureFlagTargetOutOfRangeStrength=Objetivo fuera de rango (fuerza)
 Tutorial/&TutorialActionSwitchingDescription=Cuando tienes más de una acción principal o adicional disponible, puedes hacer clic en el símbolo de estado de acción para convertirla en tu acción activa actual. Esto te permite atacar con la acción Prisa o Destructor de hordas y luego lanzar un hechizo con la acción predeterminada o cualquier otra combinación que necesites.\nAl pasar el cursor sobre el símbolo de estado de acción, se muestra una descripción emergente con el nombre de la característica o condición que otorgó la acción.
 Tutorial/&TutorialActionSwitchingTitle=Acciones múltiples
 UI/&Add=Add
