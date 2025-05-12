@@ -1,8 +1,10 @@
+1.5.97.53:
+- moved roleplay options in to its own display
+- updated the version control updater to point to the new repository
+
 1.5.97.52:
 - added option to modify jumping rules for encumberance and armor category
 - added option to modify throwing rules for range vs strength
-- moved roleplay options in to its own display
-- updated the version control updater to point to the new repository
 
 1.5.97.51:
 - added Deadly weapon mastery (From Pathfinder)
