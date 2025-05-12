@@ -5,12 +5,14 @@ namespace SolastaUnfinishedBusiness.Displays;
 /// <summary>
 /// TODO: Make this its own tab for rules. I have a dayjob :(
 /// </summary>
-internal static partial class RulesDisplay
+internal static class RoleplayDisplay
 {
-    internal static void ExtendedDisplay()
+    internal static void DisplayRoleplaySettings()
     {
         bool toggle = false;
-
+        UI.Label();
+        UI.Label(Gui.Localize("ModUI/&RoleplaySettingsDescription"));
+        UI.Label();
         toggle = Main.Settings.EnableCriticalHitsMissesAt10;
         if (UI.Toggle(Gui.Localize("ModUI/&EnableCriticalHitsMissesAt10"), ref toggle,
                 UI.AutoWidth()))
@@ -30,6 +32,30 @@ internal static partial class RulesDisplay
                 UI.AutoWidth()))
         {
             Main.Settings.ModifyThrowingRulesForStrength = toggle;
+        }
+
+        toggle = Main.Settings.StealthBreaksWhenMoving;
+        if (UI.Toggle(Gui.Localize("ModUi/&StealthBreaksWhenMoving"), ref toggle, UI.AutoWidth()))
+        {
+            Main.Settings.StealthBreaksWhenMoving = toggle;
+        }
+
+        toggle = Main.Settings.StealthRollForBreak;
+        if (UI.Toggle(Gui.Localize("ModUi/&StealthRollForBreak"), ref toggle, UI.AutoWidth()))
+        {
+            Main.Settings.StealthRollForBreak = toggle;
+        }
+
+        toggle = Main.Settings.EnableShotInDarknessPenalties;
+        if (UI.Toggle(Gui.Localize("ModUI/&EnableShotInDarknessPenalties"), ref toggle, UI.AutoWidth()))
+        {
+            Main.Settings.EnableShotInDarknessPenalties = toggle;
+        }
+
+        toggle = Main.Settings.EnableChanceToPerceiveCloseRange;
+        if (UI.Toggle(Gui.Localize("ModUI/&EnableChanceToPerceiveCloseRange"), ref toggle, UI.AutoWidth()))
+        {
+            Main.Settings.EnableChanceToPerceiveCloseRange = toggle;
         }
     }
 }

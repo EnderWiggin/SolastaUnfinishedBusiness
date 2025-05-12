@@ -1,8 +1,11 @@
 ModUI/&EnableChanceToPerceiveCloseRange=<i>+ roll
 ModUI/&EnableCriticalHitsMissesAt10=Ermöglichen
 ModUI/&EnableShotInDarknessPenalties=<i>+ wird Angriffsmodifikator-Strafen für Fernkampfangriffe auf nicht wahrgenommene </i> anwenden
+ModUI/&ModVersionControl=-Unfinished Business Mod-Versionseinstellungen-
 ModUI/&ModifyJumpRulesForArmorAndEncumberance=Wenden Sie Norm- und Rüstungsstrafen an, um die Reichweite zu springen
 ModUI/&ModifyThrowingRulesForStrength=Wenden Sie die Strafen auf Reichweite aus, aus Mangel an Kraft
+ModUI/&RoleplaySettings=Rollenspiel
+ModUI/&RoleplaySettingsDescription=Diese Einstellungen optimieren das Gleichgewicht des Spiels zugunsten der Lebenssimulation oder des Rollenspiels, indem sie Komplexität und erhöhte Wahrscheinlichkeit von Erfolg und Misserfolg erhöhen
 ModUI/&SwapShineCantrip=Aktivieren Sie Shine DC 15
 ModUi/&AccountForAllDiceOnFollowUpStrike=Füge alle zusätzlichen Effekte der Basiswaffe zum Talent <color=#D89555>Folgeschlag</color> hinzu.
 ModUi/&AccountForAllDiceOnSavageAttack=Füge alle Würfel vom Basiswaffenschaden zu Funktionen hinzu, die Basiswaffenschaden hinzufügen, anstatt nur 1 Würfel <i><color=#F0DAA0>[Wilder Angriff, 2H-Waffen usw.]</color></i>

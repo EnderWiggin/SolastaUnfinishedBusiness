@@ -570,6 +570,5 @@ internal static partial class RulesDisplay
 
         UI.Label();
 
-        ExtendedDisplay();
     }
 }

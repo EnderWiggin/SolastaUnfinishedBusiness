@@ -1,8 +1,11 @@
 ModUI/&EnableChanceToPerceiveCloseRange=<i>+将在10英尺以内的目标范围内滚动，而不可感知的目标</i>
 ModUI/&EnableCriticalHitsMissesAt10=当交流和修改攻击结果之间的差异为10或更高时，启用关键命中和错过
 ModUI/&EnableShotInDarknessPenalties=<i>+将对对非感知</i>的远程攻击应用攻击修饰符处罚
+ModUI/&ModVersionControl=- 未完成的业务mod版本设置 -
 ModUI/&ModifyJumpRulesForArmorAndEncumberance=在跳跃范围内施加抵押和装甲罚款
 ModUI/&ModifyThrowingRulesForStrength=对缺乏力量进行投掷罚款范围
+ModUI/&RoleplaySettings=角色扮演
+ModUI/&RoleplaySettingsDescription=这些设置通过增加成功和失败的机会来调整游戏的平衡，以支持生活模拟或角色扮演
 ModUI/&SwapShineCantrip=启用S​​hine DC 15
 ModUi/&AccountForAllDiceOnFollowUpStrike=将基础武器的所有附加效果添加到<color=#D89555>后续打击</color>专长中
 ModUi/&AccountForAllDiceOnSavageAttack=将基础武器伤害中的所有骰子添加到添加基础武器伤害的功能中，而不仅仅是 1 个骰子<i><color=#F0DAA0>[野蛮攻击、双手武器等]</color></i>

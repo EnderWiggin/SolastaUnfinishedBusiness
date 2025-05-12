@@ -1,8 +1,11 @@
 ModUI/&EnableChanceToPerceiveCloseRange=<i>+ rolará para a percepção de alvos dentro de 10 pés quando não percebido </i>
 ModUI/&EnableCriticalHitsMissesAt10=Ativar sucessos e erros críticos quando a diferença entre o resultado do rolo de ataque AC e o ataque é 10 ou mais
 ModUI/&EnableShotInDarknessPenalties=<i>+ aplicará penalidades de modificador de ataque por ataques à distância a não percebidos </i>
+ModUI/&ModVersionControl=-Nfinishished Business Mod Version Configurações-
 ModUI/&ModifyJumpRulesForArmorAndEncumberance=Aplique as multas e as penalidades da armadura para saltar
 ModUI/&ModifyThrowingRulesForStrength=Aplique penalidades de arremesso ao alcance por falta de força
+ModUI/&RoleplaySettings=Roleplay
+ModUI/&RoleplaySettingsDescription=Essas configurações ajustam o equilíbrio do jogo em favor da simulação ou interpretação da vida, adicionando complexidade e maior chance de sucesso e fracasso
 ModUI/&SwapShineCantrip=Ativar brilho DC 15
 ModUi/&AccountForAllDiceOnFollowUpStrike=Adicione todos os efeitos adicionais da arma base ao talento <color=#D89555>Ataque de Acompanhamento</color>
 ModUi/&AccountForAllDiceOnSavageAttack=Adicione todos os dados do dano base da arma aos recursos que adicionam dano base da arma em vez de apenas 1 dado <i><color=#F0DAA0>[Ataque Selvagem, armas 2H, etc.]</color></i>

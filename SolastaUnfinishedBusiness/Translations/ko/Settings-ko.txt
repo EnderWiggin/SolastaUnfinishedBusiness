@@ -1,8 +1,11 @@
 ModUI/&EnableChanceToPerceiveCloseRange=<i>+는 비 지적 된 경우 10 피트 이내에 목표에 대한 인식을 위해 롤링됩니다 </i>
 ModUI/&EnableCriticalHitsMissesAt10=AC와 수정 된 공격 롤 결과의 차이가 10 이상인 경우 임계 적중 및 누락을 활성화합니다.
 ModUI/&EnableShotInDarknessPenalties=<i>+는 비 관점에 대한 원거리 공격에 대한 공격 수정 자 처벌을 적용합니다 </i>
+ModUI/&ModVersionControl=-비즈니스 모드 버전 설정-
 ModUI/&ModifyJumpRulesForArmorAndEncumberance=점프 범위에 enbumberance 및 갑옷 처벌을 적용하십시오
 ModUI/&ModifyThrowingRulesForStrength=힘이 부족하여 범위에 처벌을 적용하십시오
+ModUI/&RoleplaySettings=롤 플레인
+ModUI/&RoleplaySettingsDescription=이러한 설정은 복잡성과 성공 및 실패 가능성을 높이면서 삶의 시뮬레이션 또는 역할극에 유리하게 게임의 균형을 조정합니다.
 ModUI/&SwapShineCantrip=Shine DC 15 활성화
 ModUi/&AccountForAllDiceOnFollowUpStrike=기본 무기의 모든 추가 효과를 <color=#D89555>추적 공격</color> 특기에 추가합니다.
 ModUi/&AccountForAllDiceOnSavageAttack=기본 무기 데미지를 추가하는 기능에는 1개의 주사위만 추가하는 대신 기본 무기 데미지를 추가하는 모든 주사위를 추가합니다. <i><color=#F0DAA0>[야만적 공격, 2H 무기 등]</color></i>

@@ -1,8 +1,11 @@
 ModUI/&EnableChanceToPerceiveCloseRange=<i> + roulera pour la perception des cibles à moins de 10 pieds lorsqu'il est non perçu </i>
 ModUI/&EnableCriticalHitsMissesAt10=Activer les coups et les manques critiques lorsque la différence entre le résultat AC et le résultat du rouleau d'attaque modifié est de 10 ou plus
 ModUI/&EnableShotInDarknessPenalties=<i> + s'appliquera aux pénalités des modificateurs d'attaque pour les attaques à distance contre </i> non perçus </i>
+ModUI/&ModVersionControl=-Nes paramètres de version de mod commercial non défini-
 ModUI/&ModifyJumpRulesForArmorAndEncumberance=Appliquer les pénalités d'enterrogation et d'armure pour sauter la gamme
 ModUI/&ModifyThrowingRulesForStrength=Appliquer des pénalités de lancer à une gamme par manque de force
+ModUI/&RoleplaySettings=Jeu de rôle
+ModUI/&RoleplaySettingsDescription=Ces paramètres modifient l'équilibre du jeu en faveur de la simulation de vie ou du jeu de rôle en ajoutant la complexité et une augmentation des chances de succès et d'échec
 ModUI/&SwapShineCantrip=Activer Shine DC 15
 ModUi/&AccountForAllDiceOnFollowUpStrike=Ajoutez tous les effets supplémentaires de l'arme de base à l'exploit <color=#D89555>Frappe de suivi</color>
 ModUi/&AccountForAllDiceOnSavageAttack=Ajoutez tous les dés des dégâts de l'arme de base aux fonctionnalités qui ajoutent des dégâts de l'arme de base au lieu d'un seul dé <i><color=#F0DAA0>[Attaque sauvage, armes à 2 mains, etc.]</color></i>

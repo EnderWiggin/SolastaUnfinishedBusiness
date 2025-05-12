@@ -438,3 +438,6 @@ ModUi/&UseWeaponMasterySystemAlternateProperties=<i>+ Alternate weapon propertie
 ModUi/&WildSurgeDieRollThreshold=<color=white>Set <color=#D89555>Sorcerer Wild Magic</color> chance die threshold:</color>\n<i><color=#F0DAA0>[wild surge triggers if rolls less or equal threshold]</color></i>
 ModUI/&ModifyJumpRulesForArmorAndEncumberance=Apply encumberance and armor penalties to jump range
 ModUI/&ModifyThrowingRulesForStrength=Apply throwing penalties to range for lack of strength
+ModUI/&ModVersionControl=-Unfinished Business MOD Version Settings-
+ModUI/&RoleplaySettings=Roleplay
+ModUI/&RoleplaySettingsDescription=These settings tweak the balance of the game in favor of life simulation or roleplay by adding complexity and increased chance of success and failure

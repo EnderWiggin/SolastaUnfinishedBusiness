@@ -1,8 +1,11 @@
 ModUI/&EnableChanceToPerceiveCloseRange=<i>+は、認識されていないときに10フィート以内のターゲットの知覚のために転がります</i>
 ModUI/&EnableCriticalHitsMissesAt10=ACと変更された攻撃ロール結果の違いが10以上の場合、クリティカルヒットとミスを有効にします
 ModUI/&EnableShotInDarknessPenalties=<i>+は、認識されていない攻撃に対して攻撃修正装置のペナルティを適用します</i>
+ModUI/&ModVersionControl=- 不明瞭なビジネスmodバージョン設定 -
 ModUI/&ModifyJumpRulesForArmorAndEncumberance=ジャンプ範囲に介入と鎧のペナルティを適用します
 ModUI/&ModifyThrowingRulesForStrength=強さの欠如のために範囲に罰金を投げます
+ModUI/&RoleplaySettings=ロールプレイ
+ModUI/&RoleplaySettingsDescription=これらの設定は、複雑さと成功と失敗の可能性を高めることにより、ライフシミュレーションまたはロールプレイを支持してゲームのバランスを微調整します
 ModUI/&SwapShineCantrip=Shine DC 15を有効にします
 ModUi/&AccountForAllDiceOnFollowUpStrike=基本武器のすべての追加効果を<color=#D89555>追撃攻撃</color>特技に追加します
 ModUi/&AccountForAllDiceOnSavageAttack=基本武器ダメージからのすべてのダイスを、1 つのダイスのみではなく、基本武器ダメージを追加する機能に追加します <i><color=#F0DAA0>[サベージ アタック、2H 武器など]</color></i>

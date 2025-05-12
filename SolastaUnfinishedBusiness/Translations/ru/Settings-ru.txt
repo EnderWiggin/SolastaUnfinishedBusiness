@@ -1,8 +1,11 @@
 ModUI/&EnableChanceToPerceiveCloseRange=<i>+ будет катиться для восприятия для целей в пределах 10 футов, когда не воспринимается </i>
 ModUI/&EnableCriticalHitsMissesAt10=Включить критические удары и промахи, когда разница между переменным и модифицированным результатом атаки составляет 10 или более
 ModUI/&EnableShotInDarknessPenalties=<i>+ применяет штрафы за модификатор атаки за атаки в диапазоне на невыполненные </i>
+ModUI/&ModVersionControl=-Неоплачиваемые настройки версии Business Mod-
 ModUI/&ModifyJumpRulesForArmorAndEncumberance=Применить лепку и штрафы до брони, чтобы прыгать в диапазоне
 ModUI/&ModifyThrowingRulesForStrength=Применить штрафные штрафы на диапазон за отсутствие силы
+ModUI/&RoleplaySettings=Ролевые игры
+ModUI/&RoleplaySettingsDescription=Эти настройки настраивают баланс игры в пользу симуляции жизни или ролевой игры, добавив сложности и повышенную вероятность успеха и неудачи
 ModUI/&SwapShineCantrip=Включить Shine DC 15
 ModUi/&AccountForAllDiceOnFollowUpStrike=Добавлять все дополнительные эффекты от базового оружия к урону от черты <color=#D89555>Второй удар</color>
 ModUi/&AccountForAllDiceOnSavageAttack=Добавлять все кости от базового урона оружия к способностям, которые добавляют базовый урон оружия вместо только одной <i><color=#F0DAA0>[Свирепые атаки, Двуручное оружие и т.д.]</color></i>

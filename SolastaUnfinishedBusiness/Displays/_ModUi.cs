@@ -529,7 +529,8 @@ internal sealed class GameplayViewer : IMenuSelectablePage
             new NamedAction(Gui.Localize("ModUi/&Rules"), DisplayRules),
             new NamedAction(Gui.Localize("ModUi/&Campaigns"), DisplayGameUi),
             new NamedAction(Gui.Localize("ModUi/&CraftingItems"), DisplayCraftingAndItems),
-            new NamedAction(Gui.Localize("ModUi/&DungeonMaker"), DisplayDungeonMaker));
+            new NamedAction(Gui.Localize("ModUi/&DungeonMaker"), DisplayDungeonMaker),
+            new NamedAction(Gui.Localize("ModUI/&RoleplaySettings"), RoleplayDisplay.DisplayRoleplaySettings));
     }
 }
 

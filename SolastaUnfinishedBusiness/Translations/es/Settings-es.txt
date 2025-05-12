@@ -1,8 +1,11 @@
 ModUI/&EnableChanceToPerceiveCloseRange=<i>+ rodará para la percepción de objetivos dentro de 10 pies cuando no se perciban </i>
 ModUI/&EnableCriticalHitsMissesAt10=Habilitar golpes y fallas críticas cuando la diferencia entre el resultado de AC y la tirada de ataque modificado es 10 o más
 ModUI/&EnableShotInDarknessPenalties=<i>+ aplicará sanciones del modificador de ataque para ataques a distancia en no percibido </i>
+ModUI/&ModVersionControl=-Construcción de la versión de mod de negocio no definido-
 ModUI/&ModifyJumpRulesForArmorAndEncumberance=Aplicar penalizaciones de gravamen y armadura para saltar el rango
 ModUI/&ModifyThrowingRulesForStrength=Aplicar las sanciones de lanzamiento a la falta de fuerza
+ModUI/&RoleplaySettings=Juego de roles
+ModUI/&RoleplaySettingsDescription=Estas configuraciones ajustan el equilibrio del juego a favor de la simulación o el juego de roles al agregar complejidad y mayores posibilidades de éxito y fracaso
 ModUI/&SwapShineCantrip=Habilitar Shine DC 15
 ModUi/&AccountForAllDiceOnFollowUpStrike=Añade todos los efectos adicionales del arma base a la dote <color=#D89555>Golpe de seguimiento</color>
 ModUi/&AccountForAllDiceOnSavageAttack=Agrega todos los dados del daño del arma base a las características que agregan daño del arma base en lugar de solo 1 dado. <i><color=#F0DAA0>[Ataque salvaje, armas a 2 manos, etc.]</color></i>
