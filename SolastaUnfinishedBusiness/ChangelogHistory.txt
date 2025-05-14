@@ -1,3 +1,8 @@
+1.5.97.54:
+- added optional jump check fail 1d4 damage. 
+- added optional disadvantaged jump check roll for wearing armor
+- removed the armor wearing jump distance modification (bad idea)
+
 1.5.97.53:
 - moved roleplay options in to its own display
 - updated the version control updater to point to the new repository

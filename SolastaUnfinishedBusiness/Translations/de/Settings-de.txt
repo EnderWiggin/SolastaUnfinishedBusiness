@@ -1,5 +1,6 @@
 ModUI/&EnableChanceToPerceiveCloseRange=<i>+ roll
 ModUI/&EnableCriticalHitsMissesAt10=Ermöglichen
+ModUI/&EnableDamageOnFailedJumpCheck=Wendet 1W4 -Schäden bei fehlgeschlagenen Sprungprüfungen an
 ModUI/&EnableShotInDarknessPenalties=<i>+ wird Angriffsmodifikator-Strafen für Fernkampfangriffe auf nicht wahrgenommene </i> anwenden
 ModUI/&ModVersionControl=-Unfinished Business Mod-Versionseinstellungen-
 ModUI/&ModifyJumpRulesForArmorAndEncumberance=Wenden Sie Norm- und Rüstungsstrafen an, um die Reichweite zu springen

@@ -1,5 +1,6 @@
 ModUI/&EnableChanceToPerceiveCloseRange=<i>+将在10英尺以内的目标范围内滚动，而不可感知的目标</i>
 ModUI/&EnableCriticalHitsMissesAt10=当交流和修改攻击结果之间的差异为10或更高时，启用关键命中和错过
+ModUI/&EnableDamageOnFailedJumpCheck=在跳跃检查失败的情况下适用1d4损坏
 ModUI/&EnableShotInDarknessPenalties=<i>+将对对非感知</i>的远程攻击应用攻击修饰符处罚
 ModUI/&ModVersionControl=- 未完成的业务mod版本设置 -
 ModUI/&ModifyJumpRulesForArmorAndEncumberance=在跳跃范围内施加抵押和装甲罚款

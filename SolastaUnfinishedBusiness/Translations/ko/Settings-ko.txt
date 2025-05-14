@@ -1,5 +1,6 @@
 ModUI/&EnableChanceToPerceiveCloseRange=<i>+는 비 지적 된 경우 10 피트 이내에 목표에 대한 인식을 위해 롤링됩니다 </i>
 ModUI/&EnableCriticalHitsMissesAt10=AC와 수정 된 공격 롤 결과의 차이가 10 이상인 경우 임계 적중 및 누락을 활성화합니다.
+ModUI/&EnableDamageOnFailedJumpCheck=실패한 점프 점검에 1d4 피해를 적용합니다
 ModUI/&EnableShotInDarknessPenalties=<i>+는 비 관점에 대한 원거리 공격에 대한 공격 수정 자 처벌을 적용합니다 </i>
 ModUI/&ModVersionControl=-비즈니스 모드 버전 설정-
 ModUI/&ModifyJumpRulesForArmorAndEncumberance=점프 범위에 enbumberance 및 갑옷 처벌을 적용하십시오

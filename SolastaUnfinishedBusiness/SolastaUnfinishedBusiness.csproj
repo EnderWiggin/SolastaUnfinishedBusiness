@@ -29,6 +29,14 @@
   </Target>
 
   <ItemGroup>
+    <Compile Remove="Subclasses\MartialShadeKnight.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Subclasses\MartialShadeKnight.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Publicise.MSBuild.Task" Version="1.6.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>

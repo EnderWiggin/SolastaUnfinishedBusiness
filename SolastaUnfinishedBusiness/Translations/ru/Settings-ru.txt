@@ -1,5 +1,6 @@
 ModUI/&EnableChanceToPerceiveCloseRange=<i>+ будет катиться для восприятия для целей в пределах 10 футов, когда не воспринимается </i>
 ModUI/&EnableCriticalHitsMissesAt10=Включить критические удары и промахи, когда разница между переменным и модифицированным результатом атаки составляет 10 или более
+ModUI/&EnableDamageOnFailedJumpCheck=Применяется 1d4 повреждения при неудавшихся проверках прыжков
 ModUI/&EnableShotInDarknessPenalties=<i>+ применяет штрафы за модификатор атаки за атаки в диапазоне на невыполненные </i>
 ModUI/&ModVersionControl=-Неоплачиваемые настройки версии Business Mod-
 ModUI/&ModifyJumpRulesForArmorAndEncumberance=Применить лепку и штрафы до брони, чтобы прыгать в диапазоне

@@ -2006,10 +2006,6 @@ public static class RulesetCharacterPatcher
                     var carriedWeight = __instance.CharacterInventory.ComputeCarriedWeight();
                     __instance.maxJumpRange = 1 + (int)(__instance.maxJumpRange * (1 - carriedWeight / maxEncumbrance));
 
-                    //adjust for wearing armor                
-                    if (!__instance.IsWearingArmor()) __instance.maxJumpRange++;
-                    else if (__instance.IsWearingMediumArmor()) __instance.maxJumpRange--;
-                    else if (__instance.IsWearingHeavyArmor()) __instance.maxJumpRange -= 2;
                 }
             }
             catch //error happens inside computeencumrancethreshholds, we can't override maxjumprange using encumberance

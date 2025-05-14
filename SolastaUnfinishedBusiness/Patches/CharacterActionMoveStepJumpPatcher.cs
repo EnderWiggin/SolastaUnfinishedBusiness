@@ -1,8 +1,12 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using HarmonyLib;
 using JetBrains.Annotations;
+using SolastaUnfinishedBusiness.Api.GameExtensions;
+using SolastaUnfinishedBusiness.Api.Helpers;
 using SolastaUnfinishedBusiness.Interfaces;
+using static RuleDefinitions;
 
 namespace SolastaUnfinishedBusiness.Patches;
 
@@ -27,11 +31,17 @@ public static class CharacterActionMoveStepJumpPatcher
         {
             var actingCharacter = action.ActingCharacter;
             var actionModifier = action.ActionParams.ActionModifiers[0];
+            RuleDefinitions.AdvantageType BASE_AFFINITY = RuleDefinitions.AdvantageType.None;
+
+            //adjust for wearing armor                
+            if (Main.Settings.ModifyJumpRulesForArmorAndEncumberance &&
+                (actingCharacter.RulesetCharacter.IsWearingMediumArmor()
+                || actingCharacter.RulesetCharacter.IsWearingHeavyArmor()))
+                BASE_AFFINITY = RuleDefinitions.AdvantageType.Disadvantage;
 
             if (CharacterActionMoveStepJump.NeedsAcrobaticsCheck(action.landingPosition))
             {
                 const int CHECK_DC = 10;
-                const RuleDefinitions.AdvantageType BASE_AFFINITY = RuleDefinitions.AdvantageType.None;
 
                 var abilityCheckRoll = actingCharacter.RollAbilityCheck(
                     AttributeDefinitions.Dexterity,
@@ -67,7 +77,6 @@ public static class CharacterActionMoveStepJumpPatcher
                     action.landingPosition))
             {
                 const int CHECK_DC = 15;
-                const RuleDefinitions.AdvantageType BASE_AFFINITY = RuleDefinitions.AdvantageType.None;
 
                 var abilityCheckRoll = action.ActingCharacter.RollAbilityCheck(
                     AttributeDefinitions.Strength,

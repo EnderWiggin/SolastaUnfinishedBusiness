@@ -441,3 +441,4 @@ ModUI/&ModifyThrowingRulesForStrength=Apply throwing penalties to range for lack
 ModUI/&ModVersionControl=-Unfinished Business MOD Version Settings-
 ModUI/&RoleplaySettings=Roleplay
 ModUI/&RoleplaySettingsDescription=These settings tweak the balance of the game in favor of life simulation or roleplay by adding complexity and increased chance of success and failure
+ModUI/&EnableDamageOnFailedJumpCheck=Applies 1d4 damage on failed jump checks

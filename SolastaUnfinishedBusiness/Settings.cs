@@ -161,6 +161,9 @@ public class Settings : UnityModManager.ModSettings
     public bool ModifyJumpRulesForArmorAndEncumberance { get; set; }
     [Tag(Type = TagType.Roleplay)]
     public bool ModifyThrowingRulesForStrength { get; set; }
+
+    [Tag(Type = TagType.Roleplay)]
+    public bool EnableDamageOnFailedJumpCheck { get; set; }
     #endregion
 
     public bool EnableCriticalHitsMissesAt10 { get; set; }

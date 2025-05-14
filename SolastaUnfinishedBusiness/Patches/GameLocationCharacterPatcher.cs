@@ -53,6 +53,37 @@ public static class GameLocationCharacterPatcher
         }
     }
 
+    [HarmonyPatch(typeof(GameLocationCharacter), nameof(GameLocationCharacter.SignalJumpFinished))]
+    [SuppressMessage("Minor Code Smell", "S101:Types should be named in PascalCase", Justification = "Patch")]
+    [UsedImplicitly]
+    public static class SignalJumpFinished_Patch
+    {
+        [UsedImplicitly]
+        public static void Postfix(
+            GameLocationCharacter __instance,
+            int3 start, int3 finish, bool landingFailed)
+        {
+            if (Main.Settings.ModifyJumpRulesForArmorAndEncumberance
+                && landingFailed
+                )
+            {
+                var damageForm = new DamageForm
+                {
+                    DamageType = DamageTypeBludgeoning,
+                    DiceNumber = 1,
+                    DieType = DieType.D4
+                };
+                var rolls = new List<int>();
+                var totalDamage = __instance.RulesetCharacter.RollDamage(damageForm, 0, false, 0, 0, 1, false, false, false, rolls);
+                var currentHitPoints = __instance.RulesetCharacter.CurrentHitPoints;
+                
+                __instance.RulesetCharacter.SustainDamage(totalDamage, damageForm.DamageType, false, __instance.Guid,
+                    new RollInfo(damageForm.DieType, rolls, 0), out _);
+            }
+        }
+    }
+
+
     [HarmonyPatch(typeof(GameLocationCharacter), nameof(GameLocationCharacter.CanMoveInSituation))]
     [SuppressMessage("Minor Code Smell", "S101:Types should be named in PascalCase", Justification = "Patch")]
     [UsedImplicitly]

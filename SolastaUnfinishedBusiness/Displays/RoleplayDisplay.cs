@@ -2,9 +2,6 @@
 using SolastaUnfinishedBusiness.Models;
 
 namespace SolastaUnfinishedBusiness.Displays;
-/// <summary>
-/// TODO: Make this its own tab for rules. I have a dayjob :(
-/// </summary>
 internal static class RoleplayDisplay
 {
     internal static void DisplayRoleplaySettings()
@@ -25,6 +22,13 @@ internal static class RoleplayDisplay
                 UI.AutoWidth()))
         {
             Main.Settings.ModifyJumpRulesForArmorAndEncumberance = toggle;
+        }
+
+        toggle = Main.Settings.EnableDamageOnFailedJumpCheck;
+        if (UI.Toggle(Gui.Localize("ModUI/&EnableDamageOnFailedJumpCheck"), ref toggle,
+                UI.AutoWidth()))
+        {
+            Main.Settings.EnableDamageOnFailedJumpCheck = toggle;
         }
 
         toggle = Main.Settings.ModifyThrowingRulesForStrength;
