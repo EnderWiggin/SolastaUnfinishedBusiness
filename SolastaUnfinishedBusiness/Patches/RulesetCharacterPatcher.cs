@@ -2004,7 +2004,7 @@ public static class RulesetCharacterPatcher
                     //adjust for encumbrance
                     __instance.ComputeEncumbranceThresholds(out _, out _, out float maxEncumbrance);
                     var carriedWeight = __instance.CharacterInventory.ComputeCarriedWeight();
-                    __instance.maxJumpRange = 1 + (int)(__instance.maxJumpRange * (1 - carriedWeight / maxEncumbrance));
+                    __instance.maxJumpRange = 1 + (int)Math.Floor(__instance.maxJumpRange * (1 - carriedWeight / maxEncumbrance));
 
                 }
             }
