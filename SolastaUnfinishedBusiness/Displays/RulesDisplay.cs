@@ -3,7 +3,7 @@ using SolastaUnfinishedBusiness.Models;
 
 namespace SolastaUnfinishedBusiness.Displays;
 
-internal static class RulesDisplay
+internal static partial class RulesDisplay
 {
     private static readonly string[] CriticalHitOptions = ["0", "1", "2", "3"];
     private static readonly string[] SenseNormalVisionOptions = ["12", "24", "48"];
@@ -568,13 +568,7 @@ internal static class RulesDisplay
             }
         }
 
-        toggle = Main.Settings.EnableCriticalHitsMissesAt10;
-        if (UI.Toggle(Gui.Localize("ModUI/&EnableCriticalHitsMissesAt10"), ref toggle,
-                UI.AutoWidth()))
-        {
-            Main.Settings.EnableCriticalHitsMissesAt10 = toggle;
-        }
-
         UI.Label();
+
     }
 }

@@ -1,3 +1,13 @@
+ModUI/&EnableChanceToPerceiveCloseRange=<i>+ rodará para la percepción de objetivos dentro de 10 pies cuando no se perciban </i>
+ModUI/&EnableCriticalHitsMissesAt10=Habilitar golpes y fallas críticas cuando la diferencia entre el resultado de AC y la tirada de ataque modificado es 10 o más
+ModUI/&EnableDamageOnFailedJumpCheck=Aplica 1d4 de daño en las verificaciones de salto fallidas
+ModUI/&EnableShotInDarknessPenalties=<i>+ aplicará sanciones del modificador de ataque para ataques a distancia en no percibido </i>
+ModUI/&ModVersionControl=-Construcción de la versión de mod de negocio no definido-
+ModUI/&ModifyJumpRulesForArmorAndEncumberance=Aplicar penalizaciones de gravamen y armadura para saltar el rango
+ModUI/&ModifyThrowingRulesForStrength=Aplicar las sanciones de lanzamiento a la falta de fuerza
+ModUI/&RoleplaySettings=Juego de roles
+ModUI/&RoleplaySettingsDescription=Estas configuraciones ajustan el equilibrio del juego a favor de la simulación o el juego de roles al agregar complejidad y mayores posibilidades de éxito y fracaso
+ModUI/&SwapShineCantrip=Habilitar Shine DC 15
 ModUi/&AccountForAllDiceOnFollowUpStrike=Añade todos los efectos adicionales del arma base a la dote <color=#D89555>Golpe de seguimiento</color>
 ModUi/&AccountForAllDiceOnSavageAttack=Agrega todos los dados del daño del arma base a las características que agregan daño del arma base en lugar de solo 1 dado. <i><color=#F0DAA0>[Ataque salvaje, armas a 2 manos, etc.]</color></i>
 ModUi/&AddAllToStore=Agregue a continuación a las tiendas <i><color=#F0DAA0>[estas son recetas de juegos reutilizadas en otras categorías de armas]</color></i>
@@ -380,7 +390,9 @@ ModUi/&StealthBreaksWhenAttackMisses=Habilitar pérdida de sigilo cuando falla u
 ModUi/&StealthBreaksWhenCastingMaterial=Habilitar pérdida de sigilo al lanzar <color=#D89555>Material</color> <i><color=#F0DAA0>[cualquier hechizo que no sea de ataque con objetivo TODOS o ENEMIGO]</color></i>
 ModUi/&StealthBreaksWhenCastingSomatic=Habilita la pérdida de sigilo al lanzar <color=#D89555>Somático</color> <i><color=#F0DAA0>[cualquier hechizo que no sea de ataque con objetivo TODOS o ENEMIGO]</color></i>
 ModUi/&StealthBreaksWhenCastingVerbose=Habilita la pérdida de sigilo al lanzar <color=#D89555>Verbal</color> <i><color=#F0DAA0>[cualquier hechizo que no sea de ataque con objetivo TODOS o ENEMIGO]</color></i>
+ModUi/&StealthBreaksWhenMoving=Habilite la pérdida de sigilo cuando se mueva. La hazaña sigilosa tendrá ventaja, los enemigos normales tienen desventaja <b> <i> <color =#c04040e0> [requiere reiniciar] </ color> </i> </b>
 ModUi/&StealthDoesNotBreakWithSubtle=Habilitar sigilo sin rodar si hay <color=#D89555>Metamagia sutil</color> y ningún componente <b>Material</b>
+ModUi/&StealthRollForBreak=Habilitar el rodamiento de sigilo para la ruptura (si la pérdida de sigilo está habilitado arriba) <b> <i> <color =#C04040E0> [Requiere reiniciar] </ color> </i> </b>
 ModUi/&StockGorimStoreWithAllNonMagicalClothing=Llena la tienda de Gorim con toda la ropa no mágica. <b><i><color=#C04040E0>[Requiere reinicio]</color></i></b>
 ModUi/&StockGorimStoreWithAllNonMagicalInstruments=Llena la tienda de Gorim con todos los instrumentos musicales no mágicos. <b><i><color=#C04040E0>[Requiere reinicio]</color></i></b>
 ModUi/&StockHugoStoreWithAdditionalFoci=Llena la tienda de Hugo con <color=#D89555>Bastón Arcano</color>, <color=#D89555>Cuello de Druida</color>, <color=#D89555>Bastón</color> y <color=#D89555>Maza</color> como elementos de foco
@@ -421,9 +433,11 @@ ModUi/&UseOfficialFoodRationsWeight=Habilitar <color=#D89555>ración de alimento
 ModUi/&UseOfficialObscurementRules=Habilitar las reglas de combate de <color=#D89555>iluminación, oscurecimiento y visión</color>
 ModUi/&UseOfficialObscurementRulesHelp=<i><color=#F0DAA0>[el atacante que percibe al defensor que no puede percibirlo obtiene ADV, y el atacante que no percibe al defensor que puede percibirlo obtiene DIS\n las áreas muy oscurecidas infligen condición de ceguera, donde las tiradas de ataque contra la criatura tienen ADV, y las tiradas de ataque de la criatura tienen DIS\n todos los hechizos de distancia dirigidos a individuos no se pueden lanzar si el atacante no tiene vista, excepto los que claramente no indican que se requiere vista]</color></i>
 ModUi/&UseOfficialSmallRacesDisWithHeavyWeapons=Permitir que las <color=#D89555>razas pequeñas</color> tengan desventaja al manejar armas pesadas
+ModUi/&UseOldOfficialFlankingRules=<i> + La antigua regla de flanqueo fue solo +2 para atacar el rollo. Arriba de la regla modificador de flanqueo más tiene prioridad </i>
 ModUi/&UseWeaponMasterySystem=Habilitar las reglas de <color=#D89555>Maestría en armas</color>
 ModUi/&UseWeaponMasterySystemAddCleaveDamage=<i>+ Maestría en hendidura: añade un modificador de puntuación de atributo al daño del segundo ataque</i>
 ModUi/&UseWeaponMasterySystemAddWeaponTag=<i>+ Añadir etiqueta de maestría a todas las armas del juego</i>
+ModUi/&UseWeaponMasterySystemAlternateProperties=<i>+ propiedades de arma alternativa para representar propiedades de la vida real a partir de un poco de investigación. "Vex" en Shortbow no tiene sentido <b> <i> <color =#C04040E0> [Requiere reiniciar] </ color> </i> </b> </i>
 ModUi/&UseWeaponMasterySystemFlurryTriggersMastery=<i>+ El ataque adicional de Doble Ráfaga puede activar otra maestría</i>
 ModUi/&UseWeaponMasterySystemNickExtraAttackTriggersMastery=<i>+ El ataque adicional de maestría de Nick puede activar otra maestría</i>
 ModUi/&UseWeaponMasterySystemPushSave=<i>+ La maestría de empuje requiere que la criatura realice una tirada de salvación de Fuerza (CD 8 + modificador de característica de tirada de ataque + Bonificación por Competencia)</i>

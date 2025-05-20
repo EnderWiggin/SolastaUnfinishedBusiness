@@ -1,0 +1,3 @@
+echo Checking translations for changes and updating...
+cd translations
+py ..\..\Scripts\translateAutoSync.py -s

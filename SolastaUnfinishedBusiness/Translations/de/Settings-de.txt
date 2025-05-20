@@ -1,3 +1,13 @@
+ModUI/&EnableChanceToPerceiveCloseRange=<i>+ roll
+ModUI/&EnableCriticalHitsMissesAt10=Ermöglichen
+ModUI/&EnableDamageOnFailedJumpCheck=Wendet 1W4 -Schäden bei fehlgeschlagenen Sprungprüfungen an
+ModUI/&EnableShotInDarknessPenalties=<i>+ wird Angriffsmodifikator-Strafen für Fernkampfangriffe auf nicht wahrgenommene </i> anwenden
+ModUI/&ModVersionControl=-Unfinished Business Mod-Versionseinstellungen-
+ModUI/&ModifyJumpRulesForArmorAndEncumberance=Wenden Sie Norm- und Rüstungsstrafen an, um die Reichweite zu springen
+ModUI/&ModifyThrowingRulesForStrength=Wenden Sie die Strafen auf Reichweite aus, aus Mangel an Kraft
+ModUI/&RoleplaySettings=Rollenspiel
+ModUI/&RoleplaySettingsDescription=Diese Einstellungen optimieren das Gleichgewicht des Spiels zugunsten der Lebenssimulation oder des Rollenspiels, indem sie Komplexität und erhöhte Wahrscheinlichkeit von Erfolg und Misserfolg erhöhen
+ModUI/&SwapShineCantrip=Aktivieren Sie Shine DC 15
 ModUi/&AccountForAllDiceOnFollowUpStrike=Füge alle zusätzlichen Effekte der Basiswaffe zum Talent <color=#D89555>Folgeschlag</color> hinzu.
 ModUi/&AccountForAllDiceOnSavageAttack=Füge alle Würfel vom Basiswaffenschaden zu Funktionen hinzu, die Basiswaffenschaden hinzufügen, anstatt nur 1 Würfel <i><color=#F0DAA0>[Wilder Angriff, 2H-Waffen usw.]</color></i>
 ModUi/&AddAllToStore=Unten zu den Shops hinzufügen <i><color=#F0DAA0>[das sind wiederverwendete Spielrezepte für andere Waffenkategorien]</color></i>
@@ -380,7 +390,9 @@ ModUi/&StealthBreaksWhenAttackMisses=Aktivieren Sie den Tarnverlust, wenn Waffen
 ModUi/&StealthBreaksWhenCastingMaterial=Aktiviere Tarnverlust beim Wirken von <color=#D89555>Material</color> <i><color=#F0DAA0>[jeder Nichtangriffszauber mit Ziel ALLE oder FEIND]</color></i>
 ModUi/&StealthBreaksWhenCastingSomatic=Aktiviere den Verlust der Tarnung beim Wirken von <color=#D89555>Somatic</color> <i><color=#F0DAA0>[jeder Nichtangriffszauber mit Ziel ALLE oder FEINDE]</color></i>
 ModUi/&StealthBreaksWhenCastingVerbose=Aktivieren Sie den Verlust der Tarnung beim Wirken von <color=#D89555>Verbal</color> <i><color=#F0DAA0>[jeder Nichtangriffszauber mit Ziel ALLE oder FEIND]</color></i>
+ModUi/&StealthBreaksWhenMoving=Aktivieren Sie den Verlust von Stealth beim Umzug. Stealthy Feat wird Vorteil haben, normale Feinde haben Nachteile <b> <i> <color =#C04040E0> [Erfordert neu starten] </color> </i> </b>
 ModUi/&StealthDoesNotBreakWithSubtle=Aktivieren Sie Tarnung ohne Rollen, wenn <color=#D89555>Subtile Metamagie</color> und keine <b>materielle</b> Komponente vorhanden ist.
+ModUi/&StealthRollForBreak=Aktivieren Sie das Stealth Rolling für Break (wenn der Stealth -Verlust oben aktiviert ist) <b> <i> <color =#C04040E0> [erfordert Neustart] </color> </i> </b>
 ModUi/&StockGorimStoreWithAllNonMagicalClothing=Füllen Sie Gorims Laden mit allen nicht magischen Kleidungsstücken auf <b><i><color=#C04040E0>[Neustart erforderlich]</color></i></b>
 ModUi/&StockGorimStoreWithAllNonMagicalInstruments=Füllen Sie Gorims Laden mit allen nicht magischen Musikinstrumenten auf <b><i><color=#C04040E0>[Neustart erforderlich]</color></i></b>
 ModUi/&StockHugoStoreWithAdditionalFoci=Füllen Sie Hugos Laden mit <color=#D89555>Arkanstab</color>, <color=#D89555>Druidenhals</color>, <color=#D89555>Stab</color> und <color=#D89555>Keule</color> als Fokusgegenstände.
@@ -421,9 +433,11 @@ ModUi/&UseOfficialFoodRationsWeight=Aktivieren Sie eine <color=#D89555>Lebensmit
 ModUi/&UseOfficialObscurementRules=Aktiviere die Kampfregeln <color=#D89555>Beleuchtung, Verdunkelung und Sicht</color>
 ModUi/&UseOfficialObscurementRulesHelp=<i><color=#F0DAA0>[Angreifer, der wahrnimmt, Verteidiger, der es nicht wahrnehmen kann, erhält ADV, und Angreifer, der es nicht wahrnimmt, Verteidiger, der es wahrnehmen kann, erhält DIS\n stark verdeckte Bereiche verursachen den Zustand der Erblindung, wobei Angriffswürfe gegen die Kreatur ADV haben und die Angriffswürfe der Kreatur DIS haben\n alle Distanzzauber, die auf Einzelpersonen zielen, können nicht gewirkt werden, wenn der Angreifer keine Sicht hat, außer denen, bei denen nicht klar angegeben ist, dass Sicht erforderlich ist]</color></i>
 ModUi/&UseOfficialSmallRacesDisWithHeavyWeapons=Aktivieren <color=#D89555>Kleine Rassen</color> haben einen Nachteil beim Tragen schwerer Waffen
+ModUi/&UseOldOfficialFlankingRules=<i> + Die alte flankierende Regel war nur +2, um die Rolle anzugreifen. Oben Flanking plus Modifikatorregel nehmen Sie Vorrang </i>
 ModUi/&UseWeaponMasterySystem=Aktivieren Sie die Regeln für <color=#D89555>Waffenbeherrschung</color>
 ModUi/&UseWeaponMasterySystemAddCleaveDamage=<i>+ Cleave-Meisterung fügt Attributwertmodifikator zum Schaden des zweiten Angriffs hinzu</i>
 ModUi/&UseWeaponMasterySystemAddWeaponTag=<i>+ Meisterschafts-Tag zu allen Spielwaffen hinzufügen</i>
+ModUi/&UseWeaponMasterySystemAlternateProperties=<i>+ alternative Waffeneigenschaften zur Darstellung realer Eigenschaften aus einer kleinen Forschung. "Vex" auf Shortbow macht keinen Sinn <b> <i> <color =#C04040E0> [erfordert neu starten] </color> </i> </b> </i>
 ModUi/&UseWeaponMasterySystemFlurryTriggersMastery=<i>+ Dual Flurry-Zusatzangriff kann eine weitere Meisterung auslösen</i>
 ModUi/&UseWeaponMasterySystemNickExtraAttackTriggersMastery=<i>+ Nick-Meisterung – zusätzlicher Angriff kann eine weitere Meisterung auslösen</i>
 ModUi/&UseWeaponMasterySystemPushSave=<i>+ Push-Meisterung erfordert, dass die Kreatur einen Stärkerettungswurf macht (DC 8 + Angriffswurf-Fähigkeitsmodifikator + Proficiency-Bonus)</i>

@@ -1,8 +1,13 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using HarmonyLib;
 using JetBrains.Annotations;
+using SolastaUnfinishedBusiness.Api.GameExtensions;
+using SolastaUnfinishedBusiness.Api.Helpers;
 using SolastaUnfinishedBusiness.Interfaces;
+using TA;
+using static RuleDefinitions;
 
 namespace SolastaUnfinishedBusiness.Patches;
 
@@ -27,11 +32,19 @@ public static class CharacterActionMoveStepJumpPatcher
         {
             var actingCharacter = action.ActingCharacter;
             var actionModifier = action.ActionParams.ActionModifiers[0];
+            RuleDefinitions.AdvantageType BASE_AFFINITY = RuleDefinitions.AdvantageType.None;
+
+            bool isWearingHeavy = actingCharacter.RulesetCharacter.IsWearingHeavyArmor() && Main.Settings.ModifyJumpRulesForArmorAndEncumberance;
+            bool isWearingMedium = actingCharacter.RulesetCharacter.IsWearingMediumArmor() && Main.Settings.ModifyJumpRulesForArmorAndEncumberance;
+            int distance = (int)int3.Distance(action.jumpPosition, action.landingPosition);
+
+            //adjust for wearing heavy armor                
+            if (isWearingHeavy)
+                BASE_AFFINITY = RuleDefinitions.AdvantageType.Disadvantage;
 
             if (CharacterActionMoveStepJump.NeedsAcrobaticsCheck(action.landingPosition))
             {
                 const int CHECK_DC = 10;
-                const RuleDefinitions.AdvantageType BASE_AFFINITY = RuleDefinitions.AdvantageType.None;
 
                 var abilityCheckRoll = actingCharacter.RollAbilityCheck(
                     AttributeDefinitions.Dexterity,
@@ -62,12 +75,11 @@ public static class CharacterActionMoveStepJumpPatcher
                 action.AbilityCheckSuccessDelta = abilityCheckData.AbilityCheckSuccessDelta;
             }
 
-            if (action.AbilityCheckRollOutcome != RuleDefinitions.RollOutcome.Failure &&
-                CharacterActionMoveStepJump.NeedsAthleticsCheck(action.ActingCharacter, action.jumpPosition,
-                    action.landingPosition))
+            if (action.AbilityCheckRollOutcome != RuleDefinitions.RollOutcome.Failure 
+                && (CharacterActionMoveStepJump.NeedsAthleticsCheck(action.ActingCharacter, action.jumpPosition,
+                    action.landingPosition) || isWearingHeavy || isWearingMedium))
             {
-                const int CHECK_DC = 15;
-                const RuleDefinitions.AdvantageType BASE_AFFINITY = RuleDefinitions.AdvantageType.None;
+                int CHECK_DC = Main.Settings.ModifyJumpRulesForArmorAndEncumberance ? distance*5 : 15;
 
                 var abilityCheckRoll = action.ActingCharacter.RollAbilityCheck(
                     AttributeDefinitions.Strength,

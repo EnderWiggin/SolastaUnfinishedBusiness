@@ -522,6 +522,27 @@ public static class GameLocationBattleManagerPatcher
     public static class CanAttack_Patch
     {
         [UsedImplicitly]
+        public static bool Prefix(BattleDefinitions.AttackEvaluationParams attackParams)
+        {
+            if (Main.Settings.ModifyThrowingRulesForStrength)
+            {
+                var attacker = attackParams.attacker;
+                var target = attackParams.defender;
+                var attackMode = attacker.FindActionAttackMode(ActionDefinitions.Id.AttackMain);
+                if (attackMode.Thrown) //adjust for strength
+                {
+                    int actualDistance = (int)int3.Distance(attacker.LocationPosition, target.LocationPosition);
+                    if (actualDistance > attacker.RulesetCharacter.GetAttribute(AttributeDefinitions.Strength).CurrentValue)
+                    {
+                        attackParams.attackModifier.FailureFlags.Add("Failure/&FailureFlagTargetOutOfRangeStrength");
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
+
+        [UsedImplicitly]
         public static void Postfix(
             bool __result,
             BattleDefinitions.AttackEvaluationParams attackParams)

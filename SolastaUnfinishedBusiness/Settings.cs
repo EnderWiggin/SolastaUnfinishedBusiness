@@ -14,7 +14,8 @@ public enum TagType
 {
     QoL,
     T2014,
-    T2024
+    T2024,
+    Roleplay
 }
 
 [AttributeUsage(AttributeTargets.Property)]
@@ -154,6 +155,16 @@ public class Settings : UnityModManager.ModSettings
     public int CriticalHitModeAllies { get; set; }
     public int CriticalHitModeEnemies { get; set; }
     public int CriticalHitModeNeutral { get; set; }
+
+    #region "Roleplay Settings"
+    [Tag(Type = TagType.Roleplay)]
+    public bool ModifyJumpRulesForArmorAndEncumberance { get; set; }
+    [Tag(Type = TagType.Roleplay)]
+    public bool ModifyThrowingRulesForStrength { get; set; }
+
+    [Tag(Type = TagType.Roleplay)]
+    public bool EnableDamageOnFailedJumpCheck { get; set; }
+    #endregion
 
     public bool EnableCriticalHitsMissesAt10 { get; set; }
     //

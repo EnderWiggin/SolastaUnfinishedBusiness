@@ -29,6 +29,14 @@
   </Target>
 
   <ItemGroup>
+    <Compile Remove="Subclasses\MartialShadeKnight.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Subclasses\MartialShadeKnight.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Publicise.MSBuild.Task" Version="1.6.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
@@ -239,7 +247,8 @@
     </Reference>
   </ItemGroup>
 
-  <Target Name="ZipTranslations" BeforeTargets="Build;Clean">
+  <Target Name="ZipTranslations" BeforeTargets="Build;Clean" Condition="('$(Configuration)|$(Platform)' == 'Release|AnyCPU' Or '$(Configuration)|$(Platform)' == 'Release Install|AnyCPU')">
+    <Exec Command="call ApplyTranslations.bat" />
     <ZipDirectory Overwrite="true" SourceDirectory="$(ProjectDir)/Translations/" DestinationFile="$(ProjectDir)/Resources/Translations.zip" />
   </Target>
 

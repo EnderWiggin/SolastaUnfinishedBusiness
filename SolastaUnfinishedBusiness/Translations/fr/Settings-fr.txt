@@ -1,3 +1,13 @@
+ModUI/&EnableChanceToPerceiveCloseRange=<i> + roulera pour la perception des cibles à moins de 10 pieds lorsqu'il est non perçu </i>
+ModUI/&EnableCriticalHitsMissesAt10=Activer les coups et les manques critiques lorsque la différence entre le résultat AC et le résultat du rouleau d'attaque modifié est de 10 ou plus
+ModUI/&EnableDamageOnFailedJumpCheck=Applique 1d4 dégâts sur les contrôles de saut défaillants
+ModUI/&EnableShotInDarknessPenalties=<i> + s'appliquera aux pénalités des modificateurs d'attaque pour les attaques à distance contre </i> non perçus </i>
+ModUI/&ModVersionControl=-Nes paramètres de version de mod commercial non défini-
+ModUI/&ModifyJumpRulesForArmorAndEncumberance=Appliquer les pénalités d'enterrogation et d'armure pour sauter la gamme
+ModUI/&ModifyThrowingRulesForStrength=Appliquer des pénalités de lancer à une gamme par manque de force
+ModUI/&RoleplaySettings=Jeu de rôle
+ModUI/&RoleplaySettingsDescription=Ces paramètres modifient l'équilibre du jeu en faveur de la simulation de vie ou du jeu de rôle en ajoutant la complexité et une augmentation des chances de succès et d'échec
+ModUI/&SwapShineCantrip=Activer Shine DC 15
 ModUi/&AccountForAllDiceOnFollowUpStrike=Ajoutez tous les effets supplémentaires de l'arme de base à l'exploit <color=#D89555>Frappe de suivi</color>
 ModUi/&AccountForAllDiceOnSavageAttack=Ajoutez tous les dés des dégâts de l'arme de base aux fonctionnalités qui ajoutent des dégâts de l'arme de base au lieu d'un seul dé <i><color=#F0DAA0>[Attaque sauvage, armes à 2 mains, etc.]</color></i>
 ModUi/&AddAllToStore=Ajoutez ci-dessous aux boutiques <i><color=#F0DAA0>[ce sont des recettes de jeu réutilisées sur d'autres catégories d'armes]</color></i>
@@ -380,7 +390,9 @@ ModUi/&StealthBreaksWhenAttackMisses=Activer la perte de furtivité lorsque l'at
 ModUi/&StealthBreaksWhenCastingMaterial=Activer la perte de furtivité lors du lancement de <color=#D89555>Matériel</color> <i><color=#F0DAA0>[tout sort non offensif avec pour cible TOUS ou ENNEMI]</color></i>
 ModUi/&StealthBreaksWhenCastingSomatic=Activer la perte de furtivité lors du lancement de <color=#D89555>Somatique</color> <i><color=#F0DAA0>[tout sort non offensif avec pour cible TOUS ou ENNEMI]</color></i>
 ModUi/&StealthBreaksWhenCastingVerbose=Activer la perte de furtivité lors du lancement de <color=#D89555>Verbal</color> <i><color=#F0DAA0>[tout sort non offensif avec pour cible TOUS ou ENNEMI]</color></i>
+ModUi/&StealthBreaksWhenMoving=Activer la perte de furtivité lors du déménagement. L'exploit furtif aura un avantage, les ennemis normaux ont un inconvénient <b> <i> <color = # c04040e0> [nécessite un redémarrage] </ colori> </i> </b>
 ModUi/&StealthDoesNotBreakWithSubtle=Activer la furtivité sans lancer de dés si <color=#D89555>Métamagie subtile</color> et aucun composant <b>Matériel</b>
+ModUi/&StealthRollForBreak=Activer le roulement furtif pour la rupture (si la perte de furtivité est activée ci-dessus) <b> <i> <color = # c04040e0> [nécessite un redémarrage] </ colori> </i> </b>
 ModUi/&StockGorimStoreWithAllNonMagicalClothing=Remplissez la boutique de Gorim avec tous les vêtements non magiques <b><i><color=#C04040E0>[Nécessite un redémarrage]</color></i></b>
 ModUi/&StockGorimStoreWithAllNonMagicalInstruments=Remplissez le magasin de Gorim avec tous les instruments de musique non magiques <b><i><color=#C04040E0>[Nécessite un redémarrage]</color></i></b>
 ModUi/&StockHugoStoreWithAdditionalFoci=Remplissez la boutique Hugo avec le <color=#D89555>bâton arcanique</color>, le <color=#D89555>cou de druide</color>, le <color=#D89555>bâton</color> et le <color=#D89555>club</color> définis comme objets prioritaires
@@ -421,9 +433,11 @@ ModUi/&UseOfficialFoodRationsWeight=Activer la <color=#D89555>ration alimentaire
 ModUi/&UseOfficialObscurementRules=Activer les règles de combat <color=#D89555>éclairage, obscurcissement et vision</color>
 ModUi/&UseOfficialObscurementRulesHelp=<i><color=#F0DAA0>[l'attaquant qui perçoit le défenseur qui ne peut pas le percevoir obtient l'ADV, et l'attaquant qui ne perçoit pas le défenseur qui peut le percevoir obtient la DIS\n les zones fortement obscurcies infligent un état d'aveuglement, où les jets d'attaque contre la créature ont l'ADV, et les jets d'attaque de la créature ont la DIS\n tous les sorts de distance ciblant des individus ne peuvent pas être lancés si l'attaquant n'a pas la vue, à l'exception de ceux qui n'indiquent clairement pas que la vue est requise]</color></i>
 ModUi/&UseOfficialSmallRacesDisWithHeavyWeapons=Les <color=#D89555>petites races</color> ont un désavantage lorsqu'elles manient des armes lourdes
+ModUi/&UseOldOfficialFlankingRules=<i> + La vieille règle de flanquant était juste +2 pour attaquer le rouleau. Au-dessus de la règle de modificateur Flanking Plus de prendre priorité </i>
 ModUi/&UseWeaponMasterySystem=Activer les règles de <color=#D89555>Maîtrise des armes</color>
 ModUi/&UseWeaponMasterySystemAddCleaveDamage=<i>+ La maîtrise de Cleave ajoute un modificateur de score d'attribut aux dégâts de la deuxième attaque</i>
 ModUi/&UseWeaponMasterySystemAddWeaponTag=<i>+ Ajouter une balise de maîtrise à toutes les armes du jeu</i>
+ModUi/&UseWeaponMasterySystemAlternateProperties=<i> + Propriétés des armes alternatives pour représenter les propriétés réelles à partir d'un peu de recherche. "Vex" sur Shortbow n'a aucun sens <b> <i> <color = # c04040e0> [nécessite un redémarrage] </ color> </i> </b> </i>
 ModUi/&UseWeaponMasterySystemFlurryTriggersMastery=<i>+ L'attaque supplémentaire Dual Flurry peut déclencher une autre maîtrise</i>
 ModUi/&UseWeaponMasterySystemNickExtraAttackTriggersMastery=<i>+ L'attaque supplémentaire de maîtrise de Nick peut déclencher une autre maîtrise</i>
 ModUi/&UseWeaponMasterySystemPushSave=<i>+ La maîtrise de la poussée nécessite que la créature effectue un jet de sauvegarde de Force (DD 8 + modificateur de caractéristique du jet d'attaque + bonus de maîtrise)</i>

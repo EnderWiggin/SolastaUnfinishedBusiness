@@ -1,10 +1,11 @@
 {
   "Id": "SolastaUnfinishedBusiness",
   "DisplayName": "<i>[<b>Un</b>]</i> <color=Orange>Finished Business</color>",
-  "Version": "1.5.97.51",
+  "Version": "1.5.97.54",
   "GameVersion": "1.5.97",
   "ManagerVersion": "0.24.0",
   "AssemblyName": "SolastaUnfinishedBusiness.dll",
   "EntryMethod": "SolastaUnfinishedBusiness.Main.Load",
-  "HomePage": "https://github.com/SolastaMods/SolastaUnfinishedBusiness/wiki"
+  "HomePage": "https://github.com/SolastaMods/SolastaUnfinishedBusiness/wiki",
+  "Repository": "https://www.nexusmods.com/solastacrownofthemagister/mods/273"
 }

@@ -15,16 +15,17 @@ namespace SolastaUnfinishedBusiness.Models;
 
 internal static class UpdateContext
 {
-    private const string BaseURL = "https://github.com/SolastaMods/SolastaUnfinishedBusiness/releases/latest/download";
-
+    private const string BaseURL = "https://github.com/jayleew/SolastaUnfinishedBusiness/releases/download";
+    private const string VersionURL = "https://raw.githubusercontent.com/jayleew/SolastaUnfinishedBusiness/refs/heads/release/SolastaUnfinishedBusiness/Info.json";
     private static string InstalledVersion { get; } = GetInstalledVersion();
     private static string LatestVersion { get; set; }
     private static string PreviousVersion { get; } = GetPreviousVersion();
 
+    private static bool shouldUpdate = false;
+
     internal static void Load()
     {
-        LatestVersion = GetLatestVersion(out var shouldUpdate);
-
+        LatestVersion = GetLatestVersion(out shouldUpdate);
         if (shouldUpdate)
         {
             DisplayUpdateMessage();
@@ -75,7 +76,7 @@ internal static class UpdateContext
 
         try
         {
-            var infoPayload = wc.DownloadString($"{BaseURL}/Info.json");
+            var infoPayload = wc.DownloadString(VersionURL);
             var infoJson = JsonConvert.DeserializeObject<JObject>(infoPayload);
 
             // ReSharper disable once AssignNullToNotNullAttribute
@@ -106,37 +107,42 @@ internal static class UpdateContext
 
         string message;
         var version = toLatest ? LatestVersion : PreviousVersion;
-        var zipFile = $"SolastaUnfinishedBusiness-{version}.zip";
+        var zipFile = $"SolastaUnfinishedBusiness.zip";
         var fullZipFile = Path.Combine(Main.ModFolder, zipFile);
         var fullZipFolder = Path.Combine(Main.ModFolder, "SolastaUnfinishedBusiness");
-        var baseUrlByVersion = BaseURL.Replace("latest/download", $"download/{version}");
+        var baseUrlByVersion = BaseURL.Replace("download", $"download/{version}");
         var url = $"{baseUrlByVersion}/{zipFile}";
 
         try
         {
-            wc.DownloadFile(url, fullZipFile);
-
-            if (Directory.Exists(fullZipFolder))
+            if (shouldUpdate || !toLatest)
             {
+                wc.DownloadFile(url, fullZipFile);
+
+                if (Directory.Exists(fullZipFolder))
+                {
+                    Directory.Delete(fullZipFolder, true);
+                }
+
+                ZipFile.ExtractToDirectory(fullZipFile, Main.ModFolder);
+                File.Delete(fullZipFile);
+
+                foreach (var sourceFile in Directory.GetFiles(fullZipFolder, "*", SearchOption.AllDirectories))
+                {
+                    var destFile = sourceFile.ReplaceFirst("SolastaUnfinishedBusiness", string.Empty);
+                    var destFolder = Path.GetDirectoryName(destFile);
+
+                    Directory.CreateDirectory(destFolder!);
+                    File.Delete(destFile);
+                    File.Move(sourceFile, destFile);
+                }
+
                 Directory.Delete(fullZipFolder, true);
+
+                message = "Mod version change successful. Please restart.";
             }
-
-            ZipFile.ExtractToDirectory(fullZipFile, Main.ModFolder);
-            File.Delete(fullZipFile);
-
-            foreach (var sourceFile in Directory.GetFiles(fullZipFolder, "*", SearchOption.AllDirectories))
-            {
-                var destFile = sourceFile.ReplaceFirst("SolastaUnfinishedBusiness", string.Empty);
-                var destFolder = Path.GetDirectoryName(destFile);
-
-                Directory.CreateDirectory(destFolder!);
-                File.Delete(destFile);
-                File.Move(sourceFile, destFile);
-            }
-
-            Directory.Delete(fullZipFolder, true);
-
-            message = "Mod version change successful. Please restart.";
+            else
+                message = "Mod version is already the latest or higher";
         }
         catch
         {
@@ -194,7 +200,7 @@ internal static class UpdateContext
     internal static void OpenChangeLog()
     {
         OpenUrl(
-            "https://raw.githubusercontent.com/SolastaMods/SolastaUnfinishedBusiness/master/SolastaUnfinishedBusiness/ChangelogHistory.txt");
+            "https://raw.githubusercontent.com/jayleew/SolastaUnfinishedBusiness/refs/heads/release/SolastaUnfinishedBusiness/ChangelogHistory.txt");
     }
 
     internal static void OpenDocumentation(string filename)
