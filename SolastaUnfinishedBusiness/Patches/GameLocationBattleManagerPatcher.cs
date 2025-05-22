@@ -607,7 +607,7 @@ public static class GameLocationBattleManagerPatcher
                 if (Main.Settings.EnableShotInDarknessPenalties)
                 {
                     int actualDistance = (int)int3.Distance(attackParams.attackPosition, attackParams.defensePosition);
-                    //lose all bonus to attack: this is a shot in the dark
+
                     attackParams.attackModifier.AttackRollModifier = -actualDistance;
                 }
             }

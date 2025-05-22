@@ -1,3 +1,7 @@
+1.5.97.55:
+- added feedback tooltip for shot in the dark
+- fixed nasty bug with "chance to perceive at close range" option
+
 1.5.97.54:
 - added optional jump check fail 1d4 damage. 
 - added optional disadvantaged jump check roll for wearing armor

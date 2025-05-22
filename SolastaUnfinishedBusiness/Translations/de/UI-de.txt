@@ -1,4 +1,5 @@
 Failure/&FailureFlagTargetOutOfRangeStrength=Ziel außerhalb des Bereichs (Stärke)
+Feedback/&FailureShotInTheDarkMessage={0} kann {1} nicht wahrnehmen. Schuss im Dunkeln bei {2} Elfmeter ohne Boni. Versuchen Sie es mit einer Fackel!
 Tutorial/&TutorialActionSwitchingDescription=Wenn Ihnen mehr als eine Haupt- oder Bonusaktion zur Verfügung steht, können Sie auf das Aktionsstatussymbol klicken, um es zu Ihrer aktuell aktiven Aktion zu machen. Dadurch können Sie mit der Aktion Haste oder Horde Breaker angreifen und dann mit der Standardaktion einen Zauber wirken. Oder jede andere Kombination, die Sie benötigen.\nWenn Sie mit der Maus über das Aktionsstatussymbol fahren, wird ein Tooltip mit dem Namen der Funktion oder Bedingung angezeigt, die die Aktion gewährt hat.
 Tutorial/&TutorialActionSwitchingTitle=Mehrere Aktionen
 UI/&Add=Add

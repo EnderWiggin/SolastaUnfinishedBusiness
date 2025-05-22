@@ -1,4 +1,5 @@
 Failure/&FailureFlagTargetOutOfRangeStrength=Target fuori portata (forza)
+Feedback/&FailureShotInTheDarkMessage={0} non può percepire {1}. Shot in the Dark Made a {2} Penalità nessun bonus. Prova una torcia!
 Tutorial/&TutorialActionSwitchingDescription=Quando hai più di un'azione principale o bonus disponibile, puoi cliccare sul simbolo di stato dell'azione per renderla la tua azione attiva. Ciò consente di attaccare usando l'azione Haste o Horde Breaker e poi lanciare un incantesimo con l'azione predefinita. O qualsiasi altra combinazione di cui potresti aver bisogno.\nPassando il mouse sul simbolo di stato dell'azione viene visualizzato un suggerimento con il nome della caratteristica o condizione che ha concesso l'azione.
 Tutorial/&TutorialActionSwitchingTitle=Azioni multiple
 UI/&Add=Add

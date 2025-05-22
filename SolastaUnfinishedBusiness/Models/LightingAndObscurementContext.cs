@@ -262,7 +262,13 @@ internal static class LightingAndObscurementContext
 
         RuleDefinitions.TrendInfo PerceiveDisadvantage()
         {
-            return new RuleDefinitions.TrendInfo(-1, RuleDefinitions.FeatureSourceType.Lighting, TAG, defenderActor);
+            string toolTip="";
+            if (Main.Settings.EnableShotInDarknessPenalties)
+            {
+                toolTip = string.Format(Gui.Localize("Feedback/&FailureShotInTheDarkMessage")
+                    , (int)int3.Distance(attacker.LocationPosition, defender.LocationPosition));
+            }
+            return new RuleDefinitions.TrendInfo(-1, RuleDefinitions.FeatureSourceType.Lighting, TAG, defenderActor,additionalDetails:toolTip);
         }
 
         static bool BlindedAdvantage(RuleDefinitions.TrendInfo trendInfo)
@@ -543,18 +549,24 @@ internal static class LightingAndObscurementContext
             }
 
             //consider this a successful perception roll as the sensor has skills to perceive
-            if (!Global.RolledPerceptionThisTurn.ContainsKey(sensor))
-                Global.RolledPerceptionThisTurn.Add(sensor
-                    , new Dictionary<GameLocationCharacter, RuleDefinitions.RollOutcome>());
+            if (Main.Settings.EnableChanceToPerceiveCloseRange && sensor != null && target != null)
+            {
+                if (!Global.RolledPerceptionThisTurn.ContainsKey(sensor))
+                    Global.RolledPerceptionThisTurn.Add(sensor
+                        , new Dictionary<GameLocationCharacter, RuleDefinitions.RollOutcome>());
 
-            if (!Global.RolledPerceptionThisTurn[sensor].ContainsKey(target))
-                Global.RolledPerceptionThisTurn[sensor].Add(target, RuleDefinitions.RollOutcome.Success);
+                if (!Global.RolledPerceptionThisTurn[sensor].ContainsKey(target))
+                    Global.RolledPerceptionThisTurn[sensor].Add(target, RuleDefinitions.RollOutcome.Success);
+            }
+
             // Silhouette Step is the only one using additionalBlockedLightingState as it requires to block BRIGHT
             return additionalBlockedLightingState == LightingState.Darkness ||
                    targetLightingState != additionalBlockedLightingState;
         }
 
         if (distance < 11
+            && sensor != null
+            && target != null
             && Main.Settings.EnableChanceToPerceiveCloseRange
             && !targetIsInvisible
             && !sourceIsBlindFromDarkness)
