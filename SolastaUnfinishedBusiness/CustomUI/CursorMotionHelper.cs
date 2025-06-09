@@ -134,7 +134,7 @@ public class CursorMotionHelper : MonoBehaviour
         var pos = target.LocationPosition + shift;
         var src = _positioningService.ComputeGravityCenterPosition(target);
         var dst = src + shift.ToVector3();
-        var fall = GetFallShift(target, pos + shift);
+        var fall = GetFallShift(target, pos);
         var willFall = fall != int3.zero;
 
         helper.PlaceGhostWithoutPath(target, pos, !willFall);
@@ -149,10 +149,10 @@ public class CursorMotionHelper : MonoBehaviour
     {
         var below = pos;
         var accessor = new GridAccessor(_locationService);
-        while (!_positioningService.CanCharacterStayAtPosition_Floor(target, below, true))
+        while (!_positioningService.CanCharacterStayAtPosition(target, below, true)
+               && accessor.GetCellId(below) != CellId.Invalid)
         {
             below.y--;
-            if (accessor.GetCellId(below) == CellId.Invalid) { break; }
         }
 
         return below - pos;
