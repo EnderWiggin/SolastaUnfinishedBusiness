@@ -607,7 +607,7 @@ internal static partial class Tabletop2024Context
                 // ReSharper disable once SwitchStatementMissingSomeEnumCasesNoDefault
                 switch (mastery)
                 {
-                    case MasteryProperty.Push when defender.RulesetCharacter.SizeDefinition.MaxExtent.x <= 2:
+                    case MasteryProperty.Push when defender.RulesetCharacter.WieldingSize <= CreatureSize.Large:
                         DoPush(attacker, defender);
                         break;
                     case MasteryProperty.Sap:
