@@ -14,4 +14,5 @@ UI/&Quickies=Quickies
 UI/&Remove=Remove
 UI/&Skilled=Skilled
 Failure/&FailureFlagTargetOutOfRangeStrength=Target Out of Range (Strength)
+Feature/&ListSeparatorTitle=, 
 Feedback/&FailureShotInTheDarkMessage=Shot in the dark made at -{0}. Try a torch!
