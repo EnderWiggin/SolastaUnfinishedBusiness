@@ -69,12 +69,9 @@ public static class SlotRecoveryModalPatcher
 
             var maxPoints = caster.GetMaxSpellPoints();
             var remainingPoints = caster.GetRemainingSpellPoints();
-            var missingPoints = maxPoints - remainingPoints;
             var cost = SpellPointsContext.SpellCostByLevel[slotLevel];
-            var missingRecoveries = (int)Math.Ceiling((float)missingPoints / cost);
-            // maxSlots = Math.Min(remainingSlots + recoveredSlots, missingRecoveries);
             maxSlots = modal.slotsCapital;
-            // maxSlots = missingRecoveries;
+            remainingSlots = 0;
 
             available = false;
             if (remainingPoints + recoveredSlots * cost >= maxPoints)
