@@ -1,4 +1,5 @@
 using System.Linq;
+using SolastaUnfinishedBusiness.Api.GameExtensions;
 using SolastaUnfinishedBusiness.Api.LanguageExtensions;
 using UnityEngine.AddressableAssets;
 using static RuleDefinitions;
@@ -158,7 +159,7 @@ internal class EffectDescriptionBuilder
 
     internal EffectDescriptionBuilder SetImpactEffectParameters(IMagicEffect reference)
     {
-        return SetImpactEffectParameters(reference.EffectDescription.EffectParticleParameters.impactParticleReference);
+        return SetImpactEffectParameters(reference.ParticleImpactReference());
     }
 
     internal EffectDescriptionBuilder SetImpactEffectParameters(FeatureDefinitionAdditionalDamage reference)
