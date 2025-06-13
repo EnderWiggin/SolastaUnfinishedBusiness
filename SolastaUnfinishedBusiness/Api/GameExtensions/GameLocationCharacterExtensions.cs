@@ -850,9 +850,13 @@ public static class GameLocationCharacterExtensions
     {
         var performanceFilters = instance.actionPerformancesByType[ActionType.Main];
 
-        var maxAttacks = instance.RulesetCharacter.AttackModes
+        var mainAttacks = instance.RulesetCharacter.AttackModes
             .Where(mode => mode.ActionType == ActionType.Main)
-            .Max(mode => mode.AttacksNumber);
+            .ToList();
+        
+        var maxAttacks = mainAttacks.Count > 0
+            ? mainAttacks.Max(mode => mode.AttacksNumber)
+            : 0;
 
         var maxAllowedAttacks = index >= performanceFilters.Count ? -1 : performanceFilters[index].MaxAttacksNumber;
 
