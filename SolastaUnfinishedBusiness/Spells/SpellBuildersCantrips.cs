@@ -130,23 +130,19 @@ internal static partial class SpellBuilders
             .SetVerboseComponent(true)
             .SetSomaticComponent(false)
             .SetVocalSpellSameType(VocalSpellSemeType.Attack)
-            .SetEffectDescription(
-                EffectDescriptionBuilder
-                    .Create()
-                    .SetTargetingData(Side.Enemy, RangeType.Distance, 1, TargetType.IndividualsUnique, 8)
-                    .SetEffectAdvancement(EffectIncrementMethod.CasterLevelTable, additionalDicePerIncrement: 1)
-                    .SetSavingThrowData(false, AttributeDefinitions.Constitution, false,
-                        EffectDifficultyClassComputation.SpellCastingFeature)
-                    .SetEffectForms(
-                        EffectFormBuilder
-                            .Create()
-                            .SetDamageForm(DamageTypeRadiant, 1, DieType.D6)
-                            .HasSavingThrow(EffectSavingThrowType.Negates)
-                            .Build())
-                    .SetParticleEffectParameters(SacredFlame)
-                    .SetImpactEffectParameters(SacredFlame
-                        .EffectDescription.EffectParticleParameters.effectParticleReference)
-                    .Build())
+            .SetEffectDescription(EffectDescriptionBuilder.Create()
+                .SetTargetingData(Side.Enemy, RangeType.Self, 1, TargetType.Cube, 3)
+                .SetEffectAdvancement(EffectIncrementMethod.CasterLevelTable, additionalDicePerIncrement: 1)
+                .SetSavingThrowData(false, AttributeDefinitions.Constitution, false,
+                    EffectDifficultyClassComputation.SpellCastingFeature)
+                .SetEffectForms(
+                    EffectFormBuilder.DamageForm(DamageTypeRadiant, 1, DieType.D6)
+                    .WithSavingThrow(EffectSavingThrowType.Negates)
+                )
+                .SetParticleEffectParameters(Shine)
+                .SetImpactEffectParameters(SacredFlame
+                    .EffectDescription.EffectParticleParameters.effectParticleReference)
+                .Build())
             .AddToDB();
 
         return spell;
