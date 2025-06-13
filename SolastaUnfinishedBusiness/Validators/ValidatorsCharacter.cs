@@ -174,6 +174,11 @@ internal static class ValidatorsCharacter
     internal static readonly IsCharacterValidHandler HasLongbow = character =>
         ValidatorsWeapon.IsWeaponType(character.GetMainWeapon(), LongbowType);
 
+    internal static readonly IsCharacterValidHandler HasDeadeyeRangedWeapon = character
+        => character.AttackModes.Any(m => m is { ranged: true })
+           || ValidatorsWeapon.IsWeaponType(character.GetMainWeapon(), DartType)
+           || ValidatorsWeapon.IsWeaponType(character.GetOffhandWeapon(), DartType);
+
     internal static readonly IsCharacterValidHandler HasMeleeWeaponInMainHandOrUnarmed = character =>
         ValidatorsWeapon.IsUnarmed(character.GetMainWeapon()) || HasMeleeWeaponInMainHand(character);
 
