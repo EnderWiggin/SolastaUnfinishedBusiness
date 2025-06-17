@@ -49,19 +49,10 @@ public static class AiLocationDefinitionsPatcher
         {
             var conditionDefinitionMethod = typeof(ConditionForm).GetMethod("get_ConditionDefinition");
             var myConditionDefinitionMethod =
-                new Func<ConditionForm, ConditionDefinition>(MyConditionDefinition).Method;
+                new Func<ConditionForm, ConditionDefinition>(LightingAndObscurementContext.CheckForDarknessCondition).Method;
 
             return instructions.ReplaceCalls(conditionDefinitionMethod, "AiLocationDefinitions.ComputeRawScore",
                 new CodeInstruction(OpCodes.Call, myConditionDefinitionMethod));
-        }
-
-        private static ConditionDefinition MyConditionDefinition(ConditionForm conditionForm)
-        {
-            return conditionForm.ConditionDefinition.Name
-                is RuleDefinitions.ConditionDarkness
-                or "ConditionBlindedByDarkness"
-                ? DatabaseHelper.ConditionDefinitions.ConditionDarkness
-                : conditionForm.ConditionDefinition;
         }
     }
 }

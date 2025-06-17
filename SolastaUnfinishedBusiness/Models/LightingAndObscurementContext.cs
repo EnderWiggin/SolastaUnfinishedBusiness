@@ -927,6 +927,17 @@ internal static class LightingAndObscurementContext
     {
         SwitchOfficialObscurementRules();
     }
+    
+    //used by patches to check if condition is ConditionDarkness, return it for similar conditions
+    internal static ConditionDefinition CheckForDarknessCondition(ConditionForm conditionForm)
+    {
+        return conditionForm.ConditionDefinition.Name
+            is RuleDefinitions.ConditionDarkness
+            or "ConditionBlindedByDarkness"
+            or "ConditionVeil"
+            ? ConditionDarkness
+            : conditionForm.ConditionDefinition;
+    }
 
     internal static void SwitchOfficialObscurementRules()
     {
