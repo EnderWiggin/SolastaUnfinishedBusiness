@@ -501,9 +501,7 @@ internal static class LightingAndObscurementContext
 
             if (targetLightingState is LightingState.Darkness && senseType is
                     SenseMode.Type.DetectInvisibility or
-                    SenseMode.Type.NormalVision or
-                    SenseMode.Type.Darkvision or
-                    SenseMode.Type.SuperiorDarkvision)
+                    SenseMode.Type.NormalVision)
             {
                 continue;
             }
@@ -542,7 +540,6 @@ internal static class LightingAndObscurementContext
                     SenseMode.Type.NormalVision or
                     SenseMode.Type.Darkvision or
                     SenseMode.Type.SuperiorDarkvision or
-                    SenseMode.Type.Truesight or
                     WayOfShadow.SenseModeDarkness)
             {
                 continue;
