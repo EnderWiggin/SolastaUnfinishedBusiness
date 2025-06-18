@@ -26,4 +26,4 @@ jobs:
     - name: Clean
       run: dotnet clean SolastaUnfinishedBusiness.sln
     - name: Build
-      run: dotnet build SolastaUnfinishedBusiness.sln --no-restore
+      run: dotnet build SolastaUnfinishedBusiness.sln --no-restore -c "Release Install"

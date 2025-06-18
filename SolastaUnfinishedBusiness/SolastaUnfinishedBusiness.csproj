@@ -247,7 +247,7 @@
     </Reference>
   </ItemGroup>
 
-  <Target Name="ZipTranslations" BeforeTargets="Build;Clean" Condition="('$(Configuration)|$(Platform)' == 'Release|AnyCPU' Or '$(Configuration)|$(Platform)' == 'Release Install|AnyCPU')">
+  <Target Name="ZipTranslations" BeforeTargets="PreBuildEvent" Condition="('$(Configuration)' == 'Release' Or '$(Configuration)' == 'Release Install')">
 <!--    <Exec Command="call ApplyTranslations.bat" />-->
     <ZipDirectory Overwrite="true" SourceDirectory="$(ProjectDir)/Translations/" DestinationFile="$(ProjectDir)/Resources/Translations.zip" />
   </Target>
