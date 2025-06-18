@@ -252,11 +252,11 @@
     <ZipDirectory Overwrite="true" SourceDirectory="$(ProjectDir)/Translations/" DestinationFile="$(ProjectDir)/Resources/Translations.zip" />
   </Target>
 
-  <ItemGroup Condition="('$(Configuration))' == 'Release' Or '$(Configuration))' == 'Release Install' Or '$(Configuration))' == 'Release Workflow')">
+  <ItemGroup Condition="('$(Configuration)' == 'Release' Or '$(Configuration)' == 'Release Install' Or '$(Configuration)' == 'Release Workflow')">
     <Compile Remove="Api/DatabaseHelper.cs" />
   </ItemGroup>
 
-  <ItemGroup Condition="('$(Configuration))' == 'Debug' Or '$(Configuration))' == 'Debug Install')">
+  <ItemGroup Condition="('$(Configuration)' == 'Debug' Or '$(Configuration)' == 'Debug Install')">
     <Compile Remove="Api/DatabaseHelper-RELEASE.cs" />
   </ItemGroup>
 
