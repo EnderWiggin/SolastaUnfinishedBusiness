@@ -70,6 +70,8 @@ internal static class CraftingAndItems
 
     private static int CurrentItemsWeaponTagsFilterIndex { get; set; }
 
+    private static string CurrentItemsSearchText = "";
+
     internal static void DisplayCraftingAndItems()
     {
         UI.Label();
@@ -419,7 +421,16 @@ internal static class CraftingAndItems
             UI.Label("Item Tag".Bold(), UI.Width(100f));
 
             UI.Space(40f);
-            UI.Label(Gui.Localize("ModUi/&ItemsHelp2"));
+            using (UI.VerticalScope())
+            {
+                using (UI.HorizontalScope())
+                {
+                    UI.Label(Gui.Localize("Screen/&SearchByNameTitle"));
+                    UI.Space(5f);
+                    UI.TextField(ref CurrentItemsSearchText, options: UI.Width(200f));
+                }
+                UI.Label(Gui.Localize("ModUi/&ItemsHelp2"));
+            }
         }
 
         using (UI.HorizontalScope(UI.Width(800f), UI.Height(400)))
@@ -473,13 +484,16 @@ internal static class CraftingAndItems
         var rulesetItemFactoryService = ServiceRepository.GetService<IRulesetItemFactoryService>();
         var characterName = characterInspectionScreen.InspectedCharacter.Name;
 
+        var filter = CurrentItemsSearchText.ToLower();
+
         var items = DatabaseRepository.GetDatabase<ItemDefinition>()
             .Where(x => !x.guiPresentation.Hidden)
             .Where(x => ItemsFilters[CurrentItemsFilterIndex].Item2(x))
             .Where(x => ItemsItemTagsFilters[CurrentItemsItemTagsFilterIndex].Item2(x))
             .Where(x => ItemsWeaponTagsFilters[CurrentItemsWeaponTagsFilterIndex].Item2(x))
             .Where(x => service.IsContentPackAvailable(x.ContentPack))
-            .OrderBy(x => x.FormatTitle());
+            .Where(x => string.IsNullOrEmpty(filter) || FormatTitle(x).ToLower().Contains(filter))
+            .OrderBy(FormatTitle);
 
         using var scrollView =
             new GUILayout.ScrollViewScope(ItemPosition, UI.AutoWidth(), UI.AutoHeight());
@@ -498,13 +512,20 @@ internal static class CraftingAndItems
                     },
                     UI.Width(30f));
 
-                var label = item.GuiPresentation.Title.StartsWith("Equipment/&CraftingManual")
-                    ? Gui.Format(item.GuiPresentation.Title,
-                        item.DocumentDescription.RecipeDefinition.CraftedItem.FormatTitle())
-                    : item.FormatTitle();
-
-                UI.Label(label, UI.AutoWidth());
+                UI.Label(FormatTitle(item), UI.AutoWidth());
             }
         }
+    }
+
+    private static string FormatTitle(ItemDefinition item)
+    {
+        if (item.IsWealthPile)
+        {
+            return item.WealthPileDescription.FormatTitle();
+        }
+
+        var label = Gui.Localize(item.GuiPresentation.Title);
+
+        return item.IsDocument ? item.DocumentDescription.FormatTitle(label) : label;
     }
 }
