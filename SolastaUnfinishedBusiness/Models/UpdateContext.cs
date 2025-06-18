@@ -15,18 +15,25 @@ namespace SolastaUnfinishedBusiness.Models;
 
 internal static class UpdateContext
 {
-    private const string BaseURL = "https://github.com/jayleew/SolastaUnfinishedBusiness/releases/download";
-    private const string VersionURL = "https://raw.githubusercontent.com/jayleew/SolastaUnfinishedBusiness/refs/heads/release/SolastaUnfinishedBusiness/Info.json";
-    private static string InstalledVersion { get; } = GetInstalledVersion();
+    private static string BaseURL { get; set; }
+    private static string VersionURL { get; set; }
+    private static string InstalledVersion { get; set; }
     private static string LatestVersion { get; set; }
     private static string PreviousVersion { get; } = GetPreviousVersion();
 
-    private static bool shouldUpdate = false;
+    private static bool ShouldUpdate;
 
     internal static void Load()
     {
-        LatestVersion = GetLatestVersion(out shouldUpdate);
-        if (shouldUpdate)
+        var infoPayload = File.ReadAllText(Path.Combine(Main.ModFolder, "Info.json"));
+        var infoJson = JsonConvert.DeserializeObject<JObject>(infoPayload);
+
+        BaseURL = infoJson["Repository"]?.Value<string>() + "/releases/download";
+        VersionURL = infoJson["VersionURL"]?.Value<string>();
+        InstalledVersion = infoJson["Version"]?.Value<string>();
+
+        LatestVersion = GetLatestVersion(out ShouldUpdate);
+        if (ShouldUpdate)
         {
             DisplayUpdateMessage();
         }
@@ -42,15 +49,6 @@ internal static class UpdateContext
 
         // display mod message every 100 launches
         Main.Settings.DisplayModMessage = (Main.Settings.DisplayModMessage + 1) % 100;
-    }
-
-    private static string GetInstalledVersion()
-    {
-        var infoPayload = File.ReadAllText(Path.Combine(Main.ModFolder, "Info.json"));
-        var infoJson = JsonConvert.DeserializeObject<JObject>(infoPayload);
-
-        // ReSharper disable once AssignNullToNotNullAttribute
-        return infoJson["Version"].Value<string>();
     }
 
     private static string GetPreviousVersion()
@@ -115,7 +113,7 @@ internal static class UpdateContext
 
         try
         {
-            if (shouldUpdate || !toLatest)
+            if (ShouldUpdate || !toLatest)
             {
                 wc.DownloadFile(url, fullZipFile);
 
