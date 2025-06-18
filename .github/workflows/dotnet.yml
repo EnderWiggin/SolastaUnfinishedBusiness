@@ -6,7 +6,7 @@ name: .NET
 on:
   push:
       tags:
-        - 'v*'
+        - '*'
 env:
   SolastaInstallDir: ../SolastaFiles
 jobs:

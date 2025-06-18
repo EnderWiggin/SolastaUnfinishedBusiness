@@ -110,7 +110,7 @@ internal static class UpdateContext
         var zipFile = $"SolastaUnfinishedBusiness.zip";
         var fullZipFile = Path.Combine(Main.ModFolder, zipFile);
         var fullZipFolder = Path.Combine(Main.ModFolder, "SolastaUnfinishedBusiness");
-        var baseUrlByVersion = BaseURL.Replace("download", $"download/v{version}");
+        var baseUrlByVersion = BaseURL.Replace("download", $"download/{version}");
         var url = $"{baseUrlByVersion}/{zipFile}";
 
         try
