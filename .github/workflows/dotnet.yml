@@ -16,14 +16,32 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v4
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v4
-      with:
-        dotnet-version: 9.0.x
-    - name: Restore dependencies
-      run: dotnet restore SolastaUnfinishedBusiness.sln
-    - name: Clean
-      run: dotnet clean SolastaUnfinishedBusiness.sln
-    - name: Build
-      run: dotnet build SolastaUnfinishedBusiness.sln --no-restore -c "Release Workflow"
+      - uses: actions/checkout@v4
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 9.0.x
+      - name: Restore dependencies
+        run: dotnet restore SolastaUnfinishedBusiness.sln
+      - name: Clean
+        run: dotnet clean SolastaUnfinishedBusiness.sln
+      - name: Build
+        run: dotnet build SolastaUnfinishedBusiness.sln --no-restore -c "Release Workflow"
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          draft: true
+      - name: Upload Info.json
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./SolastaFiles/Mods/SolastaUnfinishedBusiness/Info.json
+          asset_name: Info.json
+          asset_content_type: application/json
