@@ -6,7 +6,7 @@
     <AssemblyVersion>1.5.97.45</AssemblyVersion>
     <RepositoryUrl>https://github.com/SolastaMods/SolastaUnfinishedBusiness</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
-    <Configurations>Debug Install;Release Install</Configurations>
+    <Configurations>Debug Install;Release Install;Release Workflow</Configurations>
     <EnforceCodeStyleInBuild>True</EnforceCodeStyleInBuild>
     <EnableNETAnalyzers>True</EnableNETAnalyzers>
     <AnalysisLevel>latest</AnalysisLevel>
@@ -57,7 +57,7 @@
     <DebugType>full</DebugType>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Install|AnyCPU'">
+  <PropertyGroup Condition="('$(Configuration)'=='Release Install' or '$(Configuration)'=='Release Workflow')">
     <Optimize>true</Optimize>
     <DefineConstants>$(DefineConstants);RELEASE</DefineConstants>
     <PlatformTarget>x64</PlatformTarget>
@@ -247,16 +247,16 @@
     </Reference>
   </ItemGroup>
 
-  <Target Name="ZipTranslations" BeforeTargets="Build;Clean" Condition="('$(Configuration)|$(Platform)' == 'Release|AnyCPU' Or '$(Configuration)|$(Platform)' == 'Release Install|AnyCPU')">
-    <Exec Command="call ApplyTranslations.bat" />
+  <Target Name="ZipTranslations" BeforeTargets="PreBuildEvent" Condition="('$(Configuration)' == 'Release' Or '$(Configuration)' == 'Release Install' Or '$(Configuration)' == 'Release Workflow')">
+<!--    <Exec Command="call ApplyTranslations.bat" />-->
     <ZipDirectory Overwrite="true" SourceDirectory="$(ProjectDir)/Translations/" DestinationFile="$(ProjectDir)/Resources/Translations.zip" />
   </Target>
 
-  <ItemGroup Condition="('$(Configuration)|$(Platform)' == 'Release|AnyCPU' Or '$(Configuration)|$(Platform)' == 'Release Install|AnyCPU')">
+  <ItemGroup Condition="('$(Configuration)' == 'Release' Or '$(Configuration)' == 'Release Install' Or '$(Configuration)' == 'Release Workflow')">
     <Compile Remove="Api/DatabaseHelper.cs" />
   </ItemGroup>
 
-  <ItemGroup Condition="('$(Configuration)|$(Platform)' == 'Debug|AnyCPU' Or '$(Configuration)|$(Platform)' == 'Debug Install|AnyCPU')">
+  <ItemGroup Condition="('$(Configuration)' == 'Debug' Or '$(Configuration)' == 'Debug Install')">
     <Compile Remove="Api/DatabaseHelper-RELEASE.cs" />
   </ItemGroup>
 
@@ -300,7 +300,7 @@
     <Exec Command="call ZipRelease.bat" />
   </Target>
 
-  <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
+  <Target Name="PreBuild" BeforeTargets="PreBuildEvent" Condition=" Exists('obj\Release Install\SolastaUnfinishedBusiness.zip') ">
     <Exec Command="del &quot;obj\Release Install\SolastaUnfinishedBusiness.zip&quot;" />
   </Target>
 </Project>

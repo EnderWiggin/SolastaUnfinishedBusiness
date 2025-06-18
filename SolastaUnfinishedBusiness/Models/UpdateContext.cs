@@ -15,18 +15,27 @@ namespace SolastaUnfinishedBusiness.Models;
 
 internal static class UpdateContext
 {
-    private const string BaseURL = "https://github.com/jayleew/SolastaUnfinishedBusiness/releases/download";
-    private const string VersionURL = "https://raw.githubusercontent.com/jayleew/SolastaUnfinishedBusiness/refs/heads/release/SolastaUnfinishedBusiness/Info.json";
-    private static string InstalledVersion { get; } = GetInstalledVersion();
+    private static InfoJson Info { get; set; }
+    private static string BaseURL { get; set; }
+    private static string VersionURL { get; set; }
+    private static string InstalledVersion { get; set; }
     private static string LatestVersion { get; set; }
-    private static string PreviousVersion { get; } = GetPreviousVersion();
+    private static string PreviousVersion { get; set; }
 
-    private static bool shouldUpdate = false;
+    private static bool ShouldUpdate;
 
     internal static void Load()
     {
-        LatestVersion = GetLatestVersion(out shouldUpdate);
-        if (shouldUpdate)
+        var infoPayload = File.ReadAllText(Path.Combine(Main.ModFolder, "Info.json"));
+        Info = JsonConvert.DeserializeObject<InfoJson>(infoPayload);
+
+        BaseURL = Info.Repository + "/releases/download";
+        VersionURL = Info.VersionURL;
+        InstalledVersion = Info.Version;
+        PreviousVersion = GetPreviousVersion();
+
+        LatestVersion = GetLatestVersion(out ShouldUpdate);
+        if (ShouldUpdate)
         {
             DisplayUpdateMessage();
         }
@@ -42,15 +51,6 @@ internal static class UpdateContext
 
         // display mod message every 100 launches
         Main.Settings.DisplayModMessage = (Main.Settings.DisplayModMessage + 1) % 100;
-    }
-
-    private static string GetInstalledVersion()
-    {
-        var infoPayload = File.ReadAllText(Path.Combine(Main.ModFolder, "Info.json"));
-        var infoJson = JsonConvert.DeserializeObject<JObject>(infoPayload);
-
-        // ReSharper disable once AssignNullToNotNullAttribute
-        return infoJson["Version"].Value<string>();
     }
 
     private static string GetPreviousVersion()
@@ -105,17 +105,17 @@ internal static class UpdateContext
 
         wc.Encoding = Encoding.UTF8;
 
-        string message;
         var version = toLatest ? LatestVersion : PreviousVersion;
-        var zipFile = $"SolastaUnfinishedBusiness.zip";
+        var zipFile = "SolastaUnfinishedBusiness.zip";
         var fullZipFile = Path.Combine(Main.ModFolder, zipFile);
-        var fullZipFolder = Path.Combine(Main.ModFolder, "SolastaUnfinishedBusiness");
+        var fullZipFolder = Path.Combine(Main.ModFolder, "TEMP_UPDATE");
         var baseUrlByVersion = BaseURL.Replace("download", $"download/{version}");
         var url = $"{baseUrlByVersion}/{zipFile}";
 
         try
         {
-            if (shouldUpdate || !toLatest)
+            string message;
+            if (ShouldUpdate || !toLatest)
             {
                 wc.DownloadFile(url, fullZipFile);
 
@@ -124,7 +124,7 @@ internal static class UpdateContext
                     Directory.Delete(fullZipFolder, true);
                 }
 
-                ZipFile.ExtractToDirectory(fullZipFile, Main.ModFolder);
+                ZipFile.ExtractToDirectory(fullZipFile, fullZipFolder);
                 File.Delete(fullZipFile);
 
                 foreach (var sourceFile in Directory.GetFiles(fullZipFolder, "*", SearchOption.AllDirectories))
@@ -143,20 +143,29 @@ internal static class UpdateContext
             }
             else
                 message = "Mod version is already the latest or higher";
+            
+            Gui.GuiService.ShowMessage(
+                MessageModal.Severity.Attention2,
+                "Message/&MessageModWelcomeTitle",
+                message,
+                "ChangeLog",
+                "Message/&MessageOkTitle",
+                OpenChangeLog,
+                () => { });
         }
-        catch
+        catch(Exception e)
         {
-            message = $"Cannot fetch update payload. Try again or download from:\r\n{url}.";
+            Main.Error($"Failed to update mod: {e.Message}: {e.StackTrace}");
+            
+            Gui.GuiService.ShowMessage(
+                MessageModal.Severity.Serious3,
+                "Message/&MessageModWelcomeTitle",
+                $"Cannot fetch update payload. Try again or download from:\r\n{url}.",
+                "Open Download Url",
+                "Message/&MessageOkTitle",
+                () => OpenUrl(url),
+                () => { });
         }
-
-        Gui.GuiService.ShowMessage(
-            MessageModal.Severity.Attention2,
-            "Message/&MessageModWelcomeTitle",
-            message,
-            "ChangeLog",
-            "Message/&MessageOkTitle",
-            OpenChangeLog,
-            () => { });
     }
 
     internal static void DisplayRollbackMessage()
@@ -178,7 +187,7 @@ internal static class UpdateContext
         Gui.GuiService.ShowMessage(
             MessageModal.Severity.Attention2,
             "Message/&MessageModWelcomeTitle",
-            $"Version {LatestVersion} is now available. Open Mod UI > Gameplay > Tools to update.",
+            $"Version {LatestVersion} is now available. Open Mod UI > Gameplay > General to update.",
             "Changelog",
             "Message/&MessageOkTitle",
             OpenChangeLog,
@@ -199,8 +208,7 @@ internal static class UpdateContext
 
     internal static void OpenChangeLog()
     {
-        OpenUrl(
-            "https://raw.githubusercontent.com/jayleew/SolastaUnfinishedBusiness/refs/heads/release/SolastaUnfinishedBusiness/ChangelogHistory.txt");
+        OpenUrl(Info.Changelog);
     }
 
     internal static void OpenDocumentation(string filename)
