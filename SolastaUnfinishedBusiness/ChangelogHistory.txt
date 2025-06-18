@@ -1,5 +1,32 @@
+1.5.97.59:
+- merged PR from BShennette: `Change cast time from Action -> Bonus Action as per TT version of the "Guardian of Nature" spell.`
+- merged updated Russian localization from Kranay
+
+1.5.97.58:
+- added space to comma list separator for better look
+- slightly improved check for target size for push mastery
+- preview push from weapon mastery if motion preview is enabled
+- with motion preview on show line down to where creature will fall after push/pull creature
+- tweaked how Aasimar's `Angelic Flight` condition is reported for better looking log
+- reworked `Burst of Radiance` cantrip to be AoE in stead of 8 targets
+- several improvements to Spell Points optional rule:
+ - Arcane Surge now works with it - gives 2 points per spell slot recovered
+ - properly report Spell points recovery on rest
+- fixed crash if character with replace attack by cantrip has no attack modes
+- fixed improper copying of usable device description in item builder 
+- hide Deadeye toggle if no appropriate weapon is equipped
+- reworked 2024 poison and potion used as Bonus Action:
+ - when right-clicking in inventory it shows separate buttons for Main and Bonus action use
+ - properly consumes Main action if Main action option is chosen
+- Mod UI: added ability to search items by name
+- fixed interaction between Darkness and Daylight and Windwall and clouds
+- lighting, obscurement, and vision rules toggle: fixed Darkvision and Superior Darkvision being ignored for regular darkness and made Truesight allow seeing through invisibility
+
+1.5.97.57:
+- improvements to auto-update
+
 1.5.97.56:
-- some test changes
+- work in progress on GitHub actions build 
 
 1.5.97.55:
 - added feedback tooltip for shot in the dark
