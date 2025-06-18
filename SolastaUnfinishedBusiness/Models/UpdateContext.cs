@@ -105,16 +105,16 @@ internal static class UpdateContext
 
         wc.Encoding = Encoding.UTF8;
 
-        string message;
         var version = toLatest ? LatestVersion : PreviousVersion;
-        var zipFile = $"SolastaUnfinishedBusiness.zip";
+        var zipFile = "SolastaUnfinishedBusiness.zip";
         var fullZipFile = Path.Combine(Main.ModFolder, zipFile);
-        var fullZipFolder = Path.Combine(Main.ModFolder, "SolastaUnfinishedBusiness");
+        var fullZipFolder = Path.Combine(Main.ModFolder, "TEMP_UPDATE");
         var baseUrlByVersion = BaseURL.Replace("download", $"download/{version}");
         var url = $"{baseUrlByVersion}/{zipFile}";
 
         try
         {
+            string message;
             if (ShouldUpdate || !toLatest)
             {
                 wc.DownloadFile(url, fullZipFile);
@@ -124,7 +124,7 @@ internal static class UpdateContext
                     Directory.Delete(fullZipFolder, true);
                 }
 
-                ZipFile.ExtractToDirectory(fullZipFile, Main.ModFolder);
+                ZipFile.ExtractToDirectory(fullZipFile, fullZipFolder);
                 File.Delete(fullZipFile);
 
                 foreach (var sourceFile in Directory.GetFiles(fullZipFolder, "*", SearchOption.AllDirectories))
@@ -143,20 +143,29 @@ internal static class UpdateContext
             }
             else
                 message = "Mod version is already the latest or higher";
+            
+            Gui.GuiService.ShowMessage(
+                MessageModal.Severity.Attention2,
+                "Message/&MessageModWelcomeTitle",
+                message,
+                "ChangeLog",
+                "Message/&MessageOkTitle",
+                OpenChangeLog,
+                () => { });
         }
-        catch
+        catch(Exception e)
         {
-            message = $"Cannot fetch update payload. Try again or download from:\r\n{url}.";
+            Main.Error($"Failed to update mod: {e.Message}: {e.StackTrace}");
+            
+            Gui.GuiService.ShowMessage(
+                MessageModal.Severity.Serious3,
+                "Message/&MessageModWelcomeTitle",
+                $"Cannot fetch update payload. Try again or download from:\r\n{url}.",
+                "Open Download Url",
+                "Message/&MessageOkTitle",
+                () => OpenUrl(url),
+                () => { });
         }
-
-        Gui.GuiService.ShowMessage(
-            MessageModal.Severity.Attention2,
-            "Message/&MessageModWelcomeTitle",
-            message,
-            "ChangeLog",
-            "Message/&MessageOkTitle",
-            OpenChangeLog,
-            () => { });
     }
 
     internal static void DisplayRollbackMessage()
