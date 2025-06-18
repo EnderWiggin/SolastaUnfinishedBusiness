@@ -5,9 +5,8 @@ name: .NET
 
 on:
   push:
-    branches: [ "release" ]
-  pull_request:
-    branches: [ "release" ]
+      tags:
+        - 'v*'
 env:
   SolastaInstallDir: ../SolastaFiles
 jobs:
@@ -35,6 +34,7 @@ jobs:
         with:
           tag_name: ${{ github.ref }}
           release_name: Release ${{ github.ref }}
+          make_latest: true
           draft: true
       - name: Zip Files
         uses: vimtor/action-zip@v1.2
