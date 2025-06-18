@@ -178,7 +178,7 @@ internal static class UpdateContext
         Gui.GuiService.ShowMessage(
             MessageModal.Severity.Attention2,
             "Message/&MessageModWelcomeTitle",
-            $"Version {LatestVersion} is now available. Open Mod UI > Gameplay > Tools to update.",
+            $"Version {LatestVersion} is now available. Open Mod UI > Gameplay > General to update.",
             "Changelog",
             "Message/&MessageOkTitle",
             OpenChangeLog,
