@@ -453,4 +453,25 @@ public static class RulesetSpellRepertoirePatcher
             }
         }
     }
+
+    [HarmonyPatch(typeof(RulesetSpellRepertoire), nameof(RulesetSpellRepertoire.HasMissingSpellSlots))]
+    [SuppressMessage("Minor Code Smell", "S101:Types should be named in PascalCase", Justification = "Patch")]
+    [UsedImplicitly]
+    public static class HasMissingSpellSlots_Patch
+    {
+        [UsedImplicitly]
+        public static void Postfix(RulesetSpellRepertoire __instance, ref bool __result)
+        {
+            //PATCH: consider having missing Spell Slots if some Spell Points are spent - needed for Arcane Recovery to show on Short Rest
+            if (__result) { return; }
+
+            var caster = __instance.GetCaster();
+            if (caster == null) { return; }
+
+            if (caster.IsSpellPointsEnabled() && caster.GetMaxSpellPoints() > caster.GetRemainingSpellPoints())
+            {
+                __result = true;
+            }
+        }
+    }
 }

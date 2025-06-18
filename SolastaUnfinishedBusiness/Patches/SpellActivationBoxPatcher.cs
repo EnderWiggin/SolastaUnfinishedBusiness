@@ -49,9 +49,10 @@ public static class SpellActivationBoxPatcher
             out int max,
             SpellActivationBox spellActivationBox)
         {
-            if (Main.Settings.UseAlternateSpellPointsSystem)
+            var caster = repertoire.GetCaster();
+            if (caster.IsSpellPointsEnabled())
             {
-                var canCastSpell = SpellPointsContext.CanCastSpellOfLevel(repertoire.GetCaster(), spellLevel);
+                var canCastSpell = SpellPointsContext.CanCastSpellOfLevel(caster, spellLevel);
 
                 max = 1; // irrelevant
                 remaining = canCastSpell ? 1 : 0;

@@ -1,6 +1,7 @@
 ﻿using HarmonyLib;
 using JetBrains.Annotations;
 using SolastaUnfinishedBusiness.Api.GameExtensions;
+using SolastaUnfinishedBusiness.Models;
 
 namespace SolastaUnfinishedBusiness.Patches;
 
@@ -30,6 +31,19 @@ public static class RulesetItemDevicePatcher
             }
 
             __result = character.CanUsePower(power, false);
+        }
+    }
+
+    [HarmonyPatch(typeof(RulesetItemDevice), nameof(RulesetItemDevice.PostLoad))]
+    [UsedImplicitly]
+    public static class PostLoad_Patch
+    {
+        [UsedImplicitly]
+        public static void Prefix(RulesetItemDevice __instance)
+        {
+            //PATCH: update availability ofm extra bonus action functions if 2024 item use rules are enabled
+            Tabletop2024Context.UpdateDeviceBonusActions(__instance, Tabletop2024Context.Potion);
+            Tabletop2024Context.UpdateDeviceBonusActions(__instance, Tabletop2024Context.Poison);
         }
     }
 }

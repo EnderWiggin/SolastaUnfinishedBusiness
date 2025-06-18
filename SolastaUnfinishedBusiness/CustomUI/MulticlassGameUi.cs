@@ -198,7 +198,7 @@ internal static class MulticlassGameUi
             if (index >= pactSlotsCount || slotLevel > warlockSpellLevel)
             {
                 //PATCH: support display cost on spell level blocks (SPELL_POINTS)
-                if (Main.Settings.UseAlternateSpellPointsSystem)
+                if (hero.IsSpellPointsEnabled())
                 {
                     SpellPointsContext.DisplayCostOnSpellLevelBlocks(slotStatusTable, component, slotLevel,
                         spellsAtLevel);
@@ -299,7 +299,7 @@ internal static class MulticlassGameUi
             else
             {
                 //PATCH: support alternate spell system to avoid displaying spell slots on selection (SPELL_POINTS)
-                if (Main.Settings.UseAlternateSpellPointsSystem)
+                if (hero.IsSpellPointsEnabled())
                 {
                     component.Used.gameObject.SetActive(false);
                     component.Available.gameObject.SetActive(false);

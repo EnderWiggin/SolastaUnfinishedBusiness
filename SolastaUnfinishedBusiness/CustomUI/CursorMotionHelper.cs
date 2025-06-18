@@ -6,6 +6,7 @@ using JetBrains.Annotations;
 using SolastaUnfinishedBusiness.Api.GameExtensions;
 using SolastaUnfinishedBusiness.Api.LanguageExtensions;
 using SolastaUnfinishedBusiness.Behaviors;
+using SolastaUnfinishedBusiness.Models;
 using SolastaUnfinishedBusiness.Spells;
 using SolastaUnfinishedBusiness.Subclasses.Builders;
 using TA;
@@ -37,8 +38,10 @@ public class CursorMotionHelper : MonoBehaviour
     private IGameLocationPositioningService _positioningService;
     private string _positionsKey = string.Empty;
     private IGameLocationSelectionService _selectionService;
+    private IGameLocationService _locationService;
 
-    private GameLocationCharacter ActingCharacter => _cursor.ActionParams.ActingCharacter;
+    private CharacterActionParams ActionParams => _cursor.ActionParams;
+    private GameLocationCharacter ActingCharacter => ActionParams.ActingCharacter;
 
     internal static void Initialize(GameObject chainHelperPrefab)
     {
@@ -85,6 +88,7 @@ public class CursorMotionHelper : MonoBehaviour
     {
         _selectionService = _cursor.SelectionService;
         _positioningService = ServiceRepository.GetService<IGameLocationPositioningService>();
+        _locationService = ServiceRepository.GetService<IGameLocationService>();
         _envService = ServiceRepository.GetService<IGameLocationEnvironmentService>();
         _characterService = ServiceRepository.GetService<IGameLocationCharacterService>();
         _actingCharacterCenter = _positioningService.ComputeGravityCenterPosition(ActingCharacter);
@@ -127,13 +131,31 @@ public class CursorMotionHelper : MonoBehaviour
 
         if (shift == int3.zero) { return; }
 
-        var sameSide = ActingCharacter.Side == target.Side;
         var pos = target.LocationPosition + shift;
         var src = _positioningService.ComputeGravityCenterPosition(target);
         var dst = src + shift.ToVector3();
+        var fall = GetFallShift(target, pos);
+        var willFall = fall != int3.zero;
 
-        helper.PlaceGhostWithoutPath(target, pos, sameSide);
-        helper.PlaceDropLine(src, dst, sameSide);
+        helper.PlaceGhostWithoutPath(target, pos, !willFall);
+        helper.PlaceDropLine(src, dst, true);
+        if (willFall)
+        {
+            helper.PlaceDropLine(dst, dst + fall.ToVector3(), false);
+        }
+    }
+
+    private int3 GetFallShift(GameLocationCharacter target, int3 pos)
+    {
+        var below = pos;
+        var accessor = new GridAccessor(_locationService);
+        while (!_positioningService.CanCharacterStayAtPosition(target, below, true)
+               && accessor.GetCellId(below) != CellId.Invalid)
+        {
+            below.y--;
+        }
+
+        return below - pos;
     }
 
     private bool IsValidTarget(GameLocationCharacter target)
@@ -314,13 +336,22 @@ public class CursorMotionHelper : MonoBehaviour
     {
         _isGravityFissure = false;
 
-        var effect = _cursor.ActionParams.RulesetEffect;
+        var character = ActingCharacter.RulesetCharacter;
+        var attackMode = ActionParams.AttackMode;
+        var effect = ActionParams.RulesetEffect;
+
+        //Process 'Push' weapon mastery
+        if (attackMode != null && character.IsToggleEnabled((ActionDefinitions.Id)ExtraActionId.WeaponMasteryToggle))
+        {
+            if (character.GetMastery(attackMode) == Tabletop2024Context.MasteryProperty.Push)
+            {
+                return new MotionInfo { Distance = 2, Type = DirectionType.Push, FromOrigin = false };
+            }
+        }
 
         if (effect == null) { return null; }
 
         _isGravityFissure = effect.SourceDefinition == SpellBuilders.GravityFissure;
-
-        var character = ActingCharacter.RulesetCharacter;
 
         //Process Gravity Fissure
         if (_isGravityFissure)

@@ -245,7 +245,7 @@ internal class ItemDefinitionBuilder : DefinitionBuilder<ItemDefinition, ItemDef
     internal ItemDefinitionBuilder SetUsableDeviceDescription(UsableDeviceDescription usableDescription)
     {
         Definition.IsUsableDevice = true;
-        Definition.usableDeviceDescription = usableDescription;
+        Definition.usableDeviceDescription = new UsableDeviceDescription(usableDescription);
         return this;
     }
 

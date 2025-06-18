@@ -69,7 +69,7 @@ public static class SlotStatusTablePatcher
                 !SharedSpellsContext.IsMulticaster(hero))
             {
                 //PATCH: support display cost on spell level blocks (SPELL_POINTS)
-                if (!Main.Settings.UseAlternateSpellPointsSystem ||
+                if (!character.IsSpellPointsEnabled() ||
                     spellRepertoire.spellCastingClass == Warlock)
                 {
                     return;

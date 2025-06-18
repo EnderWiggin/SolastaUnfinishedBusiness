@@ -21,7 +21,6 @@ using static RuleDefinitions;
 using static SolastaUnfinishedBusiness.Api.DatabaseHelper.CharacterClassDefinitions;
 using static SolastaUnfinishedBusiness.Api.DatabaseHelper.FeatureDefinitionActionAffinitys;
 using static SolastaUnfinishedBusiness.Api.DatabaseHelper;
-using TA;
 
 namespace SolastaUnfinishedBusiness.Models;
 
@@ -451,7 +450,7 @@ internal static partial class Tabletop2024Context
             .ToArray();
     }
 
-    private static MasteryProperty GetMastery(this RulesetCharacter character, RulesetAttackMode attackMode)
+    internal static MasteryProperty GetMastery(this RulesetCharacter character, RulesetAttackMode attackMode)
     {
         var attackModeWeaponType = (attackMode.SourceDefinition as ItemDefinition)
             ?.WeaponDescription?.WeaponTypeDefinition;
@@ -608,7 +607,7 @@ internal static partial class Tabletop2024Context
                 // ReSharper disable once SwitchStatementMissingSomeEnumCasesNoDefault
                 switch (mastery)
                 {
-                    case MasteryProperty.Push when defender.RulesetCharacter.SizeDefinition.MaxExtent.x <= 2:
+                    case MasteryProperty.Push when defender.RulesetCharacter.WieldingSize <= CreatureSize.Large:
                         DoPush(attacker, defender);
                         break;
                     case MasteryProperty.Sap:

@@ -985,6 +985,22 @@ public static class RulesetCharacterPatcher
         }
     }
 
+    [HarmonyPatch(typeof(RulesetCharacter), nameof(RulesetCharacter.RecoverMissingSlots))]
+    [SuppressMessage("Minor Code Smell", "S101:Types should be named in PascalCase", Justification = "Patch")]
+    [UsedImplicitly]
+    public static class RecoverMissingSlots_Patch
+    {
+        [UsedImplicitly]
+        public static void Prefix(RulesetCharacter __instance, Dictionary<int, int> recoveredSlots)
+        {
+            if (__instance.IsSpellPointsEnabled())
+            {
+                __instance.AddSpellPoints(recoveredSlots.Sum(e =>
+                    SpellPointsContext.SpellCostByLevel[e.Key] * e.Value));
+            }
+        }
+    }
+    
     [HarmonyPatch(typeof(RulesetCharacter), nameof(RulesetCharacter.RefreshAttributeModifiersFromConditions))]
     [SuppressMessage("Minor Code Smell", "S101:Types should be named in PascalCase", Justification = "Patch")]
     [UsedImplicitly]
@@ -1459,7 +1475,7 @@ public static class RulesetCharacterPatcher
             for (var i = 1; i <= sharedSpellLevel; i++)
             {
                 slots.TryAdd(i, 0);
-                slots[i] += Main.Settings.UseAlternateSpellPointsSystem
+                slots[i] += hero.IsSpellPointsEnabled()
                     ? SpellPointsContext.SpellPointsFullCastingSlots[sharedCasterLevel - 1].Slots[i - 1]
                     : SharedSpellsContext.FullCastingSlots[sharedCasterLevel - 1].Slots[i - 1];
             }

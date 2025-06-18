@@ -199,7 +199,7 @@ internal static class SharedSpellsContext
     {
         var sharedCasterLevel = GetSharedCasterLevel(rulesetCharacterHero);
 
-        if (Main.Settings.UseAlternateSpellPointsSystem)
+        if (rulesetCharacterHero.IsSpellPointsEnabled())
         {
             return sharedCasterLevel > 0
                 ? SpellPointsContext.SpellPointsFullCastingSlots[sharedCasterLevel - 1].Slots.IndexOf(0)

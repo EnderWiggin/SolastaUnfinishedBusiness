@@ -450,17 +450,17 @@ internal static class LightingAndObscurementContext
         if (Main.Settings.OfficialObscurementRulesTweakMonsters)
         {
             if (MonstersThatShouldHaveBlindSight
-                .Where(m => Regex.IsMatch(sensorCharacter.Name, m, RegexOptions.IgnoreCase)).Any())
+                .Any(m => Regex.IsMatch(sensorCharacter.Name, m, RegexOptions.IgnoreCase)))
                 sensorCharacter.SenseModes.Add(new SenseMode(SenseMode.Type.Blindsight, 10, 1));
             if (MonstersThatShouldHaveDarkvision
-                .Where(m => Regex.IsMatch(sensorCharacter.Name, m, RegexOptions.IgnoreCase)).Any())
+                .Any(m => Regex.IsMatch(sensorCharacter.Name, m, RegexOptions.IgnoreCase)))
                 sensorCharacter.SenseModes.Add(new SenseMode(SenseMode.Type.Darkvision, 60, 1));
             if (MonstersThatShouldHaveTrueSight
-                .Where(m => Regex.IsMatch(sensorCharacter.Name, m, RegexOptions.IgnoreCase)).Any())
+                .Any(m => Regex.IsMatch(sensorCharacter.Name, m, RegexOptions.IgnoreCase)))
                 sensorCharacter.SenseModes.Add(new SenseMode(SenseMode.Type.Truesight, 60, 1));
             if (MonstersThatShouldNotHaveTremorSense
-                .Where(m => Regex.IsMatch(sensorCharacter.Name, m, RegexOptions.IgnoreCase)).Any())
-                sensorCharacter.SenseModes.Add(new SenseMode(SenseMode.Type.Tremorsense, 60, 1));            
+                .Any(m => Regex.IsMatch(sensorCharacter.Name, m, RegexOptions.IgnoreCase)))
+                sensorCharacter.SenseModes.Add(new SenseMode(SenseMode.Type.Tremorsense, 60, 1));
         }
 
         if (target != null)
@@ -501,9 +501,7 @@ internal static class LightingAndObscurementContext
 
             if (targetLightingState is LightingState.Darkness && senseType is
                     SenseMode.Type.DetectInvisibility or
-                    SenseMode.Type.NormalVision or
-                    SenseMode.Type.Darkvision or
-                    SenseMode.Type.SuperiorDarkvision)
+                    SenseMode.Type.NormalVision)
             {
                 continue;
             }
@@ -542,7 +540,6 @@ internal static class LightingAndObscurementContext
                     SenseMode.Type.NormalVision or
                     SenseMode.Type.Darkvision or
                     SenseMode.Type.SuperiorDarkvision or
-                    SenseMode.Type.Truesight or
                     WayOfShadow.SenseModeDarkness)
             {
                 continue;
@@ -552,8 +549,7 @@ internal static class LightingAndObscurementContext
             if (Main.Settings.EnableChanceToPerceiveCloseRange && sensor != null && target != null)
             {
                 if (!Global.RolledPerceptionThisTurn.ContainsKey(sensor))
-                    Global.RolledPerceptionThisTurn.Add(sensor
-                        , new Dictionary<GameLocationCharacter, RuleDefinitions.RollOutcome>());
+                    Global.RolledPerceptionThisTurn.Add(sensor, []);
 
                 if (!Global.RolledPerceptionThisTurn[sensor].ContainsKey(target))
                     Global.RolledPerceptionThisTurn[sensor].Add(target, RuleDefinitions.RollOutcome.Success);
@@ -587,8 +583,7 @@ internal static class LightingAndObscurementContext
                 sensor.RollAbilityCheck("Wisdom", "Perception",(int)distance+10, advantage,new ActionModifier(),false,0, out baseBonus, out checkRoll, out firstRoll, out secondRoll, out sensorOutcome, out successDelta, true);
                 if (sensorOutcome != 0)
                     if (!Global.RolledPerceptionThisTurn.ContainsKey(sensor))
-                        Global.RolledPerceptionThisTurn.Add(sensor
-                            , new Dictionary<GameLocationCharacter, RuleDefinitions.RollOutcome>());
+                        Global.RolledPerceptionThisTurn.Add(sensor, []);
                 if (!Global.RolledPerceptionThisTurn[sensor].ContainsKey(target))
                     Global.RolledPerceptionThisTurn[sensor].Add(target, sensorOutcome);
             }
@@ -926,6 +921,17 @@ internal static class LightingAndObscurementContext
     internal static void LateLoad()
     {
         SwitchOfficialObscurementRules();
+    }
+    
+    //used by patches to check if condition is ConditionDarkness, return it for similar conditions
+    internal static ConditionDefinition CheckForDarknessCondition(ConditionForm conditionForm)
+    {
+        return conditionForm.ConditionDefinition.Name
+            is RuleDefinitions.ConditionDarkness
+            or "ConditionBlindedByDarkness"
+            or "ConditionVeil"
+            ? ConditionDarkness
+            : conditionForm.ConditionDefinition;
     }
 
     internal static void SwitchOfficialObscurementRules()
