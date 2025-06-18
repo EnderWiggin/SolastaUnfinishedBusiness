@@ -23,5 +23,7 @@ jobs:
         dotnet-version: 8.0.x
     - name: Restore dependencies
       run: dotnet restore SolastaUnfinishedBusiness.sln
+    - name: Clean
+      run: dotnet clean SolastaUnfinishedBusiness.sln
     - name: Build
       run: dotnet build SolastaUnfinishedBusiness.sln --no-restore
