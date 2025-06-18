@@ -9,7 +9,7 @@ on:
   pull_request:
     branches: [ "release" ]
 env:
-  SolastaInstallDir: ./SolastaFiles
+  SolastaInstallDir: ../SolastaFiles
 jobs:
   build:
 
