@@ -51,3 +51,12 @@ jobs:
           asset_path: ./SolastaFiles/Mods/SolastaUnfinishedBusiness/Info.json
           asset_name: Info.json
           asset_content_type: application/json
+      - name: Upload Zip File
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: SolastaUnfinishedBusiness.zip
+          asset_name: SolastaUnfinishedBusiness.zip
+          asset_content_type: application/zip
