@@ -15,22 +15,24 @@ namespace SolastaUnfinishedBusiness.Models;
 
 internal static class UpdateContext
 {
+    private static InfoJson Info { get; set; }
     private static string BaseURL { get; set; }
     private static string VersionURL { get; set; }
     private static string InstalledVersion { get; set; }
     private static string LatestVersion { get; set; }
-    private static string PreviousVersion { get; } = GetPreviousVersion();
+    private static string PreviousVersion { get; set; }
 
     private static bool ShouldUpdate;
 
     internal static void Load()
     {
         var infoPayload = File.ReadAllText(Path.Combine(Main.ModFolder, "Info.json"));
-        var infoJson = JsonConvert.DeserializeObject<JObject>(infoPayload);
+        Info = JsonConvert.DeserializeObject<InfoJson>(infoPayload);
 
-        BaseURL = infoJson["Repository"]?.Value<string>() + "/releases/download";
-        VersionURL = infoJson["VersionURL"]?.Value<string>();
-        InstalledVersion = infoJson["Version"]?.Value<string>();
+        BaseURL = Info.Repository + "/releases/download";
+        VersionURL = Info.VersionURL;
+        InstalledVersion = Info.Version;
+        PreviousVersion = GetPreviousVersion();
 
         LatestVersion = GetLatestVersion(out ShouldUpdate);
         if (ShouldUpdate)
@@ -108,7 +110,7 @@ internal static class UpdateContext
         var zipFile = $"SolastaUnfinishedBusiness.zip";
         var fullZipFile = Path.Combine(Main.ModFolder, zipFile);
         var fullZipFolder = Path.Combine(Main.ModFolder, "SolastaUnfinishedBusiness");
-        var baseUrlByVersion = BaseURL.Replace("download", $"download/{version}");
+        var baseUrlByVersion = BaseURL.Replace("download", $"download/v{version}");
         var url = $"{baseUrlByVersion}/{zipFile}";
 
         try
@@ -197,8 +199,7 @@ internal static class UpdateContext
 
     internal static void OpenChangeLog()
     {
-        OpenUrl(
-            "https://raw.githubusercontent.com/jayleew/SolastaUnfinishedBusiness/refs/heads/release/SolastaUnfinishedBusiness/ChangelogHistory.txt");
+        OpenUrl(Info.Changelog);
     }
 
     internal static void OpenDocumentation(string filename)
