@@ -1,3 +1,6 @@
+1.5.97.60:
+- preview push from Tempest Domain's Thunderous Strike if motion preview is enabled
+
 1.5.97.59:
 - merged PR from BShennette: `Change cast time from Action -> Bonus Action as per TT version of the "Guardian of Nature" spell.`
 - merged updated Russian localization from Kranay

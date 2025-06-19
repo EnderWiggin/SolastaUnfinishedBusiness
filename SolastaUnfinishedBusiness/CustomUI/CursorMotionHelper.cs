@@ -8,6 +8,7 @@ using SolastaUnfinishedBusiness.Api.LanguageExtensions;
 using SolastaUnfinishedBusiness.Behaviors;
 using SolastaUnfinishedBusiness.Models;
 using SolastaUnfinishedBusiness.Spells;
+using SolastaUnfinishedBusiness.Subclasses;
 using SolastaUnfinishedBusiness.Subclasses.Builders;
 using TA;
 using UnityEngine;
@@ -340,10 +341,17 @@ public class CursorMotionHelper : MonoBehaviour
         var attackMode = ActionParams.AttackMode;
         var effect = ActionParams.RulesetEffect;
 
-        //Process 'Push' weapon mastery
-        if (attackMode != null && character.IsToggleEnabled((ActionDefinitions.Id)ExtraActionId.WeaponMasteryToggle))
+        if (attackMode != null)
         {
-            if (character.GetMastery(attackMode) == Tabletop2024Context.MasteryProperty.Push)
+            //Process 'Push' weapon mastery
+            if (character.IsToggleEnabled((ActionDefinitions.Id)ExtraActionId.WeaponMasteryToggle)
+                && character.GetMastery(attackMode) == Tabletop2024Context.MasteryProperty.Push)
+            {
+                return new MotionInfo { Distance = 2, Type = DirectionType.Push, FromOrigin = false };
+            }
+
+            //Check Tempest Domain's Thunderous Strike
+            if (DomainTempest.ValidForPush(ActingCharacter, attackMode.EffectDescription.effectForms))
             {
                 return new MotionInfo { Distance = 2, Type = DirectionType.Push, FromOrigin = false };
             }
@@ -373,6 +381,12 @@ public class CursorMotionHelper : MonoBehaviour
             return character.HasActiveInvocation(InvocationsBuilders.GraspingBlast)
                 ? new MotionInfo { Distance = 2, Type = DirectionType.Pull, FromOrigin = false }
                 : null;
+        }
+
+        //Check Tempest Domain's Thunderous Strike
+        if (DomainTempest.ValidForPush(ActingCharacter, effect.EffectDescription.effectForms))
+        {
+            return new MotionInfo { Distance = 2, Type = DirectionType.Push, FromOrigin = false };
         }
 
         //TODO: check MotionForm.MotionType.PushFromWall

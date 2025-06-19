@@ -508,19 +508,25 @@ public sealed class DomainTempest : AbstractSubclass
         {
             if (rulesetDefender == null) { return; }
 
-            if (attacker.IsMyTurn() &&
-                actualEffectForms
-                    .Any(x =>
-                        x.FormType == EffectForm.EffectFormType.Damage &&
-                        x.DamageForm.DamageType is DamageTypeThunder) &&
-                rulesetDefender.SizeDefinition != CharacterSizeDefinitions.DragonSize &&
+            if (attacker.IsMyTurn() 
+                && ValidForPush(attacker, actualEffectForms)
+                && rulesetDefender.SizeDefinition != CharacterSizeDefinitions.DragonSize &&
                 rulesetDefender.SizeDefinition != CharacterSizeDefinitions.Gargantuan &&
                 rulesetDefender.SizeDefinition != CharacterSizeDefinitions.Huge &&
-                rulesetDefender.SizeDefinition != CharacterSizeDefinitions.SpiderQueenSize &&
-                attacker.RulesetCharacter.IsToggleEnabled((ActionDefinitions.Id)ExtraActionId.ThunderousStrikeToggle))
+                rulesetDefender.SizeDefinition != CharacterSizeDefinitions.SpiderQueenSize)
             {
                 actualEffectForms.TryAdd(PushForm);
             }
         }
+    }
+
+    internal static bool ValidForPush(GameLocationCharacter attacker, List<EffectForm> actualEffectForms)
+    {
+        return actualEffectForms.Any(x => x is
+               {
+                   FormType: EffectForm.EffectFormType.Damage,
+                   DamageForm.DamageType: DamageTypeThunder
+               })
+               && attacker.RulesetCharacter.IsToggleEnabled((ActionDefinitions.Id)ExtraActionId.ThunderousStrikeToggle);
     }
 }
