@@ -34,6 +34,7 @@ internal static class GrappleContext
 
     internal const string ConditionGrappleSourceWithGrapplerName = $"Condition{Grapple}SourceWithGrappler";
     internal const string ConditionGrappleSourceWithGrapplerLargerName = $"Condition{Grapple}SourceWithGrapplerLarger";
+    private const string ImmuneToGrappleFeatureName = "ConditionAffinityGrappleTarget";
 
     private static readonly string[] AllSourceGrappleConditionNames =
     [
@@ -138,6 +139,8 @@ internal static class GrappleContext
                 MovementAffinityConditionRestrained)
             .AddCustomSubFeatures(new OnConditionAddedOrRemovedConditionGrappleTarget())
             .SetConditionParticleReference(ConditionDefinitions.ConditionRestrained)
+            .SetSpecialInterruptions(ConditionInterruption.BattleEnd,
+                ConditionInterruption.ShortRest, ConditionInterruption.LongRest)
             .AddToDB();
 
         var combatAffinityGrappleSource = FeatureDefinitionCombatAffinityBuilder
@@ -169,6 +172,8 @@ internal static class GrappleContext
                 DatabaseRepository.GetDatabase<ConditionDefinition>().Where(x =>
                     x.IsSubtypeOf(RuleDefinitions.ConditionIncapacitated)).ToArray())
             .AddCancellingConditions(ConditionCharmedByHypnoticPattern)
+            .SetSpecialInterruptions(ConditionInterruption.BattleEnd,
+                ConditionInterruption.ShortRest, ConditionInterruption.LongRest)
             .SetConditionParticleReference(ConditionSlowed)
             .AddToDB();
 
@@ -186,6 +191,8 @@ internal static class GrappleContext
                 DatabaseRepository.GetDatabase<ConditionDefinition>().Where(x =>
                     x.IsSubtypeOf(RuleDefinitions.ConditionIncapacitated)).ToArray())
             .AddCancellingConditions(ConditionCharmedByHypnoticPattern)
+            .SetSpecialInterruptions(ConditionInterruption.BattleEnd,
+                ConditionInterruption.ShortRest, ConditionInterruption.LongRest)
             .AddToDB();
 
         _ = ConditionDefinitionBuilder
@@ -201,6 +208,8 @@ internal static class GrappleContext
                 DatabaseRepository.GetDatabase<ConditionDefinition>().Where(x =>
                     x.IsSubtypeOf(RuleDefinitions.ConditionIncapacitated)).ToArray())
             .AddCancellingConditions(ConditionCharmedByHypnoticPattern)
+            .SetSpecialInterruptions(ConditionInterruption.BattleEnd,
+                ConditionInterruption.ShortRest, ConditionInterruption.LongRest)
             .AddToDB();
 
         _ = ConditionDefinitionBuilder
@@ -218,6 +227,8 @@ internal static class GrappleContext
                     x.IsSubtypeOf(RuleDefinitions.ConditionIncapacitated)).ToArray())
             .AddCancellingConditions(ConditionCharmedByHypnoticPattern)
             .SetConditionParticleReference(ConditionSlowed)
+            .SetSpecialInterruptions(ConditionInterruption.BattleEnd,
+                ConditionInterruption.ShortRest, ConditionInterruption.LongRest)
             .AddToDB();
 
         // Brawler feat
@@ -248,7 +259,7 @@ internal static class GrappleContext
 
         // these monsters are immune to grapple
         var conditionAffinityGrappleTarget = FeatureDefinitionConditionAffinityBuilder
-            .Create("ConditionAffinityGrappleTarget")
+            .Create(ImmuneToGrappleFeatureName)
             .SetGuiPresentationNoContent(true)
             .SetConditionAffinityType(ConditionAffinityType.Immunity)
             .SetConditionType(conditionGrappleTarget)
@@ -360,6 +371,11 @@ internal static class GrappleContext
             ConditionGrappleSourceWithGrapplerName,
             ConditionGrappleSourceWithGrapplerLargerName);
     }
+    
+    internal static bool HasGrappleImmunity(RulesetCharacter character)
+    {
+        return character.HasAnyFeature(ImmuneToGrappleFeatureName);
+    }
 
     internal static bool GetGrappledActor(
         RulesetCharacter rulesetSource,
@@ -434,6 +450,13 @@ internal static class GrappleContext
             if (rulesetCharacter.SizeDefinition.WieldingSize - rulesetTarget.SizeDefinition.WieldingSize < -1)
             {
                 __instance.actionModifier.FailureFlags.Add("Failure/&TargetMustBeNoMoreThanOneSizeLarger");
+
+                return false;
+            }
+
+            if (HasGrappleImmunity(rulesetTarget))
+            {
+                __instance.actionModifier.FailureFlags.Add("Failure/&TargetImmuneToGrapple");
 
                 return false;
             }

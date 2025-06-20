@@ -270,6 +270,11 @@ internal static class RulesetActorExtensions
         return FeaturesByType<FeatureDefinition>(actor).Any(features.Contains);
     }
 
+    internal static bool HasAnyFeature(this RulesetActor actor, params string[] featureNames)
+    {
+        return FeaturesByType<FeatureDefinition>(actor).Any(f => featureNames.Contains(f.Name));
+    }
+
 #if false
     internal static bool HasAllFeatures(this RulesetActor actor, [NotNull] params FeatureDefinition[] features)
     {

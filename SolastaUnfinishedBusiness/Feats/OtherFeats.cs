@@ -1045,7 +1045,8 @@ internal static class OtherFeats
                 !ValidatorsWeapon.IsUnarmed(attackMode) ||
                 defender.RulesetCharacter is not { IsDeadOrDyingOrUnconscious: false } ||
                 !rulesetAttacker.IsToggleEnabled((Id)ExtraActionId.GrappleOnUnarmedToggle) ||
-                attacker.GetSpecialFeatureUses(FeatGrappler.Name) >= 0)
+                attacker.GetSpecialFeatureUses(FeatGrappler.Name) >= 0 || 
+                GrappleContext.HasGrappleImmunity(defender.RulesetCharacter))
             {
                 yield break;
             }

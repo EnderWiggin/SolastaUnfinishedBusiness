@@ -100,6 +100,7 @@ Failure/&FailureFlagTargetIsNotAnAlly=Target is not an ally.
 Failure/&FailureFlagTargetMustNotBeSurprised=Target must not be surprised
 Failure/&FailureFlagTargetMustUnderstandYou=Target must understand your command
 Failure/&SecondTargetNotWithinRange=Can't select this target as not within range of first
+Failure/&TargetImmuneToGrapple=Target is immune to being grappled.
 Failure/&TargetMustBeNoMoreThanOneSizeLarger=Target must be no more than one size larger
 Failure/&TargetMustHaveHolyWeapon=Target must have holy weapon
 Feature/&AbilityCheckAffinityDarknessPerceptiveDescription=You have Advantage on Wisdom (Perception) checks while unlit or in magical darkness.
