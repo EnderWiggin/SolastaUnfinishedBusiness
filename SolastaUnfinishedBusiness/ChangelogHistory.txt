@@ -1,5 +1,6 @@
 1.5.97.60:
 - preview push from Tempest Domain's Thunderous Strike if motion preview is enabled
+- Grappling: do not allow to grapple immune creatures - prevents Grappling status from being stuck on the grappler
 
 1.5.97.59:
 - merged PR from BShennette: `Change cast time from Action -> Bonus Action as per TT version of the "Guardian of Nature" spell.`
