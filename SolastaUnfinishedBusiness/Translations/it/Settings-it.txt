@@ -16,6 +16,7 @@ ModUi/&AddCustomIconsToOfficialItems=Aggiungi icone personalizzate agli oggetti 
 ModUi/&AddDarknessPerceptiveToDarkRaces=Abilita <color=#D89555>Percezione dell'oscurità</color> su <color=#D89555>Elfo scuro</color>, <color=#D89555>Kobold oscuro</color> e <color=#D89555>Nano grigio</color> <i><color=#F0DAA0>\n[concede vantaggio sui controlli di percezione quando non è illuminato o sotto oscurità magica]</color></i>
 ModUi/&AddDexModifierToEnemiesInitiativeRoll=Aggiungi modificatore DEX al tiro di iniziativa dei nemici <color=#D89555>
 ModUi/&AddHumanoidFavoredEnemyToRanger=Abilita i nemici preferiti <color=#D89555>Umanoidi</color> <b><i><color=#C04040E0>[Richiede riavvio]</color></i></b>
+ModUi/&AddNewScrollsToShops=Aggiungi le pergamene per nuovi incantesimi ai negozi appropriati <b> <i> <color =#c04040e0> [richiede riavvio] </ color> </i> </b>
 ModUi/&AddNewWeaponsAndRecipesToShops=Aggiungi nuove armi e ricette ai negozi <i><color=#F0DAA0>[fasce per le mani, alabarde, picche, mazze lunghe, balestre a mano]</color></i> <b><i><color=#C04040E0>[Richiede riavvio]</color></i></b>
 ModUi/&AddPaladinSmiteToggle=Aggiungi un'opzione per consentire ai <color=#D89555>Paladini</color> di abilitare le punizioni solo sui colpi critici <i><color=#F0DAA0>[utile per ridurre al minimo le richieste di reazione]</color></i>
 ModUi/&AddPickPocketableLoot=Aggiungi bottino borseggiabile <i><color=#F0DAA0>[suggerito se è abilitata l'abilità <color=#D89555>Borsino</color>]</color></i>

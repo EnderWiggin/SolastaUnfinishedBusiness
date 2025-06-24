@@ -16,6 +16,7 @@ ModUi/&AddCustomIconsToOfficialItems=Adicionar ícones personalizados aos itens 
 ModUi/&AddDarknessPerceptiveToDarkRaces=Habilitar <color=#D89555>Percepção da Escuridão</color> em <color=#D89555>Elfo Escuro</color>, <color=#D89555>Kobold Escuro</color> e <color=#D89555>Anão Cinzento</color> <i><color=#F0DAA0>\n[concede vantagem em testes de percepção quando apagado ou sob escuridão mágica]</color></i>
 ModUi/&AddDexModifierToEnemiesInitiativeRoll=Adicione modificador de DEX aos inimigos <color=#D89555>Rolagem de Iniciativa</color>
 ModUi/&AddHumanoidFavoredEnemyToRanger=Habilitar inimigos preferenciais <color=#D89555>Humanoides</color> <b><i><color=#C04040E0>[Requer reinicialização]</color></i></b>
+ModUi/&AddNewScrollsToShops=Adicione rolos para novos feitiços às lojas apropriadas <b> <i> <color =#c04040e0> [requer reinicialização] </color> </i> </b>
 ModUi/&AddNewWeaponsAndRecipesToShops=Adicionar novas armas e receitas às lojas <i><color=#F0DAA0>[bandagens de mão, alabardas, lanças, maças longas, bestas de mão]</color></i> <b><i><color=#C04040E0>[Requer reinicialização]</color></i></b>
 ModUi/&AddPaladinSmiteToggle=Adicione uma alternância para permitir que <color=#D89555>Paladinos</color> habilitem golpes somente em acertos críticos <i><color=#F0DAA0>[útil para minimizar prompts de reação]</color></i>
 ModUi/&AddPickPocketableLoot=Adicionar saque que pode ser roubado <i><color=#F0DAA0>[sugerido se o talento <color=#D89555>Batedor de carteira</color> estiver habilitado]</color></i>

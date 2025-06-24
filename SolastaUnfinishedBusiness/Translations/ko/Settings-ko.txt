@@ -16,6 +16,7 @@ ModUi/&AddCustomIconsToOfficialItems=공식 게임 아이템에 사용자 지정
 ModUi/&AddDarknessPerceptiveToDarkRaces=<color=#D89555>다크엘프</color>, <color=#D89555>다크 코볼드</color>, <color=#D89555>그레이 드워프</color>에게 <color=#D89555>어둠 지각</color>을 활성화합니다. <i><color=#F0DAA0>\n[조명이 없거나 마법적 어둠에 있을 때 지각 검사에 유리합니다]</color></i>
 ModUi/&AddDexModifierToEnemiesInitiativeRoll=적에게 DEX 수정치를 추가합니다 <color=#D89555>이니셔티브 롤</color>
 ModUi/&AddHumanoidFavoredEnemyToRanger=<color=#D89555>인간형</color> 선호 적 활성화 <b><i><color=#C04040E0>[재시작 필요]</color></i></b>
+ModUi/&AddNewScrollsToShops=적절한 상점에 ​​새 주문에 대한 두루마리를 추가하십시오.
 ModUi/&AddNewWeaponsAndRecipesToShops=상점에 새로운 무기와 제조법을 추가하세요 <i><color=#F0DAA0>[손가락 묶는 무기, 도끼창, 창, 긴 메이스, 손 석궁]</color></i> <b><i><color=#C04040E0>[재시작 필요]</color></i></b>
 ModUi/&AddPaladinSmiteToggle=<color=#D89555>성기사</color>가 치명타에만 스마이트를 사용할 수 있도록 토글을 추가합니다. <i><color=#F0DAA0>[반응 프롬프트를 최소화하는 데 유용함]</color></i>
 ModUi/&AddPickPocketableLoot=주머니털이 가능한 전리품 추가 <i><color=#F0DAA0>[<color=#D89555>주머니털이</color> 특기가 활성화된 경우 추천]</color></i>

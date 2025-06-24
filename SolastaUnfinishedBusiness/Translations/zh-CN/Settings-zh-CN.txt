@@ -16,6 +16,7 @@ ModUi/&AddCustomIconsToOfficialItems=为官方游戏物品添加自定义图标<
 ModUi/&AddDarknessPerceptiveToDarkRaces=对<color=#D89555>暗精灵</color>、<color=#D89555>黑暗狗头人</color>和<color=#D89555>灰矮人</color>启用<color=#D89555>黑暗感知</color> <i><color=#F0DAA0>\n[在无光或在魔法黑暗下时在感知检查上获得优势]</color></i>
 ModUi/&AddDexModifierToEnemiesInitiativeRoll=为敌人添加 DEX 修正值<color=#D89555>主动掷骰</color>
 ModUi/&AddHumanoidFavoredEnemyToRanger=启用<color=#D89555>人形</color>首选敌人<b><i><color=#C04040E0>[需要重启]</color></i></b>
+ModUi/&AddNewScrollsToShops=将新法术的卷轴添加到适当的商店<b> <i> <color =＃c04040e0> [需要重新启动] </color> </i> </i> </b>
 ModUi/&AddNewWeaponsAndRecipesToShops=在商店中添加新武器和配方<i><color=#F0DAA0>[手套、戟、长矛、长锤、手弩]</color></i> <b><i><color=#C04040E0>[需要重启]</color></i></b>
 ModUi/&AddPaladinSmiteToggle=添加一个开关以允许<color=#D89555>圣骑士</color>仅在暴击时启用惩击<i><color=#F0DAA0>[有助于最大限度地减少反应提示]</color></i>
 ModUi/&AddPickPocketableLoot=添加可扒窃的战利品<i><color=#F0DAA0>[建议在启用<color=#D89555>扒窃</color>功能时添加]</color></i>

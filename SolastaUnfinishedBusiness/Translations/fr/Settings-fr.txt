@@ -16,6 +16,7 @@ ModUi/&AddCustomIconsToOfficialItems=Ajoutez des icônes personnalisées aux él
 ModUi/&AddDarknessPerceptiveToDarkRaces=Activez la <color=#D89555>Perception des Ténèbres</color> sur <color=#D89555>Darkelf</color>, <color=#D89555>Dark Kobold</color> et <color=#D89555>Gray Dwarf</color> <i><color=#F0DAA0>\n[accorde un avantage aux tests de perception lorsqu'il n'est pas éclairé ou sous l'obscurité magique]</color></i>
 ModUi/&AddDexModifierToEnemiesInitiativeRoll=Ajoutez un modificateur DEX aux ennemis <color=#D89555>Initiative Roll</color>
 ModUi/&AddHumanoidFavoredEnemyToRanger=Activer les ennemis préférés <color=#D89555>humanoïdes</color> <b><i><color=#C04040E0>[Nécessite un redémarrage]</color></i></b>
+ModUi/&AddNewScrollsToShops=Ajoutez des parchemins pour de nouveaux sorts aux magasins appropriés <b> <i> <color = # c04040e0> [nécessite un redémarrage] </ormor> </i> </b>
 ModUi/&AddNewWeaponsAndRecipesToShops=Ajoutez de nouvelles armes et recettes aux magasins <i><color=#F0DAA0>[bandages de main, hallebardes, piques, longues masses, arbalètes à main]</color></i> <b><i><color=#C04040E0>[Nécessite un redémarrage]</color></i></b>
 ModUi/&AddPaladinSmiteToggle=Ajoutez une option pour permettre aux <color=#D89555>paladins</color> d'activer uniquement les coups critiques <i><color=#F0DAA0>[utile pour minimiser les invites de réaction]</color></i>
 ModUi/&AddPickPocketableLoot=Ajouter un butin pouvant être volé à la tire <i><color=#F0DAA0>[suggéré si l'exploit <color=#D89555>Pickpocket</color> est activé]</color></i>
