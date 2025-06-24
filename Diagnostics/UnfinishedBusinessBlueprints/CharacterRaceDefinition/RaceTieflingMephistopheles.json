@@ -10,11 +10,6 @@
   "featureUnlocks": [
     {
       "$type": "FeatureUnlockByLevel, Assembly-CSharp",
-      "featureDefinition": "Definition:AttributeModifierTieflingDexterityAbilityScoreIncrease:409c00e9-2d72-5c82-9c3f-ed0697291032",
-      "level": 1
-    },
-    {
-      "$type": "FeatureUnlockByLevel, Assembly-CSharp",
       "featureDefinition": "Definition:CastSpellTieflingMephistopheles:49b905a0-8b58-5158-bc44-f1172aaa20f9",
       "level": 1
     }
@@ -104,7 +99,8 @@
       "HairColor",
       "BodyDecorationColor",
       "TailLength",
-      "BeardShape"
+      "BeardShape",
+      "Eye"
     ],
     "needBeard": false,
     "defaultMusculature": 0,
@@ -276,7 +272,7 @@
   },
   "guiPresentation": {
     "$type": "GuiPresentation, Assembly-CSharp",
-    "hidden": true,
+    "hidden": false,
     "title": "Race/&RaceTieflingMephistophelesTitle",
     "description": "Race/&RaceTieflingMephistophelesDescription",
     "spriteReference": {

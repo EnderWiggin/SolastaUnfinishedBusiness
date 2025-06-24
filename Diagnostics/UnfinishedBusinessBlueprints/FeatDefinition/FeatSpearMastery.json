@@ -18,7 +18,7 @@
   ],
   "guiPresentation": {
     "$type": "GuiPresentation, Assembly-CSharp",
-    "hidden": true,
+    "hidden": false,
     "title": "Feat/&FeatSpearMasteryTitle",
     "description": "Feat/&FeatSpearMasteryDescription",
     "spriteReference": {

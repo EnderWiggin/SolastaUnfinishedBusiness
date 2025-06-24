@@ -55,7 +55,8 @@
     "maxRange": 64,
     "weaponTags": [
       "Ammunition",
-      "TwoHanded"
+      "TwoHanded",
+      "Cleave"
     ],
     "effectDescription": {
       "$type": "EffectDescription, Assembly-CSharp",

@@ -10,11 +10,6 @@
   "featureUnlocks": [
     {
       "$type": "FeatureUnlockByLevel, Assembly-CSharp",
-      "featureDefinition": "Definition:FeatureSetImpBadlandAbilityScoreIncrease:5b6e03fe-fb72-51dd-b35b-55b999b2dde9",
-      "level": 1
-    },
-    {
-      "$type": "FeatureUnlockByLevel, Assembly-CSharp",
       "featureDefinition": "Definition:PowerImpBadlandAssist:46911e56-dbce-5f13-8200-e461a1c82719",
       "level": 1
     },
@@ -134,7 +129,8 @@
       "HairColor",
       "BodyDecorationColor",
       "TailLength",
-      "BeardShape"
+      "BeardShape",
+      "Eye"
     ],
     "needBeard": false,
     "defaultMusculature": 0,
@@ -306,7 +302,7 @@
   },
   "guiPresentation": {
     "$type": "GuiPresentation, Assembly-CSharp",
-    "hidden": true,
+    "hidden": false,
     "title": "Race/&RaceImpBadlandTitle",
     "description": "Race/&RaceImpBadlandDescription",
     "spriteReference": {

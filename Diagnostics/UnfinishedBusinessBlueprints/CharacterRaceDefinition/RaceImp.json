@@ -27,6 +27,16 @@
       "$type": "FeatureUnlockByLevel, Assembly-CSharp",
       "featureDefinition": "Definition:SenseNormalVision:222ef639393ed4e4bbd7152690597945",
       "level": 1
+    },
+    {
+      "$type": "FeatureUnlockByLevel, Assembly-CSharp",
+      "featureDefinition": "Definition:PointPoolAbilityScore3:6045e81f-0b72-5085-8243-234da1816050",
+      "level": 1
+    },
+    {
+      "$type": "FeatureUnlockByLevel, Assembly-CSharp",
+      "featureDefinition": "Definition:PointPoolBonusFeat:c3eef96a911e20a40ab0e8a61c7463e1",
+      "level": 1
     }
   ],
   "subRaces": [
@@ -118,7 +128,8 @@
       "HairColor",
       "BodyDecorationColor",
       "TailLength",
-      "BeardShape"
+      "BeardShape",
+      "Eye"
     ],
     "needBeard": false,
     "defaultMusculature": 0,
@@ -290,7 +301,7 @@
   },
   "guiPresentation": {
     "$type": "GuiPresentation, Assembly-CSharp",
-    "hidden": true,
+    "hidden": false,
     "title": "Race/&RaceImpTitle",
     "description": "Race/&RaceImpDescription",
     "spriteReference": {

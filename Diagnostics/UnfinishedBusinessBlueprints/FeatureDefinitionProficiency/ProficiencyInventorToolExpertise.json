@@ -2,11 +2,13 @@
   "$type": "FeatureDefinitionProficiency, Assembly-CSharp",
   "proficiencyType": "ToolOrExpertise",
   "proficiencies": [
+    "AbyssalAgitatorToolType",
     "ArtisanToolSmithToolsType",
     "EnchantingToolType",
     "HerbalismKitType",
     "PoisonersKitType",
-    "ScrollKitType"
+    "ScrollKitType",
+    "ThievesToolsType"
   ],
   "forbiddenItemTags": [],
   "guiPresentation": {

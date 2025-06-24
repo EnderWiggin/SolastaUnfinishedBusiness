@@ -4,17 +4,17 @@
     {
       "$type": "FeatureUnlockByLevel, Assembly-CSharp",
       "featureDefinition": "Definition:AttackModifierArcaneFighterEnchantWeapon:776b9bdf-3a40-565d-b1e0-a71302e9a1cd",
-      "level": 2
+      "level": 3
     },
     {
       "$type": "FeatureUnlockByLevel, Assembly-CSharp",
       "featureDefinition": "Definition:FeatureSetCasterFightingProficiency:d0bc1302-ebf6-535a-94dd-d1770b2c3dcb",
-      "level": 2
+      "level": 3
     },
     {
       "$type": "FeatureUnlockByLevel, Assembly-CSharp",
       "featureDefinition": "Definition:MagicAffinityArcaneFighterConcentrationAdvantage:ed492724-acf5-5621-899b-03c19dd48ef6",
-      "level": 2
+      "level": 3
     },
     {
       "$type": "FeatureUnlockByLevel, Assembly-CSharp",

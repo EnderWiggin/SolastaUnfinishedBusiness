@@ -88,7 +88,8 @@
       "Pronoun",
       "BodyDecorationColor",
       "Scars",
-      "Musculature"
+      "Musculature",
+      "Eye"
     ],
     "needBeard": false,
     "defaultMusculature": 0,
@@ -250,7 +251,7 @@
   },
   "guiPresentation": {
     "$type": "GuiPresentation, Assembly-CSharp",
-    "hidden": true,
+    "hidden": false,
     "title": "Race/&RaceHalfElfDarkTitle",
     "description": "Race/&RaceHalfElfDarkDescription",
     "spriteReference": {

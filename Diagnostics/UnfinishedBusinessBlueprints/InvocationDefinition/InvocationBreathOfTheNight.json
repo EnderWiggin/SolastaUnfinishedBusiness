@@ -1,7 +1,7 @@
 {
   "$type": "InvocationDefinition, Assembly-CSharp",
   "requiredKnownSpell": null,
-  "requiredLevel": 1,
+  "requiredLevel": 2,
   "requiredPact": null,
   "grantedFeature": null,
   "grantedSpell": "Definition:FogCloud:c0914cf3ec2124242b9f64d267e94c17",
@@ -10,7 +10,7 @@
   "overrideMaterialComponent": true,
   "guiPresentation": {
     "$type": "GuiPresentation, Assembly-CSharp",
-    "hidden": true,
+    "hidden": false,
     "title": "Invocation/&InvocationBreathOfTheNightTitle",
     "description": "Invocation/&InvocationBreathOfTheNightDescription",
     "spriteReference": {

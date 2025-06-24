@@ -93,7 +93,7 @@
   "hasBackgroundQuest": false,
   "guiPresentation": {
     "$type": "GuiPresentation, Assembly-CSharp",
-    "hidden": true,
+    "hidden": false,
     "title": "Background/&BackgroundFarmerTitle",
     "description": "Background/&BackgroundFarmerDescription",
     "spriteReference": {

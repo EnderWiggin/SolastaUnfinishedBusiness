@@ -14,7 +14,7 @@
   "features": [],
   "guiPresentation": {
     "$type": "GuiPresentation, Assembly-CSharp",
-    "hidden": true,
+    "hidden": false,
     "title": "Feat/&FeatGroupBodyResilienceTitle",
     "description": "Athlete, Badlands Marauder, Blessing of the Elements, Creed of the Gods, Dungeon Delver, Enduring Body, Focused Sleeper, Frost Adaptation, Hard to Kill, Hauler, Lucky, Robust, Tough",
     "spriteReference": {

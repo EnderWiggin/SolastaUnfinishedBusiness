@@ -10,16 +10,6 @@
   "featureUnlocks": [
     {
       "$type": "FeatureUnlockByLevel, Assembly-CSharp",
-      "featureDefinition": "Definition:AttributeModifierBolgrifStrengthAbilityScoreIncrease:8c3f4d36-2cff-5242-9722-97eea91f4b84",
-      "level": 1
-    },
-    {
-      "$type": "FeatureUnlockByLevel, Assembly-CSharp",
-      "featureDefinition": "Definition:AttributeModifierBolgrifWisdomAbilityScoreIncrease:79a5d049-8532-5ee5-b890-3308c27a33a6",
-      "level": 1
-    },
-    {
-      "$type": "FeatureUnlockByLevel, Assembly-CSharp",
       "featureDefinition": "Definition:ProficiencyBolgrifLanguages:ce45cf63-5b75-5ee3-9b1f-8e96ad329ecc",
       "level": 1
     },
@@ -46,6 +36,16 @@
     {
       "$type": "FeatureUnlockByLevel, Assembly-CSharp",
       "featureDefinition": "Definition:CastSpellBolgrifMagic:a0279437-8ed9-52b7-90a0-8a83973943a9",
+      "level": 1
+    },
+    {
+      "$type": "FeatureUnlockByLevel, Assembly-CSharp",
+      "featureDefinition": "Definition:PointPoolAbilityScore3:6045e81f-0b72-5085-8243-234da1816050",
+      "level": 1
+    },
+    {
+      "$type": "FeatureUnlockByLevel, Assembly-CSharp",
+      "featureDefinition": "Definition:PointPoolBonusFeat:c3eef96a911e20a40ab0e8a61c7463e1",
       "level": 1
     }
   ],
@@ -119,7 +119,8 @@
       "Backstory",
       "Pronoun",
       "BodyDecorationColor",
-      "Scars"
+      "Scars",
+      "Eye"
     ],
     "needBeard": false,
     "defaultMusculature": 0,
@@ -298,7 +299,7 @@
   },
   "guiPresentation": {
     "$type": "GuiPresentation, Assembly-CSharp",
-    "hidden": true,
+    "hidden": false,
     "title": "Race/&RaceBolgrifTitle",
     "description": "Race/&RaceBolgrifDescription",
     "spriteReference": {

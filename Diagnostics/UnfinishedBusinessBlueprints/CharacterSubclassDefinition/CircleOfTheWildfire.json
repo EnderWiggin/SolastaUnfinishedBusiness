@@ -4,12 +4,12 @@
     {
       "$type": "FeatureUnlockByLevel, Assembly-CSharp",
       "featureDefinition": "Definition:AutoPreparedSpellsCircleOfTheWildfire:419c465d-a412-5c6a-b608-23e931953e12",
-      "level": 2
+      "level": 3
     },
     {
       "$type": "FeatureUnlockByLevel, Assembly-CSharp",
       "featureDefinition": "Definition:FeatureSetCircleOfTheWildfireSummonSpirit:dec1968e-1879-5c1d-b8a5-52425ce251bd",
-      "level": 2
+      "level": 3
     },
     {
       "$type": "FeatureUnlockByLevel, Assembly-CSharp",

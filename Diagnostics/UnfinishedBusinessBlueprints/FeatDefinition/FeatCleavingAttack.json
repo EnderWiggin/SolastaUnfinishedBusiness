@@ -16,7 +16,7 @@
   ],
   "guiPresentation": {
     "$type": "GuiPresentation, Assembly-CSharp",
-    "hidden": true,
+    "hidden": false,
     "title": "Feat/&FeatCleavingAttackTitle",
     "description": "Feat/&FeatCleavingAttackDescription",
     "spriteReference": {

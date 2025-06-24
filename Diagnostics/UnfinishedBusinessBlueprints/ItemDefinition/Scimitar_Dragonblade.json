@@ -48,7 +48,8 @@
     "maxRange": 5,
     "weaponTags": [
       "Finesse",
-      "Light"
+      "Light",
+      "Nick"
     ],
     "effectDescription": {
       "$type": "EffectDescription, Assembly-CSharp",

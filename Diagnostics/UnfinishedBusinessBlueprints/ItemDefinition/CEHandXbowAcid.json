@@ -1,6 +1,6 @@
 {
   "$type": "ItemDefinition, Assembly-CSharp",
-  "inDungeonEditor": false,
+  "inDungeonEditor": true,
   "merchantCategory": "Weapon",
   "weight": 5.0,
   "slotTypes": [
@@ -67,7 +67,8 @@
       "Light",
       "Range",
       "Loading",
-      "Ammunition"
+      "Ammunition",
+      "Vex"
     ],
     "effectDescription": {
       "$type": "EffectDescription, Assembly-CSharp",

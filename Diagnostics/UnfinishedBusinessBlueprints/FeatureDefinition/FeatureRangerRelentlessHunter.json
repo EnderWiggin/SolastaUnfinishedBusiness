@@ -4,7 +4,7 @@
     "$type": "GuiPresentation, Assembly-CSharp",
     "hidden": false,
     "title": "Feature/&FeatureRangerRelentlessHunterTitle",
-    "description": "Feature/&FeatureRangerRelentlessHunterDescription",
+    "description": "Feature/&FeatureRangerRelentlessHunterExtendedDescription",
     "spriteReference": {
       "$type": "UnityEngine.AddressableAssets.AssetReferenceSprite, Unity.Addressables",
       "m_AssetGUID": "",

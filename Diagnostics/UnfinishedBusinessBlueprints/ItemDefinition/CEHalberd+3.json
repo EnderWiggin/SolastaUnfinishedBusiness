@@ -1,6 +1,6 @@
 {
   "$type": "ItemDefinition, Assembly-CSharp",
-  "inDungeonEditor": false,
+  "inDungeonEditor": true,
   "merchantCategory": "Weapon",
   "weight": 7.0,
   "slotTypes": [
@@ -56,7 +56,8 @@
     "weaponTags": [
       "Heavy",
       "Reach",
-      "TwoHanded"
+      "TwoHanded",
+      "Cleave"
     ],
     "effectDescription": {
       "$type": "EffectDescription, Assembly-CSharp",

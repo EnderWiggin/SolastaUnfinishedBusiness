@@ -55,7 +55,8 @@
     "maxRange": 5,
     "weaponTags": [
       "Heavy",
-      "TwoHanded"
+      "TwoHanded",
+      "Graze"
     ],
     "effectDescription": {
       "$type": "EffectDescription, Assembly-CSharp",

@@ -14,7 +14,7 @@
   "features": [],
   "guiPresentation": {
     "$type": "GuiPresentation, Assembly-CSharp",
-    "hidden": true,
+    "hidden": false,
     "title": "Feat/&FeatGroupRangedCombatTitle",
     "description": "Crossbow Expert, Discretion of the Coedymwarth, Piercer, Ranged Mastery, Sharpshooter, Take Aim, Uncanny Accuracy, Wise Archery",
     "spriteReference": {

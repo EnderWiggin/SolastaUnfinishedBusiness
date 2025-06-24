@@ -4,22 +4,22 @@
     {
       "$type": "FeatureUnlockByLevel, Assembly-CSharp",
       "featureDefinition": "Definition:FeatureSetDomainTempestBonusProficiency:1e92976d-a4b8-5273-8f0f-90c5f3587812",
-      "level": 1
-    },
-    {
-      "$type": "FeatureUnlockByLevel, Assembly-CSharp",
-      "featureDefinition": "Definition:AutoPreparedSpellsDomainTempest:428a5651-66b7-5b30-b5fe-1b69183f345b",
-      "level": 1
-    },
-    {
-      "$type": "FeatureUnlockByLevel, Assembly-CSharp",
-      "featureDefinition": "Definition:FeatureSetDomainTempestWrathOfTheStorm:8facc09d-1f7d-5a1b-af53-a4206c92c9f3",
-      "level": 1
+      "level": 3
     },
     {
       "$type": "FeatureUnlockByLevel, Assembly-CSharp",
       "featureDefinition": "Definition:FeatureSetDomainTempestDestructiveWrath:57c68e83-7ee5-51f9-b83b-f068dc46de71",
-      "level": 2
+      "level": 3
+    },
+    {
+      "$type": "FeatureUnlockByLevel, Assembly-CSharp",
+      "featureDefinition": "Definition:AutoPreparedSpellsDomainTempest:428a5651-66b7-5b30-b5fe-1b69183f345b",
+      "level": 3
+    },
+    {
+      "$type": "FeatureUnlockByLevel, Assembly-CSharp",
+      "featureDefinition": "Definition:FeatureSetDomainTempestWrathOfTheStorm:8facc09d-1f7d-5a1b-af53-a4206c92c9f3",
+      "level": 3
     },
     {
       "$type": "FeatureUnlockByLevel, Assembly-CSharp",
@@ -28,13 +28,23 @@
     },
     {
       "$type": "FeatureUnlockByLevel, Assembly-CSharp",
-      "featureDefinition": "Definition:AdditionalDamageDomainTempestDivineStrike:89a8e81d-fc5e-5e99-98e5-6b62cfa85b1e",
-      "level": 8
+      "featureDefinition": "Definition:FeatureSetClericBlessedStrikes:3fd4bf53-5583-5bb1-b3f8-64bc210c062f",
+      "level": 7
+    },
+    {
+      "$type": "FeatureUnlockByLevel, Assembly-CSharp",
+      "featureDefinition": "Definition:FeatureClericAdditionalDamageGenericBlessedDamageThunder:5676b302-875a-5bf4-9995-ca6d8ebb1315",
+      "level": 7
     },
     {
       "$type": "FeatureUnlockByLevel, Assembly-CSharp",
       "featureDefinition": "Definition:PowerClericDivineInterventionPaladin:4f9a2e4ff332b204aae612753dada617",
       "level": 10
+    },
+    {
+      "$type": "FeatureUnlockByLevel, Assembly-CSharp",
+      "featureDefinition": "Definition:FeatureClericImprovedBlessedStrikes:9c3fc2ad-2214-5414-9a59-586d1bf6c171",
+      "level": 14
     },
     {
       "$type": "FeatureUnlockByLevel, Assembly-CSharp",

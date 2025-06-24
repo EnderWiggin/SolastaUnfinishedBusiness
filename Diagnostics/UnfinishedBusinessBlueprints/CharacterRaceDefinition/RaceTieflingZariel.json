@@ -10,11 +10,6 @@
   "featureUnlocks": [
     {
       "$type": "FeatureUnlockByLevel, Assembly-CSharp",
-      "featureDefinition": "Definition:AttributeModifierTieflingStrengthAbilityScoreIncrease:d6662cc1-1ad4-5bc9-ad2a-47888f952823",
-      "level": 1
-    },
-    {
-      "$type": "FeatureUnlockByLevel, Assembly-CSharp",
       "featureDefinition": "Definition:CastSpellTieflingZariel:831e1e1c-a920-566e-b2ae-5a5f42a8d300",
       "level": 1
     }
@@ -104,7 +99,8 @@
       "HairColor",
       "BodyDecorationColor",
       "TailLength",
-      "BeardShape"
+      "BeardShape",
+      "Eye"
     ],
     "needBeard": false,
     "defaultMusculature": 0,
@@ -276,7 +272,7 @@
   },
   "guiPresentation": {
     "$type": "GuiPresentation, Assembly-CSharp",
-    "hidden": true,
+    "hidden": false,
     "title": "Race/&RaceTieflingZarielTitle",
     "description": "Race/&RaceTieflingZarielDescription",
     "spriteReference": {

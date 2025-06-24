@@ -17,7 +17,9 @@
     "Definition:DamageAffinityPsychicResistance:6bcf228fbe370f34fa7cf0d8420998eb",
     "Definition:DamageAffinitySlashingResistanceTrue:d6683e1311037ac439ad7fe52516facd",
     "Definition:DamageAffinityThunderResistance:510045c677352854ca27ebea37c85d02",
-    "Definition:MovementAffinityFreedomOfMovement:097ce72cf88822243afb196bbddc360c"
+    "Definition:MovementAffinityFreedomOfMovement:097ce72cf88822243afb196bbddc360c",
+    "Definition:ConditionAffinityWeatherChilledImmunity:bc4e3a662c267ae498bb1f3c1d754980",
+    "Definition:ConditionAffinityWeatherFrozenImmunity:6eedca541acbb494fa8aea97c7ff074a"
   ],
   "allowMultipleInstances": false,
   "silentWhenAdded": false,

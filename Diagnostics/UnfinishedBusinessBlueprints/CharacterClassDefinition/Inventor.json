@@ -231,6 +231,11 @@
     },
     {
       "$type": "FeatureUnlockByLevel, Assembly-CSharp",
+      "featureDefinition": "Definition:PointPool1BonusFeats:b3b13130-72f4-5b64-bacf-272a57585bdd",
+      "level": 2
+    },
+    {
+      "$type": "FeatureUnlockByLevel, Assembly-CSharp",
       "featureDefinition": "Definition:FeatureSetInventorInfusions:db349abb-6477-5f34-b660-1755ee05f51f",
       "level": 2
     },
@@ -263,6 +268,11 @@
       "$type": "FeatureUnlockByLevel, Assembly-CSharp",
       "featureDefinition": "Definition:InvocationPoolInventorUnlearnInfusion:3c827867-5407-559c-963a-fb1336626294",
       "level": 5
+    },
+    {
+      "$type": "FeatureUnlockByLevel, Assembly-CSharp",
+      "featureDefinition": "Definition:PointPool1BonusFeats:b3b13130-72f4-5b64-bacf-272a57585bdd",
+      "level": 6
     },
     {
       "$type": "FeatureUnlockByLevel, Assembly-CSharp",
@@ -311,6 +321,11 @@
     },
     {
       "$type": "FeatureUnlockByLevel, Assembly-CSharp",
+      "featureDefinition": "Definition:PointPool1BonusFeats:b3b13130-72f4-5b64-bacf-272a57585bdd",
+      "level": 10
+    },
+    {
+      "$type": "FeatureUnlockByLevel, Assembly-CSharp",
       "featureDefinition": "Definition:PowerUseModifierInventorInfusionPool01:543a4df2-0d82-5599-a203-769354d77f03",
       "level": 10
     },
@@ -356,6 +371,11 @@
     },
     {
       "$type": "FeatureUnlockByLevel, Assembly-CSharp",
+      "featureDefinition": "Definition:PointPool1BonusFeats:b3b13130-72f4-5b64-bacf-272a57585bdd",
+      "level": 14
+    },
+    {
+      "$type": "FeatureUnlockByLevel, Assembly-CSharp",
       "featureDefinition": "Definition:PowerUseModifierInventorInfusionPool02:189c1457-aef9-511e-9db6-5e27f99955fc",
       "level": 14
     },
@@ -393,6 +413,11 @@
       "$type": "FeatureUnlockByLevel, Assembly-CSharp",
       "featureDefinition": "Definition:InvocationPoolInventorUnlearnInfusion:3c827867-5407-559c-963a-fb1336626294",
       "level": 17
+    },
+    {
+      "$type": "FeatureUnlockByLevel, Assembly-CSharp",
+      "featureDefinition": "Definition:PointPool1BonusFeats:b3b13130-72f4-5b64-bacf-272a57585bdd",
+      "level": 18
     },
     {
       "$type": "FeatureUnlockByLevel, Assembly-CSharp",
@@ -496,7 +521,7 @@
   "isUsingMusicalInstrumentWhenCasting": false,
   "guiPresentation": {
     "$type": "GuiPresentation, Assembly-CSharp",
-    "hidden": true,
+    "hidden": false,
     "title": "Class/&InventorTitle",
     "description": "Class/&InventorDescription",
     "spriteReference": {

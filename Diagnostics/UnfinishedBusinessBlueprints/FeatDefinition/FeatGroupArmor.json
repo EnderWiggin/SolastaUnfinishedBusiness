@@ -14,7 +14,7 @@
   "features": [],
   "guiPresentation": {
     "$type": "GuiPresentation, Assembly-CSharp",
-    "hidden": true,
+    "hidden": false,
     "title": "Feat/&FeatGroupArmorTitle",
     "description": "Armor Master, Discretion of the Coedymwarth, Heavy Armor Master, Medium Armor Master, Might of the Iron Legion, Moderately Armored, Sturdiness of the Tundra",
     "spriteReference": {

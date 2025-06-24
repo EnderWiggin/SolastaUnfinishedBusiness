@@ -14,7 +14,7 @@
   "features": [],
   "guiPresentation": {
     "$type": "GuiPresentation, Assembly-CSharp",
-    "hidden": true,
+    "hidden": false,
     "title": "Feat/&FeatGroupMediumArmorTitle",
     "description": "Increase your Strength or Dexterity by 1, to a maximum of 20.\nYou gain proficiency with medium armor and shields.",
     "spriteReference": {

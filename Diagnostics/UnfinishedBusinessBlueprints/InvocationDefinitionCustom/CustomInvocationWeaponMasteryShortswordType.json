@@ -12,7 +12,7 @@
     "$type": "GuiPresentation, Assembly-CSharp",
     "hidden": false,
     "title": "Equipment/&ShortswordTypeTitle",
-    "description": "Feature/&FeatureWeaponMasteryVexDescription",
+    "description": "Feature/&FeatureWeaponMasteryGrazeDescription",
     "spriteReference": {
       "$type": "UnityEngine.AddressableAssets.AssetReferenceSprite, Unity.Addressables",
       "m_AssetGUID": "3c633d5f6aeab3b4fb39a1ece46d6146",

@@ -14,7 +14,7 @@
   "features": [],
   "guiPresentation": {
     "$type": "GuiPresentation, Assembly-CSharp",
-    "hidden": true,
+    "hidden": false,
     "title": "Potent Spellcaster [Artificer]",
     "description": "You can add your spellcaster attribute modifier to the damage you deal with any Artificer cantrip in your repertoire.",
     "spriteReference": {

@@ -10,11 +10,6 @@
   "featureUnlocks": [
     {
       "$type": "FeatureUnlockByLevel, Assembly-CSharp",
-      "featureDefinition": "Definition:AttributeModifierElfAbilityScoreIncrease:122e862ec1d88c649b2d784db05233cd",
-      "level": 1
-    },
-    {
-      "$type": "FeatureUnlockByLevel, Assembly-CSharp",
       "featureDefinition": "Definition:PowerDarkKoboldGrovelCowerAndBeg:64232eff-49bf-5ab6-93ba-61e407210831",
       "level": 1
     },
@@ -26,6 +21,11 @@
     {
       "$type": "FeatureUnlockByLevel, Assembly-CSharp",
       "featureDefinition": "Definition:FeatureSetPackTactics:6e3ececb-7eb5-552a-a95f-a6363775fe8e",
+      "level": 1
+    },
+    {
+      "$type": "FeatureUnlockByLevel, Assembly-CSharp",
+      "featureDefinition": "Definition:AbilityCheckAffinityDarknessPerceptive:54e5b34a-f49d-55da-b1b1-219aff96ba05",
       "level": 1
     }
   ],
@@ -64,7 +64,17 @@
       "Race/&DragonbornMaleName12Title",
       "Race/&DragonbornMaleName13Title",
       "Race/&DragonbornMaleName14Title",
-      "Race/&DragonbornMaleName15Title"
+      "Race/&DragonbornMaleName15Title",
+      "Kerc",
+      "Vred",
+      "Krox",
+      "Knork",
+      "Geikud",
+      "Krikverg",
+      "Xurgrank",
+      "Chimcang",
+      "Clubberk",
+      "Trurrerk"
     ],
     "femaleNameOptions": [
       "Race/&DragonbornFemaleName1Title",
@@ -81,7 +91,17 @@
       "Race/&DragonbornFemaleName12Title",
       "Race/&DragonbornFemaleName13Title",
       "Race/&DragonbornFemaleName14Title",
-      "Race/&DragonbornFemaleName15Title"
+      "Race/&DragonbornFemaleName15Title",
+      "Cyiy",
+      "Dhel",
+      "Van",
+      "Khriy",
+      "Zrolgri",
+      "Clikka",
+      "Khniksil",
+      "Szaggni",
+      "Bhoksa",
+      "Erel"
     ],
     "hasSurName": true,
     "surNameTitle": "Race/&DragonbornSurNameTitle",
@@ -99,7 +119,17 @@
       "Race/&DragonbornSurName11Title",
       "Race/&DragonbornSurName12Title",
       "Race/&DragonbornSurName13Title",
-      "Race/&DragonbornSurName14Title"
+      "Race/&DragonbornSurName14Title",
+      "Hazegaze",
+      "Grimebreaker",
+      "Cragfeather",
+      "Shattermaul",
+      "Duststrike",
+      "Hornbow",
+      "Hardstride",
+      "Bittereyes",
+      "Pinegrip",
+      "Crowfist"
     ],
     "availableMorphotypeCategories": [
       "FaceShape",
@@ -113,7 +143,8 @@
       "Horns",
       "Tail",
       "BodyDecorationColor",
-      "TailLength"
+      "TailLength",
+      "Eye"
     ],
     "needBeard": false,
     "defaultMusculature": 100,
@@ -211,7 +242,7 @@
   },
   "guiPresentation": {
     "$type": "GuiPresentation, Assembly-CSharp",
-    "hidden": true,
+    "hidden": false,
     "title": "Race/&RaceDarkKoboldTitle",
     "description": "Race/&RaceDarkKoboldDescription",
     "spriteReference": {

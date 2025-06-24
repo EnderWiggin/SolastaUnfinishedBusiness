@@ -4,17 +4,17 @@
     {
       "$type": "FeatureUnlockByLevel, Assembly-CSharp",
       "featureDefinition": "Definition:FeatureSetDivineHeartDeityChoice:50c4bac9-edbc-5b51-96f3-5fd8a1d106dd",
-      "level": 1
+      "level": 3
     },
     {
       "$type": "FeatureUnlockByLevel, Assembly-CSharp",
       "featureDefinition": "Definition:AttributeModifierDivineHeartDivineFortitude:2f756e50-4c39-50d8-b104-7a5dfbd2233e",
-      "level": 1
+      "level": 3
     },
     {
       "$type": "FeatureUnlockByLevel, Assembly-CSharp",
       "featureDefinition": "Definition:MagicAffinityDivineHeartClericSpellsList:691ff5ad-a3d6-562e-bb1f-1c6919dd5a2d",
-      "level": 1
+      "level": 3
     },
     {
       "$type": "FeatureUnlockByLevel, Assembly-CSharp",

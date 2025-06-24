@@ -4,12 +4,12 @@
     {
       "$type": "FeatureUnlockByLevel, Assembly-CSharp",
       "featureDefinition": "Definition:PowerSorcerousFieldManipulatorDisplacement:164244c9-e119-530c-bfef-3c9b33618f9e",
-      "level": 1
+      "level": 3
     },
     {
       "$type": "FeatureUnlockByLevel, Assembly-CSharp",
       "featureDefinition": "Definition:AutoPreparedSpellsSorcerousFieldManipulator:30e69802-0420-56cd-a5a4-efe6bfdc2e07",
-      "level": 1
+      "level": 3
     },
     {
       "$type": "FeatureUnlockByLevel, Assembly-CSharp",

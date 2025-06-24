@@ -10,11 +10,6 @@
   "featureUnlocks": [
     {
       "$type": "FeatureUnlockByLevel, Assembly-CSharp",
-      "featureDefinition": "Definition:AttributeModifierTieflingIntelligenceAbilityScoreIncrease:1d5fa0e8-69c7-5a54-b952-2777c66e9a3d",
-      "level": 1
-    },
-    {
-      "$type": "FeatureUnlockByLevel, Assembly-CSharp",
       "featureDefinition": "Definition:CastSpellTieflingDevilTongue:e199e46a-8f38-5445-bd4c-4db0886c6668",
       "level": 1
     }
@@ -104,7 +99,8 @@
       "HairColor",
       "BodyDecorationColor",
       "TailLength",
-      "BeardShape"
+      "BeardShape",
+      "Eye"
     ],
     "needBeard": false,
     "defaultMusculature": 0,
@@ -276,7 +272,7 @@
   },
   "guiPresentation": {
     "$type": "GuiPresentation, Assembly-CSharp",
-    "hidden": true,
+    "hidden": false,
     "title": "Race/&RaceTieflingDevilTongueTitle",
     "description": "Race/&RaceTieflingDevilTongueDescription",
     "spriteReference": {

@@ -10,16 +10,6 @@
   "featureUnlocks": [
     {
       "$type": "FeatureUnlockByLevel, Assembly-CSharp",
-      "featureDefinition": "Definition:AttributeModifierHighWyrmkinStrengthAbilityScoreIncrease:c9c98ecb-0ef5-52a3-8bd7-66d758d75ee1",
-      "level": 1
-    },
-    {
-      "$type": "FeatureUnlockByLevel, Assembly-CSharp",
-      "featureDefinition": "Definition:AttributeModifierHighWyrmkinIntelligenceAbilityScoreIncrease:788bee82-f345-52c0-9a6a-b24f134faa90",
-      "level": 1
-    },
-    {
-      "$type": "FeatureUnlockByLevel, Assembly-CSharp",
       "featureDefinition": "Definition:PowerHighWyrmkinPsionicWave:5183d28a-df58-5b9c-929b-d8c3cdf51e2f",
       "level": 1
     },
@@ -99,7 +89,18 @@
       "Race/&DragonbornSurName11Title",
       "Race/&DragonbornSurName12Title",
       "Race/&DragonbornSurName13Title",
-      "Race/&DragonbornSurName14Title"
+      "Race/&DragonbornSurName14Title",
+      "Elkart",
+      "Trelluj",
+      "Ornort",
+      "Oksaur",
+      "Vuzraturt",
+      "Sorkert",
+      "Uksar",
+      "Strukssar",
+      "Thraksaeurt",
+      "Vernart",
+      "Maeradok"
     ],
     "availableMorphotypeCategories": [
       "FaceShape",
@@ -113,7 +114,8 @@
       "Horns",
       "Tail",
       "BodyDecorationColor",
-      "TailLength"
+      "TailLength",
+      "Eye"
     ],
     "needBeard": false,
     "defaultMusculature": 100,
@@ -193,8 +195,8 @@
     },
     "preferedSkinColors": {
       "$type": "TA.RangedInt, Assembly-CSharp",
-      "minValue": 11,
-      "maxValue": 11
+      "minValue": 65,
+      "maxValue": 65
     },
     "preferedHairColors": {
       "$type": "TA.RangedInt, Assembly-CSharp",
@@ -211,7 +213,7 @@
   },
   "guiPresentation": {
     "$type": "GuiPresentation, Assembly-CSharp",
-    "hidden": true,
+    "hidden": false,
     "title": "Race/&RaceHighWyrmkinTitle",
     "description": "Race/&RaceHighWyrmkinDescription",
     "spriteReference": {

@@ -14,7 +14,15 @@
         "Definition:RayOfFrost:637a3697f05a4614e8200abfa5daaaff",
         "Definition:Resistance:384dce9da39ad4e4b82106fa7829c17c",
         "Definition:ShockingGrasp:0bcfc5c29da450c4bb0f27df027616eb",
-        "Definition:SpareTheDying:4f1e3d9c88278a94fbc457664ab8d6bf"
+        "Definition:SpareTheDying:4f1e3d9c88278a94fbc457664ab8d6bf",
+        "Definition:BoomingBlade:8a6f90f1-6d31-5701-8498-2c3527f7d33b",
+        "Definition:CreateBonfire:3f2e87e8-860f-58ce-b347-b54c8d6581ac",
+        "Definition:LightningLure:a371e3b0-84af-5794-9d67-642b9677fc8d",
+        "Definition:ResonatingStrike:c8ecadb8-8b2a-57dd-93dd-41f6557ef52d",
+        "Definition:SunlightBlade:62effe92-a4c1-58ed-a9a0-06f1a64e8c8e",
+        "Definition:SwordStorm:d3b6df03-2c2c-524a-a160-e988006a5fd8",
+        "Definition:ThornyVines:821729fd-5a81-5fcc-bb24-5a715e7a34c0",
+        "Definition:ThunderStrike:e3acbcf7-0653-56ce-b685-1d1c7c73cff1"
       ]
     },
     {
@@ -30,7 +38,12 @@
         "Definition:Grease:31f056cc8a643054ba1e59be0d224482",
         "Definition:Identify:e398d34493329f147bae4902122057c2",
         "Definition:Jump:f9b46eef2189b8342a4943588e2f947c",
-        "Definition:Longstrider:79bd842bd1a7d65499d148a671f7ce83"
+        "Definition:Longstrider:79bd842bd1a7d65499d148a671f7ce83",
+        "Definition:CausticZap:029019d2-e72a-5b45-806f-c42e1953d7ab",
+        "Definition:ElementalInfusion:64167970-ed4e-5094-95b2-d68c40bab971",
+        "Definition:RadiantMotes:ff59b2b4-3fd1-55c2-a7ab-7c6c5b004633",
+        "Definition:Sanctuary:c26b716e-d3ef-5478-9036-95a40e053d10",
+        "Definition:VileBrew:0adac905-0212-5605-815b-098b7f4fc7da"
       ]
     },
     {
@@ -48,7 +61,10 @@
         "Definition:MagicWeapon:c9c2c6779e83836468fb6f4ab562897f",
         "Definition:ProtectionFromPoison:a7ceb55598ebbfd4cb4dfded0a7450f9",
         "Definition:SeeInvisibility:10c15ca8321632e42825254149dfb885",
-        "Definition:SpiderClimb:1ba4092482a450c4da60e17cbe4577df"
+        "Definition:SpiderClimb:1ba4092482a450c4da60e17cbe4577df",
+        "Definition:ColorBurst:c79e03ee-1d09-569f-85d9-27a50cfc7110",
+        "Definition:KineticJaunt:45331d46-edae-5f7e-8197-97f3658a8f15",
+        "Definition:SpellWeb:1fd65e0f-7caf-5a2e-b7fe-84594e029367"
       ]
     },
     {
@@ -60,7 +76,11 @@
         "Definition:Fly:6c13f5461f5047645a8c165cc0f43f83",
         "Definition:Haste:134efafc59c7c58438b711271fb2c785",
         "Definition:ProtectionFromEnergy:8416ac74aea478f498e2d50380376e90",
-        "Definition:Revivify:16e7fb95186cf9b41806d15fbacd81af"
+        "Definition:Revivify:16e7fb95186cf9b41806d15fbacd81af",
+        "Definition:AshardalonStride:98b57766-2cb8-5fb2-886c-0093a3a569ef",
+        "Definition:ElementalWeapon:f928808f-2083-5f5b-b72c-241c312bdac4",
+        "Definition:FlameArrows:a1cdc677-6c15-557d-8c80-3e485e878e01",
+        "Definition:IntellectFortress:e0131db2-c70e-5941-9180-1cb5bd27200f"
       ]
     },
     {
@@ -68,14 +88,18 @@
       "level": 4,
       "spells": [
         "Definition:FreedomOfMovement:7c93b80e19d0f3e47843e96bd06d026c",
-        "Definition:Stoneskin:9040c4fcd7301184f8772720f716a837"
+        "Definition:Stoneskin:9040c4fcd7301184f8772720f716a837",
+        "Definition:BrainBulwark:e40588cd-4b6d-5be0-b31e-5a7c7b148869",
+        "Definition:ElementalBane:107ae326-a9c7-563a-b479-d78b494c4594",
+        "Definition:FaithfulHound:64dc7fce-e519-5231-afd2-be1142f88462"
       ]
     },
     {
       "$type": "SpellListDefinition+SpellsByLevelDuplet, Assembly-CSharp",
       "level": 5,
       "spells": [
-        "Definition:GreaterRestoration:6131d7d4650604b44ad3c74b21cc3eb2"
+        "Definition:GreaterRestoration:6131d7d4650604b44ad3c74b21cc3eb2",
+        "Definition:EmpoweredKnowledge:75d8411d-5d52-5ff7-a18e-8534e893ff8a"
       ]
     },
     {

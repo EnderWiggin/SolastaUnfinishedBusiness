@@ -14,7 +14,7 @@
   "features": [],
   "guiPresentation": {
     "$type": "GuiPresentation, Assembly-CSharp",
-    "hidden": true,
+    "hidden": false,
     "title": "Feat/&FeatGroupGrudgeBearerTitle",
     "description": "You have a deep hatred for a particular kind of creature. Choose your foes, a type of creature to bear the burden of your wrath: aberrations, beasts, celestials, constructs, dragons, elementals, fey, fiends, giants, monstrosities, oozes, plants, or undead. You gain the following benefits:\n• Increase your Strength, Constitution, or Wisdom score by 1, to a maximum of 20.\n• During the first round of any combat against your chosen foes, your attack rolls against any of them have advantage.\n• When any of your chosen foes makes an opportunity attack against you, it makes the attack roll with disadvantage.",
     "spriteReference": {

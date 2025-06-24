@@ -167,7 +167,7 @@
     "$type": "GuiPresentation, Assembly-CSharp",
     "hidden": true,
     "title": "Rapier",
-    "description": "Feature/&FeatureWeaponMasteryVexDescription",
+    "description": "Feature/&FeatureWeaponMasterySapDescription",
     "spriteReference": {
       "$type": "UnityEngine.AddressableAssets.AssetReferenceSprite, Unity.Addressables",
       "m_AssetGUID": "",

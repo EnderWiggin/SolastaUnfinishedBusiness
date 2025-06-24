@@ -14,7 +14,7 @@
   "features": [],
   "guiPresentation": {
     "$type": "GuiPresentation, Assembly-CSharp",
-    "hidden": true,
+    "hidden": false,
     "title": "Feat/&FeatGroupPlaneMagicTitle",
     "description": "Fey Teleportation, Telekinetic, Touched Magic",
     "spriteReference": {

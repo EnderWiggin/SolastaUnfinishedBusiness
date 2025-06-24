@@ -10,11 +10,6 @@
   "featureUnlocks": [
     {
       "$type": "FeatureUnlockByLevel, Assembly-CSharp",
-      "featureDefinition": "Definition:FeatureSetImpInfernalAbilityScoreIncrease:efab590c-cd98-5e92-8ceb-8f47ba27b071",
-      "level": 1
-    },
-    {
-      "$type": "FeatureUnlockByLevel, Assembly-CSharp",
       "featureDefinition": "Definition:FeatureSetImpInfernalFiendishResistance:11a62589-9578-51e9-a6e9-5688ad283a8e",
       "level": 1
     },
@@ -109,7 +104,8 @@
       "HairColor",
       "BodyDecorationColor",
       "TailLength",
-      "BeardShape"
+      "BeardShape",
+      "Eye"
     ],
     "needBeard": false,
     "defaultMusculature": 0,
@@ -281,7 +277,7 @@
   },
   "guiPresentation": {
     "$type": "GuiPresentation, Assembly-CSharp",
-    "hidden": true,
+    "hidden": false,
     "title": "Race/&RaceImpInfernalTitle",
     "description": "Race/&RaceImpInfernalDescription",
     "spriteReference": {

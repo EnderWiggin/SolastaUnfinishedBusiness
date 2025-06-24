@@ -4,22 +4,22 @@
     {
       "$type": "FeatureUnlockByLevel, Assembly-CSharp",
       "featureDefinition": "Definition:FeatureSetDomainNatureBonusProficiency:5231ed44-7501-53b9-87cc-274b545a7b15",
-      "level": 1
-    },
-    {
-      "$type": "FeatureUnlockByLevel, Assembly-CSharp",
-      "featureDefinition": "Definition:AutoPreparedSpellsDomainNature:20e017f1-1816-5659-bf28-dfd17a2280b5",
-      "level": 1
-    },
-    {
-      "$type": "FeatureUnlockByLevel, Assembly-CSharp",
-      "featureDefinition": "Definition:FeatureSetDomainNatureAcolyteOfNature:259c2b17-dedf-578a-aabf-f5c7725c5d6c",
-      "level": 1
+      "level": 3
     },
     {
       "$type": "FeatureUnlockByLevel, Assembly-CSharp",
       "featureDefinition": "Definition:FeatureSetDomainNatureCharmAnimalsAndPlants:47473304-ba12-5a8a-8b65-601990219723",
-      "level": 2
+      "level": 3
+    },
+    {
+      "$type": "FeatureUnlockByLevel, Assembly-CSharp",
+      "featureDefinition": "Definition:AutoPreparedSpellsDomainNature:20e017f1-1816-5659-bf28-dfd17a2280b5",
+      "level": 3
+    },
+    {
+      "$type": "FeatureUnlockByLevel, Assembly-CSharp",
+      "featureDefinition": "Definition:FeatureSetDomainNatureAcolyteOfNature:259c2b17-dedf-578a-aabf-f5c7725c5d6c",
+      "level": 3
     },
     {
       "$type": "FeatureUnlockByLevel, Assembly-CSharp",
@@ -28,13 +28,23 @@
     },
     {
       "$type": "FeatureUnlockByLevel, Assembly-CSharp",
-      "featureDefinition": "Definition:FeatureSetDomainNatureNatureStrikes:c904a5e0-886b-5f42-9623-ddfe165a3a20",
-      "level": 8
+      "featureDefinition": "Definition:FeatureClericAdditionalDamageGenericBlessedDamageCold:6069461a-4c0b-5b32-80e4-d3ef28102c0c",
+      "level": 7
+    },
+    {
+      "$type": "FeatureUnlockByLevel, Assembly-CSharp",
+      "featureDefinition": "Definition:FeatureSetClericBlessedStrikes:3fd4bf53-5583-5bb1-b3f8-64bc210c062f",
+      "level": 7
     },
     {
       "$type": "FeatureUnlockByLevel, Assembly-CSharp",
       "featureDefinition": "Definition:PowerClericDivineInterventionWizard:0b20466699780a74e801804f86af806b",
       "level": 10
+    },
+    {
+      "$type": "FeatureUnlockByLevel, Assembly-CSharp",
+      "featureDefinition": "Definition:FeatureClericImprovedBlessedStrikes:9c3fc2ad-2214-5414-9a59-586d1bf6c171",
+      "level": 14
     },
     {
       "$type": "FeatureUnlockByLevel, Assembly-CSharp",

@@ -56,7 +56,8 @@
     "weaponTags": [
       "Ammunition",
       "Heavy",
-      "TwoHanded"
+      "TwoHanded",
+      "Deadly"
     ],
     "effectDescription": {
       "$type": "EffectDescription, Assembly-CSharp",

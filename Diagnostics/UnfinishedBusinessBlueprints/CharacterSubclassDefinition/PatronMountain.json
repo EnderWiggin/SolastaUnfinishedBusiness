@@ -4,17 +4,17 @@
     {
       "$type": "FeatureUnlockByLevel, Assembly-CSharp",
       "featureDefinition": "Definition:PowerPatronMountainBarrierOfStone:d3db5998-2ff7-5449-8c40-fd3e7856267c",
-      "level": 1
+      "level": 3
     },
     {
       "$type": "FeatureUnlockByLevel, Assembly-CSharp",
       "featureDefinition": "Definition:MagicAffinityPatronMountainExpandedSpells:5887e8a6-4b93-5e34-a8b3-decc4d120d9c",
-      "level": 1
+      "level": 3
     },
     {
       "$type": "FeatureUnlockByLevel, Assembly-CSharp",
       "featureDefinition": "Definition:FeatureSetPatronMountainKnowledgeOfAeons:5676a3e3-6892-5ed3-99d1-d6a818d45232",
-      "level": 1
+      "level": 3
     },
     {
       "$type": "FeatureUnlockByLevel, Assembly-CSharp",

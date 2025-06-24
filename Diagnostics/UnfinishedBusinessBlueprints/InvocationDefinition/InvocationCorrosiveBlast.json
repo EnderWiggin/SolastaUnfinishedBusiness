@@ -1,7 +1,7 @@
 {
   "$type": "InvocationDefinition, Assembly-CSharp",
   "requiredKnownSpell": "Definition:EldritchBlast:1bc808c50803d9841be7af7314327d6d",
-  "requiredLevel": 1,
+  "requiredLevel": 2,
   "requiredPact": null,
   "grantedFeature": "Definition:FeatureInvocationCorrosiveBlast:5784739c-f116-5091-8135-aaa52e647a91",
   "grantedSpell": null,
@@ -10,7 +10,7 @@
   "overrideMaterialComponent": true,
   "guiPresentation": {
     "$type": "GuiPresentation, Assembly-CSharp",
-    "hidden": true,
+    "hidden": false,
     "title": "Invocation/&InvocationCorrosiveBlastTitle",
     "description": "Invocation/&InvocationCorrosiveBlastDescription",
     "spriteReference": {

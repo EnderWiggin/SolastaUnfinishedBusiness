@@ -12,7 +12,7 @@
     "$type": "GuiPresentation, Assembly-CSharp",
     "hidden": false,
     "title": "Spell/&BarkskinTitle",
-    "description": "Spell/&BarkskinDescription",
+    "description": "Spell/&BarkskinOneDndDescription",
     "spriteReference": {
       "$type": "UnityEngine.AddressableAssets.AssetReferenceSprite, Unity.Addressables",
       "m_AssetGUID": "d3ce862aafb649c4683bce554e9e3a8f",

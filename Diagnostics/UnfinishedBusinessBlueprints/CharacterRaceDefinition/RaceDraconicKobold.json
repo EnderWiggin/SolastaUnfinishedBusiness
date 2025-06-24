@@ -59,7 +59,17 @@
       "Race/&DragonbornMaleName12Title",
       "Race/&DragonbornMaleName13Title",
       "Race/&DragonbornMaleName14Title",
-      "Race/&DragonbornMaleName15Title"
+      "Race/&DragonbornMaleName15Title",
+      "Kerc",
+      "Vred",
+      "Krox",
+      "Knork",
+      "Geikud",
+      "Krikverg",
+      "Xurgrank",
+      "Chimcang",
+      "Clubberk",
+      "Trurrerk"
     ],
     "femaleNameOptions": [
       "Race/&DragonbornFemaleName1Title",
@@ -76,7 +86,17 @@
       "Race/&DragonbornFemaleName12Title",
       "Race/&DragonbornFemaleName13Title",
       "Race/&DragonbornFemaleName14Title",
-      "Race/&DragonbornFemaleName15Title"
+      "Race/&DragonbornFemaleName15Title",
+      "Cyiy",
+      "Dhel",
+      "Van",
+      "Khriy",
+      "Zrolgri",
+      "Clikka",
+      "Khniksil",
+      "Szaggni",
+      "Bhoksa",
+      "Erel"
     ],
     "hasSurName": true,
     "surNameTitle": "Race/&DragonbornSurNameTitle",
@@ -94,7 +114,17 @@
       "Race/&DragonbornSurName11Title",
       "Race/&DragonbornSurName12Title",
       "Race/&DragonbornSurName13Title",
-      "Race/&DragonbornSurName14Title"
+      "Race/&DragonbornSurName14Title",
+      "Hazegaze",
+      "Grimebreaker",
+      "Cragfeather",
+      "Shattermaul",
+      "Duststrike",
+      "Hornbow",
+      "Hardstride",
+      "Bittereyes",
+      "Pinegrip",
+      "Crowfist"
     ],
     "availableMorphotypeCategories": [
       "FaceShape",
@@ -108,7 +138,8 @@
       "Horns",
       "Tail",
       "BodyDecorationColor",
-      "TailLength"
+      "TailLength",
+      "Eye"
     ],
     "needBeard": false,
     "defaultMusculature": 100,
@@ -206,7 +237,7 @@
   },
   "guiPresentation": {
     "$type": "GuiPresentation, Assembly-CSharp",
-    "hidden": true,
+    "hidden": false,
     "title": "Race/&RaceDraconicKoboldTitle",
     "description": "Race/&RaceDraconicKoboldDescription",
     "spriteReference": {

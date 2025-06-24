@@ -14,7 +14,7 @@
   "features": [],
   "guiPresentation": {
     "$type": "GuiPresentation, Assembly-CSharp",
-    "hidden": true,
+    "hidden": false,
     "title": "Potent Spellcaster [Druid]",
     "description": "You can add your spellcaster attribute modifier to the damage you deal with any Druid cantrip in your repertoire.",
     "spriteReference": {

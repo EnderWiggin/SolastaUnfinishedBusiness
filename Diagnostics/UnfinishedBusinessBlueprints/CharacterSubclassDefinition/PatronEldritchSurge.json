@@ -4,31 +4,21 @@
     {
       "$type": "FeatureUnlockByLevel, Assembly-CSharp",
       "featureDefinition": "Definition:BonusCantripsPatronEldritchSurgeBlastExclusive:f1943338-589e-5f77-991e-9ad973ba1b06",
-      "level": 1
+      "level": 3
     },
     {
       "$type": "FeatureUnlockByLevel, Assembly-CSharp",
       "featureDefinition": "Definition:PowerEldritchVersatilityPointPool:4a0f8a3a-b215-557c-86a3-8e074552aec5",
-      "level": 1
+      "level": 3
     },
     {
       "$type": "FeatureUnlockByLevel, Assembly-CSharp",
       "featureDefinition": "Definition:FeatureEldritchVersatilityLearn2:6308f5f2-0c91-5349-99b9-5393dec7a940",
-      "level": 1
+      "level": 3
     },
     {
       "$type": "FeatureUnlockByLevel, Assembly-CSharp",
       "featureDefinition": "Definition:PowerPatronEldritchSurgeVersatilitySwitchPool:95b26c1b-4a7e-54f5-bb9d-abe7ff3f12fe",
-      "level": 1
-    },
-    {
-      "$type": "FeatureUnlockByLevel, Assembly-CSharp",
-      "featureDefinition": "Definition:FeatureEldritchVersatilityUnLearn1:cecf66ce-a059-5689-a270-56b62e3d983e",
-      "level": 2
-    },
-    {
-      "$type": "FeatureUnlockByLevel, Assembly-CSharp",
-      "featureDefinition": "Definition:FeatureEldritchVersatilityUnLearn1:cecf66ce-a059-5689-a270-56b62e3d983e",
       "level": 3
     },
     {

@@ -1,9 +1,18 @@
 {
   "$type": "FeatureDefinitionFightingStyleChoice, Assembly-CSharp",
   "fightingStyles": [
+    "Crippling",
     "Dueling",
     "GreatWeapon",
-    "TwoWeapon"
+    "TwoWeapon",
+    "AstralReach",
+    "BlindFighting",
+    "Executioner",
+    "HandAndAHalf",
+    "Interception",
+    "Lunger",
+    "RemarkableTechnique",
+    "Torchbearer"
   ],
   "guiPresentation": {
     "$type": "GuiPresentation, Assembly-CSharp",

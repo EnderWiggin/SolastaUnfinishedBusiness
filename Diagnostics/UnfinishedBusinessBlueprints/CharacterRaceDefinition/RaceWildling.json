@@ -10,11 +10,6 @@
   "featureUnlocks": [
     {
       "$type": "FeatureUnlockByLevel, Assembly-CSharp",
-      "featureDefinition": "Definition:FeatureSetWildlingAbilityScoreIncrease:c1ca36f2-7125-5509-8e15-38dae4ae403c",
-      "level": 1
-    },
-    {
-      "$type": "FeatureUnlockByLevel, Assembly-CSharp",
       "featureDefinition": "Definition:FeatureWildlingClaws:fbb8a01e-8eca-57d1-9963-0ccd16a789cc",
       "level": 1
     },
@@ -51,6 +46,16 @@
     {
       "$type": "FeatureUnlockByLevel, Assembly-CSharp",
       "featureDefinition": "Definition:SenseNormalVision:222ef639393ed4e4bbd7152690597945",
+      "level": 1
+    },
+    {
+      "$type": "FeatureUnlockByLevel, Assembly-CSharp",
+      "featureDefinition": "Definition:PointPoolAbilityScore3:6045e81f-0b72-5085-8243-234da1816050",
+      "level": 1
+    },
+    {
+      "$type": "FeatureUnlockByLevel, Assembly-CSharp",
+      "featureDefinition": "Definition:PointPoolBonusFeat:c3eef96a911e20a40ab0e8a61c7463e1",
       "level": 1
     }
   ],
@@ -133,7 +138,8 @@
       "Pronoun",
       "BodyDecorationColor",
       "Scars",
-      "Horns"
+      "Horns",
+      "Eye"
     ],
     "needBeard": false,
     "defaultMusculature": 0,
@@ -338,7 +344,7 @@
   },
   "guiPresentation": {
     "$type": "GuiPresentation, Assembly-CSharp",
-    "hidden": true,
+    "hidden": false,
     "title": "Race/&RaceWildlingTitle",
     "description": "Race/&RaceWildlingDescription",
     "spriteReference": {

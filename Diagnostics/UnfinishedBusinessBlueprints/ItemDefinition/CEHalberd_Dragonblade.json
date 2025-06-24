@@ -47,7 +47,8 @@
     "weaponTags": [
       "Heavy",
       "Reach",
-      "TwoHanded"
+      "TwoHanded",
+      "Cleave"
     ],
     "effectDescription": {
       "$type": "EffectDescription, Assembly-CSharp",

@@ -1,7 +1,7 @@
 {
   "$type": "InvocationDefinition, Assembly-CSharp",
   "requiredKnownSpell": null,
-  "requiredLevel": 1,
+  "requiredLevel": 2,
   "requiredPact": null,
   "grantedFeature": "Definition:FeatureSetInvocationAspectOfTheMoon:4de4e4fd-3c99-5c32-9428-863c161bca8f",
   "grantedSpell": null,
@@ -10,7 +10,7 @@
   "overrideMaterialComponent": true,
   "guiPresentation": {
     "$type": "GuiPresentation, Assembly-CSharp",
-    "hidden": true,
+    "hidden": false,
     "title": "Invocation/&InvocationAspectOfTheMoonTitle",
     "description": "Invocation/&InvocationAspectOfTheMoonDescription",
     "spriteReference": {

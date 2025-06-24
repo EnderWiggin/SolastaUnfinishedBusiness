@@ -56,7 +56,8 @@
     "weaponTags": [
       "Ammunition",
       "Loading",
-      "TwoHanded"
+      "TwoHanded",
+      "Slow"
     ],
     "effectDescription": {
       "$type": "EffectDescription, Assembly-CSharp",

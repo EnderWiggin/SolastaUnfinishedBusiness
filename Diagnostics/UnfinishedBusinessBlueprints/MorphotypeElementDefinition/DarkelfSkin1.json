@@ -31,13 +31,7 @@
     "minValue": 0.0,
     "maxValue": 100.0
   },
-  "originAllowed": [
-    "Origin_NonHuman",
-    "Origin_AF",
-    "Origin_AS",
-    "Origin_CA",
-    "Origin_HO"
-  ],
+  "originAllowed": [],
   "subClassFilterMask": "All",
   "forbiddenWithFaceshapes": [],
   "guiPresentation": {

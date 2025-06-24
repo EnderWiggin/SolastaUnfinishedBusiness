@@ -82,7 +82,7 @@
         "healingForm": {
           "$type": "HealingForm, Assembly-CSharp",
           "healingComputation": "Dice",
-          "diceNumber": 1,
+          "diceNumber": 2,
           "dieType": "D4",
           "bonusHealing": 0,
           "variablePool": false,

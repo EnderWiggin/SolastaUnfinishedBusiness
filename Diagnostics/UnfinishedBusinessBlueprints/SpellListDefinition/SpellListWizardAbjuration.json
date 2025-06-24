@@ -7,7 +7,8 @@
       "$type": "SpellListDefinition+SpellsByLevelDuplet, Assembly-CSharp",
       "level": 0,
       "spells": [
-        "Definition:ShadowArmor:2542a6717952164479079fcad2ed60f9"
+        "Definition:ShadowArmor:2542a6717952164479079fcad2ed60f9",
+        "Definition:BladeWard:5d04caa2-64a0-587e-a0d2-6c9ab52a56ca"
       ]
     },
     {
@@ -16,7 +17,8 @@
       "spells": [
         "Definition:MageArmor:4772a21b455a76149adcc38d58267a10",
         "Definition:ProtectionFromEvilGood:b8a59d1a01529b04893e0c440cecee39",
-        "Definition:Shield:f69bd9c9375fc074a90043c42f9868fe"
+        "Definition:Shield:f69bd9c9375fc074a90043c42f9868fe",
+        "Definition:ElementalInfusion:64167970-ed4e-5094-95b2-d68c40bab971"
       ]
     },
     {
@@ -31,7 +33,8 @@
         "Definition:Counterspell:699759f98dacad84fb2d7323e0788179",
         "Definition:DispelMagic:296e789b353c0324b804bee2c16a419a",
         "Definition:ProtectionFromEnergy:8416ac74aea478f498e2d50380376e90",
-        "Definition:RemoveCurse:ecabaf5104767c04b9a6549866fccfa0"
+        "Definition:RemoveCurse:ecabaf5104767c04b9a6549866fccfa0",
+        "Definition:IntellectFortress:e0131db2-c70e-5941-9180-1cb5bd27200f"
       ]
     },
     {
@@ -39,7 +42,8 @@
       "level": 4,
       "spells": [
         "Definition:Banishment:5f6a4b43068dbdc448632b9d43022eb8",
-        "Definition:Stoneskin:9040c4fcd7301184f8772720f716a837"
+        "Definition:Stoneskin:9040c4fcd7301184f8772720f716a837",
+        "Definition:BrainBulwark:e40588cd-4b6d-5be0-b31e-5a7c7b148869"
       ]
     },
     {
@@ -51,7 +55,9 @@
       "$type": "SpellListDefinition+SpellsByLevelDuplet, Assembly-CSharp",
       "level": 6,
       "spells": [
-        "Definition:GlobeOfInvulnerability:eb567aec38beff84d87040cb9a006177"
+        "Definition:GlobeOfInvulnerability:eb567aec38beff84d87040cb9a006177",
+        "Definition:FizbanPlatinumShield:88cce58b-f58c-57d1-80ed-7a6317d2c6de",
+        "Definition:ShelterFromEnergy:c4e00683-facd-5358-b4df-dc439587dd77"
       ]
     },
     {
@@ -72,7 +78,9 @@
     {
       "$type": "SpellListDefinition+SpellsByLevelDuplet, Assembly-CSharp",
       "level": 9,
-      "spells": []
+      "spells": [
+        "Definition:Invulnerability:7c0a7999-a836-56bf-96e7-e8b24efc13f3"
+      ]
     }
   ],
   "compositeSpellList": false,

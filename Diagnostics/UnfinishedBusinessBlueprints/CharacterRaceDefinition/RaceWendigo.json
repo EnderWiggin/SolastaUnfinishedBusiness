@@ -10,16 +10,6 @@
   "featureUnlocks": [
     {
       "$type": "FeatureUnlockByLevel, Assembly-CSharp",
-      "featureDefinition": "Definition:AttributeModifierWendigoStrengthAbilityScoreIncrease:3862f3be-8838-57af-a425-d85714a2dfba",
-      "level": 1
-    },
-    {
-      "$type": "FeatureUnlockByLevel, Assembly-CSharp",
-      "featureDefinition": "Definition:AttributeModifierWendigoDexterityAbilityScoreIncrease:667b9580-a4a0-5205-81d5-d4225e7ad082",
-      "level": 1
-    },
-    {
-      "$type": "FeatureUnlockByLevel, Assembly-CSharp",
       "featureDefinition": "Definition:SenseDarkvision:446f786482b07db45b6f4a0854be3056",
       "level": 1
     },
@@ -56,6 +46,16 @@
     {
       "$type": "FeatureUnlockByLevel, Assembly-CSharp",
       "featureDefinition": "Definition:AdditionalDamageWendigoSuckerPunch:2e70c6a1-2da5-5d56-b00c-774c481c1a65",
+      "level": 1
+    },
+    {
+      "$type": "FeatureUnlockByLevel, Assembly-CSharp",
+      "featureDefinition": "Definition:PointPoolAbilityScore3:6045e81f-0b72-5085-8243-234da1816050",
+      "level": 1
+    },
+    {
+      "$type": "FeatureUnlockByLevel, Assembly-CSharp",
+      "featureDefinition": "Definition:PointPoolBonusFeat:c3eef96a911e20a40ab0e8a61c7463e1",
       "level": 1
     }
   ],
@@ -99,7 +99,11 @@
       "Race/&TieflingMaleName12Title",
       "Race/&TieflingMaleName13Title",
       "Race/&TieflingMaleName14Title",
-      "Race/&TieflingMaleName15Title"
+      "Race/&TieflingMaleName15Title",
+      "Mirayarus",
+      "Fenmyar",
+      "Mirayarus",
+      "Yeljor"
     ],
     "femaleNameOptions": [
       "Race/&TieflingFemaleName1Title",
@@ -116,7 +120,11 @@
       "Race/&TieflingFemaleName12Title",
       "Race/&TieflingFemaleName13Title",
       "Race/&TieflingFemaleName14Title",
-      "Race/&TieflingFemaleName15Title"
+      "Race/&TieflingFemaleName15Title",
+      "Lucky",
+      "Nightfall",
+      "Sylmoira",
+      "Fastina"
     ],
     "hasSurName": true,
     "surNameTitle": "Race/&TieflingSurNameTitle",
@@ -130,7 +138,11 @@
       "Race/&TieflingNickname7Title",
       "Race/&TieflingNickname8Title",
       "Race/&TieflingNickname9Title",
-      "Race/&TieflingNickname10Title"
+      "Race/&TieflingNickname10Title",
+      "Drucnur",
+      "Wayrick",
+      "Koemi",
+      "Demi"
     ],
     "availableMorphotypeCategories": [
       "FaceShape",
@@ -148,7 +160,8 @@
       "HairColor",
       "BodyDecorationColor",
       "TailLength",
-      "BeardShape"
+      "BeardShape",
+      "Eye"
     ],
     "needBeard": false,
     "defaultMusculature": 0,
@@ -320,7 +333,7 @@
   },
   "guiPresentation": {
     "$type": "GuiPresentation, Assembly-CSharp",
-    "hidden": true,
+    "hidden": false,
     "title": "Race/&RaceWendigoTitle",
     "description": "Race/&RaceWendigoDescription",
     "spriteReference": {

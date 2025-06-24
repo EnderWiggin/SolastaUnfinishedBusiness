@@ -55,7 +55,8 @@
     "weaponTags": [
       "Finesse",
       "Light",
-      "Thrown"
+      "Thrown",
+      "Nick"
     ],
     "effectDescription": {
       "$type": "EffectDescription, Assembly-CSharp",

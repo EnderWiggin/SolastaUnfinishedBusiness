@@ -4,12 +4,12 @@
     {
       "$type": "FeatureUnlockByLevel, Assembly-CSharp",
       "featureDefinition": "Definition:FeatureSetCircleOfTheCosmosConstellationMap:3b0cdc7a-cf01-52ef-bd9d-674242f46f1d",
-      "level": 2
+      "level": 3
     },
     {
       "$type": "FeatureUnlockByLevel, Assembly-CSharp",
       "featureDefinition": "Definition:FeatureSetCircleOfTheCosmosConstellationForm:df637ef0-ebbd-532e-904f-a2a150a1911b",
-      "level": 2
+      "level": 3
     },
     {
       "$type": "FeatureUnlockByLevel, Assembly-CSharp",

@@ -20,7 +20,7 @@
   ],
   "guiPresentation": {
     "$type": "GuiPresentation, Assembly-CSharp",
-    "hidden": true,
+    "hidden": false,
     "title": "Feat/&FeatInfernalConstitutionTitle",
     "description": "Feat/&FeatInfernalConstitutionDescription",
     "spriteReference": {

@@ -79,7 +79,7 @@
   "hasBackgroundQuest": false,
   "guiPresentation": {
     "$type": "GuiPresentation, Assembly-CSharp",
-    "hidden": true,
+    "hidden": false,
     "title": "Background/&BackgroundMilitiaTitle",
     "description": "Background/&BackgroundMilitiaDescription",
     "spriteReference": {

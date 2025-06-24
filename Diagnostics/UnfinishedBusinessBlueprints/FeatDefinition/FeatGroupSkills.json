@@ -14,7 +14,7 @@
   "features": [],
   "guiPresentation": {
     "$type": "GuiPresentation, Assembly-CSharp",
-    "hidden": true,
+    "hidden": false,
     "title": "Feat/&FeatGroupSkillsTitle",
     "description": "Acrobat, Apothecary, Arcane Appraiser, Arcanist, Athlete, Healer, Initiate Enchanter, Manipulator, Menacing, Pickpocket, Scriber, Squat Nimbleness, Stealthy, Theologian, Toxicologist",
     "spriteReference": {

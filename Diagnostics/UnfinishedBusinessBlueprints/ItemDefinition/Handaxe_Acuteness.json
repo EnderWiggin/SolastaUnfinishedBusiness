@@ -16,7 +16,7 @@
   "destroyedWhenUnequiped": false,
   "forceEquip": false,
   "forceEquipSlot": "",
-  "canBeStacked": false,
+  "canBeStacked": true,
   "stackSize": 5,
   "defaultStackCount": -1,
   "costs": [
@@ -58,7 +58,8 @@
     "maxRange": 12,
     "weaponTags": [
       "Light",
-      "Thrown"
+      "Thrown",
+      "Vex"
     ],
     "effectDescription": {
       "$type": "EffectDescription, Assembly-CSharp",

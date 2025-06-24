@@ -3,7 +3,16 @@
   "fightingStyles": [
     "Archery",
     "Defense",
-    "TwoWeapon"
+    "HandAndAHalf",
+    "TwoWeapon",
+    "AstralReach",
+    "BlindFighting",
+    "Crippling",
+    "Executioner",
+    "Interception",
+    "Lunger",
+    "RemarkableTechnique",
+    "Torchbearer"
   ],
   "guiPresentation": {
     "$type": "GuiPresentation, Assembly-CSharp",

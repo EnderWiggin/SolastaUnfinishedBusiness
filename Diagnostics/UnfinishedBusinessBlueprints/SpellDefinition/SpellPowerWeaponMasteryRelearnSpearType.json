@@ -167,7 +167,7 @@
     "$type": "GuiPresentation, Assembly-CSharp",
     "hidden": true,
     "title": "Spear",
-    "description": "Feature/&FeatureWeaponMasterySapDescription",
+    "description": "Feature/&FeatureWeaponMasteryVexDescription",
     "spriteReference": {
       "$type": "UnityEngine.AddressableAssets.AssetReferenceSprite, Unity.Addressables",
       "m_AssetGUID": "",

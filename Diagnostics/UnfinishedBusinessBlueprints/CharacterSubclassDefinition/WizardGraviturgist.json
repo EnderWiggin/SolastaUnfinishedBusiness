@@ -4,17 +4,17 @@
     {
       "$type": "FeatureUnlockByLevel, Assembly-CSharp",
       "featureDefinition": "Definition:PowerWizardGraviturgistDensityDecrease:54c63225-a407-56a3-b385-951e49b831a9",
-      "level": 2
+      "level": 3
     },
     {
       "$type": "FeatureUnlockByLevel, Assembly-CSharp",
       "featureDefinition": "Definition:PowerWizardGraviturgistDensityIncrease:a05d27e4-6ba1-5ba8-bc28-9bb03d5f7016",
-      "level": 2
+      "level": 3
     },
     {
       "$type": "FeatureUnlockByLevel, Assembly-CSharp",
       "featureDefinition": "Definition:PowerWizardGraviturgistDensity:96177598-5836-5bf8-8cfc-b60925a95ea9",
-      "level": 2
+      "level": 3
     },
     {
       "$type": "FeatureUnlockByLevel, Assembly-CSharp",

@@ -64,7 +64,8 @@
     "closeRange": 5,
     "maxRange": 5,
     "weaponTags": [
-      "Versatile"
+      "Versatile",
+      "Push"
     ],
     "effectDescription": {
       "$type": "EffectDescription, Assembly-CSharp",

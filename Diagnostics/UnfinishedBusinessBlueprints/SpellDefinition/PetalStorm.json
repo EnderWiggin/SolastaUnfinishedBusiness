@@ -126,7 +126,7 @@
         "conditionForm": {
           "$type": "ConditionForm, Assembly-CSharp",
           "conditionDefinitionName": "ConditionHeavilyObscured",
-          "conditionDefinition": "Definition:ConditionHeavilyObscured:bbda507287384254486b0b0577d9899f",
+          "conditionDefinition": "Definition:ConditionBlindedByPetalStorm:919d6ea7-996f-5d48-914c-04f8b0f0235e",
           "operation": "Add",
           "conditionsList": [],
           "applyToSelf": false,

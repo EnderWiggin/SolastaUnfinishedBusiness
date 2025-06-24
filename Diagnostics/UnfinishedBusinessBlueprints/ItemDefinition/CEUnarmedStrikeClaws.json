@@ -1,14 +1,18 @@
 {
   "$type": "ItemDefinition, Assembly-CSharp",
-  "inDungeonEditor": false,
+  "inDungeonEditor": true,
   "merchantCategory": "Weapon",
   "weight": 0.0,
   "slotTypes": [
     "MainHandSlot",
-    "ContainerSlot"
+    "ContainerSlot",
+    "GlovesSlot",
+    "GlovesSlot"
   ],
   "slotsWhereActive": [
-    "MainHandSlot"
+    "MainHandSlot",
+    "GlovesSlot",
+    "GlovesSlot"
   ],
   "activeOnGround": false,
   "destroyedWhenUnequiped": false,
