@@ -1,6 +1,7 @@
 1.5.97.61:
-- added option to show spell icon with spell tooltip on that scrolls (Game Settings->GUI)
-- added option to add scrolls for all UB spells to appropriate shops  (ModUI->General->Items&Crafting and also ModUI->Character->Spells) 
+- added option to show spell icon with spell tooltip on that scrolls (Game Settings->GUI, enabled by default)
+- added option to add scrolls for all UB spells to appropriate shops (ModUI->General->Items&Crafting and also ModUI->Character->Spells) 
+- added option to add scrolls for all UB spells to appropriate treasure packs (ModUI->General->Items&Crafting and also ModUI->Character->Spells) 
 
 1.5.97.60:
 - preview push from Tempest Domain's Thunderous Strike if motion preview is enabled
