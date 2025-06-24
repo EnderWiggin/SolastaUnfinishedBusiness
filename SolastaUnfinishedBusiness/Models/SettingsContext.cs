@@ -83,6 +83,10 @@ public static class SettingsContext
             DisplayFooter = false)]
         [UsedImplicitly]
         float TooltipWidth { get; set; }
+        
+        [SettingTypeToggle("ShowSpellIconOnScrolls", SortOrder = 1023, DisplayFooter = false)]
+        [UsedImplicitly]
+        bool ShowSpellIconOnScrolls { get; set; }
 
         [SettingTypeToggle("UnlockAdditionalLoreFriendlyNames", SortOrder = 1031, DisplayFooter = false)]
         [UsedImplicitly]
@@ -154,6 +158,7 @@ public static class SettingsContext
         private bool _hideHelmets = UserPreferences.GetValue<bool>("Settings/Gui/HideHelmets");
         private bool _invertTooltipBehavior = UserPreferences.GetValue<bool>("Settings/Gui/InvertTooltipBehavior");
         private float _tooltipWidth = UserPreferences.GetValue<float>("Settings/Gui/TooltipWidth");
+        private bool _showSpellIconOnScrolls = UserPreferences.GetValue("Settings/Gui/ShowSpellIconOnScrolls", true);
 
         private bool _unlockAdditionalLoreFriendlyNames =
             UserPreferences.GetValue<bool>("Settings/Gui/UnlockAdditionalLoreFriendlyNames");
@@ -330,6 +335,16 @@ public static class SettingsContext
             {
                 _tooltipWidth = value;
                 UserPreferences.SetValue("Settings/Gui/TooltipWidth", _tooltipWidth);
+            }
+        }
+        
+        public bool ShowSpellIconOnScrolls
+        {
+            get => _showSpellIconOnScrolls;
+            set
+            {
+                _showSpellIconOnScrolls = value;
+                UserPreferences.SetValue("Settings/Gui/ShowSpellIconOnScrolls", _showSpellIconOnScrolls);
             }
         }
 

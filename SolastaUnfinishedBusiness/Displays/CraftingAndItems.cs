@@ -3,6 +3,7 @@ using System.Linq;
 using HarmonyLib;
 using SolastaUnfinishedBusiness.Api.LanguageExtensions;
 using SolastaUnfinishedBusiness.Api.ModKit;
+using SolastaUnfinishedBusiness.CustomUI;
 using SolastaUnfinishedBusiness.Models;
 using UnityEngine;
 
@@ -201,6 +202,12 @@ internal static class CraftingAndItems
 
         UI.Label();
 
+        toggle = Main.Settings.AddNewScrollsToShops;
+        if (UI.Toggle(Gui.Localize(Gui.Localize("ModUi/&AddNewScrollsToShops")), ref toggle, UI.AutoWidth()))
+        {
+            Main.Settings.AddNewScrollsToShops = toggle;
+        }
+        
         toggle = Main.Settings.AddCustomIconsToOfficialItems;
         if (UI.Toggle(Gui.Localize(Gui.Localize("ModUi/&AddCustomIconsToOfficialItems")), ref toggle, UI.AutoWidth()))
         {
@@ -492,8 +499,8 @@ internal static class CraftingAndItems
             .Where(x => ItemsItemTagsFilters[CurrentItemsItemTagsFilterIndex].Item2(x))
             .Where(x => ItemsWeaponTagsFilters[CurrentItemsWeaponTagsFilterIndex].Item2(x))
             .Where(x => service.IsContentPackAvailable(x.ContentPack))
-            .Where(x => string.IsNullOrEmpty(filter) || FormatTitle(x).ToLower().Contains(filter))
-            .OrderBy(FormatTitle);
+            .Where(x => string.IsNullOrEmpty(filter) || GuiItemTweaks.FormatTitle(x).ToLower().Contains(filter))
+            .OrderBy(GuiItemTweaks.FormatTitle);
 
         using var scrollView =
             new GUILayout.ScrollViewScope(ItemPosition, UI.AutoWidth(), UI.AutoHeight());
@@ -512,20 +519,8 @@ internal static class CraftingAndItems
                     },
                     UI.Width(30f));
 
-                UI.Label(FormatTitle(item), UI.AutoWidth());
+                UI.Label(GuiItemTweaks.FormatTitle(item), UI.AutoWidth());
             }
         }
-    }
-
-    private static string FormatTitle(ItemDefinition item)
-    {
-        if (item.IsWealthPile)
-        {
-            return item.WealthPileDescription.FormatTitle();
-        }
-
-        var label = Gui.Localize(item.GuiPresentation.Title);
-
-        return item.IsDocument ? item.DocumentDescription.FormatTitle(label) : label;
     }
 }

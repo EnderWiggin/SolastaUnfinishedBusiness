@@ -291,6 +291,7 @@ public class Settings : UnityModManager.ModSettings
     public int RecipeCost { get; set; } = 200;
     public int TotalCraftingTimeModifier { get; set; }
     public bool AddNewWeaponsAndRecipesToShops { get; set; }
+    public bool AddNewScrollsToShops { get; set; }
     public List<string> CraftingInStore { get; } = [];
 
     //

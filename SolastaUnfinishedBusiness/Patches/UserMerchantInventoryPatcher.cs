@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using HarmonyLib;
 using JetBrains.Annotations;
+using SolastaUnfinishedBusiness.ItemCrafting;
 using SolastaUnfinishedBusiness.Models;
 
 namespace SolastaUnfinishedBusiness.Patches;
@@ -18,6 +19,7 @@ public static class UserMerchantInventoryPatcher
         {
             //PATCH: supports adding custom items to dungeon maker traders
             MerchantContext.TryAddItemsToUserMerchant(__result);
+            ScrollsData.AddScrollsToMerchant(__result);
         }
     }
 }

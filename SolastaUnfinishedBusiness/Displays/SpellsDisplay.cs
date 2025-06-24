@@ -315,6 +315,13 @@ internal static class SpellsDisplay
             SpellsContext.RecalculateDisplayedSpells();
         }
 
+        toggle = Main.Settings.AddNewScrollsToShops;
+        if (UI.Toggle(Gui.Localize(Gui.Localize("ModUi/&AddNewScrollsToShops")), ref toggle,
+                UI.Width(ModUi.PixelsPerColumn)))
+        {
+            Main.Settings.AddNewScrollsToShops = toggle;
+        }
+
         UI.Label();
 
         using (UI.HorizontalScope())

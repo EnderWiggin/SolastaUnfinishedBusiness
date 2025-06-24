@@ -7,6 +7,7 @@ using SolastaUnfinishedBusiness.Builders;
 using SolastaUnfinishedBusiness.Classes;
 using SolastaUnfinishedBusiness.CustomUI;
 using SolastaUnfinishedBusiness.Displays;
+using SolastaUnfinishedBusiness.ItemCrafting;
 #if DEBUG
 using SolastaUnfinishedBusiness.DataMiner;
 #endif
@@ -125,6 +126,7 @@ internal static class BootContext
             InventorClass.LateLoadSpellStoringItem();
             LightingAndObscurementContext.LateLoad();
             GrappleContext.LateLoad();
+            ScrollsData.LateLoad();
 
             // Spell Points should load closer to the bottom after all other blueprints initiated
             SpellPointsContext.LateLoad();

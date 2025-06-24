@@ -2870,4 +2870,49 @@
       PublicKeyToken=b77a5c561934e089
     </value>
   </data>
+  <data name="ScrollLevel1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Items\ScrollLevel1.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral,
+        PublicKeyToken=b77a5c561934e089
+    </value>
+  </data>
+  <data name="ScrollLevel2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Items\ScrollLevel2.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral,
+        PublicKeyToken=b77a5c561934e089
+    </value>
+  </data>
+  <data name="ScrollLevel3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Items\ScrollLevel3.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral,
+        PublicKeyToken=b77a5c561934e089
+    </value>
+  </data>
+  <data name="ScrollLevel4" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Items\ScrollLevel4.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral,
+        PublicKeyToken=b77a5c561934e089
+    </value>
+  </data>
+  <data name="ScrollLevel5" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Items\ScrollLevel5.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral,
+        PublicKeyToken=b77a5c561934e089
+    </value>
+  </data>
+  <data name="ScrollLevel6" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Items\ScrollLevel6.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral,
+        PublicKeyToken=b77a5c561934e089
+    </value>
+  </data>
+  <data name="ScrollLevel7" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Items\ScrollLevel7.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral,
+        PublicKeyToken=b77a5c561934e089
+    </value>
+  </data>
+  <data name="ScrollLevel8" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Items\ScrollLevel8.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral,
+        PublicKeyToken=b77a5c561934e089
+    </value>
+  </data>
+  <data name="ScrollLevel9" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Items\ScrollLevel9.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral,
+        PublicKeyToken=b77a5c561934e089
+    </value>
+  </data>
 </root>

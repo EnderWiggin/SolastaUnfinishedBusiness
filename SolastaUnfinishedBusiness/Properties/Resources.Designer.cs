@@ -4495,6 +4495,96 @@ namespace SolastaUnfinishedBusiness.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
+        public static byte[] ScrollLevel1 {
+            get {
+                object obj = ResourceManager.GetObject("ScrollLevel1", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] ScrollLevel2 {
+            get {
+                object obj = ResourceManager.GetObject("ScrollLevel2", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] ScrollLevel3 {
+            get {
+                object obj = ResourceManager.GetObject("ScrollLevel3", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] ScrollLevel4 {
+            get {
+                object obj = ResourceManager.GetObject("ScrollLevel4", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] ScrollLevel5 {
+            get {
+                object obj = ResourceManager.GetObject("ScrollLevel5", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] ScrollLevel6 {
+            get {
+                object obj = ResourceManager.GetObject("ScrollLevel6", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] ScrollLevel7 {
+            get {
+                object obj = ResourceManager.GetObject("ScrollLevel7", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] ScrollLevel8 {
+            get {
+                object obj = ResourceManager.GetObject("ScrollLevel8", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] ScrollLevel9 {
+            get {
+                object obj = ResourceManager.GetObject("ScrollLevel9", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
         public static byte[] SearingSmite {
             get {
                 object obj = ResourceManager.GetObject("SearingSmite", resourceCulture);

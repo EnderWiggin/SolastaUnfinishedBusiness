@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using HarmonyLib;
 using JetBrains.Annotations;
+using SolastaUnfinishedBusiness.ItemCrafting;
 using SolastaUnfinishedBusiness.Models;
 using UnityEngine;
 using UnityEngine.UI;
@@ -71,12 +72,7 @@ public static class StockUnitLinePatcher
                 ? RecipeHelper.GetCraftedItem(__instance.StockUnit.ItemDefinition)
                 : null;
 
-            if (!crafted)
-            {
-                item.gameObject.SetActive(false);
-                __instance.itemImage.transform.localPosition = new Vector3(33, 0, 0);
-            }
-            else
+            if (crafted)
             {
                 item.gameObject.SetActive(true);
                 __instance.itemImage.transform.localPosition = new Vector3(58, 0, 0);
@@ -86,6 +82,24 @@ public static class StockUnitLinePatcher
                 if (Main.Settings.SwapCraftedItemAndRecipeIcons)
                 {
                     (img.sprite, __instance.itemImage.sprite) = (__instance.itemImage.sprite, img.sprite);
+                }
+            }
+            else
+            {
+                var spell = SettingsContext.GuiModManagerInstance.ShowSpellIconOnScrolls
+                    ? ScrollsData.GetScrollSpell(__instance.StockUnit.ItemDefinition)
+                    : null;
+                if (spell)
+                {
+                    item.gameObject.SetActive(true);
+                    __instance.itemImage.transform.localPosition = new Vector3(58, 0, 0);
+
+                    ScrollsData.SetupScrollSpellImage(item, spell);
+                }
+                else
+                {
+                    item.gameObject.SetActive(false);
+                    __instance.itemImage.transform.localPosition = new Vector3(33, 0, 0);
                 }
             }
         }
@@ -100,6 +114,7 @@ public static class StockUnitLinePatcher
         public static void Postfix(StockUnitLine __instance)
         {
             SetupCraftedItem(GetRecipeItem(__instance.factionIncompatibleGroup, true), null);
+            ScrollsData.SetupScrollSpellImage(GetRecipeItem(__instance.factionIncompatibleGroup, true), null);
         }
     }
 }
