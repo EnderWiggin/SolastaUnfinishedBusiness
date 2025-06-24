@@ -17,6 +17,7 @@ ModUi/&AddDarknessPerceptiveToDarkRaces=<color=#D89555>ダークエルフ</color
 ModUi/&AddDexModifierToEnemiesInitiativeRoll=敵に DEX 修飾子を追加する <color=#D89555>イニシアティブ ロール</color>
 ModUi/&AddHumanoidFavoredEnemyToRanger=<color=#D89555>ヒューマノイド</color>優先敵を有効にする <b><i><color=#C04040E0>[再起動が必要]</color></i></b>
 ModUi/&AddNewScrollsToShops=適切なショップに新しい呪文の巻物を追加<b> <i> <色=＃c04040e0> [再起動が必要] </color> </i> </b>
+ModUi/&AddNewScrollsToTreasure=適切なトレジャーパックに新しい呪文の巻物を追加<b> <i> <色=＃c04040e0> [再起動が必要] </color> </i> </b>
 ModUi/&AddNewWeaponsAndRecipesToShops=新しい武器とレシピをショップに追加します <i><color=#F0DAA0>[ハンドラップ、ハルバード、パイク、ロングメイス、ハンドクロスボウ]</color></i> <b><i><color=#C04040E0>[再起動が必要です]</color></i></b>
 ModUi/&AddPaladinSmiteToggle=<color=#D89555>パラディン</color>がクリティカルヒット時にのみスマイトを有効にするようにするトグルを追加します <i><color=#F0DAA0>[反応プロンプトを最小限に抑えるのに役立ちます]</color></i>
 ModUi/&AddPickPocketableLoot=スリ可能な戦利品を追加 <i><color=#F0DAA0>[<color=#D89555>スリ</color> 能力が有効になっている場合に推奨]</color></i>

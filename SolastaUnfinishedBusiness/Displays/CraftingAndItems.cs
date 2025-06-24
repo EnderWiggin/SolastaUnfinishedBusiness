@@ -207,6 +207,12 @@ internal static class CraftingAndItems
         {
             Main.Settings.AddNewScrollsToShops = toggle;
         }
+
+        toggle = Main.Settings.AddNewScrollsToTreasure;
+        if (UI.Toggle(Gui.Localize(Gui.Localize("ModUi/&AddNewScrollsToTreasure")), ref toggle, UI.AutoWidth()))
+        {
+            Main.Settings.AddNewScrollsToTreasure = toggle;
+        }
         
         toggle = Main.Settings.AddCustomIconsToOfficialItems;
         if (UI.Toggle(Gui.Localize(Gui.Localize("ModUi/&AddCustomIconsToOfficialItems")), ref toggle, UI.AutoWidth()))

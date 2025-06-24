@@ -17,6 +17,7 @@ ModUi/&AddDarknessPerceptiveToDarkRaces=Включить <color=#D89555>Восп
 ModUi/&AddDexModifierToEnemiesInitiativeRoll=Добавлять модификатор Ловкости к <color=#D89555>броскам Инициативы</color> противников
 ModUi/&AddHumanoidFavoredEnemyToRanger=Включить <color=#D89555>Гуманоидов</color> в список избранных врагов <b><i><color=#C04040E0>[Необходим перезапуск]</color></i></b>
 ModUi/&AddNewScrollsToShops=Добавьте прокрутки для новых заклинаний в соответствующие магазины <b> <i> <color =#C04040e0> [Требуется перезапуск] </color> </i> </b>
+ModUi/&AddNewScrollsToTreasure=Добавьте свитки для новых заклинаний в соответствующие пакеты сокровищ <b> <i> <color =#C04040e0> [требуется перезапуск] </color> </i> </b>
 ModUi/&AddNewWeaponsAndRecipesToShops=Добавить новые оружия и рецепты в магазины <i><color=#F0DAA0>[обмотки, алебарды, пики, длинные булавы, ручные арбалеты]</color></i> <b><i><color=#C04040E0>[Необходим перезапуск]</color></i></b>
 ModUi/&AddPaladinSmiteToggle=Добавить переключатель, чтобы позволить <color=#D89555>Паладинам</color> использовать кару только при критах <i><color=#F0DAA0>[полезно для уменьшения количества запросов на реакции]</color></i>
 ModUi/&AddPickPocketableLoot=Добавить лута для кражи <i><color=#F0DAA0>[рекомендуется, если черта <color=#D89555>Кража</color> включена]</color></i>

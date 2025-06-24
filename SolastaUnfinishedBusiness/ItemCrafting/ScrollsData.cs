@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using SolastaUnfinishedBusiness.Builders;
 using SolastaUnfinishedBusiness.CustomUI;
@@ -70,6 +71,11 @@ internal static class ScrollsData
             AddScrollsToMerchants();
         }
 
+        if (Main.Settings.AddNewScrollsToTreasure)
+        {
+            AddScrollsToTreasureTables();
+        }
+
         foreach (var item in DatabaseRepository.GetDatabase<ItemDefinition>())
         {
             if (!IsScrollItem(item)) { continue; }
@@ -83,6 +89,63 @@ internal static class ScrollsData
         foreach (var merchant in DatabaseRepository.GetDatabase<MerchantDefinition>())
         {
             AddScrollsToMerchant(merchant);
+        }
+    }
+
+    private static void AddScrollsToTreasureTables()
+    {
+        Dictionary<int, TreasureData> dataByLevel = [];
+        foreach (var treasure in DatabaseRepository.GetDatabase<TreasureTableDefinition>())
+        {
+            dataByLevel.Clear();
+            foreach (var option in treasure.TreasureOptions)
+            {
+                if (!IsScrollItem(option.ItemDefinition)) { continue; }
+
+                var spell = GetScrollSpell(option.ItemDefinition);
+
+                if (!dataByLevel.TryGetValue(spell.SpellLevel, out var data))
+                {
+                    data = new TreasureData();
+                    dataByLevel.Add(spell.SpellLevel, data);
+                }
+
+                data.amount += option.amount;
+                data.odds += option.odds;
+                data.count++;
+            }
+
+            foreach (var pair in dataByLevel)
+            {
+                var level = pair.Key;
+                var data = pair.Value;
+
+                var amount = (int)Math.Round((float)data.amount / data.count);
+                var odds = (int)Math.Round((float)data.odds / data.count);
+
+                foreach (var scroll in ScrollsByLevel[level])
+                {
+                    treasure.TreasureOptions.Add(new TreasureOption
+                    {
+                        itemDefinition = scroll,
+                        amount = amount,
+                        odds = odds
+                    });
+                }
+
+                if (level == 8)
+                {
+                    foreach (var scroll in ScrollsByLevel[9])
+                    {
+                        treasure.TreasureOptions.Add(new TreasureOption
+                        {
+                            itemDefinition = scroll,
+                            amount = amount,
+                            odds = odds
+                        });
+                    }
+                }
+            }
         }
     }
 
@@ -108,7 +171,7 @@ internal static class ScrollsData
             if (stockByLevel.ContainsKey(spellLevel)) { continue; }
 
             stockByLevel[spellLevel] = stock;
-            
+
             //Since no vanilla shop has 9th level scrolls, add them alongside 8th level ones
             if (spellLevel == 8) { stockByLevel[9] = stock; }
         }
@@ -223,4 +286,11 @@ internal static class ScrollsData
                 }))
             .AddToDB();
     }
+}
+
+record TreasureData
+{
+    internal int amount;
+    internal int odds;
+    internal int count;
 }

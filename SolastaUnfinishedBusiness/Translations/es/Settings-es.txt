@@ -17,6 +17,7 @@ ModUi/&AddDarknessPerceptiveToDarkRaces=Habilita <color=#D89555>Percepción de l
 ModUi/&AddDexModifierToEnemiesInitiativeRoll=Añade el modificador DEX a los enemigos <color=#D89555>Tiro de iniciativa</color>
 ModUi/&AddHumanoidFavoredEnemyToRanger=Habilitar enemigos preferidos <color=#D89555>humanoides</color> <b><i><color=#C04040E0>[Requiere reinicio]</color></i></b>
 ModUi/&AddNewScrollsToShops=Agregue pergaminos para nuevos hechizos a las tiendas apropiadas <b> <i> <color =#C04040E0> [Requiere reiniciar] </ color> </i> </b>
+ModUi/&AddNewScrollsToTreasure=Agregue los pergaminos para nuevos hechizos a los paquetes de tesoros apropiados <b> <i> <color =#C04040E0> [Requiere reiniciar] </color> </i> </b>
 ModUi/&AddNewWeaponsAndRecipesToShops=Añade nuevas armas y recetas a las tiendas <i><color=#F0DAA0>[vendas de mano, alabardas, picas, mazas largas, ballestas de mano]</color></i> <b><i><color=#C04040E0>[Requiere reinicio]</color></i></b>
 ModUi/&AddPaladinSmiteToggle=Agregar un interruptor para permitir que los <color=#D89555>Paladines</color> solo habiliten golpes críticos. <i><color=#F0DAA0>[útil para minimizar las solicitudes de reacción]</color></i>
 ModUi/&AddPickPocketableLoot=Añadir botín hurtable <i><color=#F0DAA0>[sugerido si la dote <color=#D89555>Hurto</color> está habilitada]</color></i>

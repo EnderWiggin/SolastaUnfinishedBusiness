@@ -322,6 +322,13 @@ internal static class SpellsDisplay
             Main.Settings.AddNewScrollsToShops = toggle;
         }
 
+        toggle = Main.Settings.AddNewScrollsToTreasure;
+        if (UI.Toggle(Gui.Localize(Gui.Localize("ModUi/&AddNewScrollsToTreasure")), ref toggle,
+                UI.Width(ModUi.PixelsPerColumn)))
+        {
+            Main.Settings.AddNewScrollsToTreasure = toggle;
+        }
+
         UI.Label();
 
         using (UI.HorizontalScope())

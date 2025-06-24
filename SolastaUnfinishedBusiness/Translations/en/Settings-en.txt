@@ -7,6 +7,7 @@ ModUi/&AddDarknessPerceptiveToDarkRaces=Enable <color=#D89555>Darkness Perceptiv
 ModUi/&AddDexModifierToEnemiesInitiativeRoll=Add DEX modifier to enemies <color=#D89555>Initiative Roll</color>
 ModUi/&AddHumanoidFavoredEnemyToRanger=Enable <color=#D89555>Humanoid</color> preferred enemies <b><i><color=#C04040E0>[Requires Restart]</color></i></b>
 ModUi/&AddNewScrollsToShops=Add scrolls for new spells to appropriate shops <b><i><color=#C04040E0>[Requires Restart]</color></i></b>
+ModUi/&AddNewScrollsToTreasure=Add scrolls for new spells to appropriate treasure packs <b><i><color=#C04040E0>[Requires Restart]</color></i></b>
 ModUi/&AddNewWeaponsAndRecipesToShops=Add new weapons and recipes to shops <i><color=#F0DAA0>[hand wraps, halberds, pikes, long maces, hand crossbows]</color></i> <b><i><color=#C04040E0>[Requires Restart]</color></i></b>
 ModUi/&AddPaladinSmiteToggle=Add a toggle to allow <color=#D89555>Paladins</color> to only enable smites on critical hits <i><color=#F0DAA0>[useful to minimize reaction prompts]</color></i>
 ModUi/&AddPickPocketableLoot=Add pickpocketable loot <i><color=#F0DAA0>[suggested if <color=#D89555>Pickpocket</color> feat is enabled]</color></i>
