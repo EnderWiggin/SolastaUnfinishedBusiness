@@ -163,7 +163,8 @@ internal static class SubclassesContext
         {
             FeatureDefinitionCastSpells.CastSpellMartialSpellBlade.RestrictedSchools.SetRange(
                 SchoolConjuration,
-                SchoolEnchantement,
+                //RuleDefinitions has wrong constant for Enchantment school
+                SchoolOfMagicDefinitions.SchoolEnchantment.Name,
                 SchoolEvocation,
                 SchoolTransmutation);
         }
