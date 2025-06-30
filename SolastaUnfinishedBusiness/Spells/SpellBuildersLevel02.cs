@@ -1135,10 +1135,8 @@ internal static partial class SpellBuilders
             }
 
             var rulesetAttacker = action.ActingCharacter.RulesetCharacter;
-            var spellCastingAbility = rulesetEffectSpell.SpellRepertoire.SpellCastingAbility;
 
-            _spellCastingAbilityModifier = AttributeDefinitions.ComputeAbilityScoreModifier(
-                rulesetAttacker.TryGetAttributeValue(spellCastingAbility));
+            _spellCastingAbilityModifier = rulesetEffectSpell.ComputeSourceAbilityBonus(rulesetAttacker);
 
             var rulesetTarget = _target.RulesetCharacter;
 
