@@ -6,6 +6,8 @@ using System.Reflection.Emit;
 using HarmonyLib;
 using JetBrains.Annotations;
 using SolastaUnfinishedBusiness.Api.Helpers;
+using SolastaUnfinishedBusiness.CustomUI;
+using static ConsoleStyleDuplet;
 
 namespace SolastaUnfinishedBusiness.Patches;
 
@@ -35,7 +37,7 @@ public static class GameConsolePatcher
             {
                 foreach (var parameter in entry.Parameters
                              .Where(parameter =>
-                                 parameter.parameterType == (int)ConsoleStyleDuplet.ParameterType.AttackSpellPower)
+                                 parameter.parameterType == (int)ParameterType.AttackSpellPower)
                              .Where(parameter =>
                                  string.IsNullOrEmpty(parameter.tooltipContent) &&
                                  string.IsNullOrEmpty(parameter.tooltipClass))
@@ -75,13 +77,54 @@ public static class GameConsolePatcher
 
             var entry = new GameConsoleEntry(prompt, __instance.consoleTableDefinition) { Indent = true };
 
-            entry.AddParameter(ConsoleStyleDuplet.ParameterType.AttackSpellPower,
+            entry.AddParameter(ParameterType.AttackSpellPower,
                 Gui.Localize(feature.GuiPresentation.Title), tooltipContent: feature.guiPresentation.Description);
             __instance.AddCharacterEntry(character, entry);
-            entry.AddParameter(ConsoleStyleDuplet.ParameterType.Positive, reductionAmount.ToString());
-            entry.AddParameter(ConsoleStyleDuplet.ParameterType.Initiative, types, tooltipContent: typeNames);
+            entry.AddParameter(ParameterType.Positive, reductionAmount.ToString());
+            entry.AddParameter(ParameterType.Initiative, types, tooltipContent: typeNames);
 
             __instance.AddEntry(entry);
+
+            return false;
+        }
+    }
+
+
+    [HarmonyPatch(typeof(GameConsole), nameof(GameConsole.ItemUsed))]
+    [SuppressMessage("Minor Code Smell", "S101:Types should be named in PascalCase", Justification = "Patch")]
+    [UsedImplicitly]
+    public static class ItemUsed_Patch
+    {
+        [UsedImplicitly]
+        public static bool Prefix(GameConsole __instance,
+            RulesetCharacter character,
+            RulesetItemDevice usableDevice,
+            RulesetDeviceFunction deviceFunction,
+            int additionalCharges)
+        {
+            var itemTitle = GuiItemTweaks.FormatTitle(usableDevice.ItemDefinition);
+            if (deviceFunction.DeviceFunctionDescription.Type == DeviceFunctionDescription.FunctionType.Spell)
+            {
+                var entry = new GameConsoleEntry(GameConsole.ItemUsedSpellCastLine, __instance.consoleTableDefinition);
+                __instance.AddCharacterEntry(character, entry);
+                var spell = deviceFunction.DeviceFunctionDescription.SpellDefinition;
+
+                entry.AddParameter(ParameterType.AttackSpellPower, itemTitle,
+                    tooltipContent: usableDevice.ItemDefinition.Name,
+                    tooltipClass: GuiItemDefinition.TooltipClassItemDefinition);
+                entry.AddParameter(ParameterType.AttackSpellPower, spell.GuiPresentation.Title,
+                    tooltipContent: spell.Name, tooltipClass: GuiSpellDefinition.TooltipClassSpellDefinition);
+                __instance.AddEntry(entry);
+            }
+            else
+            {
+                var entry = new GameConsoleEntry(GameConsole.ItemUsedLine, __instance.consoleTableDefinition);
+                __instance.AddCharacterEntry(character, entry);
+                entry.AddParameter(ParameterType.AttackSpellPower, itemTitle,
+                    tooltipContent: usableDevice.ItemDefinition.Name,
+                    tooltipClass: GuiItemDefinition.TooltipClassItemDefinition);
+                __instance.AddEntry(entry);
+            }
 
             return false;
         }
