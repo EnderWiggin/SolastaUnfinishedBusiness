@@ -35,6 +35,8 @@ public sealed class CircleOfTheCosmos : AbstractSubclass
         $"Condition{Name}Dragon", $"Condition{Name}Dragon10", $"Condition{Name}Dragon14"
     ];
 
+    internal static readonly FeatureDefinitionPower PowerStarryForm = BuildStarryForm();
+
     public CircleOfTheCosmos()
     {
         // LEVEL 02
@@ -74,19 +76,9 @@ public sealed class CircleOfTheCosmos : AbstractSubclass
 
         // Constellation Form
 
-        var powerConstellationForm = FeatureDefinitionPowerBuilder
-            .Create($"Power{Name}ConstellationForm")
-            .SetGuiPresentation($"FeatureSet{Name}ConstellationForm", Category.Feature,
-                Sprites.GetSprite("ConstellationForm", Resources.PowerConstellationForm, 256, 128))
-            .SetUsesFixed(ActivationTime.BonusAction, RechargeRate.ShortRest, 1, 2)
-            .AddToDB();
-
-        powerConstellationForm.AddCustomSubFeatures(
-            new MagicEffectFinishedByMeConstellationForm(powerConstellationForm));
-
-        var powerArcherConstellationForm = BuildArcher(ActivationTime.BonusAction, powerConstellationForm);
-        var powerChaliceConstellationForm = BuildChalice(ActivationTime.BonusAction, powerConstellationForm);
-        var powerDragonConstellationForm = BuildDragon(ActivationTime.BonusAction, powerConstellationForm);
+        var powerArcherConstellationForm = BuildArcher(ActivationTime.BonusAction, PowerStarryForm);
+        var powerChaliceConstellationForm = BuildChalice(ActivationTime.BonusAction, PowerStarryForm);
+        var powerDragonConstellationForm = BuildDragon(ActivationTime.BonusAction, PowerStarryForm);
         var powerDisableConstellationForm = FeatureDefinitionPowerBuilder
             .Create($"Power{Name}DisableConstellationForm")
             .SetGuiPresentation(Category.Feature,
@@ -114,7 +106,7 @@ public sealed class CircleOfTheCosmos : AbstractSubclass
             .Create($"FeatureSet{Name}ConstellationForm")
             .SetGuiPresentation(Category.Feature)
             .SetFeatureSet(
-                powerConstellationForm,
+                PowerStarryForm,
                 powerDisableConstellationForm,
                 powerArcherConstellationForm,
                 powerChaliceConstellationForm,
@@ -122,7 +114,7 @@ public sealed class CircleOfTheCosmos : AbstractSubclass
             .AddToDB();
 
         PowerBundle.RegisterPowerBundle(
-            powerConstellationForm,
+            PowerStarryForm,
             false,
             powerArcherConstellationForm,
             powerChaliceConstellationForm,
@@ -312,6 +304,28 @@ public sealed class CircleOfTheCosmos : AbstractSubclass
             .AddFeaturesAtLevel(10, featureSetTwinklingStars)
             .AddFeaturesAtLevel(14, featureNovaStar)
             .AddToDB();
+    }
+
+    private static FeatureDefinitionPower BuildStarryForm()
+    {
+        var power = FeatureDefinitionPowerBuilder
+            .Create($"Power{Name}ConstellationForm")
+            .SetGuiPresentation($"FeatureSet{Name}ConstellationForm", Category.Feature,
+                Sprites.GetSprite("ConstellationForm", Resources.PowerConstellationForm, 256, 128))
+            .SetUsesFixed(ActivationTime.BonusAction, RechargeRate.ShortRest, 1, 2)
+            .AddToDB();
+
+        power.AddCustomSubFeatures(
+            new MagicEffectFinishedByMeConstellationForm(power),
+            HasModifiedUses.Marker,
+            new ModifyPowerPoolAmount
+            {
+                PowerPool = power,
+                Type = PowerPoolBonusCalculationType.Wildshape2024,
+                Attribute = DruidClass
+            });
+
+        return power;
     }
 
     internal override CharacterClassDefinition Klass => Druid;

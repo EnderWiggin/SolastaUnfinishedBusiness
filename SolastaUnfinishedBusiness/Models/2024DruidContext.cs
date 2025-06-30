@@ -418,6 +418,7 @@ internal static partial class Tabletop2024Context
             PowerDruidWildShape.activationTime = ActivationTime.BonusAction;
             PowerDruidWildShape.rechargeRate = RechargeRate.LongRest;
             PowerDruidWildShape.GuiPresentation.description = "Feature/&PowerDruidWildShapeAlternateDescription";
+            CircleOfTheCosmos.PowerStarryForm.rechargeRate = RechargeRate.LongRest;
         }
         else
         {
@@ -425,6 +426,7 @@ internal static partial class Tabletop2024Context
             PowerDruidWildShape.activationTime = ActivationTime.Action;
             PowerDruidWildShape.rechargeRate = RechargeRate.ShortRest;
             PowerDruidWildShape.GuiPresentation.description = "Feature/&PowerDruidWildShapeDescription";
+            CircleOfTheCosmos.PowerStarryForm.rechargeRate = RechargeRate.ShortRest;
         }
     }
 
