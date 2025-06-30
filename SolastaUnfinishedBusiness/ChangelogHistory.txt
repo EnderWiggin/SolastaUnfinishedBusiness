@@ -1,3 +1,9 @@
+1.5.97.62:
+- fixed Way of Storm's `Tempest Fury` AoE attack using wrong attack mode
+- fixed crash when using Scroll of Wither and Bloom
+- fixed formatting of UB scroll usage in the game log
+- show tooltip for used item and resulting spell in game log
+
 1.5.97.61:
 - added option to show spell icon with spell tooltip on that scrolls (Game Settings->GUI, enabled by default)
 - added option to add scrolls for all UB spells to appropriate shops (ModUI->General->Items&Crafting and also ModUI->Character->Spells) 
