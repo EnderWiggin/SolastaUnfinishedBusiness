@@ -243,7 +243,7 @@ internal static partial class Tabletop2024Context
         var powers = new List<FeatureDefinitionPower>();
         var powerPrimalStrike = FeatureDefinitionPowerBuilder
             .Create("PowerDruidElementalFury")
-            .SetGuiPresentation(Category.Feature, hidden: true)
+            .SetGuiPresentation(Category.Feature, hidden: false)
             .SetShowCasting(false)
             .SetEffectDescription(
                 EffectDescriptionBuilder
@@ -277,6 +277,7 @@ internal static partial class Tabletop2024Context
                 .SetGuiPresentationNoContent(true)
                 .SetSilent(Silent.WhenAddedOrRemoved)
                 .SetFeatures(additionalDamageElementalFury)
+                .SetSpecialInterruptions(ConditionInterruption.Attacks)
                 .AddToDB();
 
             var damageTitle = Gui.Localize($"Tooltip/&Tag{damageType}Title");
@@ -518,23 +519,8 @@ internal static partial class Tabletop2024Context
     }
 
     private sealed class CustomBehaviorElementalFury(FeatureDefinitionPower powerElementalFury)
-        : IPhysicalAttackBeforeHitConfirmedOnEnemy, IMagicEffectBeforeHitConfirmedOnEnemy
+        : IPhysicalAttackBeforeHitConfirmedOnEnemy
     {
-        public IEnumerator OnMagicEffectBeforeHitConfirmedOnEnemy(
-            GameLocationBattleManager battleManager,
-            GameLocationCharacter attacker,
-            GameLocationCharacter defender,
-            ActionModifier actionModifier,
-            RulesetEffect rulesetEffect,
-            List<EffectForm> actualEffectForms,
-            bool firstTarget, bool criticalHit)
-        {
-            if (rulesetEffect.EffectDescription.NeedsToRollDie())
-            {
-                yield return HandleReaction(attacker, battleManager);
-            }
-        }
-
         public IEnumerator OnPhysicalAttackBeforeHitConfirmedOnEnemy(
             GameLocationBattleManager battleManager,
             GameLocationCharacter attacker,
@@ -547,10 +533,12 @@ internal static partial class Tabletop2024Context
             bool firstTarget,
             bool criticalHit)
         {
-            if (ValidatorsWeapon.IsMelee(attackMode))
+            if (attackMode?.SourceDefinition is ItemDefinition item && ValidatorsWeapon.IsUnarmed(item))
             {
-                yield return HandleReaction(attacker, battleManager);
+                yield break;
             }
+
+            yield return HandleReaction(attacker, battleManager);
         }
 
         private IEnumerator HandleReaction(GameLocationCharacter attacker, GameLocationBattleManager battleManager)

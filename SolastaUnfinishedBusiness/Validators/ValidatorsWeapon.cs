@@ -137,7 +137,7 @@ internal static class ValidatorsWeapon
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private static bool IsUnarmed([CanBeNull] ItemDefinition itemDefinition)
+    internal static bool IsUnarmed([CanBeNull] ItemDefinition itemDefinition)
     {
         if (!itemDefinition)
         {
