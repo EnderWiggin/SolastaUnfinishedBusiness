@@ -243,7 +243,7 @@ internal static partial class Tabletop2024Context
         var powers = new List<FeatureDefinitionPower>();
         var powerPrimalStrike = FeatureDefinitionPowerBuilder
             .Create("PowerDruidElementalFury")
-            .SetGuiPresentation(Category.Feature, hidden: false)
+            .SetGuiPresentation(Category.Feature)
             .SetShowCasting(false)
             .SetEffectDescription(
                 EffectDescriptionBuilder
@@ -253,7 +253,10 @@ internal static partial class Tabletop2024Context
                     .Build())
             .AddToDB();
 
-        powerPrimalStrike.AddCustomSubFeatures(new CustomBehaviorElementalFury(powerPrimalStrike));
+        powerPrimalStrike.AddCustomSubFeatures(
+            new CustomBehaviorElementalFury(powerPrimalStrike),
+            ModifyPowerVisibility.Hidden
+        );
 
         // ReSharper disable once LoopCanBeConvertedToQuery
         foreach (var (damageType, effect) in damageTypes)
