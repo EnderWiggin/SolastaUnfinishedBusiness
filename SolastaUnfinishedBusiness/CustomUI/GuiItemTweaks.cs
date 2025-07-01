@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using SolastaUnfinishedBusiness.ItemCrafting;
 using SolastaUnfinishedBusiness.Models;
+using static RuleDefinitions;
 
 namespace SolastaUnfinishedBusiness.CustomUI;
 
@@ -74,6 +76,13 @@ internal static class GuiItemTweaks
         if (item.IsAmmunition)
         {
             parts.Add(Gui.Localize(GuiItemDefinition.itemTypeAmmunitionTitle));
+
+            var effect = item.AmmunitionDescription.EffectDescription;
+            if (effect.HasSavingThrow
+                && effect.DifficultyClassComputation == EffectDifficultyClassComputation.FixedValue)
+            {
+                parts.Add(Gui.FormatDC(effect.FixedSavingThrowDifficultyClass));
+            }
         }
 
         if (item.IsTool)
@@ -102,11 +111,50 @@ internal static class GuiItemTweaks
                 $"Equipment/&ItemTypeSpellFocusSubtype{item.FocusItemDescription.FocusType}Title"));
         }
 
+        if (item.IsUsableDevice)
+        {
+            var device = item.UsableDeviceDescription;
+            if (device.UsableDeviceTags.Contains(GameConstants.TagPoison))
+            {
+                parts.Add(Gui.Localize("Tooltip/&TagPoisonTitle"));
+                var dc = FindPoisonDC(device);
+                if (dc > 0) { parts.Add(Gui.FormatDC(dc)); }
+            }
+        }
+
         if (item.IsSpellbook)
         {
             parts.Add(Gui.Localize(GuiItemDefinition.itemTypeSpellbookTitle));
         }
 
         return string.Join(Gui.ListSeparator(), parts);
+    }
+
+    private static int FindPoisonDC(UsableDeviceDescription device)
+    {
+        foreach (var function in device.DeviceFunctions)
+        {
+            var power = function.featureDefinitionPower;
+            if (!power) { continue; }
+
+            foreach (var form in power.EffectDescription.EffectForms)
+            {
+                if (form.FormType != EffectForm.EffectFormType.ItemProperty)
+                {
+                    continue;
+                }
+
+                foreach (var feature in form.ItemPropertyForm.FeatureBySlotLevel.Select(x => x.FeatureDefinition)
+                             .OfType<FeatureDefinitionAdditionalDamage>())
+                {
+                    if (feature.HasSavingThrow && feature.DcComputation == EffectDifficultyClassComputation.FixedValue)
+                    {
+                        return feature.SavingThrowDC;
+                    }
+                }
+            }
+        }
+
+        return 0;
     }
 }
