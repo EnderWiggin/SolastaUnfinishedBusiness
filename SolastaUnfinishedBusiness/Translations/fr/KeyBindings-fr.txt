@@ -52,6 +52,7 @@ Setting/&SelectCharacter5Title=Sélectionnez le personnage 5
 Setting/&SelectCharacter6Title=Sélectionnez le personnage 6
 Setting/&ShowSpellIconOnScrollsDescription=Affichera l'icône de sort avec une infraction à ouvrage dans un coin de tous les parchemins.
 Setting/&ShowSpellIconOnScrollsTitle=Afficher l'icône des sorts sur les parchemins.
+Setting/&ShowWeaponTypeInTooltipTitle=Afficher le type d'arme dans l'influence
 Setting/&SpawnEncounterDescription=Vous permet de générer l'ensemble de rencontres dans l'onglet Rencontres de l'interface utilisateur du mod.
 Setting/&SpawnEncounterTitle=Rencontre de spawn
 Setting/&TeleportPartyDescription=Vous permet de téléporter le groupe à l'emplacement au centre de l'écran.

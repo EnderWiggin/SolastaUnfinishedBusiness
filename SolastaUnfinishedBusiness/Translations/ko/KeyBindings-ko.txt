@@ -52,6 +52,7 @@ Setting/&SelectCharacter5Title=캐릭터 선택 5
 Setting/&SelectCharacter6Title=캐릭터 선택 6
 Setting/&ShowSpellIconOnScrollsDescription=모든 스크롤의 모서리에 주문 툴팁이있는 주문 아이콘이 표시됩니다.
 Setting/&ShowSpellIconOnScrollsTitle=두루마리에 주문 아이콘을 표시하십시오.
+Setting/&ShowWeaponTypeInTooltipTitle=툴팁에서 무기 유형을 표시하십시오
 Setting/&SpawnEncounterDescription=Mod UI Encounters 탭에서 설정된 만남을 생성할 수 있습니다.
 Setting/&SpawnEncounterTitle=스폰 인카운터
 Setting/&TeleportPartyDescription=파티를 화면 중앙의 위치로 순간이동시킬 수 있습니다.

@@ -52,6 +52,7 @@ Setting/&SelectCharacter5Title=选择角色 5
 Setting/&SelectCharacter6Title=选择角色 6
 Setting/&ShowSpellIconOnScrollsDescription=将在所有卷轴的角落中显示带有咒语工具提示的法术图标。
 Setting/&ShowSpellIconOnScrollsTitle=在卷轴上显示咒语图标。
+Setting/&ShowWeaponTypeInTooltipTitle=在工具提示中显示武器类型
 Setting/&SpawnEncounterDescription=允许您在 Mod UI 遭遇选项卡上生成遭遇集。
 Setting/&SpawnEncounterTitle=重生遭遇
 Setting/&TeleportPartyDescription=允许您将派对传送到屏幕中心的位置。

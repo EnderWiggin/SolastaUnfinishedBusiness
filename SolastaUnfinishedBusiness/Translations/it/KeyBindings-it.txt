@@ -52,6 +52,7 @@ Setting/&SelectCharacter5Title=Seleziona il personaggio 5
 Setting/&SelectCharacter6Title=Seleziona il personaggio 6
 Setting/&ShowSpellIconOnScrollsDescription=Mostrerà l'icona degli incantesimi con titoli di incantesimi in un angolo di tutte le pergamene.
 Setting/&ShowSpellIconOnScrollsTitle=Mostra l'icona dell'incantesimo su pergamene.
+Setting/&ShowWeaponTypeInTooltipTitle=Mostra il tipo di arma in tooltip
 Setting/&SpawnEncounterDescription=Ti consente di generare il set di incontri nella scheda Incontri dell'interfaccia utente della Mod.
 Setting/&SpawnEncounterTitle=Incontro di spawn
 Setting/&TeleportPartyDescription=Permette di teletrasportare il gruppo nella posizione al centro dello schermo.

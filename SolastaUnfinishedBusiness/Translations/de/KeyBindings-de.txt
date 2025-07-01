@@ -52,6 +52,7 @@ Setting/&SelectCharacter5Title=Wähle Charakter 5
 Setting/&SelectCharacter6Title=Wähle Charakter 6
 Setting/&ShowSpellIconOnScrollsDescription=Zeigt Zaubersymbol mit Zaubertooltip in einer Ecke aller Schriftrollen an.
 Setting/&ShowSpellIconOnScrollsTitle=Zeigen Sie Zaubersymbol auf Schriftrollen.
+Setting/&ShowWeaponTypeInTooltipTitle=Waffenentyp in Tooltip zeigen
 Setting/&SpawnEncounterDescription=Ermöglicht Ihnen, den Begegnungssatz auf der Registerkarte „Mod-UI-Begegnungen“ zu erzeugen.
 Setting/&SpawnEncounterTitle=Begegnung spawnen
 Setting/&TeleportPartyDescription=Ermöglicht Ihnen, die Gruppe zum Standort in der Bildschirmmitte zu teleportieren.

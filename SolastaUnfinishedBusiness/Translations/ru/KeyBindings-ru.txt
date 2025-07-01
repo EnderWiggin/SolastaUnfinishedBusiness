@@ -52,6 +52,7 @@ Setting/&SelectCharacter5Title=Выбрать пятого персонажа
 Setting/&SelectCharacter6Title=Выбрать шестого персонажа
 Setting/&ShowSpellIconOnScrollsDescription=Покраснется значок заклинания с подсказкой для подсказки заклинаний в углу всех свитков.
 Setting/&ShowSpellIconOnScrollsTitle=Показать значок заклинания на свитках.
+Setting/&ShowWeaponTypeInTooltipTitle=Показать тип оружия в подъеме инструментов
 Setting/&SpawnEncounterDescription=Позволяет вызвать набор событий из вкладки События в интерфейсе мода.
 Setting/&SpawnEncounterTitle=Вызвать событие
 Setting/&TeleportPartyDescription=Позволяет телепортировать группу в место в центре экрана.

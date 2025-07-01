@@ -80,11 +80,15 @@ public static class SettingsContext
         bool InvertTooltipBehavior { get; set; }
 
         [SettingTypeSlider("TooltipWidth", SortOrder = 1022, MinValue = 1f, MaxValue = 2f, Default = 1f, Format = "0.0",
-            DisplayFooter = false)]
+            DisplayFooter = true)]
         [UsedImplicitly]
         float TooltipWidth { get; set; }
-        
-        [SettingTypeToggle("ShowSpellIconOnScrolls", SortOrder = 1023, DisplayFooter = false)]
+
+        [SettingTypeToggle("ShowWeaponTypeInTooltip", SortOrder = 1023, DisplayFooter = false)]
+        [UsedImplicitly]
+        bool ShowWeaponTypeInTooltip { get; set; }
+
+        [SettingTypeToggle("ShowSpellIconOnScrolls", SortOrder = 1024, DisplayFooter = false)]
         [UsedImplicitly]
         bool ShowSpellIconOnScrolls { get; set; }
 
@@ -159,6 +163,7 @@ public static class SettingsContext
         private bool _invertTooltipBehavior = UserPreferences.GetValue<bool>("Settings/Gui/InvertTooltipBehavior");
         private float _tooltipWidth = UserPreferences.GetValue<float>("Settings/Gui/TooltipWidth");
         private bool _showSpellIconOnScrolls = UserPreferences.GetValue("Settings/Gui/ShowSpellIconOnScrolls", true);
+        private bool _showWeaponTypeInTooltip = UserPreferences.GetValue("Settings/Gui/ShowWeaponTypeInTooltip", true);
 
         private bool _unlockAdditionalLoreFriendlyNames =
             UserPreferences.GetValue<bool>("Settings/Gui/UnlockAdditionalLoreFriendlyNames");
@@ -345,6 +350,16 @@ public static class SettingsContext
             {
                 _showSpellIconOnScrolls = value;
                 UserPreferences.SetValue("Settings/Gui/ShowSpellIconOnScrolls", _showSpellIconOnScrolls);
+            }
+        }
+        
+        public bool ShowWeaponTypeInTooltip
+        {
+            get => _showWeaponTypeInTooltip;
+            set
+            {
+                _showWeaponTypeInTooltip = value;
+                UserPreferences.SetValue("Settings/Gui/ShowWeaponTypeInTooltip", _showWeaponTypeInTooltip);
             }
         }
 
