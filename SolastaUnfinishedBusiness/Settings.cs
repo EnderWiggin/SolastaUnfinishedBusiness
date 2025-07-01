@@ -51,6 +51,7 @@ public class Settings : UnityModManager.ModSettings
     public bool DisplayFightingStylesToggle { get; set; }
     public bool DisplayInvocationsToggle { get; set; }
     public bool DisplayMetamagicToggle { get; set; }
+    public bool DisplayItemsGeneralToggle { get; set; }
     public bool DisplayCraftingToggle { get; set; }
     public bool DisplayItemsToggle { get; set; }
     public bool DisplayBackgroundsAndRacesGeneralToggle { get; set; }

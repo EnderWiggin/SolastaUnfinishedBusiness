@@ -78,9 +78,29 @@ internal static class CraftingAndItems
         UI.Label();
         UI.Label();
 
-        #region Item
+        DisplayGeneral();
+        DisplayCrafting();
+        DisplayItems();
 
-        var toggle = Main.Settings.AllowAnyClassToUseArcaneShieldstaff;
+        UI.Label();
+    }
+
+    private static void DisplayGeneral()
+    {
+        var toggle = Main.Settings.DisplayItemsGeneralToggle;
+        if (UI.DisclosureToggle(Gui.Localize("ModUi/&General"), ref toggle, 200))
+        {
+            Main.Settings.DisplayItemsGeneralToggle = toggle;
+        }
+
+        if (!Main.Settings.DisplayItemsGeneralToggle)
+        {
+            return;
+        }
+
+        UI.Label();
+        
+        toggle = Main.Settings.AllowAnyClassToUseArcaneShieldstaff;
         if (UI.Toggle(Gui.Localize("ModUi/&ArcaneShieldstaffOptions"), ref toggle, UI.AutoWidth()))
         {
             Main.Settings.AllowAnyClassToUseArcaneShieldstaff = toggle;
@@ -213,7 +233,7 @@ internal static class CraftingAndItems
         {
             Main.Settings.AddNewScrollsToTreasure = toggle;
         }
-        
+
         toggle = Main.Settings.AddCustomIconsToOfficialItems;
         if (UI.Toggle(Gui.Localize(Gui.Localize("ModUi/&AddCustomIconsToOfficialItems")), ref toggle, UI.AutoWidth()))
         {
@@ -256,13 +276,6 @@ internal static class CraftingAndItems
             Main.Settings.SetBeltOfDwarvenKindBeardChances = intValue;
             ItemCraftingMerchantContext.SwitchSetBeltOfDwarvenKindBeardChances();
         }
-
-        #endregion
-
-        DisplayCrafting();
-        DisplayItems();
-
-        UI.Label();
     }
 
     private static void DisplayCrafting()
