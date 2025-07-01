@@ -11,16 +11,13 @@ namespace SolastaUnfinishedBusiness.Models;
 
 internal static partial class Tabletop2024Context
 {
-    internal const string Potion = "Potion";
-    internal const string Poison = "Poison";
-
     private static readonly FeatureDefinitionActionAffinity ActionAffinityPotionBonusAction =
         FeatureDefinitionActionAffinityBuilder
             .Create("ActionAffinityPotionBonusAction")
             .SetGuiPresentationNoContent(true)
             .AddCustomSubFeatures(
                 new ValidateDeviceFunctionUse((_, device, f) =>
-                    device.UsableDeviceDescription.UsableDeviceTags.Contains(Potion)
+                    device.UsableDeviceDescription.UsableDeviceTags.Contains(GameConstants.TagPotion)
                     && f.DeviceFunctionDescription.FeatureDefinitionPower.ActivationTime == ActivationTime.Action))
             .SetAuthorizedActions(Id.UseItemBonus)
             .AddToDB();
@@ -31,7 +28,7 @@ internal static partial class Tabletop2024Context
             .SetGuiPresentationNoContent(true)
             .AddCustomSubFeatures(
                 new ValidateDeviceFunctionUse((_, device, f) =>
-                    device.UsableDeviceDescription.UsableDeviceTags.Contains(Poison)
+                    device.UsableDeviceDescription.UsableDeviceTags.Contains(GameConstants.TagPoison)
                     && f.DeviceFunctionDescription.FeatureDefinitionPower.ActivationTime == ActivationTime.Action))
             .SetAuthorizedActions(Id.UseItemBonus)
             .AddToDB();
@@ -44,12 +41,12 @@ internal static partial class Tabletop2024Context
 
     internal static void SwitchPotionsBonusAction()
     {
-        SwitchItemBonusActions(Potion, ItemPropertyPotionBonusAction, Main.Settings.EnablePotionsBonusAction2024);
+        SwitchItemBonusActions(GameConstants.TagPotion, ItemPropertyPotionBonusAction, Main.Settings.EnablePotionsBonusAction2024);
     }
 
     internal static void SwitchPoisonsBonusAction()
     {
-        SwitchItemBonusActions(Poison, ItemPropertyPoisonBonusAction, Main.Settings.EnablePoisonsBonusAction2024);
+        SwitchItemBonusActions(GameConstants.TagPoison, ItemPropertyPoisonBonusAction, Main.Settings.EnablePoisonsBonusAction2024);
     }
 
     private static void SwitchItemBonusActions(string tag, ItemPropertyDescription property, bool enabled)

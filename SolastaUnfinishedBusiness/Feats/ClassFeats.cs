@@ -240,7 +240,7 @@ internal static class ClassFeats
                     .SetGuiPresentationNoContent(true)
                     .AddCustomSubFeatures(
                         new ValidateDeviceFunctionUse((_, device, _) =>
-                            device.UsableDeviceDescription.UsableDeviceTags.Contains("Poison")),
+                            device.UsableDeviceDescription.UsableDeviceTags.Contains(GameConstants.TagPoison)),
                         new ModifyDamageResistancePoisoner())
                     .SetAuthorizedActions(ActionDefinitions.Id.UseItemBonus)
                     .AddToDB())

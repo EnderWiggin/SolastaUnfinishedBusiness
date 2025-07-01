@@ -55,8 +55,8 @@ public static class ItemMenuModalPatcher
             if (Gui.Battle != null)
             {
                 var tags = device.UsableDeviceDescription.usableDeviceTags;
-                if (Main.Settings.EnablePotionsBonusAction2024 && tags.Contains(Tabletop2024Context.Potion)
-                    || Main.Settings.EnablePoisonsBonusAction2024 && tags.Contains(Tabletop2024Context.Poison))
+                if (Main.Settings.EnablePotionsBonusAction2024 && tags.Contains(GameConstants.TagPotion)
+                    || Main.Settings.EnablePoisonsBonusAction2024 && tags.Contains(GameConstants.TagPoison))
                 {
                     var power = function.DeviceFunctionDescription.FeatureDefinitionPower;
                     actionId = power.ActivationTime == ActivationTime.BonusAction

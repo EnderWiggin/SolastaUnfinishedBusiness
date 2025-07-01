@@ -42,8 +42,8 @@ public static class RulesetItemDevicePatcher
         public static void Prefix(RulesetItemDevice __instance)
         {
             //PATCH: update availability ofm extra bonus action functions if 2024 item use rules are enabled
-            Tabletop2024Context.UpdateDeviceBonusActions(__instance, Tabletop2024Context.Potion);
-            Tabletop2024Context.UpdateDeviceBonusActions(__instance, Tabletop2024Context.Poison);
+            Tabletop2024Context.UpdateDeviceBonusActions(__instance, GameConstants.TagPotion);
+            Tabletop2024Context.UpdateDeviceBonusActions(__instance, GameConstants.TagPoison);
         }
     }
 }
