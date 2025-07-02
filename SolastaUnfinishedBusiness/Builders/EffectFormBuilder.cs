@@ -186,6 +186,16 @@ internal class EffectFormBuilder
             conditionsList);
     }
 
+    internal static EffectForm RemoveConditionForm(
+        ConditionDefinition condition,
+        bool applyToSelf = false,
+        bool forceOnSelf = false,
+        params ConditionDefinition[] conditionsList)
+    {
+        return ConditionForm(condition, global::ConditionForm.ConditionOperation.Remove, applyToSelf, forceOnSelf,
+            conditionsList);
+    }
+    
 #if false
     internal EffectFormBuilder OverrideSavingThrowInfo(
         string savingThrowAbility,
