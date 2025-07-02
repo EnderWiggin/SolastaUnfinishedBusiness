@@ -68,6 +68,8 @@ public static class CustomActionIdContext
         (Id)ExtraActionId.BondOfTheTalismanTeleport,
         (Id)ExtraActionId.CoordinatedAssaultToggle,
         (Id)ExtraActionId.DestructiveWrathToggle,
+        (Id)ExtraActionId.DruidStarsArcherAttack,
+        (Id)ExtraActionId.DruidStarsArcherAttackFree,
         (Id)ExtraActionId.FarStep,
         (Id)ExtraActionId.ForcePoweredStrikeToggle,
         (Id)ExtraActionId.ImpishWrathToggle,

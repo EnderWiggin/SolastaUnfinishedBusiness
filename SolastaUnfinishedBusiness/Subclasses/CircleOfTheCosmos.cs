@@ -14,6 +14,7 @@ using SolastaUnfinishedBusiness.Interfaces;
 using SolastaUnfinishedBusiness.Properties;
 using SolastaUnfinishedBusiness.Validators;
 using UnityEngine.AddressableAssets;
+using static ActionDefinitions;
 using static RuleDefinitions;
 using static SolastaUnfinishedBusiness.Api.DatabaseHelper;
 using static SolastaUnfinishedBusiness.Api.DatabaseHelper.CharacterClassDefinitions;
@@ -227,11 +228,9 @@ public sealed class CircleOfTheCosmos : AbstractSubclass
                         return false;
                     }
 
-                    var hasMainAction = glc.GetActionTypeStatus(ActionDefinitions.ActionType.Main) ==
-                                        ActionDefinitions.ActionStatus.Available;
+                    var hasMainAction = glc.GetActionTypeStatus(ActionType.Main) == ActionStatus.Available;
 
-                    var hasBonusAction = glc.GetActionTypeStatus(ActionDefinitions.ActionType.Bonus) ==
-                                         ActionDefinitions.ActionStatus.Available;
+                    var hasBonusAction = glc.GetActionTypeStatus(ActionType.Bonus) == ActionStatus.Available;
 
                     return hasMainAction && hasBonusAction;
                 }))
@@ -341,48 +340,58 @@ public sealed class CircleOfTheCosmos : AbstractSubclass
     private static FeatureDefinitionPowerSharedPool BuildArcher(
         ActivationTime activationTime, FeatureDefinitionPower pool)
     {
-        var powerArcher = FeatureDefinitionPowerBuilder
-            .Create($"Power{Name}Archer")
-            .SetGuiPresentation(Category.Feature,
-                Sprites.GetSprite("PowerArcher", Resources.PowerArcher, 256, 128))
-            .SetUsesFixed(ActivationTime.BonusAction)
-            .SetUseSpellAttack()
-            .SetExplicitAbilityScore(AttributeDefinitions.Wisdom)
-            .SetEffectDescription(
-                EffectDescriptionBuilder
-                    .Create()
-                    .SetTargetingData(Side.Enemy, RangeType.RangeHit, 12, TargetType.IndividualsUnique)
-                    .SetEffectForms(
-                        EffectFormBuilder
-                            .Create()
-                            .SetBonusMode(AddBonusMode.AbilityBonus)
-                            .SetDiceAdvancement(LevelSourceType.ClassLevel, 1, 0, 10, 10)
-                            .SetDamageForm(DamageTypeRadiant, 1, DieType.D8)
-                            .Build())
-                    .SetCasterEffectParameters(PowerOathOfTirmarGoldenSpeech)
-                    .SetImpactEffectParameters(Sunbeam)
-                    .Build())
-            // required as added through a condition
-            .AddCustomSubFeatures(ClassHolder.Druid)
-            .AddToDB();
-
-        var powerArcherNoCost = FeatureDefinitionPowerBuilder
-            .Create(powerArcher, $"Power{Name}ArcherNoCost")
-            .SetUsesFixed(ActivationTime.NoCost)
-            .AddToDB();
-
         var conditionArcherNoCost = ConditionDefinitionBuilder
             .Create($"Condition{Name}ArcherNoCost")
             .SetGuiPresentationNoContent(true)
             .SetSilent(Silent.WhenAddedOrRemoved)
-            .SetFeatures(powerArcherNoCost)
+            .SetFeatures(FeatureDefinitionActionAffinityBuilder.Create($"ActionAffinity{Name}ArcherNoCost")
+                .SetAuthorizedActions((Id)ExtraActionId.DruidStarsArcherAttackFree)
+                .SetForbiddenActions((Id)ExtraActionId.DruidStarsArcherAttack)
+                .AddToDB())
             .SetSpecialInterruptions(ConditionInterruption.AnyBattleTurnEnd)
-            .AddCustomSubFeatures(AddUsablePowersFromCondition.Marker)
             .AddToDB();
 
-        powerArcherNoCost.AddCustomSubFeatures(
-            ValidatorsValidatePowerUse.InCombat,
-            new PowerOrSpellFinishedByMeArcherNoCost(conditionArcherNoCost));
+        var sprite = Sprites.GetSprite("PowerArcher", Resources.PowerArcher, 256, 128);
+        var powerArcher = FeatureDefinitionPowerBuilder
+            .Create($"Power{Name}Archer")
+            .SetGuiPresentation(Category.Feature, sprite)
+            .SetUsesFixed(ActivationTime.NoCost)
+            .SetUseSpellAttack()
+            .DelegatedToAction()
+            .SetExplicitAbilityScore(AttributeDefinitions.Wisdom)
+            .SetEffectDescription(EffectDescriptionBuilder.Create()
+                .SetTargetingData(Side.Enemy, RangeType.RangeHit, 12, TargetType.IndividualsUnique)
+                .SetEffectForms(EffectFormBuilder.Create()
+                        .SetBonusMode(AddBonusMode.AbilityBonus)
+                        .SetDiceAdvancement(LevelSourceType.ClassLevel, 1, 0, 10, 10)
+                        .SetDamageForm(DamageTypeRadiant, 1, DieType.D8)
+                        .Build(),
+                    EffectFormBuilder.RemoveConditionForm(conditionArcherNoCost, true, true))
+                .SetCasterEffectParameters(PowerOathOfTirmarGoldenSpeech)
+                .SetImpactEffectParameters(Sunbeam)
+                .Build())
+            // required as added through a condition
+            .AddCustomSubFeatures(ClassHolder.Druid)
+            .AddToDB();
+
+        var action = ActionDefinitionBuilder
+            .Create($"Action{Name}Archer")
+            .SetGuiPresentation(powerArcher.GuiPresentation.Title, Gui.NoLocalization, sprite, 0)
+            .SetActionId(ExtraActionId.DruidStarsArcherAttack)
+            .OverrideClassName("UsePower")
+            .SetActionScope(ActionScope.All)
+            .SetActionType(ActionType.Bonus)
+            .SetFormType(ActionFormType.Large)
+            .SetActivatedPower(powerArcher)
+            .AddToDB();
+        
+        ActionDefinitionBuilder
+            .Create(action, $"Action{Name}ArcherFree")
+            .SetActionId(ExtraActionId.DruidStarsArcherAttackFree)
+            .RequiresAuthorization()
+            .SetActionScope(ActionScope.Battle)
+            .SetActionType(ActionType.NoCost)
+            .AddToDB();
 
         var conditionArcher = ConditionDefinitionBuilder
             .Create(ConditionDefinitions.ConditionSunbeam, $"Condition{Name}Archer")
@@ -842,7 +851,7 @@ public sealed class CircleOfTheCosmos : AbstractSubclass
 
             void ReactionValidated()
             {
-                helper.SpendActionType(ActionDefinitions.ActionType.Reaction);
+                helper.SpendActionType(ActionType.Reaction);
 
                 var dieRoll = rulesetHelper.RollDie(DieType, RollContext.None, false, AdvantageType.None, out _, out _);
 
@@ -907,7 +916,7 @@ public sealed class CircleOfTheCosmos : AbstractSubclass
 
             void ReactionValidated()
             {
-                helper.SpendActionType(ActionDefinitions.ActionType.Reaction);
+                helper.SpendActionType(ActionType.Reaction);
 
                 var dieRoll = rulesetHelper.RollDie(DieType, RollContext.None, false, AdvantageType.None, out _, out _);
                 var abilityCheckModifier = abilityCheckData.AbilityCheckActionModifier;
@@ -980,7 +989,7 @@ public sealed class CircleOfTheCosmos : AbstractSubclass
 
             void ReactionValidated()
             {
-                helper.SpendActionType(ActionDefinitions.ActionType.Reaction);
+                helper.SpendActionType(ActionType.Reaction);
 
                 var dieRoll = rulesetHelper.RollDie(DieType, RollContext.None, false, AdvantageType.None, out _, out _);
 
@@ -1063,7 +1072,7 @@ public sealed class CircleOfTheCosmos : AbstractSubclass
 
             void ReactionValidated()
             {
-                helper.SpendActionType(ActionDefinitions.ActionType.Reaction);
+                helper.SpendActionType(ActionType.Reaction);
 
                 var dieRoll =
                     -rulesetHelper.RollDie(DieType, RollContext.None, false, AdvantageType.None, out _, out _);
@@ -1129,7 +1138,7 @@ public sealed class CircleOfTheCosmos : AbstractSubclass
 
             void ReactionValidated()
             {
-                helper.SpendActionType(ActionDefinitions.ActionType.Reaction);
+                helper.SpendActionType(ActionType.Reaction);
 
                 var dieRoll =
                     -rulesetHelper.RollDie(DieType, RollContext.None, false, AdvantageType.None, out _, out _);
@@ -1204,7 +1213,7 @@ public sealed class CircleOfTheCosmos : AbstractSubclass
 
             void ReactionValidated()
             {
-                helper.SpendActionType(ActionDefinitions.ActionType.Reaction);
+                helper.SpendActionType(ActionType.Reaction);
 
                 var dieRoll =
                     -rulesetHelper.RollDie(DieType, RollContext.None, false, AdvantageType.None, out _, out _);

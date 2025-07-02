@@ -92,6 +92,8 @@ internal enum ExtraActionId
     WeaponMasteryToggle,
     WeaponMasteryCleave,
     TacticalMasterToggle,
+    DruidStarsArcherAttack,
+    DruidStarsArcherAttackFree,
     PrioritizeAction = 10000
 }
 
