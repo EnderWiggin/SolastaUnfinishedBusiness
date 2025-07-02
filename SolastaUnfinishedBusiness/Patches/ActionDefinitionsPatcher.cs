@@ -55,4 +55,17 @@ public static class ActionDefinitionsPatcher
             }
         }
     }
+    
+    [HarmonyPatch(typeof(ActionDefinitions), nameof(ActionDefinitions.IsPowerAction))]
+    [SuppressMessage("Minor Code Smell", "S101:Types should be named in PascalCase", Justification = "Patch")]
+    [UsedImplicitly]
+    public static class IsPowerAction_Patch
+    {
+        [UsedImplicitly]
+        public static void Postfix(ref bool __result, ActionDefinitions.Id actionId)
+        {
+            //PATCH: fixes custom actions that use powers not showing proper targeting cursor
+            __result = __result || CustomActionIdContext.IsPowerUseActionId(actionId);
+        }
+    }
 }

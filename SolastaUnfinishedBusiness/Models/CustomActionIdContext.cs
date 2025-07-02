@@ -777,7 +777,7 @@ public static class CustomActionIdContext
                IsEldritchVersatilityId(id);
     }
 
-    private static bool IsPowerUseActionId(Id id)
+    internal static bool IsPowerUseActionId(Id id)
     {
         return ExtraActionIdPowers.Contains(id);
     }
