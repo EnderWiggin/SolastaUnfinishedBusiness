@@ -313,6 +313,8 @@ ModUi/&ItemsHelp1=<color=#C04040E0>打开角色检查屏幕为英雄添加物品
 ModUi/&ItemsHelp2=<b>按 + 将物品添加到地面容器</b>
 ModUi/&KeepInvisibilityWhenUsingItems=启用物品使用不会破坏<color=#D89555>隐形</color>
 ModUi/&KeepStealthOnHeroIfPerceivedDuringSurpriseAttack=如果在突袭回合中察觉到攻击，则更新英雄的隐身状态<i><color=#F0DAA0>[仅限第一个英雄]</color></i>
+ModUi/&LegendaryTweaksDetails=在这里，您可以更改武器类型的传奇武器。为了安全起见，武器没有装备时。
+ModUi/&LegendaryTweaksTitle=<color =＃f0daa0>传奇调整：</color>
 ModUi/&MakeAllMagicStaveArcaneFoci=让所有魔法杖都成为奥术焦点<i><color=#F0DAA0>[除了<color=#D89555>治疗法杖</color>是通用的]</color></i>
 ModUi/&MarkInvisibleTeleportersOnLevelMap=<i>+ 发现后也在关卡地图上标记隐形传送器的位置</i>
 ModUi/&MaxAllowedClasses=<color=white>最大允许类别</color>

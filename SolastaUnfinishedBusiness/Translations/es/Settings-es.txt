@@ -313,6 +313,8 @@ ModUi/&ItemsHelp1=<color=#C04040E0>Abre la pantalla de inspección de personajes
 ModUi/&ItemsHelp2=<b>Presione + para agregar elementos al contenedor de tierra</b>
 ModUi/&KeepInvisibilityWhenUsingItems=Habilitar el uso de elementos que no alteren la <color=#D89555>invisibilidad</color>
 ModUi/&KeepStealthOnHeroIfPerceivedDuringSurpriseAttack=Actualiza el sigilo del héroe después del ataque si lo percibes en una ronda sorpresa. <i><color=#F0DAA0>[solo el primer héroe]</color></i>
+ModUi/&LegendaryTweaksDetails=Aquí puedes cambiar el tipo de armas de armas legendarias. Por seguridad haz esto mientras que el arma no está equipado.
+ModUi/&LegendaryTweaksTitle=<color =#f0daa0> Tweaks legendarios: </ color>
 ModUi/&MakeAllMagicStaveArcaneFoci=Convierte todos los bastones mágicos en focos arcanos. <i><color=#F0DAA0>[excepto el <color=#D89555>Bastón de sanación</color>, que es universal]</color></i>
 ModUi/&MarkInvisibleTeleportersOnLevelMap=<i>+ También marca la ubicación de los teletransportadores invisibles en el mapa de nivel después del descubrimiento</i>
 ModUi/&MaxAllowedClasses=<color=white>Clases máximas permitidas</color>

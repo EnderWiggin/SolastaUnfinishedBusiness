@@ -313,6 +313,8 @@ ModUi/&ItemsHelp1=<color=#C04040E0>Öffnen Sie den Charakterüberprüfungsbildsc
 ModUi/&ItemsHelp2=<b>Drücken Sie +, um Elemente zum Bodencontainer hinzuzufügen</b>
 ModUi/&KeepInvisibilityWhenUsingItems=Aktivieren Sie die Verwendung von Elementen, ohne die <color=#D89555>Unsichtbarkeit</color> zu beeinträchtigen.
 ModUi/&KeepStealthOnHeroIfPerceivedDuringSurpriseAttack=Aktualisiere die Tarnung des Helden nach einem Angriff, wenn dieser in einer Überraschungsrunde wahrgenommen wird <i><color=#F0DAA0>[nur erster Held]</color></i>
+ModUi/&LegendaryTweaksDetails=Hier können Sie legendäre Waffenwaffenwaffen wechseln. Für die Sicherheit tun Sie dies, während die Waffe ungleichmäßig ist.
+ModUi/&LegendaryTweaksTitle=<color =#f0daa0> legendäre Tweaks: </color>
 ModUi/&MakeAllMagicStaveArcaneFoci=Machen Sie alle Zauberstäbe zu arkanen Fokussen <i><color=#F0DAA0>[außer dem <color=#D89555>Stab der Heilung</color>, der universell ist]</color></i>
 ModUi/&MarkInvisibleTeleportersOnLevelMap=<i>+ Markieren Sie auch die Position unsichtbarer Teleporter auf der Levelkarte, nachdem Sie diese entdeckt haben</i>
 ModUi/&MaxAllowedClasses=<color=white>Maximal zulässige Klassen</color>
