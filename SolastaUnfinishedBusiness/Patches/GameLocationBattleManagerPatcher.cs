@@ -528,7 +528,9 @@ public static class GameLocationBattleManagerPatcher
             {
                 var attacker = attackParams.attacker;
                 var target = attackParams.defender;
-                var attackMode = attacker.FindActionAttackMode(ActionDefinitions.Id.AttackMain);
+                var attackMode = attackParams.attackMode;
+                if (attackMode == null) { return true; }
+
                 if (attackMode.Thrown) //adjust for strength
                 {
                     int actualDistance = (int)int3.Distance(attacker.LocationPosition, target.LocationPosition);
