@@ -2,8 +2,10 @@
 using System.Linq;
 using JetBrains.Annotations;
 using SolastaUnfinishedBusiness.Api.GameExtensions;
+using SolastaUnfinishedBusiness.Api.LanguageExtensions;
 using SolastaUnfinishedBusiness.Api.ModKit.Utility;
 using SolastaUnfinishedBusiness.CustomUI;
+using UnityEngine.AddressableAssets;
 using static SolastaUnfinishedBusiness.Api.DatabaseHelper.ItemDefinitions;
 
 namespace SolastaUnfinishedBusiness.Models;
@@ -110,9 +112,12 @@ internal static class CustomizedWeaponTypesContext
 
     private static void DoTransform(ItemDefinition item, int index)
     {
-        if (!Transformations.TryGetValue(item, out var configs)) { return; }
-
-        if (index < 0 || index >= configs.Count) { return; }
+        if (!Transformations.TryGetValue(item, out var configs) || index < 0 || index >= configs.Count)
+        {
+            //invalid transform config was passed - clear settings for this item
+            Main.Settings.WeaponTweakedTypes.Remove(item.Name);
+            return;
+        }
 
         configs[index].Apply(item, configs[0]);
     }
@@ -121,6 +126,7 @@ internal static class CustomizedWeaponTypesContext
     {
         internal readonly string Title;
 
+        private readonly AssetReferenceSprite _sprite;
         private readonly float _weight;
         private readonly string _weaponType;
         private readonly List<string> _weaponTags;
@@ -141,8 +147,9 @@ internal static class CustomizedWeaponTypesContext
         [CanBeNull] private readonly ItemPresentation _presentation;
 
         private TransformData(ItemDefinition into,
-            [CanBeNull] CustomScale scale = null,
-            [CanBeNull] ItemPresentation presentation = null)
+            [CanBeNull] CustomScale scale,
+            [CanBeNull] ItemPresentation presentation,
+            [CanBeNull] AssetReferenceSprite sprite)
         {
             var src = into.WeaponDescription;
 
@@ -167,23 +174,26 @@ internal static class CustomizedWeaponTypesContext
             _versatile = newDamage.versatile;
             _versatileDieType = newDamage.versatileDieType;
 
+            _sprite = sprite;
             _scale = scale;
             if (presentation != null)
             {
                 _presentation = new ItemPresentation(presentation);
+                _presentation.ItemFlags.Clear();
             }
         }
 
         internal static TransformData Base(ItemDefinition item)
         {
-            return new TransformData(item, presentation: item.ItemPresentation);
+            return new TransformData(item, null, item.ItemPresentation, item.GuiPresentation.SpriteReference);
         }
 
         internal static TransformData From(ItemDefinition item,
             [CanBeNull] CustomScale scale = null,
             [CanBeNull] ItemDefinition presentation = null)
         {
-            return new TransformData(item, scale, presentation?.ItemPresentation);
+            return new TransformData(item, scale, presentation?.ItemPresentation,
+                presentation?.GuiPresentation.SpriteReference);
         }
 
         internal void Apply(ItemDefinition item, TransformData def)
@@ -210,7 +220,20 @@ internal static class CustomizedWeaponTypesContext
             damage.versatileDieType = _versatileDieType;
 
             item.SetSubFeatureOfType<CustomScale>(_scale);
-            item.itemPresentation = _presentation ?? def._presentation;
+
+            var presentation = _presentation ?? def._presentation;
+            if (presentation != null)
+            {
+                if (item.ItemPresentation.ItemFlags.Count > 0)
+                {
+                    presentation = new ItemPresentation(presentation);
+                    presentation.ItemFlags.SetRange(item.ItemPresentation.ItemFlags);
+                }
+
+                item.itemPresentation = presentation;
+            }
+
+            item.GuiPresentation.spriteReference = _sprite ?? def._sprite ?? item.GuiPresentation.SpriteReference;
         }
     }
 }
