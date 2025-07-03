@@ -39,28 +39,35 @@ internal static class CustomizedWeaponTypesContext
         {
             {
                 DLC3_Legendary_Battleaxe_Skullcleaver, [
-                    TransformData.Base(DLC3_Legendary_Battleaxe_Skullcleaver)
+                    TransformData.Base(DLC3_Legendary_Battleaxe_Skullcleaver),
+                    TransformData.From(CustomWeaponsContext.Halberd)
                 ]
             },
             {
                 DLC3_Legendary_Dagger_SuddenDeath, [
-                    TransformData.Base(DLC3_Legendary_Dagger_SuddenDeath)
+                    TransformData.Base(DLC3_Legendary_Dagger_SuddenDeath),
+                    TransformData.From(Rapier, new CustomScale(z: 3.5f), presentation: Magic_Dagger_Cheater)
                 ]
             },
             {
                 DLC3_Legendary_Greataxe_Imperator, [
-                    TransformData.Base(DLC3_Legendary_Greataxe_Imperator)
+                    TransformData.Base(DLC3_Legendary_Greataxe_Imperator),
+                    TransformData.From(CustomWeaponsContext.Halberd),
+                    TransformData.From(Handaxe, new CustomScale(x: 0.7f, z: 0.5f))
                 ]
             },
             {
                 DLC3_Legendary_HeavyCrossbow_Driller, [
                     TransformData.Base(DLC3_Legendary_HeavyCrossbow_Driller),
+                    TransformData.From(Longbow, presentation: LongbowPlus3),
                     TransformData.From(CustomWeaponsContext.HandXbow)
                 ]
             },
             {
                 DLC3_Legendary_LightCrossbow_Decadence, [
-                    TransformData.Base(DLC3_Legendary_LightCrossbow_Decadence)
+                    TransformData.Base(DLC3_Legendary_LightCrossbow_Decadence),
+                    TransformData.From(Shortbow, presentation: Magic_Shortbow_Truth),
+                    TransformData.From(CustomWeaponsContext.HandXbow)
                 ]
             },
             {
@@ -71,17 +78,34 @@ internal static class CustomizedWeaponTypesContext
             },
             {
                 DLC3_Legendary_Quarterstaff_Purity, [
-                    TransformData.Base(DLC3_Legendary_Quarterstaff_Purity)
+                    TransformData.Base(DLC3_Legendary_Quarterstaff_Purity),
+                    TransformData.From(Club, new CustomScale(0.7f, 0.7f, 0.4f)),
+                    TransformData.From(Spear, new CustomScale(0.6f, 0.6f, 1.2f))
                 ]
             },
             {
                 DLC3_Legendary_Shortsword_Grievance, [
-                    TransformData.Base(DLC3_Legendary_Shortsword_Grievance)
+                    TransformData.Base(DLC3_Legendary_Shortsword_Grievance),
+                    TransformData.From(CustomWeaponsContext.Katana, new CustomScale(x: 1.1f, z: 2f))
                 ]
             },
             {
                 DLC3_Legendary_Warhammer_Glacier, [
-                    TransformData.Base(DLC3_Legendary_Warhammer_Glacier)
+                    TransformData.Base(DLC3_Legendary_Warhammer_Glacier),
+                    TransformData.From(Maul, new CustomScale(1.2f, 1.1f, 1.9f)),
+                    TransformData.From(CustomWeaponsContext.LongMace, new CustomScale(x: 0.8f, z: 2.2f))
+                ]
+            },
+            {
+                DLC3_Magic_Morningstar_Guardian_Complete, [
+                    TransformData.Base(DLC3_Magic_Morningstar_Guardian_Complete),
+                    TransformData.From(CustomWeaponsContext.Pike, new CustomScale(0.8f, 0.8f, 2.6f))
+                ]
+            },
+            {
+                DLC3_Magic_Shortsword_Sovereign, [
+                    TransformData.Base(DLC3_Magic_Shortsword_Sovereign),
+                    TransformData.From(Scimitar, presentation: ScimitarPlus3)
                 ]
             }
         };

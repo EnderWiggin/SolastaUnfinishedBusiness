@@ -3044,6 +3044,12 @@ internal static partial class DatabaseHelper
         internal static ItemDefinition DLC3_Legendary_Warhammer_Glacier { get; } =
             GetDefinition<ItemDefinition>("DLC3_Legendary_Warhammer_Glacier");
         
+        internal static ItemDefinition DLC3_Magic_Morningstar_Guardian_Complete { get; } =
+            GetDefinition<ItemDefinition>("DLC3_Magic_Morningstar_Guardian_Complete");
+        
+        internal static ItemDefinition DLC3_Magic_Shortsword_Sovereign { get; } =
+            GetDefinition<ItemDefinition>("DLC3_Magic_Shortsword_Sovereign");
+        
         internal static ItemDefinition DruidicFocus { get; } = GetDefinition<ItemDefinition>("DruidicFocus");
         internal static ItemDefinition DungeoneerPack { get; } = GetDefinition<ItemDefinition>("DungeoneerPack");
         internal static ItemDefinition ElvenChain { get; } = GetDefinition<ItemDefinition>("ElvenChain");
@@ -3280,10 +3286,18 @@ internal static partial class DatabaseHelper
         internal static ItemDefinition Longbow { get; } = GetDefinition<ItemDefinition>("Longbow");
         internal static ItemDefinition LongbowPlus1 { get; } = GetDefinition<ItemDefinition>("Longbow+1");
         internal static ItemDefinition LongbowPlus2 { get; } = GetDefinition<ItemDefinition>("Longbow+2");
+        internal static ItemDefinition LongbowPlus3 { get; } = GetDefinition<ItemDefinition>("Longbow+3");
         internal static ItemDefinition Longsword { get; } = GetDefinition<ItemDefinition>("Longsword");
         internal static ItemDefinition LongswordPlus2 { get; } = GetDefinition<ItemDefinition>("Longsword+2");
         internal static ItemDefinition Mace { get; } = GetDefinition<ItemDefinition>("Mace");
         internal static ItemDefinition MacePlus2 { get; } = GetDefinition<ItemDefinition>("Mace+2");
+
+        internal static ItemDefinition Magic_Dagger_Cheater { get; } =
+            GetDefinition<ItemDefinition>("Magic_Dagger_Cheater");
+
+        internal static ItemDefinition Magic_Shortbow_Truth { get; } =
+            GetDefinition<ItemDefinition>("Magic_Shortbow_Truth");
+
         internal static ItemDefinition Maul { get; } = GetDefinition<ItemDefinition>("Maul");
         internal static ItemDefinition MaulPlus2 { get; } = GetDefinition<ItemDefinition>("Maul+2");
         internal static ItemDefinition MonkArmor { get; } = GetDefinition<ItemDefinition>("MonkArmor");
@@ -3372,6 +3386,7 @@ internal static partial class DatabaseHelper
         internal static ItemDefinition ScaleMailPlus2 { get; } = GetDefinition<ItemDefinition>("ScaleMail+2");
         internal static ItemDefinition Scimitar { get; } = GetDefinition<ItemDefinition>("Scimitar");
         internal static ItemDefinition ScimitarPlus2 { get; } = GetDefinition<ItemDefinition>("Scimitar+2");
+        internal static ItemDefinition ScimitarPlus3 { get; } = GetDefinition<ItemDefinition>("Scimitar+3");
         internal static ItemDefinition ScrollFly { get; } = GetDefinition<ItemDefinition>("ScrollFly");
         internal static ItemDefinition Shield { get; } = GetDefinition<ItemDefinition>("Shield");
         internal static ItemDefinition Shield_Wooden { get; } = GetDefinition<ItemDefinition>("Shield_Wooden");
