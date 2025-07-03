@@ -1,3 +1,16 @@
+1.5.97.63:
+- fixed crash with 'Apply throwing penalties to range for lack of strength' setting enabled if creature had no main attack available
+- fixed Circle of Stars Starry Form having wrong amount of charges with 2024 Wild Shape changes
+- fixed 2024 Druid's Primal Strike triggers:
+  - no longer trigger on magic effects
+  - triggers on all attacks except non-beast unarmed
+- reworked Archer form from `Circle of Stars` to use custom actions instead of powers
+- fixed custom actions that use powers not showing proper targeting cursor
+- added option to show weapon type in tooltip (Game Settings -> GUI, enabled by default)
+- added DC to tooltips of poisons and poisoned ammunition
+- Mod UI: added folding to general item settings
+- added option to change weapon type of legendary weapons from Palace of Ice (ModUI -> Gameplay -> Crafting and Items)
+
 1.5.97.62:
 - fixed Way of Storm's `Tempest Fury` AoE attack using wrong attack mode
 - fixed crash when using Scroll of Wither and Bloom
