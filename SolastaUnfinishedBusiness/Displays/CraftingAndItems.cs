@@ -3,6 +3,7 @@ using System.Linq;
 using HarmonyLib;
 using SolastaUnfinishedBusiness.Api.LanguageExtensions;
 using SolastaUnfinishedBusiness.Api.ModKit;
+using SolastaUnfinishedBusiness.Api.ModKit.Utility;
 using SolastaUnfinishedBusiness.CustomUI;
 using SolastaUnfinishedBusiness.Models;
 using UnityEngine;
@@ -80,6 +81,7 @@ internal static class CraftingAndItems
 
         DisplayGeneral();
         DisplayCrafting();
+        DisplayLegendaryTweaks();
         DisplayItems();
 
         UI.Label();
@@ -99,7 +101,7 @@ internal static class CraftingAndItems
         }
 
         UI.Label();
-        
+
         toggle = Main.Settings.AllowAnyClassToUseArcaneShieldstaff;
         if (UI.Toggle(Gui.Localize("ModUi/&ArcaneShieldstaffOptions"), ref toggle, UI.AutoWidth()))
         {
@@ -405,6 +407,46 @@ internal static class CraftingAndItems
         }
     }
 
+    private static void DisplayLegendaryTweaks()
+    {
+        UI.Label();
+        var toggle = Main.Settings.LegendaryTweaksToggle;
+        if (UI.DisclosureToggle(Gui.Localize("ModUi/&LegendaryTweaksTitle"), ref toggle, 200))
+        {
+            Main.Settings.LegendaryTweaksToggle = toggle;
+        }
+
+        if (!Main.Settings.LegendaryTweaksToggle)
+        {
+            return;
+        }
+
+        UI.Label(Gui.Localize("ModUi/&LegendaryTweaksDetails"));
+        UI.Label();
+
+        foreach (var pair in CustomizedWeaponTypesContext.AvailableTransforms)
+        {
+            var item = pair.Key;
+            var sel = Main.Settings.WeaponTweakedTypes.GetValueOrDefault(item.name);
+            var name = GuiItemTweaks.FormatTitle(item).Khaki().Bold();
+            var baseType = pair.Value[0];
+            UI.Label($"{name} ({baseType})");
+            using (UI.HorizontalScope())
+            {
+                for (var index = 0; index < pair.Value.Count; index++)
+                {
+                    var form = pair.Value[index];
+                    if (sel == index) { form = form.Orange().Bold(); }
+
+                    var idx = index;
+                    UI.ActionButton(form, () => { CustomizedWeaponTypesContext.SetTransform(item, idx); });
+                }
+            }
+
+            UI.Label();
+        }
+    }
+
     private static void DisplayItems()
     {
         var toggle = Main.Settings.DisplayItemsToggle;
@@ -455,6 +497,7 @@ internal static class CraftingAndItems
                     UI.Space(5f);
                     UI.TextField(ref CurrentItemsSearchText, options: UI.Width(200f));
                 }
+
                 UI.Label(Gui.Localize("ModUi/&ItemsHelp2"));
             }
         }

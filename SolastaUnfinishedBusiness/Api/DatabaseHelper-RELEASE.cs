@@ -3016,6 +3016,34 @@ internal static partial class DatabaseHelper
         internal static ItemDefinition DaggerPlus2 { get; } = GetDefinition<ItemDefinition>("Dagger+2");
         internal static ItemDefinition Dart { get; } = GetDefinition<ItemDefinition>("Dart");
         internal static ItemDefinition DivineBladeWeapon { get; } = GetDefinition<ItemDefinition>("DivineBladeWeapon");
+
+        internal static ItemDefinition DLC3_Legendary_Battleaxe_Skullcleaver { get; } =
+            GetDefinition<ItemDefinition>("DLC3_Legendary_Battleaxe_Skullcleaver");
+
+        internal static ItemDefinition DLC3_Legendary_Dagger_SuddenDeath { get; } =
+            GetDefinition<ItemDefinition>("DLC3_Legendary_Dagger_SuddenDeath");
+
+        internal static ItemDefinition DLC3_Legendary_Greataxe_Imperator { get; } =
+            GetDefinition<ItemDefinition>("DLC3_Legendary_Greataxe_Imperator");
+
+        internal static ItemDefinition DLC3_Legendary_HeavyCrossbow_Driller { get; } =
+            GetDefinition<ItemDefinition>("DLC3_Legendary_HeavyCrossbow_Driller");
+
+        internal static ItemDefinition DLC3_Legendary_LightCrossbow_Decadence { get; } =
+            GetDefinition<ItemDefinition>("DLC3_Legendary_LightCrossbow_Decadence");
+
+        internal static ItemDefinition DLC3_Legendary_Longsword_Anvil { get; } =
+            GetDefinition<ItemDefinition>("DLC3_Legendary_Longsword_Anvil");
+
+        internal static ItemDefinition DLC3_Legendary_Quarterstaff_Purity { get; } =
+            GetDefinition<ItemDefinition>("DLC3_Legendary_Quarterstaff_Purity");
+
+        internal static ItemDefinition DLC3_Legendary_Shortsword_Grievance { get; } =
+            GetDefinition<ItemDefinition>("DLC3_Legendary_Shortsword_Grievance");
+
+        internal static ItemDefinition DLC3_Legendary_Warhammer_Glacier { get; } =
+            GetDefinition<ItemDefinition>("DLC3_Legendary_Warhammer_Glacier");
+        
         internal static ItemDefinition DruidicFocus { get; } = GetDefinition<ItemDefinition>("DruidicFocus");
         internal static ItemDefinition DungeoneerPack { get; } = GetDefinition<ItemDefinition>("DungeoneerPack");
         internal static ItemDefinition ElvenChain { get; } = GetDefinition<ItemDefinition>("ElvenChain");
