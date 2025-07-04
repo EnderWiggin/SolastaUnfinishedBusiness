@@ -27,7 +27,7 @@ namespace SolastaUnfinishedBusiness.Subclasses;
 [UsedImplicitly]
 public sealed class CircleOfTheCosmos : AbstractSubclass
 {
-    private const string Name = "CircleOfTheCosmos";
+    internal const string Name = "CircleOfTheCosmos";
 
     private static readonly string[] ConstellationFormConditions =
     [
