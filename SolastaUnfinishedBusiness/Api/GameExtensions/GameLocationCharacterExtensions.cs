@@ -751,8 +751,7 @@ public static class GameLocationCharacterExtensions
             return false;
         }
 
-        ActionStatus? mainSpell = null;
-        ActionStatus? bonusSpell = null;
+        ActionType? actionType = null;
 
         foreach (var invocation in character.Invocations)
         {
@@ -786,33 +785,14 @@ public static class GameLocationCharacterExtensions
                 {
                     isValid = false;
                 }
-                else
+                else if (scope == ActionScope.Battle)
                 {
-                    var spellActionId = grantedSpell.BattleActionId;
+                    actionType ??= ServiceRepository.GetService<IGameLocationActionService>()
+                        .AllActionDefinitions[actionId].ActionType;
 
-                    // ReSharper disable once SwitchStatementMissingSomeEnumCasesNoDefault
-                    switch (spellActionId)
+                    if (definition.GetActionType() != actionType)
                     {
-                        case Id.CastMain:
-                            mainSpell ??= scope == ActionScope.Battle
-                                ? instance.GetActionStatus(spellActionId, scope)
-                                : ActionStatus.Available;
-                            if (mainSpell != ActionStatus.Available)
-                            {
-                                isValid = false;
-                            }
-
-                            break;
-                        case Id.CastBonus:
-                            bonusSpell ??= scope == ActionScope.Battle
-                                ? instance.GetActionStatus(spellActionId, scope)
-                                : ActionStatus.Available;
-                            if (bonusSpell != ActionStatus.Available)
-                            {
-                                isValid = false;
-                            }
-
-                            break;
+                        isValid = false;
                     }
                 }
             }
