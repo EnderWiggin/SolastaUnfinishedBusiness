@@ -1791,16 +1791,26 @@ public static class RulesetCharacterPatcher
                 var usablePower = PowerProvider.Get(PowerDruidWildShape, __instance);
                 var maxUses = __instance.GetMaxUsesOfPower(usablePower);
                 var remainingUses = __instance.GetRemainingUsesOfPower(usablePower);
+                var recover = remainingUses < maxUses;
 
-                if (remainingUses < maxUses)
+                if (recover && !simulate)
                 {
-                    if (!simulate)
-                    {
-                        usablePower.remainingUses++; // cannot call RepayUse() here as a dynamic pool
-                    }
+                    usablePower.remainingUses++; // cannot call RepayUse() here as a dynamic pool
                 }
 
-                __instance.recoveredFeatures.Add(PowerDruidWildShape);
+                //recover one Starry Form use
+                if (!simulate && __instance.GetSubclassLevel(Druid, CircleOfTheCosmos.Name) >= 3)
+                {
+                    usablePower = PowerProvider.Get(CircleOfTheCosmos.PowerStarryForm, __instance);
+                    maxUses = __instance.GetMaxUsesOfPower(usablePower);
+                    remainingUses = __instance.GetRemainingUsesOfPower(usablePower);
+                    if (remainingUses < maxUses) { usablePower.remainingUses++; }
+                }
+
+                if (recover)
+                {
+                    __instance.recoveredFeatures.Add(PowerDruidWildShape);
+                }
             }
         }
 
