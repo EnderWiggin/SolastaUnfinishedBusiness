@@ -1,3 +1,9 @@
+1.5.97.64:
+- added `Show Logs` button to `Mod Error Warning` popup
+- show full path to Player.log file in `Mod Error Warning` popup
+- fixed `Starry Form` from `Circle of Stars` not restoring 1 charge on short rest when 2024 Wild Shape changes are enabled
+- fixed Cast Bonus Spell button that shows no spells present if non-caster selects Fey Teleportation feat 
+
 1.5.97.63:
 - fixed crash with 'Apply throwing penalties to range for lack of strength' setting enabled if creature had no main attack available
 - fixed Circle of Stars Starry Form having wrong amount of charges with 2024 Wild Shape changes
