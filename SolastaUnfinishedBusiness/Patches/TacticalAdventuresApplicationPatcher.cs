@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
+using System.IO;
 using HarmonyLib;
 using JetBrains.Annotations;
 using SolastaUnfinishedBusiness.Models;
@@ -61,9 +62,11 @@ public static class TacticalAdventuresApplicationPatcher
         {
             if (type != LogType.Exception || Gui.GuiService == null)
                 return true;
+
+            var log = Path.GetFullPath(Path.Combine(TacticalAdventuresApplication.GameDirectory, "Player.log"));
             Gui.GuiService.ShowMessage(MessageModal.Severity.Serious3, Gui.Localize("Message/&ModErrorWarningTitle"),
-                Gui.Localize("Message/&ModErrorWarningDescription"), "Message/&ModErrorWarningShowLogs", "Screen/&CloseTitle",
-                OpenLogsFolder, null);
+                Gui.Format("Message/&ModErrorWarningDescription", log),
+                "Message/&ModErrorWarningShowLogs", "Screen/&CloseTitle", OpenLogsFolder, null);
             Application.logMessageReceived -= __instance.HandleLogModException;
 
 
