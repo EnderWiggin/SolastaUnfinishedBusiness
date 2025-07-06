@@ -446,3 +446,6 @@ ModUI/&RoleplaySettingsDescription=These settings tweak the balance of the game 
 ModUI/&EnableDamageOnFailedJumpCheck=Applies 1d4 damage on failed jump checks
 ModUi/&LegendaryTweaksTitle=<color=#F0DAA0>Legendary tweaks:</color>
 ModUi/&LegendaryTweaksDetails=Here you can change weapon type of legendary weapons. For safety do this while weapon is unequipped.
+ModUi/&WeaponMasterySystemCustomizeToggle=Customize weapon mastery properties
+ModUi/&WeaponMasterySystemCustomizeResetAll=Reset All
+ModUi/&WeaponMasterySystemCustomizeResetAllWarning=Will reset all weapon mastery properties to default

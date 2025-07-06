@@ -35,8 +35,7 @@ public class AddTagToWeapon
     internal static void TryAddTags(
         RulesetCharacter character,
         RulesetItem item,
-        Dictionary<string,
-            TagsDefinitions.Criticity> tags)
+        Dictionary<string, TagsDefinitions.Criticity> tags)
     {
         var mods = character.GetSubFeaturesByType<AddTagToWeapon>();
 

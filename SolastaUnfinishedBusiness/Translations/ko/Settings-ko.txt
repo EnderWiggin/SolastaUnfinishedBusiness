@@ -445,4 +445,7 @@ ModUi/&UseWeaponMasterySystemAlternateProperties=<i>+ 작은 연구에서 실제
 ModUi/&UseWeaponMasterySystemFlurryTriggersMastery=<i>+ 듀얼 플러리 추가 공격은 다른 마스터리를 발동할 수 있습니다.</i>
 ModUi/&UseWeaponMasterySystemNickExtraAttackTriggersMastery=<i>+닉 마스터리 추가 공격은 다른 마스터리를 발동할 수 있습니다.</i>
 ModUi/&UseWeaponMasterySystemPushSave=<i>+ 밀기 마스터리는 생물이 힘 세이빙 스로우(DC 8 + 공격 굴림 능력치 수정치 + 숙련 보너스)를 해야 합니다.</i>
+ModUi/&WeaponMasterySystemCustomizeResetAll=모든 것을 재설정하십시오
+ModUi/&WeaponMasterySystemCustomizeResetAllWarning=모든 무기 숙달 속성을 기본적으로 재설정합니다
+ModUi/&WeaponMasterySystemCustomizeToggle=무기 숙달 속성을 사용자 정의하십시오
 ModUi/&WildSurgeDieRollThreshold=<color=white><color=#D89555>마법사 야생 마법</color> 확률 주사위 임계값 설정:</color>\n<i><color=#F0DAA0>[임계값 이하로 굴리면 야생 급증이 발동]</color></i>

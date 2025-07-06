@@ -445,4 +445,7 @@ ModUi/&UseWeaponMasterySystemAlternateProperties=<i> + Propriétés des armes al
 ModUi/&UseWeaponMasterySystemFlurryTriggersMastery=<i>+ L'attaque supplémentaire Dual Flurry peut déclencher une autre maîtrise</i>
 ModUi/&UseWeaponMasterySystemNickExtraAttackTriggersMastery=<i>+ L'attaque supplémentaire de maîtrise de Nick peut déclencher une autre maîtrise</i>
 ModUi/&UseWeaponMasterySystemPushSave=<i>+ La maîtrise de la poussée nécessite que la créature effectue un jet de sauvegarde de Force (DD 8 + modificateur de caractéristique du jet d'attaque + bonus de maîtrise)</i>
+ModUi/&WeaponMasterySystemCustomizeResetAll=Réinitialisez tout
+ModUi/&WeaponMasterySystemCustomizeResetAllWarning=Réinitialisera toutes les propriétés de maîtrise des armes par défaut
+ModUi/&WeaponMasterySystemCustomizeToggle=Personnaliser les propriétés de maîtrise des armes
 ModUi/&WildSurgeDieRollThreshold=<color=white>Définissez le seuil de chances de dé de <color=#D89555>Magie sauvage du sorcier</color> :</color>\n<i><color=#F0DAA0>[la poussée sauvage se déclenche si le résultat est inférieur ou égal au seuil]</color></i>

@@ -445,4 +445,7 @@ ModUi/&UseWeaponMasterySystemAlternateProperties=<i>+ Альтернативны
 ModUi/&UseWeaponMasterySystemFlurryTriggersMastery=<i>+ Дополнительная атакая Двойного шквала может активировать ещё одно оружейное мастерство</i>
 ModUi/&UseWeaponMasterySystemNickExtraAttackTriggersMastery=<i>+ Дополнительная атака Царапины может активировать ещё одно оружейное мастерство</i>
 ModUi/&UseWeaponMasterySystemPushSave=<i>+ Мастерство толчка требует, чтобы существо совершило спасбросок Силы (Сл равна 8 + модификатор характеристики броска атаки + Бонус мастерства)</i>
+ModUi/&WeaponMasterySystemCustomizeResetAll=Сбросить все
+ModUi/&WeaponMasterySystemCustomizeResetAllWarning=Сбросит все свойства мастерства оружия по умолчанию
+ModUi/&WeaponMasterySystemCustomizeToggle=Настроить свойства мастерства оружия
 ModUi/&WildSurgeDieRollThreshold=<color=white>Установить пороговое значение вероятности срабатывания <color=#D89555>Дикой магии Чародея</color>:</color>\n<i><color=#F0DAA0>[Волна дикой магии срабатывает, если бросок меньше или равен пороговому значению]</color></i>

@@ -445,4 +445,7 @@ ModUi/&UseWeaponMasterySystemAlternateProperties=<i>+ Proprietà dell'arma alter
 ModUi/&UseWeaponMasterySystemFlurryTriggersMastery=<i>+ L'attacco extra Dual Flurry può innescare un'altra maestria</i>
 ModUi/&UseWeaponMasterySystemNickExtraAttackTriggersMastery=<i>+ L'attacco extra di Nick Mastery può innescare un'altra maestria</i>
 ModUi/&UseWeaponMasterySystemPushSave=<i>+ La padronanza della spinta richiede che la creatura effettui un tiro salvezza su Forza (CD 8 + modificatore di caratteristica del tiro per colpire + bonus di competenza)</i>
+ModUi/&WeaponMasterySystemCustomizeResetAll=Ripristina tutto
+ModUi/&WeaponMasterySystemCustomizeResetAllWarning=Ripristinerà tutte le proprietà di padronanza delle armi a default
+ModUi/&WeaponMasterySystemCustomizeToggle=Personalizza le proprietà della padronanza delle armi
 ModUi/&WildSurgeDieRollThreshold=<color=white>Imposta la soglia di probabilità di dado <color=#D89555>Magia selvaggia dello stregone</color>:</color>\n<i><color=#F0DAA0>[L'ondata selvaggia si innesca se i tiri sono inferiori o uguali alla soglia]</color></i>

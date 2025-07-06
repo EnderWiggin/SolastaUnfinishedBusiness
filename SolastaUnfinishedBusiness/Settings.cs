@@ -113,7 +113,8 @@ public class Settings : UnityModManager.ModSettings
     public bool UseWeaponMasterySystemFlurryTriggersMastery { get; set; }
     public bool UseWeaponMasterySystemNickExtraAttackTriggersMastery { get; set; }
     public bool UseWeaponMasterySystemPushSave { get; set; }
-    public bool UseWeaponMasterySystemAlternateProperties { get; set; }
+    public bool WeaponMasterySystemCustomizeToggle { get; set; }
+    public SerializableDictionary<string, Tabletop2024Context.MasteryProperty> WeaponMasteryCustom { get; set; } = [];
     public bool UseOfficialFlankingRules { get; set; }
     public bool UseMathFlankingRules { get; set; }
     public bool UseOfficialFlankingRulesAlsoForReach { get; set; }

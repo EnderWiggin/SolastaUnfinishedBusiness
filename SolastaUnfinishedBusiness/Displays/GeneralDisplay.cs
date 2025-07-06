@@ -361,11 +361,7 @@ internal static class ToolsDisplay
                 Main.Settings.UseWeaponMasterySystemPushSave = toggle;
             }
 
-            toggle = Main.Settings.UseWeaponMasterySystemAlternateProperties;
-            if (UI.Toggle(Gui.Localize("ModUi/&UseWeaponMasterySystemAlternateProperties"), ref toggle, UI.AutoWidth()))
-            {
-                Main.Settings.UseWeaponMasterySystemAlternateProperties = toggle;
-            }
+            Tabletop2024Context.DisplayWeaponMasteryCustomization();
         }
 
         UI.Label();

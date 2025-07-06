@@ -191,11 +191,7 @@ internal static partial class RulesDisplay
                 Main.Settings.UseWeaponMasterySystemPushSave = toggle;
             }
 
-            toggle = Main.Settings.UseWeaponMasterySystemAlternateProperties;
-            if (UI.Toggle(Gui.Localize("ModUi/&UseWeaponMasterySystemAlternateProperties"), ref toggle, UI.AutoWidth()))
-            {
-                Main.Settings.UseWeaponMasterySystemAlternateProperties = toggle;
-            }
+            Tabletop2024Context.DisplayWeaponMasteryCustomization();
         }
 
         toggle = Main.Settings.UseOfficialFlankingRules;

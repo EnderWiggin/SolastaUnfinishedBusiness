@@ -7,6 +7,7 @@ using SolastaUnfinishedBusiness.Api;
 using SolastaUnfinishedBusiness.Api.GameExtensions;
 using SolastaUnfinishedBusiness.Api.Helpers;
 using SolastaUnfinishedBusiness.Api.LanguageExtensions;
+using SolastaUnfinishedBusiness.Api.ModKit;
 using SolastaUnfinishedBusiness.Behaviors;
 using SolastaUnfinishedBusiness.Behaviors.Specific;
 using SolastaUnfinishedBusiness.Builders;
@@ -14,17 +15,17 @@ using SolastaUnfinishedBusiness.Builders.Features;
 using SolastaUnfinishedBusiness.CustomUI;
 using SolastaUnfinishedBusiness.Feats;
 using SolastaUnfinishedBusiness.Interfaces;
-using SolastaUnfinishedBusiness.Properties;
 using SolastaUnfinishedBusiness.Validators;
 using static ActionDefinitions;
 using static RuleDefinitions;
 using static SolastaUnfinishedBusiness.Api.DatabaseHelper.CharacterClassDefinitions;
 using static SolastaUnfinishedBusiness.Api.DatabaseHelper.FeatureDefinitionActionAffinitys;
 using static SolastaUnfinishedBusiness.Api.DatabaseHelper;
+using Resources = SolastaUnfinishedBusiness.Properties.Resources;
 
 namespace SolastaUnfinishedBusiness.Models;
 
-internal static partial class Tabletop2024Context
+public static partial class Tabletop2024Context
 {
     private const string Stage = "WeaponMasteryRelearn";
     private const string IndexUnlearn = "WeaponMasteryUnlearn";
@@ -392,21 +393,40 @@ internal static partial class Tabletop2024Context
 
         PowerBundle.RegisterPowerBundle(PowerWeaponMasteryRelearnPool, false, powers);
 
+        foreach (var pair in WeaponMasteryTable)
+        {
+            var weapon = pair.Key;
+            var def = pair.Value;
+            var current = weapon.GetMastery();
+
+            if (def == current) { continue; }
+
+            UpdateWeaponMasteryDescriptions(weapon.Name, current);
+        }
+    }
+
+    internal static void TryAddWeaponMasteryTags(
+        RulesetCharacter character,
+        RulesetItem item,
+        Dictionary<string, TagsDefinitions.Criticity> tags)
+    {
         if (!Main.Settings.UseWeaponMasterySystem || !Main.Settings.UseWeaponMasterySystemAddWeaponTag)
         {
             return;
         }
 
-        foreach (var weapon in DatabaseRepository.GetDatabase<ItemDefinition>()
-                     .Where(x => x.IsWeapon))
-        {
-            var weaponType = weapon.WeaponDescription.WeaponTypeDefinition;
+        if (!item.ItemDefinition.IsWeapon) { return; }
 
-            if (WeaponMasteryTable.TryGetValue(weaponType, out var masteryProperty))
-            {
-                weapon.WeaponDescription.WeaponTags.Add($"{masteryProperty}");
-            }
-        }
+        var weapon = item.ItemDefinition.WeaponDescription?.WeaponTypeDefinition;
+
+        if (weapon == null) { return; }
+
+        var mastery = weapon.GetMastery();
+
+        if (mastery == MasteryProperty.None) { return; }
+
+        var known = character != null && WeaponTypesWithLearnedMastery(character).Contains(weapon);
+        tags.TryAdd($"{mastery}", known ? TagsDefinitions.Criticity.Important : TagsDefinitions.Criticity.Normal);
     }
 
     internal static void SwitchWeaponMastery()
@@ -450,6 +470,21 @@ internal static partial class Tabletop2024Context
             .ToArray();
     }
 
+    internal static MasteryProperty GetMastery(this WeaponTypeDefinition weapon)
+    {
+        if (Main.Settings.WeaponMasteryCustom.TryGetValue(weapon.Name, out var mastery))
+        {
+            if (Masteries.Contains(mastery)) { return mastery; }
+        }
+
+        if (WeaponMasteryTable.TryGetValue(weapon, out mastery))
+        {
+            if (Masteries.Contains(mastery)) { return mastery; }
+        }
+
+        return MasteryProperty.None;
+    }
+
     internal static MasteryProperty GetMastery(this RulesetCharacter character, RulesetAttackMode attackMode)
     {
         var attackModeWeaponType = (attackMode.SourceDefinition as ItemDefinition)
@@ -464,7 +499,7 @@ internal static partial class Tabletop2024Context
 
         return !weaponTypes.Contains(attackModeWeaponType)
             ? MasteryProperty.None
-            : WeaponMasteryTable[attackModeWeaponType];
+            : attackModeWeaponType.GetMastery();
     }
 
     private static MasteryProperty GetMastery(this RulesetCharacter character, RulesetItem rulesetItem)
@@ -480,7 +515,7 @@ internal static partial class Tabletop2024Context
 
         return !weaponTypes.Contains(rulesetItemWeaponType)
             ? MasteryProperty.None
-            : WeaponMasteryTable[rulesetItemWeaponType];
+            : rulesetItemWeaponType.GetMastery();
     }
 
     internal static MasteryProperty GetMainMastery(this RulesetCharacter character)
@@ -507,7 +542,7 @@ internal static partial class Tabletop2024Context
         return offhandWeaponMastery != MasteryProperty.None;
     }
 
-    internal enum MasteryProperty
+    public enum MasteryProperty
     {
         None = -1,
         Push = 0,
@@ -519,6 +554,18 @@ internal static partial class Tabletop2024Context
         Topple,
         Vex
     }
+
+    private static readonly List<MasteryProperty> Masteries =
+    [
+        MasteryProperty.Push,
+        MasteryProperty.Sap,
+        MasteryProperty.Slow,
+        MasteryProperty.Cleave,
+        MasteryProperty.Graze,
+        MasteryProperty.Nick,
+        MasteryProperty.Topple,
+        MasteryProperty.Vex
+    ];
 
     //
     // Weapon Mastery
@@ -946,7 +993,7 @@ internal static partial class Tabletop2024Context
         {
             var attacker = __instance.ActionParams.ActingCharacter;
             var attackMode = attacker.FindActionAttackMode(Id.AttackMain);
-            
+
             if (!attacker.RulesetCharacter.TryGetConditionOfCategoryAndType(
                     AttributeDefinitions.TagEffect, ConditionWeaponMasteryCleave.Name, out var activeCondition))
             {
@@ -957,24 +1004,18 @@ internal static partial class Tabletop2024Context
             var rulesetFirstTarget = EffectHelpers.GetCharacterByGuid(activeCondition.SourceGuid);
             var firstTarget = GameLocationCharacter.GetFromActor(rulesetFirstTarget);
 
-            if (!attacker.IsWithinRange(target, attackMode.reachRange) ||
-                    target == firstTarget)
+            if (!attacker.IsWithinRange(target, attackMode.reachRange) || target == firstTarget)
             {
-                if (target != firstTarget
-                    && Main.Settings.UseWeaponMasterySystemAlternateProperties
-                    && (attackMode.Thrown || attackMode.Ranged)) { } //do nothing, using alternate weapon properties
-                else //then the attack is melee or reached, or alternate masteries is off
-                {
-                    __instance.actionModifier.FailureFlags.Add(Gui.Localize("Failure/&CannotAttackTarget"));
-            
-                    return false;
-                }
+                __instance.actionModifier.FailureFlags.Add(Gui.Localize("Failure/&CannotAttackTarget"));
+
+                return false;
             }
 
-            if (firstTarget.IsWithinRange(target, (attackMode.Thrown || attackMode.Ranged) ? 3 : 1))
+            if (firstTarget.IsWithinRange(target, 1))
             {
                 return true;
-            };                        
+            }
+
             __instance.actionModifier.FailureFlags.Add("Failure/&SecondTargetNotWithinRange");
 
             return false;
@@ -1310,6 +1351,95 @@ internal static partial class Tabletop2024Context
             hero!.TrainedInvocations.Remove(invocationToUnlearn);
             hero.TrainedInvocations.Add(invocationToLearn);
             hero.GrantInvocations();
+        }
+    }
+
+    #endregion
+
+    #region Customize
+
+    private static void SetWeaponMastery(WeaponTypeDefinition weapon, MasteryProperty mastery)
+    {
+        var weaponTypeName = weapon.Name;
+        if (mastery == MasteryProperty.None || !WeaponMasteryTable.TryGetValue(weapon, out var def) || def == mastery)
+        {
+            Main.Settings.WeaponMasteryCustom.Remove(weaponTypeName);
+            return;
+        }
+
+        Main.Settings.WeaponMasteryCustom[weaponTypeName] = mastery;
+
+        UpdateWeaponMasteryDescriptions(weaponTypeName, mastery);
+    }
+
+    private static void UpdateWeaponMasteryDescriptions(string weaponTypeName, MasteryProperty mastery)
+    {
+        var description = GetDefinition<FeatureDefinition>($"FeatureWeaponMastery{mastery}")
+            .GuiPresentation.Description;
+
+        GetDefinition<InvocationDefinition>($"CustomInvocationWeaponMastery{weaponTypeName}")
+            .GuiPresentation.Description = description;
+
+        GetDefinition<FeatureDefinitionPower>($"PowerWeaponMasteryRelearn{weaponTypeName}")
+            .GuiPresentation.Description = description;
+    }
+
+    private static bool _resetState;
+
+    internal static void DisplayWeaponMasteryCustomization()
+    {
+        var toggle = Main.Settings.WeaponMasterySystemCustomizeToggle;
+        if (UI.DisclosureToggle(Gui.Localize("ModUi/&WeaponMasterySystemCustomizeToggle"), ref toggle, 200))
+        {
+            Main.Settings.WeaponMasterySystemCustomizeToggle = toggle;
+        }
+
+        if (!Main.Settings.WeaponMasterySystemCustomizeToggle)
+        {
+            return;
+        }
+
+        UI.DangerousActionButton(Gui.Localize("ModUi/&WeaponMasterySystemCustomizeResetAll"),
+            Gui.Localize("ModUi/&WeaponMasterySystemCustomizeResetAllWarning"),
+            ref _resetState, () => Main.Settings.WeaponMasteryCustom.Clear());
+
+        using (UI.VerticalScope())
+        {
+            foreach (var weapon in WeaponMasteryTable.Keys.OrderBy(x => x.FormatTitle()))
+            {
+                using (UI.HorizontalScope())
+                {
+                    UI.Label(weapon.FormatTitle(), UI.Width(100));
+                    foreach (var mastery in Masteries)
+                    {
+                        //do not allow Cleave for ranged weapons
+                        var disabled = mastery == MasteryProperty.Cleave
+                                       && weapon.WeaponProximity == AttackProximity.Range;
+
+                        var title = $"{mastery}";
+                        if (disabled)
+                        {
+                            title = title.Grey();
+                        }
+                        else if (mastery == weapon.GetMastery())
+                        {
+                            title = title.Bold().Orange();
+                        }
+
+                        UI.ActionButton(title, () =>
+                        {
+                            if (disabled) { return; }
+
+                            _resetState = false;
+                            SetWeaponMastery(weapon, mastery);
+                        });
+                    }
+
+                    UI.Space(10f);
+                    UI.ActionButton(Gui.Localize("Screen/&ScoreResetButtonTitle"),
+                        () => SetWeaponMastery(weapon, MasteryProperty.None));
+                }
+            }
         }
     }
 

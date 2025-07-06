@@ -445,4 +445,7 @@ ModUi/&UseWeaponMasterySystemAlternateProperties=<i>+小さな研究の実生活
 ModUi/&UseWeaponMasterySystemFlurryTriggersMastery=<i>+ デュアル フラリーの追加攻撃で別のマスタリーを発動できる</i>
 ModUi/&UseWeaponMasterySystemNickExtraAttackTriggersMastery=<i>+ ニック マスタリーの追加攻撃で別のマスタリーを発動できる</i>
 ModUi/&UseWeaponMasterySystemPushSave=<i>+ プッシュ マスタリーでは、クリーチャーは筋力セーヴィング スロー (DC 8 + 攻撃ロール能力修正値 + 熟練度ボーナス) を実行する必要があります</i>
+ModUi/&WeaponMasterySystemCustomizeResetAll=すべてをリセットします
+ModUi/&WeaponMasterySystemCustomizeResetAllWarning=すべての武器の習得プロパティをデフォルトにリセットします
+ModUi/&WeaponMasterySystemCustomizeToggle=武器の習得プロパティをカスタマイズします
 ModUi/&WildSurgeDieRollThreshold=<color=white><color=#D89555>ソーサラー ワイルド マジック</color> の確率ダイスしきい値を設定します:</color>\n<i><color=#F0DAA0>[ロールがしきい値以下であればワイルド サージが発動します]</color></i>

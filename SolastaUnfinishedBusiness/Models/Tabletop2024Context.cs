@@ -20,22 +20,8 @@ using static SolastaUnfinishedBusiness.Api.DatabaseHelper;
 
 namespace SolastaUnfinishedBusiness.Models;
 
-internal static partial class Tabletop2024Context
+public static partial class Tabletop2024Context
 {
-    static Tabletop2024Context()
-    {
-        if (Main.Settings.UseWeaponMasterySystemAlternateProperties) AdjustWeaponProperties();
-    }
-
-    private static void AdjustWeaponProperties()
-    {
-        WeaponMasteryTable[WeaponTypeDefinitions.DartType] = MasteryProperty.Cleave;
-        WeaponMasteryTable[WeaponTypeDefinitions.RapierType] = MasteryProperty.Sap;
-        WeaponMasteryTable[WeaponTypeDefinitions.ShortbowType] = MasteryProperty.Cleave;
-        WeaponMasteryTable[WeaponTypeDefinitions.ShortswordType] = MasteryProperty.Graze;
-        WeaponMasteryTable[WeaponTypeDefinitions.SpearType] = MasteryProperty.Vex;
-    }
-
     private static readonly FeatureDefinitionCombatAffinity CombatAffinityConditionSurprised =
         FeatureDefinitionCombatAffinityBuilder
             .Create("CombatAffinityConditionSurprised")
