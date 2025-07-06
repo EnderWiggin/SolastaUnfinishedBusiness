@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Reflection.Emit;
-using System.Runtime.Remoting.Contexts;
 using HarmonyLib;
 using JetBrains.Annotations;
 using SolastaUnfinishedBusiness.Api;
@@ -73,21 +72,12 @@ public static class RulesetImplementationManagerPatcher
             //crunchycrits
             var dieType = useVersatileDamage ? damageForm.VersatileDieType : damageForm.DieType;
             var diceMaxValue = DiceMaxValue[(int)damageForm.dieType];
-            RulesetCharacterHero hero = rulesetActor is RulesetCharacterHero ? rulesetActor as RulesetCharacterHero : null;
-            bool deadlyHero = hero != null && Main.Settings.UseWeaponMasterySystemAlternateProperties 
-                ? hero.GetMainMastery() == Tabletop2024Context.MasteryProperty.Deadly : false;
 
             if (damageForm.OverrideWithBardicInspirationDie &&
-                hero != null &&
+                rulesetActor is RulesetCharacterHero hero &&
                 hero.GetBardicInspirationDieValue() != DieType.D1)
             {
                 dieType = hero.GetBardicInspirationDieValue();
-            }
-
-            if (deadlyHero)
-            {
-                addDice -= 1;
-                if (addDice < 0) addDice = 0;
             }
 
             var totalDamage = rulesetActor.RollDiceAndSum(
@@ -97,10 +87,6 @@ public static class RulesetImplementationManagerPatcher
                     : RollContext.MagicDamageValueRoll,
                 damageForm.DiceNumber + addDice,
                 rolledValues, canRerollDice, maximumDamage);
-
-            if (deadlyHero)
-                totalDamage = adjustDamageForDeadlyHero(totalDamage, attackModeDamage, hero, damageForm.dieType
-                    , rolledValues, canRerollDice, maximumDamage);
 
             // add additional dices equal with dice max value
             totalDamage += rolledValues.Count * diceMaxValue;
@@ -163,21 +149,12 @@ public static class RulesetImplementationManagerPatcher
             bool canRerollDice)
         {
             var diceType = useVersatileDamage ? damageForm.VersatileDieType : damageForm.DieType;
-            RulesetCharacterHero hero = rulesetActor is RulesetCharacterHero ? rulesetActor as RulesetCharacterHero : null;
-            bool deadlyHero = hero != null && Main.Settings.UseWeaponMasterySystemAlternateProperties
-                ? hero.GetMainMastery() == Tabletop2024Context.MasteryProperty.Deadly : false;
 
             if (damageForm.OverrideWithBardicInspirationDie &&
-                hero != null &&
+                rulesetActor is RulesetCharacterHero hero &&
                 hero.GetBardicInspirationDieValue() != DieType.D1)
             {
                 diceType = hero.GetBardicInspirationDieValue();
-            }
-
-            if (deadlyHero)
-            {
-                addDice -= 1;
-                if (addDice < 0) addDice = 0;
             }
 
             var totalDamage = RollDiceKeepRollingMaxAndSum(rulesetActor,
@@ -187,10 +164,6 @@ public static class RulesetImplementationManagerPatcher
                     : RollContext.MagicDamageValueRoll,
                 (damageForm.DiceNumber + addDice) * 2, // 2 as it's a critical hit
                 rolledValues, canRerollDice);
-
-            if (deadlyHero)
-                totalDamage = adjustDamageForDeadlyHero(totalDamage, attackModeDamage, hero, damageForm.dieType
-                    , rolledValues.ToList<int>(), canRerollDice, false);
 
             return Mathf.FloorToInt(damageMultiplier *
                                     (Mathf.Clamp(totalDamage + damageForm.BonusDamage - damageRollReduction, 0,
@@ -214,24 +187,14 @@ public static class RulesetImplementationManagerPatcher
         {
             var diceType = useVersatileDamage ? damageForm.VersatileDieType : damageForm.DieType;
 
-            RulesetCharacterHero hero = rulesetActor is RulesetCharacterHero ? rulesetActor as RulesetCharacterHero : null;
-            bool deadlyHero = hero != null && Main.Settings.UseWeaponMasterySystemAlternateProperties
-                ? hero.GetMainMastery() == Tabletop2024Context.MasteryProperty.Deadly : false;
-
             if (damageForm.OverrideWithBardicInspirationDie &&
-                hero != null &&
+                rulesetActor is RulesetCharacterHero hero&&
                 hero.GetBardicInspirationDieValue() != DieType.D1)
             {
                 diceType = hero.GetBardicInspirationDieValue();
             }
 
-            if (deadlyHero)
-            {
-                addDice -= 1;
-                if (addDice < 0) addDice = 0;
-            }
-
-            // different than original game code we roll usual dices and multiply result by 2
+            // different from original game code we roll usual dices and multiply result by 2
             var totalDamage = rulesetActor.RollDiceAndSum(
                 diceType,
                 attackModeDamage
@@ -245,10 +208,6 @@ public static class RulesetImplementationManagerPatcher
 
             // doubles the rolled damage
             damageForm.bonusDamage *= 2;
-
-            if (deadlyHero)
-                totalDamage = adjustDamageForDeadlyHero(totalDamage, attackModeDamage, hero, damageForm.dieType
-                    , rolledValues.ToList<int>(), canRerollDice, false);
 
             return Mathf.FloorToInt(
                 damageMultiplier *
@@ -321,8 +280,8 @@ public static class RulesetImplementationManagerPatcher
                     3 => RollDamageOption3(
                         rulesetActor, damageForm, addDice, additionalDamage, damageRollReduction, damageMultiplier,
                         maximumDamage, useVersatileDamage, attackModeDamage, rolledValues, canRerollDice),
-                    _ => RollDamageDefault(
-                        rulesetActor, damageForm, addDice, additionalDamage, damageRollReduction, damageMultiplier,
+                    _ => rulesetActor.RollDamage(
+                        damageForm, addDice, true, additionalDamage, damageRollReduction, damageMultiplier,
                         maximumDamage, useVersatileDamage, attackModeDamage, rolledValues, canRerollDice)
                 };
             }
@@ -349,69 +308,6 @@ public static class RulesetImplementationManagerPatcher
             CollegeOfAudacity.HandleDefensiveWhirl(rulesetCharacter, damageForm, damage);
 
             return damage;
-        }
-
-        private static int RollDamageDefault(
-            RulesetActor rulesetActor,
-            DamageForm damageForm,
-            int addDice,
-            int additionalDamage,
-            int damageRollReduction,
-            float damageMultiplier,
-            bool maximumDamage,
-            bool useVersatileDamage,
-            bool attackModeDamage,
-            List<int> rolledValues,
-            bool canRerollDice)
-        {
-            RulesetCharacterHero hero = rulesetActor is RulesetCharacterHero ? rulesetActor as RulesetCharacterHero : null;
-            bool deadlyHero = hero != null && Main.Settings.UseWeaponMasterySystemAlternateProperties
-                ? hero.GetMainMastery() == Tabletop2024Context.MasteryProperty.Deadly : false;
-            if (deadlyHero)
-            {
-                addDice -= 1;
-                if (addDice < 0) addDice = 0;
-            }
-            var totalDamage = rulesetActor.RollDamage(damageForm, addDice, true, additionalDamage, damageRollReduction, damageMultiplier,
-                        maximumDamage, useVersatileDamage, attackModeDamage, rolledValues, canRerollDice);;
-            if (deadlyHero)
-                totalDamage = adjustDamageForDeadlyHero(totalDamage, attackModeDamage, hero, damageForm.dieType
-                    , rolledValues, canRerollDice, maximumDamage);
-            return totalDamage;
-        }
-
-        private static int adjustDamageForDeadlyHero(int totalDamage
-            ,bool attackModeDamage
-            , RulesetCharacterHero hero
-            , DieType damageDieType
-            , List<int> rolledValues
-            , bool canRerollDice
-            , bool maximumDamage)
-        {
-            var upgradeDie = damageDieType.Next();
-            if (upgradeDie == DieType.D20) upgradeDie = DieType.D12;
-
-            var deadlyDamage = hero.RollDiceAndSum(
-                upgradeDie,
-                attackModeDamage
-                    ? RollContext.AttackDamageValueRoll
-                    : RollContext.MagicDamageValueRoll,
-                1,
-                rolledValues, canRerollDice, maximumDamage);
-
-
-            var textParams = new List<GameConsoleHelper.GUIConsoleParameter>();
-            textParams.Add(new GameConsoleHelper.GUIConsoleParameter(ConsoleStyleDuplet.ParameterType.Player, hero.Name));
-            textParams.Add(new GameConsoleHelper.GUIConsoleParameter(ConsoleStyleDuplet.ParameterType.SuccessfulRoll, "Tooltip/&TagDeadlyTitle", "Feature/&FeatureWeaponMasteryDeadlyDescription"));
-            textParams.Add(new GameConsoleHelper.GUIConsoleParameter(ConsoleStyleDuplet.ParameterType.AbilityInfo, damageDieType.ToString()));
-            textParams.Add(new GameConsoleHelper.GUIConsoleParameter(ConsoleStyleDuplet.ParameterType.AbilityInfo, upgradeDie.ToString()));
-            textParams.Add(new GameConsoleHelper.GUIConsoleParameter(ConsoleStyleDuplet.ParameterType.AttackSpellPower, deadlyDamage.ToString()));
-            textParams.Add(new GameConsoleHelper.GUIConsoleParameter(ConsoleStyleDuplet.ParameterType.AbilityInfo, totalDamage.ToString()));
-            textParams.Add(new GameConsoleHelper.GUIConsoleParameter(ConsoleStyleDuplet.ParameterType.FailedRoll, (totalDamage + deadlyDamage).ToString()));
-            GameConsoleHelper.Log("Feedback/&WeaponMasteryDeadlyTriggered", textParams);
-
-            totalDamage += deadlyDamage;
-            return totalDamage;
         }
 
         [UsedImplicitly]

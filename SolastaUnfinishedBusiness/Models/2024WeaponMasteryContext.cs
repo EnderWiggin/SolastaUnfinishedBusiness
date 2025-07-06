@@ -517,8 +517,7 @@ internal static partial class Tabletop2024Context
         Graze,
         Nick,
         Topple,
-        Vex,
-        Deadly
+        Vex
     }
 
     //

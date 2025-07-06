@@ -34,8 +34,6 @@ internal static partial class Tabletop2024Context
         WeaponMasteryTable[WeaponTypeDefinitions.ShortbowType] = MasteryProperty.Cleave;
         WeaponMasteryTable[WeaponTypeDefinitions.ShortswordType] = MasteryProperty.Graze;
         WeaponMasteryTable[WeaponTypeDefinitions.SpearType] = MasteryProperty.Vex;
-        WeaponMasteryTable[WeaponTypeDefinitions.LongbowType] = MasteryProperty.Deadly;
-        WeaponMasteryTable[CustomWeaponsContext.LongMaceWeaponType] = MasteryProperty.Deadly;        
     }
 
     private static readonly FeatureDefinitionCombatAffinity CombatAffinityConditionSurprised =
