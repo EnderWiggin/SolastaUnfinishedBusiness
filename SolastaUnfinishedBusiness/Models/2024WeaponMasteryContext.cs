@@ -458,6 +458,13 @@ public static partial class Tabletop2024Context
         Paladin.FeatureUnlocks.Add(new FeatureUnlockByLevel(FeatureSetWeaponMasteryLearn2, 1));
         Ranger.FeatureUnlocks.Add(new FeatureUnlockByLevel(FeatureSetWeaponMasteryLearn2, 1));
         Rogue.FeatureUnlocks.Add(new FeatureUnlockByLevel(FeatureSetWeaponMasteryLearn2, 1));
+
+        //Sort unlocks
+        Barbarian.FeatureUnlocks.Sort(Sorting.CompareFeatureUnlock);
+        Fighter.FeatureUnlocks.Sort(Sorting.CompareFeatureUnlock);
+        Paladin.FeatureUnlocks.Sort(Sorting.CompareFeatureUnlock);
+        Ranger.FeatureUnlocks.Sort(Sorting.CompareFeatureUnlock);
+        Rogue.FeatureUnlocks.Sort(Sorting.CompareFeatureUnlock);
     }
 
     private static WeaponTypeDefinition[] WeaponTypesWithLearnedMastery(RulesetCharacter character)
