@@ -1368,13 +1368,19 @@ public static partial class Tabletop2024Context
     private static void SetWeaponMastery(WeaponTypeDefinition weapon, MasteryProperty mastery)
     {
         var weaponTypeName = weapon.Name;
-        if (mastery == MasteryProperty.None || !WeaponMasteryTable.TryGetValue(weapon, out var def) || def == mastery)
+        if (!WeaponMasteryTable.TryGetValue(weapon, out var def) || def == mastery)
         {
-            Main.Settings.WeaponMasteryCustom.Remove(weaponTypeName);
-            return;
+            mastery = MasteryProperty.None;
         }
 
-        Main.Settings.WeaponMasteryCustom[weaponTypeName] = mastery;
+        if (mastery == MasteryProperty.None)
+        {
+            Main.Settings.WeaponMasteryCustom.Remove(weaponTypeName);
+        }
+        else
+        {
+            Main.Settings.WeaponMasteryCustom[weaponTypeName] = mastery;
+        }
 
         UpdateWeaponMasteryDescriptions(weaponTypeName, mastery);
     }
