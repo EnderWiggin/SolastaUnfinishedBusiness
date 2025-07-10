@@ -21,7 +21,7 @@ using static SolastaUnfinishedBusiness.Api.DatabaseHelper.FeatureDefinitionPoint
 
 namespace SolastaUnfinishedBusiness.Models;
 
-internal static partial class Tabletop2024Context
+public static partial class Tabletop2024Context
 {
     internal static readonly ConditionDefinition ConditionIndomitableSaving = ConditionDefinitionBuilder
         .Create("ConditionIndomitableSaving")

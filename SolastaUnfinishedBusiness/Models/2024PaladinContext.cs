@@ -21,7 +21,7 @@ using static SolastaUnfinishedBusiness.Api.DatabaseHelper.FeatureDefinitionAttri
 
 namespace SolastaUnfinishedBusiness.Models;
 
-internal static partial class Tabletop2024Context
+public static partial class Tabletop2024Context
 {
     private static readonly FeatureDefinitionAttributeModifier AttributeModifierPaladinChannelDivinity11 =
         FeatureDefinitionAttributeModifierBuilder

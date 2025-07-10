@@ -31,7 +31,7 @@ using static SolastaUnfinishedBusiness.Api.DatabaseHelper.FeatureDefinitionProfi
 
 namespace SolastaUnfinishedBusiness.Models;
 
-internal static partial class Tabletop2024Context
+public static partial class Tabletop2024Context
 {
     internal static readonly ConditionDefinition ConditionStunningStrikeMark = ConditionDefinitionBuilder
         .Create("ConditionStunningStrikeMark")

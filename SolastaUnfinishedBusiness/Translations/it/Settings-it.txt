@@ -146,7 +146,7 @@ ModUi/&EnableDruidWildshape2024=Sostituisci <color=#D89555>Forma selvaggia</colo
 ModUi/&EnableDungeonMakerModdedContent=Abilita Dungeon Maker Pro\n{101}{101}<i><color=#F0DAA0>[includi stanze piatte, dimensioni dungeon 150x150 e 200x200 e mix di risorse senza fronzoli da tutti gli ambienti]</color></i>
 ModUi/&EnableElevationCameraToStayAtPosition=<i>+ Abilita la telecamera di elevazione durante la battaglia per mantenerla in posizione dopo la disattivazione e triplicarne la portata</i>
 ModUi/&EnableEpicPointsAndArray=Abilita un sistema di acquisto epico da 35 punti e schiera <i><color=#F0DAA0>[17,15,13,12,10,8]</color></i> <b><i><color=#C04040E0>[Richiede riavvio]</color></i></b>
-ModUi/&EnableExtendedProficienciesPanelDisplay=Abilita la visualizzazione del pannello delle competenze estese <i><color=#F0DAA0>[Colpi arcani, infusioni, manovre e versatilità]</color></i>\n<b><i><color=#C04040E0>[prestazioni ridotte durante l'ispezione del personaggio. Usa a tuo rischio e pericolo]</color></i></b>
+ModUi/&EnableExtendedProficienciesPanelDisplay=Abilita la visualizzazione del pannello delle competenze estese <i><color=#F0DAA0>[{0}]</color></i>\n<b><i><color=#C04040E0>[prestazioni ridotte durante l'ispezione del personaggio. Usa a tuo rischio e pericolo]</color></i></b>
 ModUi/&EnableFeatsAtEvenLevels=Abilita la selezione di <color=#D89555>talenti</color> ai livelli 2, 10 e 18
 ModUi/&EnableFeatsAtEvenLevelsMiddle=Abilita la selezione di <color=#D89555>talenti</color> ai livelli 6 e 14
 ModUi/&EnableFighterIndomitableSaving2024=Sostituisci <color=#D89555>Resistenza indomabile</color> con la versione 5e 2024 <i><color=#F0DAA0>[aggiungi il livello di classe come bonus al tiro salvezza]</color></i>
@@ -445,4 +445,7 @@ ModUi/&UseWeaponMasterySystemAlternateProperties=<i>+ Proprietà dell'arma alter
 ModUi/&UseWeaponMasterySystemFlurryTriggersMastery=<i>+ L'attacco extra Dual Flurry può innescare un'altra maestria</i>
 ModUi/&UseWeaponMasterySystemNickExtraAttackTriggersMastery=<i>+ L'attacco extra di Nick Mastery può innescare un'altra maestria</i>
 ModUi/&UseWeaponMasterySystemPushSave=<i>+ La padronanza della spinta richiede che la creatura effettui un tiro salvezza su Forza (CD 8 + modificatore di caratteristica del tiro per colpire + bonus di competenza)</i>
+ModUi/&WeaponMasterySystemCustomizeResetAll=Ripristina tutto
+ModUi/&WeaponMasterySystemCustomizeResetAllWarning=Ripristinerà tutte le proprietà di padronanza delle armi a default
+ModUi/&WeaponMasterySystemCustomizeToggle=Personalizza le proprietà della padronanza delle armi
 ModUi/&WildSurgeDieRollThreshold=<color=white>Imposta la soglia di probabilità di dado <color=#D89555>Magia selvaggia dello stregone</color>:</color>\n<i><color=#F0DAA0>[L'ondata selvaggia si innesca se i tiri sono inferiori o uguali alla soglia]</color></i>

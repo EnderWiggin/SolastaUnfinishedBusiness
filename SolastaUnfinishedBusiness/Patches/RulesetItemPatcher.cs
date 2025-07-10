@@ -24,6 +24,9 @@ public static class RulesetItemPatcher
         {
             var item = __instance.itemDefinition;
 
+            //PATCH: add weapon mastery tags
+            Tabletop2024Context.TryAddWeaponMasteryTags(context as RulesetCharacter, __instance, tagsMap);
+
             //PATCH: add custom tags from sub-features
             AddTagToWeapon.TryAddTags(context as RulesetCharacter, __instance, tagsMap);
 

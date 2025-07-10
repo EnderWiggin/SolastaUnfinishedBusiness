@@ -137,7 +137,7 @@ ModUi/&EnableDruidWildshape2024=Swap <color=#D89555>Wild Shape</color> with 2024
 ModUi/&EnableDungeonMakerModdedContent=Enable Dungeon Maker Pro\n<i><color=#F0DAA0>[include flat rooms, 150x150 & 200x200 dungeon sizes and no frills mixing assets from all environments]</color></i>
 ModUi/&EnableElevationCameraToStayAtPosition=<i>+ Enable elevation camera during battle to stay at position after disabled and triple its range</i>
 ModUi/&EnableEpicPointsAndArray=Enable an epic 35 points buy system and array <i><color=#F0DAA0>[17,15,13,12,10,8]</color></i> <b><i><color=#C04040E0>[Requires Restart]</color></i></b>
-ModUi/&EnableExtendedProficienciesPanelDisplay=Enable extended proficiencies panel display <i><color=#F0DAA0>[Arcane Shots, Infusions, Maneuvers, and Versatilities]</color></i>\n<b><i><color=#C04040E0>[performance hit on character inspection. use at your own risk]</color></i></b>
+ModUi/&EnableExtendedProficienciesPanelDisplay=Enable extended proficiencies panel display <i><color=#F0DAA0>[{0}]</color></i>\n<b><i><color=#C04040E0>[performance hit on character inspection. use at your own risk]</color></i></b>
 ModUi/&EnableFeatsAtEvenLevels=Enable <color=#D89555>feats</color> selection at levels 2, 10 and 18
 ModUi/&EnableFeatsAtEvenLevelsMiddle=Enable <color=#D89555>feats</color> selection at levels 6 and 14
 ModUi/&EnableFighterIndomitableSaving2024=Swap <color=#D89555>Indomitable Resistance</color> with 5e 2024 version <i><color=#F0DAA0>[add the class level as a bonus to the saving throw reroll]</color></i>
@@ -446,3 +446,6 @@ ModUI/&RoleplaySettingsDescription=These settings tweak the balance of the game 
 ModUI/&EnableDamageOnFailedJumpCheck=Applies 1d4 damage on failed jump checks
 ModUi/&LegendaryTweaksTitle=<color=#F0DAA0>Legendary tweaks:</color>
 ModUi/&LegendaryTweaksDetails=Here you can change weapon type of legendary weapons. For safety do this while weapon is unequipped.
+ModUi/&WeaponMasterySystemCustomizeToggle=Customize weapon mastery properties
+ModUi/&WeaponMasterySystemCustomizeResetAll=Reset All
+ModUi/&WeaponMasterySystemCustomizeResetAllWarning=Will reset all weapon mastery properties to default

@@ -146,7 +146,7 @@ ModUi/&EnableDruidWildshape2024=Échangez <color=#D89555>Wild Shape</color> avec
 ModUi/&EnableDungeonMakerModdedContent=Activer Dungeon Maker Pro\n<i><color=#F0DAA0>[inclure des salles plates, des tailles de donjon 150x150 et 200x200 et aucun fioriture mélangeant des ressources de tous les environnements]</color></i>
 ModUi/&EnableElevationCameraToStayAtPosition=<i>+ Activez la caméra d'élévation pendant la bataille pour rester en position après avoir été désactivée et tripler sa portée</i>
 ModUi/&EnableEpicPointsAndArray=Activer un système d'achat épique de 35 points et un tableau <i><color=#F0DAA0>[17,15,13,12,10,8]</color></i> <b><i><color=#C04040E0>[Nécessite un redémarrage]</color></i></b>
-ModUi/&EnableExtendedProficienciesPanelDisplay=Activer l'affichage du panneau des compétences étendues <i><color=#F0DAA0>[Tirs des arcanes, Infusions, Manœuvres et Polyvalence]</color></i>\n<b><i><color=#C04040E0>[baisse des performances lors de l'inspection des personnages. À utiliser à vos risques et périls]</color></i></b>
+ModUi/&EnableExtendedProficienciesPanelDisplay=Activer l'affichage du panneau des compétences étendues <i><color=#F0DAA0>[{0}]</color></i>\n<b><i><color=#C04040E0>[baisse des performances lors de l'inspection des personnages. À utiliser à vos risques et périls]</color></i></b>
 ModUi/&EnableFeatsAtEvenLevels=Activer la sélection des <color=#D89555>exploits</color> aux niveaux 2, 10 et 18
 ModUi/&EnableFeatsAtEvenLevelsMiddle=Activer la sélection des <color=#D89555>exploits</color> aux niveaux 6 et 14
 ModUi/&EnableFighterIndomitableSaving2024=Échangez <color=#D89555>Résistance indomptable</color> avec la version 5e 2024 <i><color=#F0DAA0>[ajoutez le niveau de classe comme bonus à la relance du jet de sauvegarde]</color></i>
@@ -445,4 +445,7 @@ ModUi/&UseWeaponMasterySystemAlternateProperties=<i> + Propriétés des armes al
 ModUi/&UseWeaponMasterySystemFlurryTriggersMastery=<i>+ L'attaque supplémentaire Dual Flurry peut déclencher une autre maîtrise</i>
 ModUi/&UseWeaponMasterySystemNickExtraAttackTriggersMastery=<i>+ L'attaque supplémentaire de maîtrise de Nick peut déclencher une autre maîtrise</i>
 ModUi/&UseWeaponMasterySystemPushSave=<i>+ La maîtrise de la poussée nécessite que la créature effectue un jet de sauvegarde de Force (DD 8 + modificateur de caractéristique du jet d'attaque + bonus de maîtrise)</i>
+ModUi/&WeaponMasterySystemCustomizeResetAll=Réinitialisez tout
+ModUi/&WeaponMasterySystemCustomizeResetAllWarning=Réinitialisera toutes les propriétés de maîtrise des armes par défaut
+ModUi/&WeaponMasterySystemCustomizeToggle=Personnaliser les propriétés de maîtrise des armes
 ModUi/&WildSurgeDieRollThreshold=<color=white>Définissez le seuil de chances de dé de <color=#D89555>Magie sauvage du sorcier</color> :</color>\n<i><color=#F0DAA0>[la poussée sauvage se déclenche si le résultat est inférieur ou égal au seuil]</color></i>

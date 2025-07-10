@@ -19,7 +19,7 @@ using static SolastaUnfinishedBusiness.Builders.Features.AutoPreparedSpellsGroup
 
 namespace SolastaUnfinishedBusiness.Models;
 
-internal static partial class Tabletop2024Context
+public static partial class Tabletop2024Context
 {
     private static readonly FeatureDefinitionFeatureSet FeatureSetRangerDeftExplorer =
         FeatureDefinitionFeatureSetBuilder

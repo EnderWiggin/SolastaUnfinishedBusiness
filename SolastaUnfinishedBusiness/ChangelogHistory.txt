@@ -1,3 +1,12 @@
+1.5.97.65:
+- removed `Deadly` weapon mastery as it was severely bugged
+- removed `alternative weapon masteries` setting
+- added ability to customize weapon masteries
+- fixed feature unlock sorting for classes with enabled weapon mastery choices
+- fixed known Arcane Shots not shown when `Enable extended proficiencies panel display` is turned on
+- show known Weapon Mastery when `Enable extended proficiencies panel display` is turned on
+- ModUI: generate list of stuff enabled by `Enable extended proficiencies panel display` dynamically
+
 1.5.97.64:
 - added `Show Logs` button to `Mod Error Warning` popup
 - show full path to Player.log file in `Mod Error Warning` popup

@@ -9,7 +9,7 @@ using static RuleDefinitions;
 
 namespace SolastaUnfinishedBusiness.Models;
 
-internal static partial class Tabletop2024Context
+public static partial class Tabletop2024Context
 {
     private static readonly FeatureDefinitionActionAffinity ActionAffinityPotionBonusAction =
         FeatureDefinitionActionAffinityBuilder

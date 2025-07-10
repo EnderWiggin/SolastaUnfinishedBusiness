@@ -27,7 +27,7 @@ using static SolastaUnfinishedBusiness.Api.DatabaseHelper.FeatureDefinitionDamag
 
 namespace SolastaUnfinishedBusiness.Models;
 
-internal static partial class Tabletop2024Context
+public static partial class Tabletop2024Context
 {
     private const string BrutalStrike = "BarbarianBrutalStrike";
     private static ConditionDefinition _conditionBrutalStrike;

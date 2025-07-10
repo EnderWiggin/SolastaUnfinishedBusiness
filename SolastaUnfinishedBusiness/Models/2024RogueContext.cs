@@ -26,7 +26,7 @@ using static SolastaUnfinishedBusiness.Api.DatabaseHelper.FeatureDefinitionProfi
 
 namespace SolastaUnfinishedBusiness.Models;
 
-internal static partial class Tabletop2024Context
+public static partial class Tabletop2024Context
 {
     private const string FeatSteadyAim = "FeatSteadyAim";
 

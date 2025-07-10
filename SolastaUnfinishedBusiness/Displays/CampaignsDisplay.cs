@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using HarmonyLib;
 using SolastaUnfinishedBusiness.Api.LanguageExtensions;
 using SolastaUnfinishedBusiness.Api.ModKit;
 using SolastaUnfinishedBusiness.CustomUI;
@@ -255,7 +256,11 @@ internal static class CampaignsDisplay
         }
 
         toggle = Main.Settings.EnableExtendedProficienciesPanelDisplay;
-        if (UI.Toggle(Gui.Localize("ModUi/&EnableExtendedProficienciesPanelDisplay"), ref toggle, UI.AutoWidth()))
+        var pools = InvocationPoolTypeCustom.Pools.All.Where(p => !p.Hidden)
+            .Select(p => Gui.Localize(p.PanelTitle))
+            .OrderBy(p => p)
+            .Join(delimiter: Gui.ListSeparator());
+        if (UI.Toggle(Gui.Format("ModUi/&EnableExtendedProficienciesPanelDisplay", pools), ref toggle, UI.AutoWidth()))
         {
             Main.Settings.EnableExtendedProficienciesPanelDisplay = toggle;
         }
