@@ -580,7 +580,8 @@ public sealed class MartialArcaneArcher : AbstractSubclass
 
             _ = CustomInvocationDefinitionBuilder
                 .Create($"CustomInvocation{name}")
-                .SetGuiPresentation(guiPresentation)
+                .SetGuiPresentation(title: guiPresentation.Title, description: guiPresentation.Description,
+                    sprite: guiPresentation.SpriteReference)
                 .SetPoolType(InvocationPoolTypeCustom.Pools.ArcaneShotChoice)
                 .SetGrantedFeature(power)
                 .AddCustomSubFeatures(ModifyInvocationVisibility.Marker)
