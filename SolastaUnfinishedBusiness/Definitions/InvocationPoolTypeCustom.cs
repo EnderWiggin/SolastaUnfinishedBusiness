@@ -193,7 +193,7 @@ internal class InvocationPoolTypeCustom
             Register("MonkWeaponSpecialization", hidden: true);
 
         internal static readonly InvocationPoolTypeCustom WeaponMasterySpecialization =
-            Register("WeaponMastery", hidden: true);
+            Register("WeaponMastery");
 
         internal static readonly InvocationPoolTypeCustom RangerTerrainTypeAffinity =
             Register("RangerTerrainTypeAffinity", panelTitle: "Feature/&RangerNaturalExplorerTitle", hidden: true);
