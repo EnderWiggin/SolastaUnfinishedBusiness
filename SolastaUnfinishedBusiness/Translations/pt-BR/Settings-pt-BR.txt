@@ -146,7 +146,7 @@ ModUi/&EnableDruidWildshape2024=Troque <color=#D89555>Forma Selvagem</color> pel
 ModUi/&EnableDungeonMakerModdedContent=Habilitar Dungeon Maker Pro\n<i><color=#F0DAA0>[incluir salas planas, masmorras de 150x150 e 200x200 e recursos de mistura simples de todos os ambientes]</color></i>
 ModUi/&EnableElevationCameraToStayAtPosition=<i>+ Habilitar câmera de elevação durante a batalha para permanecer na posição após desabilitada e triplicar seu alcance</i>
 ModUi/&EnableEpicPointsAndArray=Habilitar um sistema épico de compra de 35 pontos e array <i><color=#F0DAA0>[17,15,13,12,10,8]</color></i> <b><i><color=#C04040E0>[Requer reinicialização]</color></i></b>
-ModUi/&EnableExtendedProficienciesPanelDisplay=Habilitar exibição do painel de proficiências estendidas <i><color=#F0DAA0>[Tiros Arcanos, Infusões, Manobras e Versatilidades]</color></i>\n<b><i><color=#C04040E0>[queda de desempenho na inspeção de personagem. use por sua conta e risco]</color></i></b>
+ModUi/&EnableExtendedProficienciesPanelDisplay=Habilitar exibição do painel de proficiências estendidas <i><color=#F0DAA0>[{0}]</color></i>\n<b><i><color=#C04040E0>[queda de desempenho na inspeção de personagem. use por sua conta e risco]</color></i></b>
 ModUi/&EnableFeatsAtEvenLevels=Habilitar seleção de <color=#D89555>talentos</color> nos níveis 2, 10 e 18
 ModUi/&EnableFeatsAtEvenLevelsMiddle=Habilitar seleção de <color=#D89555>talentos</color> nos níveis 6 e 14
 ModUi/&EnableFighterIndomitableSaving2024=Troque <color=#D89555>Resistência Indomável</color> pela versão 5e 2024 <i><color=#F0DAA0>[adicione o nível de classe como um bônus para a nova jogada de resistência]</color></i>

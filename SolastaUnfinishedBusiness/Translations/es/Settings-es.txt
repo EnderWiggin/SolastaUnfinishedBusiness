@@ -146,7 +146,7 @@ ModUi/&EnableDruidWildshape2024=Intercambia <color=#D89555>Forma salvaje</color>
 ModUi/&EnableDungeonMakerModdedContent=Habilitar Dungeon Maker Pro\n<i><color=#F0DAA0>[incluye habitaciones planas, tamaños de mazmorras de 150x150 y 200x200 y sin lujos que combinen recursos de todos los entornos]</color></i>
 ModUi/&EnableElevationCameraToStayAtPosition=<i>+ Habilita la cámara de elevación durante la batalla para que permanezca en la posición después de deshabilitarla y triplicar su alcance</i>
 ModUi/&EnableEpicPointsAndArray=Habilitar un sistema de compra épico de 35 puntos y una matriz <i><color=#F0DAA0>[17,15,13,12,10,8]</color></i> <b><i><color=#C04040E0>[Requiere reinicio]</color></i></b>
-ModUi/&EnableExtendedProficienciesPanelDisplay=Habilitar la visualización del panel de competencias extendidas <i><color=#F0DAA0>[Disparos arcanos, infusiones, maniobras y versatilidades]</color></i>\n<b><i><color=#C04040E0>[reducción del rendimiento en la inspección del personaje. úsalo bajo tu propio riesgo]</color></i></b>
+ModUi/&EnableExtendedProficienciesPanelDisplay=Habilitar la visualización del panel de competencias extendidas <i><color=#F0DAA0>[{0}]</color></i>\n<b><i><color=#C04040E0>[reducción del rendimiento en la inspección del personaje. úsalo bajo tu propio riesgo]</color></i></b>
 ModUi/&EnableFeatsAtEvenLevels=Habilitar la selección de <color=#D89555>dotes</color> en los niveles 2, 10 y 18
 ModUi/&EnableFeatsAtEvenLevelsMiddle=Habilitar la selección de <color=#D89555>dotes</color> en los niveles 6 y 14
 ModUi/&EnableFighterIndomitableSaving2024=Intercambia <color=#D89555>Resistencia indomable</color> con la versión 5e 2024 <i><color=#F0DAA0>[añade el nivel de clase como bonificación a la repetición de la tirada de salvación]</color></i>
