@@ -432,7 +432,7 @@ internal static class EldritchVersatilityBuilders
 
             CurrentPoints = 0;
             SlotLevel = SharedSpellsContext.GetWarlockSpellLevel(ownerHero);
-            CreateSlotDC = 8 + proficiencyBonus + (2 * SlotLevel);
+            CreateSlotDC = 8 + proficiencyBonus + SlotLevel;
             IsValidBlastBreakthrough = false;
             IsOverload = false;
             HasBlastPursuit = ownerHero.HasAnyFeature(FeatureBlastReload);
@@ -973,8 +973,6 @@ internal static class EldritchVersatilityBuilders
                         console.consoleTableDefinition) { Indent = true };
 
                 console.AddCharacterEntry(featureOwner, entry);
-                entry.AddParameter(ConsoleStyleDuplet.ParameterType.AbilityInfo,
-                    supportCondition.CreateSlotDC.ToString());
                 console.AddEntry(entry);
 
                 // If fails
