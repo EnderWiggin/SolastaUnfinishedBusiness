@@ -1,3 +1,7 @@
+1.5.97.66:
+- fixed perception of large and bigger creatures when Light and Obscurement rules are enabled
+- merged PR from Hierot with tweaks for Eldritch Versatilities
+
 1.5.97.65:
 - removed `Deadly` weapon mastery as it was severely bugged
 - removed `alternative weapon masteries` setting
