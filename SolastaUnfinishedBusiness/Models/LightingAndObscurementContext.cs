@@ -390,7 +390,8 @@ internal static class LightingAndObscurementContext
         GameLocationCharacter sensor,
         GameLocationCharacter target = null,
         LightingState additionalBlockedLightingState = LightingState.Darkness,
-        bool requireLineOfSight = false)
+        bool requireLineOfSight = false,
+        bool useCellPos = false)
     {
         // gadgets cannot perceive anything
         if (sensor.RulesetActor is RulesetGadget)
@@ -435,7 +436,9 @@ internal static class LightingAndObscurementContext
         }
 
         // determine constraints
-        var finalCellPosition = target != null ? DistanceCalculation.GetPositionCenter(target) : cellPosition;
+        var finalCellPosition = useCellPos || target == null
+            ? cellPosition
+            : DistanceCalculation.GetPositionCenter(target);
         // must use vanilla distance calculation here
         var distance = int3.Distance(finalSensor.LocationPosition, finalCellPosition);
         var sensorCharacter = finalSensor.RulesetCharacter;
@@ -594,6 +597,7 @@ internal static class LightingAndObscurementContext
                 return additionalBlockedLightingState == LightingState.Darkness ||
                     targetLightingState != additionalBlockedLightingState;
         }
+
 
         return false;
     }

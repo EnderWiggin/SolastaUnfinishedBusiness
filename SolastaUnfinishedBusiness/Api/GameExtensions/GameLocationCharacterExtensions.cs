@@ -482,7 +482,23 @@ public static class GameLocationCharacterExtensions
         // can only perceive targets on cells that can be perceived
         var visibilityService = ServiceRepository.GetService<IGameLocationVisibilityService>();
 
-        return visibilityService.MyIsCellPerceivedByCharacter(target.LocationPosition, __instance, target);
+        var size = target.RulesetActor.sizeParams;
+        var targetPos = target.LocationPosition;
+        if (size.IsSmallest)
+        {
+            return visibilityService.MyIsCellPerceivedByCharacter(targetPos, __instance, target);
+        }
+
+        var box = new BoxInt(targetPos + size.minExtent, targetPos + size.maxExtent);
+        foreach (var pos in box.EnumerateAllPositionsWithin())
+        {
+            if (visibilityService.MyIsCellPerceivedByCharacter(pos, __instance, target, useCellPos: true))
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     internal static (RulesetAttackMode mode, ActionModifier modifier) GetFirstMeleeModeThatCanAttack(
