@@ -177,7 +177,7 @@ public static partial class Tabletop2024Context
         .Create("ConditionWeaponMasterySap")
         .SetGuiPresentation(Category.Condition, ConditionDefinitions.ConditionCursed)
         .SetConditionType(ConditionType.Detrimental)
-        .SetSilent(Silent.WhenAdded)
+        .SetSilent(Silent.None)
         .AddFeatures(
             FeatureDefinitionCombatAffinityBuilder
                 .Create("CombatAffinityWeaponMasterySap")
@@ -191,7 +191,7 @@ public static partial class Tabletop2024Context
         .Create("ConditionWeaponMasterySlow")
         .SetGuiPresentation(Category.Condition, ConditionDefinitions.ConditionSlowed)
         .SetConditionType(ConditionType.Detrimental)
-        .SetSilent(Silent.WhenAdded)
+        .SetSilent(Silent.None)
         .AddFeatures(
             FeatureDefinitionMovementAffinityBuilder
                 .Create("MovementAffinityWeaponMasterySlow")
@@ -210,7 +210,7 @@ public static partial class Tabletop2024Context
         .Create("ConditionWeaponMasteryVex")
         .SetGuiPresentation(Category.Condition, ConditionDefinitions.ConditionMarkedByHunter)
         .SetConditionType(ConditionType.Detrimental)
-        .SetSilent(Silent.WhenAdded)
+        .SetSilent(Silent.None)
         .AddFeatures(
             FeatureDefinitionCombatAffinityBuilder
                 .Create("CombatAffinityWeaponMasteryVex")
@@ -894,7 +894,6 @@ public static partial class Tabletop2024Context
             var rulesetAttacker = attacker.RulesetCharacter;
             var rulesetDefender = defender.RulesetCharacter;
 
-            rulesetAttacker.LogCharacterUsedFeature(GetDefinition<FeatureDefinition>("FeatureWeaponMasterySap"));
             rulesetDefender.InflictCondition(
                 ConditionWeaponMasterySap.Name,
                 DurationType.Round,
@@ -914,8 +913,6 @@ public static partial class Tabletop2024Context
         {
             var rulesetAttacker = attacker.RulesetCharacter;
             var rulesetDefender = defender.RulesetCharacter;
-
-            rulesetAttacker.LogCharacterUsedFeature(GetDefinition<FeatureDefinition>("FeatureWeaponMasterySlow"));
 
             if (!rulesetDefender.HasConditionOfCategoryAndType(
                     AttributeDefinitions.TagEffect, ConditionWeaponMasterySlow.Name))
@@ -954,7 +951,6 @@ public static partial class Tabletop2024Context
             var rulesetAttacker = attacker.RulesetCharacter;
             var rulesetDefender = defender.RulesetCharacter;
 
-            rulesetAttacker.LogCharacterUsedFeature(GetDefinition<FeatureDefinition>("FeatureWeaponMasteryVex"));
             rulesetAttacker.InflictCondition(
                 ConditionWeaponMasteryVexSelf.Name,
                 DurationType.Round,
