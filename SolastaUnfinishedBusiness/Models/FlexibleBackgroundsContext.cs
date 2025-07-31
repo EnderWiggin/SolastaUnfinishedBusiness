@@ -44,126 +44,81 @@ internal static class FlexibleBackgroundsContext
         {
             Academic, [
                 SkillThree,
-                FeatureDefinitionBuilder
-                    .Create("SuggestedSkillsAcademicBackground")
-                    .SetGuiPresentation(Category.Background)
-                    .AddToDB(),
-
+                MakeSuggestedSkillsFor("SuggestedSkillsAcademicBackground", ProficiencyAcademicSkills),
                 ToolChoice
             ]
         },
         {
             Acolyte, [
                 SkillThree,
-                FeatureDefinitionBuilder
-                    .Create("SuggestedSkillsAcolyteBackground")
-                    .SetGuiPresentation(Category.Background)
-                    .AddToDB(),
-
+                MakeSuggestedSkillsFor("SuggestedSkillsAcolyteBackground", ProficiencyAcolyteSkills),
                 ToolChoice
             ]
         },
         {
             Aristocrat, [
                 SkillThree,
-                FeatureDefinitionBuilder
-                    .Create("SuggestedSkillsAristocratBackground")
-                    .SetGuiPresentation(Category.Background)
-                    .AddToDB()
+                MakeSuggestedSkillsFor("SuggestedSkillsAristocratBackground", ProficiencyAristocratSkills)
             ]
         },
         {
             Lawkeeper, [
                 SkillTwo,
-                FeatureDefinitionBuilder
-                    .Create("SuggestedSkillsLawkeeperBackground")
-                    .SetGuiPresentation(Category.Background)
-                    .AddToDB()
+                MakeSuggestedSkillsFor("SuggestedSkillsLawkeeperBackground", ProficiencyLawkeeperSkills)
             ]
         },
         {
             Lowlife, [
                 SkillThree,
-                FeatureDefinitionBuilder
-                    .Create("SuggestedSkillsLowlifeBackground")
-                    .SetGuiPresentation(Category.Background)
-                    .AddToDB(),
-
+                MakeSuggestedSkillsFor("SuggestedSkillsLowlifeBackground", ProficiencyLowlifeSkills),
                 ToolChoice
             ]
         },
         {
             Philosopher, [
                 SkillTwo,
-                FeatureDefinitionBuilder
-                    .Create("SuggestedSkillsPhilosopherBackground")
-                    .SetGuiPresentation(Category.Background)
-                    .AddToDB(),
-
+                MakeSuggestedSkillsFor("SuggestedSkillsPhilosopherBackground", ProficiencyPhilosopherSkills),
                 ToolChoice
             ]
         },
         {
             SellSword, [
                 SkillTwo,
-                FeatureDefinitionBuilder
-                    .Create("SuggestedSkillsSellswordBackground")
-                    .SetGuiPresentation(Category.Background)
-                    .AddToDB(),
-
+                MakeSuggestedSkillsFor("SuggestedSkillsSellswordBackground", ProficiencySellSwordSkills),
                 ToolChoice
             ]
         },
         {
             Spy, [
                 SkillThree,
-                FeatureDefinitionBuilder
-                    .Create("SuggestedSkillsSpyBackground")
-                    .SetGuiPresentation(Category.Background)
-                    .AddToDB(),
-
+                MakeSuggestedSkillsFor("SuggestedSkillsSpyBackground", ProficiencySpySkills),
                 ToolChoice
             ]
         },
         {
             Wanderer, [
                 SkillTwo,
-                FeatureDefinitionBuilder
-                    .Create("SuggestedSkillsWandererBackground")
-                    .SetGuiPresentation(Category.Background)
-                    .AddToDB(),
-
+                MakeSuggestedSkillsFor("SuggestedSkillsWandererBackground", ProficiencyWandererSkills),
                 ToolChoiceTwo
             ]
         },
         {
             Aescetic_Background, [
                 SkillTwo,
-                FeatureDefinitionBuilder
-                    .Create("SuggestedSkillsAesceticBackground")
-                    .SetGuiPresentation(Category.Background)
-                    .AddToDB(),
-
+                MakeSuggestedSkillsFor("SuggestedSkillsAesceticBackground", ProficiencyAesceticSkills),
                 ToolChoice
             ]
         },
         {
             Artist_Background, [
                 SkillThree,
-                FeatureDefinitionBuilder
-                    .Create("SuggestedSkillsArtistBackground")
-                    .SetGuiPresentation(Category.Background)
-                    .AddToDB()
+                MakeSuggestedSkillsFor("SuggestedSkillsArtistBackground", ProficiencyArtistSkills)
             ]
         },
         {
             Occultist_Background, [
                 SkillTwo,
-                FeatureDefinitionBuilder
-                    .Create("SuggestedSkillsOccultistBackground")
-                    .SetGuiPresentation(Category.Background)
-                    .AddToDB(),
-
+                MakeSuggestedSkillsFor("SuggestedSkillsOccultistBackground", ProficiencyOccultistSkills),
                 ToolChoice
             ]
         }
@@ -194,24 +149,30 @@ internal static class FlexibleBackgroundsContext
         {
             var backgroundDefinition =
                 DatabaseHelper.GetDefinition<CharacterBackgroundDefinition>($"Background{background}");
+            var skillsDefinition = DatabaseHelper.GetDefinition<FeatureDefinitionProficiency>(
+                $"ProficiencyBackground{background}Skills");
 
             AddedFeatures.Add(
                 backgroundDefinition,
                 [
                     SkillThree,
-                    FeatureDefinitionBuilder
-                        .Create($"SuggestedSkills{background}Background")
-                        .SetGuiPresentation(Category.Background)
-                        .AddToDB()
+                    MakeSuggestedSkillsFor($"SuggestedSkills{background}Background", skillsDefinition)
                 ]);
 
             RemovedFeatures.Add(
                 backgroundDefinition,
                 [
-                    DatabaseHelper.GetDefinition<FeatureDefinitionProficiency>(
-                        $"ProficiencyBackground{background}Skills")
+                    skillsDefinition
                 ]);
         }
+    }
+
+    private static FeatureDefinition MakeSuggestedSkillsFor(string name, FeatureDefinitionProficiency skills)
+    {
+        return FeatureDefinitionBuilder
+            .Create(name)
+            .SetGuiPresentation("Background/&SuggestedSkillsTitle", skills.EnumerateProficiencies())
+            .AddToDB();
     }
 
     internal static void SwitchFlexibleBackgrounds()
