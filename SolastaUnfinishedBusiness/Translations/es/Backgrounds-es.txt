@@ -16,7 +16,6 @@ Feature/&ProficiencyBackgroundFarmerWeaponsDescription=Habilidad en el uso de ga
 Feature/&ProficiencyBackgroundFarmerWeaponsTitle=Armas de granjero
 Feature/&ProficiencyBackgroundMilitiaArmorDescription=Competencia en armaduras ligeras.
 Feature/&ProficiencyBackgroundMilitiaArmorTitle=Armadura de milicia
-Feature/&ProficiencyBackgroundMilitiaSkillsDescription=Atletismo, engaño e intimidación
 Feature/&ProficiencyBackgroundMilitiaSkillsTitle=Habilidades de milicia
 Feature/&ProficiencyBackgroundMilitiaWeaponsDescription=Habilidad en espada corta y lanza.
 Feature/&ProficiencyBackgroundMilitiaWeaponsTitle=Armas de la milicia

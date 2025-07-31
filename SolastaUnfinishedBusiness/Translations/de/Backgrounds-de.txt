@@ -16,7 +16,6 @@ Feature/&ProficiencyBackgroundFarmerWeaponsDescription=Geschick im Umgang mit Ke
 Feature/&ProficiencyBackgroundFarmerWeaponsTitle=Bauernwaffen
 Feature/&ProficiencyBackgroundMilitiaArmorDescription=Kenntnisse im Umgang mit leichter Rüstung.
 Feature/&ProficiencyBackgroundMilitiaArmorTitle=Milizrüstung
-Feature/&ProficiencyBackgroundMilitiaSkillsDescription=Leichtathletik, Täuschung und Einschüchterung
 Feature/&ProficiencyBackgroundMilitiaSkillsTitle=Milizfähigkeiten
 Feature/&ProficiencyBackgroundMilitiaWeaponsDescription=Kenntnisse im Umgang mit Kurzschwert und Speer.
 Feature/&ProficiencyBackgroundMilitiaWeaponsTitle=Milizwaffen

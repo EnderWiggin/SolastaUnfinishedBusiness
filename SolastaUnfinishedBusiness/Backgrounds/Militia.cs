@@ -34,10 +34,10 @@ internal static partial class BackgroundsBuilders
                     .AddToDB(),
                 FeatureDefinitionProficiencyBuilder
                     .Create($"Proficiency{BackgroundMilitia}Skills")
-                    .SetGuiPresentation(Category.Feature)
+                    .SetGuiPresentation(Category.Feature, description: "Feature/&ArmorTrainingShortDescription")
                     .SetProficiencies(ProficiencyType.Skill,
-                        Athletics,
-                        Deception,
+                        Investigation,
+                        Perception,
                         Intimidation)
                     .AddToDB())
             .AddDefaultOptionalPersonality("Lawfulness")

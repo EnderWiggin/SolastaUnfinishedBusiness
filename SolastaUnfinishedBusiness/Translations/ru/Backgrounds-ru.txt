@@ -16,7 +16,6 @@ Feature/&ProficiencyBackgroundFarmerWeaponsDescription=Владение дуби
 Feature/&ProficiencyBackgroundFarmerWeaponsTitle=Фермерское оружие
 Feature/&ProficiencyBackgroundMilitiaArmorDescription=Владение лёгкими доспехами.
 Feature/&ProficiencyBackgroundMilitiaArmorTitle=Броня ополченца
-Feature/&ProficiencyBackgroundMilitiaSkillsDescription=Атлетика, Обман и Запугивание
 Feature/&ProficiencyBackgroundMilitiaSkillsTitle=Навыки ополченца
 Feature/&ProficiencyBackgroundMilitiaWeaponsDescription=Владение коротким мечом и копьём.
 Feature/&ProficiencyBackgroundMilitiaWeaponsTitle=Оружие ополченца

@@ -16,7 +16,6 @@ Feature/&ProficiencyBackgroundFarmerWeaponsDescription=Abilità nell'uso di mazz
 Feature/&ProficiencyBackgroundFarmerWeaponsTitle=Armi da contadino
 Feature/&ProficiencyBackgroundMilitiaArmorDescription=Competenza nelle armature leggere.
 Feature/&ProficiencyBackgroundMilitiaArmorTitle=Armatura della milizia
-Feature/&ProficiencyBackgroundMilitiaSkillsDescription=Atletica, inganno e intimidazione
 Feature/&ProficiencyBackgroundMilitiaSkillsTitle=Abilità della milizia
 Feature/&ProficiencyBackgroundMilitiaWeaponsDescription=Abilità nell'uso della spada corta e della lancia.
 Feature/&ProficiencyBackgroundMilitiaWeaponsTitle=Armi della milizia

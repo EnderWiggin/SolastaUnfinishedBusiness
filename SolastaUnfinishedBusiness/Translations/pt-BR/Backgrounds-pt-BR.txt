@@ -16,7 +16,6 @@ Feature/&ProficiencyBackgroundFarmerWeaponsDescription=Proficiência em clavas e
 Feature/&ProficiencyBackgroundFarmerWeaponsTitle=Armas de fazendeiro
 Feature/&ProficiencyBackgroundMilitiaArmorDescription=Proficiência em armaduras leves.
 Feature/&ProficiencyBackgroundMilitiaArmorTitle=Armadura de Milícia
-Feature/&ProficiencyBackgroundMilitiaSkillsDescription=Atletismo, Engano e Intimidação
 Feature/&ProficiencyBackgroundMilitiaSkillsTitle=Habilidades de milícia
 Feature/&ProficiencyBackgroundMilitiaWeaponsDescription=Proficiência em espada curta e lança.
 Feature/&ProficiencyBackgroundMilitiaWeaponsTitle=Armas da Milícia
