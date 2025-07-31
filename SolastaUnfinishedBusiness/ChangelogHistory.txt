@@ -1,3 +1,8 @@
+1.5.97.67:
+- Flexible Backgrounds: generate suggested skills description instead of relying on manually defined texts
+- tweaked skills for Militia background
+- tweaked how some of the weapon masteries are reported
+
 1.5.97.66:
 - fixed perception of large and bigger creatures when Light and Obscurement rules are enabled
 - merged PR from Hierot with tweaks for Eldritch Versatilities
