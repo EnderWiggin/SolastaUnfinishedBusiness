@@ -1,3 +1,6 @@
+1.5.97.68:
+- fixed crash in cases when enemy with multi-attack loses ability to attack between chained attacks
+
 1.5.97.67:
 - Flexible Backgrounds: generate suggested skills description instead of relying on manually defined texts
 - tweaked skills for Militia background
