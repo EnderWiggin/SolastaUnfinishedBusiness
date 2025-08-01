@@ -131,6 +131,24 @@ public static class GameLocationActionManagerPatcher
         }
     }
 
+    [HarmonyPatch(typeof(GameLocationActionManager), nameof(GameLocationActionManager.ExecuteActionChain))]
+    [HarmonyPatch([typeof(CharacterActionParams), typeof(CharacterAction.ActionChainExecutedHandler), typeof(bool)])]
+    [SuppressMessage("Minor Code Smell", "S101:Types should be named in PascalCase", Justification = "Patch")]
+    [UsedImplicitly]
+    public static class ExecuteActionChain_Patch
+    {
+        [UsedImplicitly]
+        public static bool Prefix(GameLocationActionManager __instance,
+            CharacterActionParams actionParams,
+            CharacterAction.ActionChainExecutedHandler actionChainExecuted,
+            bool enqueue)
+        {
+            //PATCH: Fix for UB-introduced cases when enemy with multi-attack loses ability to attack between chained attacks
+            //For example - having Topple mastery and using Sentinel's reaction attack when enemy with multi-attack attacks your ally
+            return actionParams != null;
+        }
+    }
+
     [HarmonyPatch(typeof(GameLocationActionManager),
         nameof(GameLocationActionManager.ExecuteReactionRequestGroupAsync))]
     [SuppressMessage("Minor Code Smell", "S101:Types should be named in PascalCase", Justification = "Patch")]
