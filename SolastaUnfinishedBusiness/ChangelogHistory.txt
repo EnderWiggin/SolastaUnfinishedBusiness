@@ -1,3 +1,6 @@
+1.5.97.69:
+- re-fixed crash in cases when enemy with multi-attack loses ability to attack between chained attacks
+
 1.5.97.68:
 - fixed crash in cases when enemy with multi-attack loses ability to attack between chained attacks
 
