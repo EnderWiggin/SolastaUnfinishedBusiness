@@ -1,3 +1,8 @@
+1.5.97.71:
+- fixed Moon Druid's primal Strike not working on unarmed beast attacks
+- fixed potential crash related to `Lighting and Obscurement` rules and effect proxies like Flaming Sphere
+- reworked Topple mastery to try and fix enemies continuing movement after being toppled
+
 1.5.97.70:
 - fixed multiplayer crash related to powers with sub-powers
 
