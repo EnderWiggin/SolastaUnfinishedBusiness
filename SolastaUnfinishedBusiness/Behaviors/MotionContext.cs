@@ -2,6 +2,7 @@
 using SolastaUnfinishedBusiness.Api.LanguageExtensions;
 using TA;
 using UnityEngine;
+using static ActionDefinitions;
 using static CellFlags;
 
 namespace SolastaUnfinishedBusiness.Behaviors;
@@ -85,6 +86,17 @@ internal static class MotionContext
         }
 
         return result;
+    }
+
+    public static void ProneTarget(GameLocationCharacter target)
+    {
+        var actionService = ServiceRepository.GetService<IGameLocationActionService>();
+        actionService.StopCharacterActions(target, CharacterAction.InterruptionType.ForcedMovement);
+        actionService.ExecuteAction(new CharacterActionParams(target, Id.DropProne)
+        {
+            CanBeCancelled = false,
+            Positions = { target.LocationPosition }
+        }, null, true);
     }
 
     private static int3 Slide(int3 sides, Vector3 delta, int3 position, bool canMoveThroughWalls,

@@ -376,4 +376,29 @@ internal static class RulesetActorExtensions
 
         actor.RefreshAll();
     }
+
+    internal static int TryGetProficiencyBonus(this RulesetActor actor)
+    {
+        return actor.TryGetAttributeValue(AttributeDefinitions.ProficiencyBonus);
+    }
+
+    internal static int TryGetAbilityModifier(this RulesetActor actor, string ability)
+    {
+        return AttributeDefinitions.ComputeAbilityScoreModifier(actor.TryGetAttributeValue(ability));
+    }
+
+    internal static RollOutcome MakeSimpleSavingThrow(this RulesetActor actor, string saveAbility, int dc,
+        BaseDefinition source,
+        string schoolOfMagic = "", string damageType = "", string conditionType = "", string sourceFamily = "")
+    {
+        var modifier = new ActionModifier();
+        var saveBonus = actor.ComputeBaseSavingThrowBonus(saveAbility, modifier.SavingThrowModifierTrends);
+        actor.ComputeSavingThrowModifier(saveAbility, EffectForm.EffectFormType.Motion, source.Name, 
+            schoolOfMagic, damageType, conditionType, sourceFamily, modifier, []);
+
+        actor.RollSavingThrow(saveBonus, saveAbility, source, modifier.SavingThrowModifierTrends,
+            modifier.SavingThrowAdvantageTrends, modifier.SavingThrowModifier, dc, false, out var outcome, out _);
+
+        return outcome;
+    }
 }

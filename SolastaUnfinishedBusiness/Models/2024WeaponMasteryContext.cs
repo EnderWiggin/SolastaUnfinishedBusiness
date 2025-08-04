@@ -242,27 +242,6 @@ public static partial class Tabletop2024Context
         .AddCustomSubFeatures(new CustomBehaviorPush())
         .AddToDB();
 
-    private static readonly FeatureDefinitionPower PowerWeaponMasteryTopple = FeatureDefinitionPowerBuilder
-        .Create("PowerWeaponMasteryTopple")
-        .SetGuiPresentation("FeatureWeaponMasteryTopple", Category.Feature, hidden: true)
-        .SetUsesFixed(ActivationTime.NoCost)
-        .SetShowCasting(false)
-        .SetEffectDescription(
-            EffectDescriptionBuilder
-                .Create()
-                .SetTargetingData(Side.Enemy, RangeType.Distance, 6, TargetType.IndividualsUnique)
-                .SetSavingThrowData(false, AttributeDefinitions.Constitution, false,
-                    EffectDifficultyClassComputation.AbilityScoreAndProficiency, AttributeDefinitions.Strength, 8)
-                .SetEffectForms(
-                    EffectFormBuilder
-                        .Create()
-                        .HasSavingThrow(EffectSavingThrowType.Negates)
-                        .SetMotionForm(MotionForm.MotionType.FallProne)
-                        .Build())
-                .Build())
-        .AddCustomSubFeatures(new CustomBehaviorTopple())
-        .AddToDB();
-
     private static readonly Dictionary<WeaponTypeDefinition, MasteryProperty> WeaponMasteryTable = new()
     {
         { CustomWeaponsContext.HalberdWeaponType, MasteryProperty.Cleave },
@@ -937,13 +916,20 @@ public static partial class Tabletop2024Context
             GameLocationCharacter attacker, GameLocationCharacter defender, RulesetAttackMode attackMode)
         {
             var rulesetAttacker = attacker.RulesetCharacter;
-            var usablePower = PowerProvider.Get(PowerWeaponMasteryTopple, rulesetAttacker);
-            var abilityScore = attackMode.AbilityScore;
-            var abilityScoreIndex = Array.IndexOf(AttributeDefinitions.AbilityScoreNames, abilityScore);
+            var rulesetDefender = defender.RulesetCharacter;
 
-            rulesetAttacker.LogCharacterUsedFeature(GetDefinition<FeatureDefinition>("FeatureWeaponMasteryTopple"));
-            attacker.SetSpecialFeatureUses(WeaponMasteryTopple, abilityScoreIndex);
-            attacker.MyExecuteActionSpendPower(usablePower, defender);
+            var topple = GetDefinition<FeatureDefinition>("FeatureWeaponMasteryTopple");
+            rulesetAttacker.LogCharacterUsedFeature(topple);
+
+            var dc = 8 + rulesetAttacker.TryGetProficiencyBonus()
+                       + rulesetAttacker.TryGetAbilityModifier(attackMode.AbilityScore);
+
+            var outcome = rulesetDefender.MakeSimpleSavingThrow(AttributeDefinitions.Constitution, dc, topple);
+
+            if (outcome is RollOutcome.Failure or RollOutcome.CriticalFailure)
+            {
+                MotionContext.ProneTarget(defender);
+            }
         }
 
         private static void DoVex(GameLocationCharacter attacker, GameLocationCharacter defender)
@@ -1140,39 +1126,6 @@ public static partial class Tabletop2024Context
                 return effectDescription;
             }
 
-            var glc = GameLocationCharacter.GetFromActor(character);
-            var abilityScoreIndex = glc?.GetSpecialFeatureUses(WeaponMasteryTopple) ?? -1;
-
-            if (abilityScoreIndex < 0)
-            {
-                return effectDescription;
-            }
-
-            var abilityScore = AttributeDefinitions.AbilityScoreNames[abilityScoreIndex];
-
-            effectDescription.savingThrowDifficultyAbility = abilityScore;
-
-            return effectDescription;
-        }
-    }
-
-    //
-    // Topple
-    //
-
-    private sealed class CustomBehaviorTopple : IModifyEffectDescription
-    {
-        public bool IsValid(BaseDefinition definition, RulesetCharacter character, EffectDescription effectDescription)
-        {
-            return definition == PowerWeaponMasteryTopple;
-        }
-
-        public EffectDescription GetEffectDescription(
-            BaseDefinition definition,
-            EffectDescription effectDescription,
-            RulesetCharacter character,
-            RulesetEffect rulesetEffect)
-        {
             var glc = GameLocationCharacter.GetFromActor(character);
             var abilityScoreIndex = glc?.GetSpecialFeatureUses(WeaponMasteryTopple) ?? -1;
 
