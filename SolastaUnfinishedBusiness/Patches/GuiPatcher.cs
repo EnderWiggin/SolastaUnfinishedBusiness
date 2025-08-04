@@ -61,7 +61,7 @@ public static class GuiPatcher
                 ExtraMotionType.PushDown => Gui.Format("Rules/&MotionFormPushDownFormat",
                     Gui.FormatDistance(motionForm.Distance)),
                 (ExtraMotionType)MotionType.DragToOrigin
-                    when motionForm.Distance == VerticalPushPullMotion.PullOntoCaster
+                    when motionForm.Distance == MotionContext.PullOntoCaster
                     => Gui.Localize("Rules/&MotionFormPullOnTop"),
                 _ => __result
             };

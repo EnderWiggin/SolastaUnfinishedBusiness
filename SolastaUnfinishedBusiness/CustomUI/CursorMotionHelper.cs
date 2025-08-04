@@ -366,7 +366,7 @@ public class CursorMotionHelper : MonoBehaviour
         {
             return new MotionInfo
             {
-                Distance = VerticalPushPullMotion.PullOntoCaster, Type = DirectionType.Pull, FromOrigin = true
+                Distance = MotionContext.PullOntoCaster, Type = DirectionType.Pull, FromOrigin = true
             };
         }
 

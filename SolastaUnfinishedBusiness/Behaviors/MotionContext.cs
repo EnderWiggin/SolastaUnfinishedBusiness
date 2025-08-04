@@ -6,7 +6,7 @@ using static CellFlags;
 
 namespace SolastaUnfinishedBusiness.Behaviors;
 
-internal static class VerticalPushPullMotion
+internal static class MotionContext
 {
     //If this is used as pull distance, it will pull not next to caster, but on top of caster
     public const int PullOntoCaster = -100;
