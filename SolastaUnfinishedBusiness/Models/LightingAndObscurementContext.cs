@@ -398,34 +398,31 @@ internal static class LightingAndObscurementContext
         {
             return false;
         }
-        
-        // if a proxy need to perceive from controller
-        var finalSensor = sensor;
 
+        // if a proxy need to perceive from controller
         if (sensor.RulesetCharacter is RulesetCharacterEffectProxy effectProxy)
         {
             var controller = EffectHelpers.GetCharacterByGuid(effectProxy.ControllerGuid);
+            var locationController = GameLocationCharacter.GetFromActor(controller);
 
-            if (controller != null)
+            if (locationController == null)
             {
-                var locationController = GameLocationCharacter.GetFromActor(controller);
-
-                if (locationController != null)
-                {
-                    finalSensor = locationController;
-                }
+                //Couldn't find controller - can't check if this proxy can perceive target
+                return false;
             }
+
+            sensor = locationController;
         }
 
         //check line of sight
         if ((requireLineOfSight || !Main.Settings.UseOfficialLightingObscurementAndVisionRules)
-            && !instance.IsCellPerceivedByCharacter(cellPosition, finalSensor))
+            && !instance.IsCellPerceivedByCharacter(cellPosition, sensor))
         {
             return false;
         }
 
         // use the improved lighting state detection to diff between darkness and heavily obscured
-        var targetLightingState = ComputeLightingStateOnTargetPosition(finalSensor, cellPosition);
+        var targetLightingState = ComputeLightingStateOnTargetPosition(sensor, cellPosition);
 
         // use vanilla if setting is off but still supporting additionalBlockedLightingState logic
         if (!Main.Settings.UseOfficialLightingObscurementAndVisionRules)
@@ -440,8 +437,8 @@ internal static class LightingAndObscurementContext
             ? cellPosition
             : DistanceCalculation.GetPositionCenter(target);
         // must use vanilla distance calculation here
-        var distance = int3.Distance(finalSensor.LocationPosition, finalCellPosition);
-        var sensorCharacter = finalSensor.RulesetCharacter;
+        var distance = int3.Distance(sensor.LocationPosition, finalCellPosition);
+        var sensorCharacter = sensor.RulesetCharacter;
         var sourceIsBlindFromDarkness = IsBlindFromDarkness(sensorCharacter);
         var sourceIsBlindNotFromDarkness = IsBlindNotFromDarkness(sensorCharacter);
         var targetIsNotTouchingGround = target != null && !target.RulesetActor.IsTouchingGround();
@@ -470,7 +467,7 @@ internal static class LightingAndObscurementContext
         {
             foreach (var modifier in target.RulesetActor.GetSubFeaturesByType<IPreventEnemySenseMode>())
             {
-                senseModesToPrevent.AddRange(modifier.PreventedSenseModes(finalSensor, target.RulesetCharacter));
+                senseModesToPrevent.AddRange(modifier.PreventedSenseModes(sensor, target.RulesetCharacter));
             }
         }
 
@@ -571,7 +568,7 @@ internal static class LightingAndObscurementContext
             && !sourceIsBlindFromDarkness)
         {
             var sensorAllowedToRoll = false;
-            RuleDefinitions.AdvantageType advantage = RuleDefinitions.AdvantageType.None;
+            var advantage = RuleDefinitions.AdvantageType.None;
             if (targetLightingState is LightingState.Darkness
                 || targetLightingState is (LightingState)MyLightingState.HeavilyObscured
                 || sourceIsBlindNotFromDarkness) advantage = RuleDefinitions.AdvantageType.Disadvantage;
@@ -581,9 +578,7 @@ internal static class LightingAndObscurementContext
 
             if (sensorAllowedToRoll)
             {
-                RuleDefinitions.RollOutcome sensorOutcome = RuleDefinitions.RollOutcome.Neutral;
-                int baseBonus, checkRoll, firstRoll, secondRoll, successDelta;                
-                sensor.RollAbilityCheck("Wisdom", "Perception",(int)distance+10, advantage,new ActionModifier(),false,0, out baseBonus, out checkRoll, out firstRoll, out secondRoll, out sensorOutcome, out successDelta, true);
+                sensor.RollAbilityCheck(AttributeDefinitions.Wisdom, SkillDefinitions.Perception, (int)distance + 10, advantage, new ActionModifier(), false, 0, out _, out _, out _, out _, out var sensorOutcome, out _, true);
                 if (sensorOutcome != 0)
                     if (!Global.RolledPerceptionThisTurn.ContainsKey(sensor))
                         Global.RolledPerceptionThisTurn.Add(sensor, []);
