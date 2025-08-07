@@ -1,13 +1,18 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
 using System.Net;
 using System.Runtime.InteropServices;
+using System.Security.Cryptography;
 using System.Text;
+using System.Text.RegularExpressions;
+using JetBrains.Annotations;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using SolastaUnfinishedBusiness.Api.LanguageExtensions;
+using SolastaUnfinishedBusiness.Api.ModKit.Utility;
 using SolastaUnfinishedBusiness.CustomUI;
 using UnityModManagerNet;
 
@@ -15,12 +20,16 @@ namespace SolastaUnfinishedBusiness.Models;
 
 internal static class UpdateContext
 {
+    private static readonly string TempFolder = $"TEMP_UPDATE{Path.DirectorySeparatorChar}";
+    private static readonly string ModFolder = $"SolastaUnfinishedBusiness{Path.DirectorySeparatorChar}";
     private static InfoJson Info { get; set; }
     private static string BaseURL { get; set; }
     private static string VersionURL { get; set; }
     private static string InstalledVersion { get; set; }
     private static string LatestVersion { get; set; }
     private static string PreviousVersion { get; set; }
+    internal static bool InProgress { get; private set; }
+    internal static int Progress { get; private set; }
 
     private static bool ShouldUpdate;
 
@@ -99,111 +108,159 @@ internal static class UpdateContext
 
     internal static void UpdateMod(bool toLatest = true)
     {
-        UnityModManager.UI.Instance.ToggleWindow(false);
+        if (InProgress) { return; }
 
-        using var wc = new WebClient();
+        if (!ShouldUpdate && toLatest)
+        {
+            ShowMessage("Mod version is already the latest or higher",
+                "ChangeLog", OpenChangeLog);
 
-        wc.Encoding = Encoding.UTF8;
+            return;
+        }
+
+        InProgress = true;
+        Progress = 0;
 
         var version = toLatest ? LatestVersion : PreviousVersion;
         var zipFile = "SolastaUnfinishedBusiness.zip";
         var fullZipFile = Path.Combine(Main.ModFolder, zipFile);
-        var fullZipFolder = Path.Combine(Main.ModFolder, "TEMP_UPDATE");
+        var fullZipFolder = Path.Combine(Main.ModFolder, TempFolder);
         var baseUrlByVersion = BaseURL.Replace("download", $"download/{version}");
-        var url = $"{baseUrlByVersion}/{zipFile}";
+        var url = new Uri($"{baseUrlByVersion}/{zipFile}");
 
         try
         {
-            string message;
-            if (ShouldUpdate || !toLatest)
-            {
-                wc.DownloadFile(url, fullZipFile);
+            using var wc = new WebClient();
 
+            wc.Encoding = Encoding.UTF8;
+            wc.DownloadProgressChanged += (_, e) => Progress = e.ProgressPercentage;
+
+            wc.DownloadFileCompleted += OnDownloadFileCompleted;
+
+            wc.DownloadFileAsync(url, fullZipFile);
+        }
+        catch (Exception ex)
+        {
+            InProgress = false;
+            Main.Error($"Failed to update mod: {ex.Message}: {ex.StackTrace}");
+
+            ShowMessage($"Cannot fetch update payload. Try again or download from:\r\n{url}.",
+                "Open Download Url", () => OpenUrl(url.ToString()),
+                severity: MessageModal.Severity.Serious3);
+        }
+
+        return;
+
+        void OnDownloadFileCompleted(object _, AsyncCompletedEventArgs e)
+        {
+            InProgress = false;
+
+            if (e.Error != null)
+            {
+                ShowMessage($"Cannot fetch update payload. Try again or download from:\r\n{url}.",
+                    "Open Download Url", () => OpenUrl(url.ToString()),
+                    severity: MessageModal.Severity.Serious3);
+                return;
+            }
+
+            if (e.Cancelled)
+            {
+                ShowMessage("Update was cancelled",
+                    "Open Download Url", () => OpenUrl(url.ToString()),
+                    severity: MessageModal.Severity.Serious3);
+                return;
+            }
+
+            try
+            {
                 if (Directory.Exists(fullZipFolder))
                 {
                     Directory.Delete(fullZipFolder, true);
                 }
 
                 ZipFile.ExtractToDirectory(fullZipFile, fullZipFolder);
-                File.Delete(fullZipFile);
 
                 foreach (var sourceFile in Directory.GetFiles(fullZipFolder, "*", SearchOption.AllDirectories))
                 {
-                    var destFile = sourceFile.ReplaceFirst("SolastaUnfinishedBusiness", string.Empty);
-                    var destFolder = Path.GetDirectoryName(destFile);
+                    var destFile = sourceFile.ReplaceFirst(TempFolder, string.Empty);
 
-                    Directory.CreateDirectory(destFolder!);
-                    File.Delete(destFile);
-                    File.Move(sourceFile, destFile);
+                    while (Regex.Matches(destFile, Regex.Escape(ModFolder)).Count > 1)
+                    {
+                        destFile = destFile.ReplaceLastOccurrence(ModFolder, string.Empty);
+                    }
+
+                    var destFolder = Path.GetDirectoryName(destFile)!;
+
+                    Directory.CreateDirectory(destFolder);
+
+                    if (Checksum(destFile) != Checksum(sourceFile))
+                    {
+                        File.Delete(destFile);
+                        File.Move(sourceFile, destFile);
+                    }
                 }
 
-                Directory.Delete(fullZipFolder, true);
-
-                message = "Mod version change successful. Please restart.";
+                ShowMessage("Mod update is successful. Please restart.", "ChangeLog", OpenChangeLog);
             }
-            else
-                message = "Mod version is already the latest or higher";
-            
-            Gui.GuiService.ShowMessage(
-                MessageModal.Severity.Attention2,
-                "Message/&MessageModWelcomeTitle",
-                message,
-                "ChangeLog",
-                "Message/&MessageOkTitle",
-                OpenChangeLog,
-                () => { });
-        }
-        catch(Exception e)
-        {
-            Main.Error($"Failed to update mod: {e.Message}: {e.StackTrace}");
-            
-            Gui.GuiService.ShowMessage(
-                MessageModal.Severity.Serious3,
-                "Message/&MessageModWelcomeTitle",
-                $"Cannot fetch update payload. Try again or download from:\r\n{url}.",
-                "Open Download Url",
-                "Message/&MessageOkTitle",
-                () => OpenUrl(url),
-                () => { });
+            catch (Exception err)
+            {
+                Main.Error($"Failed to update mod: {err.Message}: {err.StackTrace}");
+
+                ShowMessage($"Failed to unpack update. Try again or download and update manually from:\r\n{url}.",
+                    "Open Download Url", () => OpenUrl(url.ToString()),
+                    severity: MessageModal.Severity.Serious3);
+            }
+            finally
+            {
+                try
+                {
+                    File.Delete(fullZipFile);
+                    Directory.Delete(fullZipFolder, true);
+                }
+                catch
+                {
+                    /* ignored */
+                }
+            }
         }
     }
 
     internal static void DisplayRollbackMessage()
     {
-        UnityModManager.UI.Instance.ToggleWindow(false);
+        if (InProgress) { return; }
 
-        Gui.GuiService.ShowMessage(
-            MessageModal.Severity.Attention2,
-            "Message/&MessageModWelcomeTitle",
-            $"Would you like to rollback to {PreviousVersion}?",
-            "Message/&MessageOkTitle",
-            "Message/&MessageCancelTitle",
-            () => UpdateMod(false),
-            () => { });
+        ShowMessage($"Would you like to rollback to {PreviousVersion}?",
+            "Message/&MessageOkTitle", () => UpdateMod(false),
+            "Message/&MessageCancelTitle");
     }
 
     private static void DisplayUpdateMessage()
     {
-        Gui.GuiService.ShowMessage(
-            MessageModal.Severity.Attention2,
-            "Message/&MessageModWelcomeTitle",
-            $"Version {LatestVersion} is now available. Open Mod UI > Gameplay > General to update.",
-            "Changelog",
-            "Message/&MessageOkTitle",
-            OpenChangeLog,
-            () => { });
+        ShowMessage($"Version {LatestVersion} is now available. Open Mod UI > Gameplay > General to update.",
+            "Changelog", OpenChangeLog);
     }
 
     private static void DisplayWelcomeMessage()
     {
-        Gui.GuiService.ShowMessage(
-            MessageModal.Severity.Attention2,
-            "Message/&MessageModWelcomeTitle",
-            "Message/&MessageModWelcomeDescription",
-            "ChangeLog",
-            "Message/&MessageOkTitle",
-            OpenChangeLog,
-            () => { });
+        ShowMessage("Message/&MessageModWelcomeDescription",
+            "ChangeLog", OpenChangeLog);
+    }
+
+    private static void ShowMessage(
+        string content,
+        string validateCaption,
+        [CanBeNull] MessageModal.MessageValidatedHandler onValidated = null,
+        string cancelCaption = "Message/&MessageOkTitle",
+        [CanBeNull] MessageModal.MessageCancelledHandler onCancelled = null,
+        string title = "Message/&MessageModWelcomeTitle",
+        MessageModal.Severity severity = MessageModal.Severity.Attention2
+    )
+    {
+        onValidated ??= () => { };
+        onCancelled ??= () => { };
+        Gui.GuiService.ShowMessage(severity, title, content, validateCaption, cancelCaption, onValidated, onCancelled);
+
+        UnityModManager.UI.Instance.ToggleWindow(false);
     }
 
     internal static void OpenChangeLog()
@@ -243,5 +300,22 @@ internal static class UpdateContext
                 throw;
             }
         }
+    }
+
+    private static string Checksum(string path)
+    {
+        using var file = new FileStream(path, FileMode.Open, FileAccess.Read);
+        using var buffer = new BufferedStream(file);
+        using var cryptoProvider = SHA1.Create();
+
+        var hash = cryptoProvider.ComputeHash(buffer);
+
+        var str = new StringBuilder();
+        foreach (var b in hash)
+        {
+            str.Append(b.ToString("X2"));
+        }
+
+        return str.ToString();
     }
 }

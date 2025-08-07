@@ -141,7 +141,15 @@ internal static class ToolsDisplay
 
         using (UI.HorizontalScope())
         {
-            UI.ActionButton(Gui.Localize("ModUi/&Update"), () => UpdateContext.UpdateMod(), width);
+            if (UpdateContext.InProgress)
+            {
+                UI.ActionButton($"{UpdateContext.Progress}%", () => { }, width);
+            }
+            else
+            {
+                UI.ActionButton(Gui.Localize("ModUi/&Update"), () => UpdateContext.UpdateMod(), width);
+            }
+
             UI.ActionButton(Gui.Localize("ModUi/&Rollback"), UpdateContext.DisplayRollbackMessage, width);
             UI.ActionButton(Gui.Localize("ModUi/&Changelog"), UpdateContext.OpenChangeLog, width);
 
@@ -1333,8 +1341,6 @@ internal static class ToolsDisplay
             {
                 UI.Label(Gui.Localize("ModUi/&OfficialObscurementRulesTweakMonstersHelp"));
             }
-
-
         }
 
         UI.Label();
