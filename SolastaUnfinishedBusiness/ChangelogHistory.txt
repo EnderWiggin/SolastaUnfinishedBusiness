@@ -1,3 +1,6 @@
+1.5.97.72:
+- fixed and improved mod update
+
 1.5.97.71:
 - fixed Moon Druid's primal Strike not working on unarmed beast attacks
 - fixed potential crash related to `Lighting and Obscurement` rules and effect proxies like Flaming Sphere
