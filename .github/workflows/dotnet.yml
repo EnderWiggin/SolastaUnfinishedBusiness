@@ -40,7 +40,7 @@ jobs:
         uses: vimtor/action-zip@v1.2
         with:
           files: ./SolastaFiles/Mods/SolastaUnfinishedBusiness/ 
-          recursive: true
+          recursive: false
           dest: SolastaUnfinishedBusiness.zip
       - name: Upload Info.json
         uses: actions/upload-release-asset@v1
