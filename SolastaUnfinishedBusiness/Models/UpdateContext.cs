@@ -153,10 +153,9 @@ internal static class UpdateContext
 
         void OnDownloadFileCompleted(object _, AsyncCompletedEventArgs e)
         {
-            InProgress = false;
-
             if (e.Error != null)
             {
+                InProgress = false;
                 ShowMessage($"Cannot fetch update payload. Try again or download from:\r\n{url}.",
                     "Open Download Url", () => OpenUrl(url.ToString()),
                     severity: MessageModal.Severity.Serious3);
@@ -165,6 +164,7 @@ internal static class UpdateContext
 
             if (e.Cancelled)
             {
+                InProgress = false;
                 ShowMessage("Update was cancelled",
                     "Open Download Url", () => OpenUrl(url.ToString()),
                     severity: MessageModal.Severity.Serious3);
@@ -212,6 +212,8 @@ internal static class UpdateContext
             }
             finally
             {
+                InProgress = false;
+
                 try
                 {
                     File.Delete(fullZipFile);
