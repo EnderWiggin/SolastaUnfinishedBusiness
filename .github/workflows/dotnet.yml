@@ -8,7 +8,7 @@ on:
       tags:
         - '*'
 env:
-  SolastaInstallDir: ../
+  SolastaInstallDir: ../SolastaFiles
 jobs:
   build:
 
@@ -39,8 +39,8 @@ jobs:
       - name: Zip Files
         uses: vimtor/action-zip@v1.2
         with:
-          files: SolastaUnfinishedBusiness/ 
-          recursive: false
+          files: ./SolastaFiles/Mods/
+          recursive: true
           dest: SolastaUnfinishedBusiness.zip
       - name: Upload Info.json
         uses: actions/upload-release-asset@v1

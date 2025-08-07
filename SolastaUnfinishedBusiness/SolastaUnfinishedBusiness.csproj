@@ -58,7 +58,6 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="('$(Configuration)'=='Release Install' or '$(Configuration)'=='Release Workflow')">
-    <OutputPath>$(SolastaInstallDir)/SolastaUnfinishedBusiness/</OutputPath>
     <Optimize>true</Optimize>
     <DefineConstants>$(DefineConstants);RELEASE</DefineConstants>
     <PlatformTarget>x64</PlatformTarget>
