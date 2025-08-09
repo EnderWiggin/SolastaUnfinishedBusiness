@@ -1647,9 +1647,12 @@ internal static partial class SpellBuilders
             }
             else
             {
-                var commandService = ServiceRepository.GetService<ICommandService>();
-
-                commandService.EndTurn();
+                actingCharacter.SpendActionType(ActionType.Main);
+                actingCharacter.SpendActionType(ActionType.Bonus);
+                actingCharacter.SpendActionType(ActionType.Move);
+                actingCharacter.SpendActionType(ActionType.NoCost);
+                actingCharacter.SpendActionType(ActionType.FreeOnce);
+                actingCharacter.SpendActionType(ActionType.Reaction);
             }
         }
     }
@@ -1658,15 +1661,14 @@ internal static partial class SpellBuilders
     {
         public void OnCharacterTurnStarted(GameLocationCharacter locationCharacter)
         {
-            var actionService = ServiceRepository.GetService<IGameLocationActionService>();
-            var commandService = ServiceRepository.GetService<ICommandService>();
-            var actionParams = new CharacterActionParams(locationCharacter, Id.DropProne)
-            {
-                CanBeAborted = false, CanBeCancelled = false
-            };
-
-            actionService.ExecuteAction(actionParams, null, false);
-            commandService.EndTurn();
+            MotionContext.ProneTarget(locationCharacter);
+            
+            locationCharacter.SpendActionType(ActionType.Main);
+            locationCharacter.SpendActionType(ActionType.Bonus);
+            locationCharacter.SpendActionType(ActionType.Move);
+            locationCharacter.SpendActionType(ActionType.NoCost);
+            locationCharacter.SpendActionType(ActionType.FreeOnce);
+            locationCharacter.SpendActionType(ActionType.Reaction);
         }
     }
 
