@@ -13,6 +13,7 @@ using SolastaUnfinishedBusiness.Behaviors;
 using SolastaUnfinishedBusiness.Behaviors.Specific;
 using SolastaUnfinishedBusiness.Interfaces;
 using SolastaUnfinishedBusiness.Models;
+using SolastaUnfinishedBusiness.Spells;
 using TA;
 using UnityEngine;
 using static RuleDefinitions;
@@ -1441,6 +1442,19 @@ public static class CharacterActionMagicEffectPatcher
                 terminateEffectOnTarget: out _);
 
             return false;
+        }
+    }
+
+    [HarmonyPatch(typeof(CharacterActionMagicEffect), nameof(CharacterActionMagicEffect.HandleTargetImmunity))]
+    [UsedImplicitly]
+    public static class HandleTargetImmunity_Patch
+    {
+        [UsedImplicitly]
+        public static bool Prefix([NotNull] CharacterActionMagicEffect __instance,
+            GameLocationCharacter targetCharacter, out bool isImmune)
+        {
+            //PATCH: Used for making Saving Throw when affecting target under Sanctuary
+            return SpellBuilders.CheckSanctuaryForMagicEffect(__instance, targetCharacter, out isImmune);
         }
     }
 }

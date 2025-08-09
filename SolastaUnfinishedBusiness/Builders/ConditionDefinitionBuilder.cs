@@ -285,13 +285,13 @@ internal class ConditionDefinitionBuilder
         return this;
     }
 
-#if false
     internal ConditionDefinitionBuilder AddSpecialInterruptions(params ExtraConditionInterruption[] value)
     {
         Definition.SpecialInterruptions.AddRange(value.Select(v => (RuleDefinitions.ConditionInterruption)v));
         return this;
     }
 
+#if false
     internal ConditionDefinitionBuilder ClearSpecialInterruptions()
     {
         Definition.SpecialInterruptions.Clear();

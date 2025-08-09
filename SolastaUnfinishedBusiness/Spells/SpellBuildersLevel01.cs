@@ -2450,34 +2450,17 @@ internal static partial class SpellBuilders
 
     #region Sanctuary
 
+    private static readonly ConditionDefinition ConditionSanctuary = ConditionDefinitionBuilder
+        .Create("ConditionSanctuary")
+        .SetGuiPresentation(Category.Condition, ConditionDivineFavor)
+        .AddSpecialInterruptions(ConditionInterruption.Attacks)
+        //TODO: make it break only when targeting enemies
+        .AddSpecialInterruptions(ExtraConditionInterruption.AffectsEnemy)
+        .AddToDB();
+    
     internal static SpellDefinition BuildSanctuary()
     {
         const string NAME = "Sanctuary";
-
-        var conditionSanctuary = ConditionDefinitionBuilder
-            .Create($"Condition{NAME}")
-            .SetGuiPresentation(Category.Condition, ConditionDivineFavor)
-            .AddSpecialInterruptions(ConditionInterruption.Attacks, ConditionInterruption.CastSpell)
-            .AddToDB();
-
-        var conditionSanctuaryReduceDamage = ConditionDefinitionBuilder
-            .Create($"Condition{NAME}ReduceDamage")
-            .SetGuiPresentationNoContent(true)
-            .SetSilent(Silent.WhenAddedOrRemoved)
-            .AddFeatures(
-                FeatureDefinitionReduceDamageBuilder
-                    .Create($"ReduceDamage{NAME}")
-                    .SetGuiPresentation(NAME, Category.Spell)
-                    .SetAlwaysActiveReducedDamage((_, _) => 999)
-                    .AddToDB())
-            .AddSpecialInterruptions(
-                (ConditionInterruption)ExtraConditionInterruption.AfterWasAttacked,
-                ConditionInterruption.Attacks,
-                ConditionInterruption.CastSpell)
-            .AddToDB();
-
-        conditionSanctuary.AddCustomSubFeatures(
-            new CustomBehaviorSanctuary(conditionSanctuary, conditionSanctuaryReduceDamage));
 
         var spell = SpellDefinitionBuilder
             .Create(NAME)
@@ -2489,18 +2472,57 @@ internal static partial class SpellBuilders
             .SetVerboseComponent(true)
             .SetSomaticComponent(true)
             .SetVocalSpellSameType(VocalSpellSemeType.Buff)
-            .SetEffectDescription(
-                EffectDescriptionBuilder
-                    .Create()
-                    .SetTargetingData(Side.Ally, RangeType.Distance, 6, TargetType.IndividualsUnique)
-                    .SetDurationData(DurationType.Minute, 1)
-                    .SetEffectForms(EffectFormBuilder.ConditionForm(conditionSanctuary))
-                    .SetParticleEffectParameters(ProtectionFromEvilGood)
-                    .Build())
-            .AddCustomSubFeatures(new PowerOrSpellFinishedByMeSanctuary(conditionSanctuary))
+            .SetEffectDescription(EffectDescriptionBuilder.Create()
+                .SetTargetingData(Side.Ally, RangeType.Distance, 6, TargetType.IndividualsUnique)
+                .SetDurationData(DurationType.Minute, 1)
+                .SetEffectForms(EffectFormBuilder.ConditionForm(ConditionSanctuary))
+                .SetParticleEffectParameters(ProtectionFromEvilGood)
+                .Build())
+            .AddCustomSubFeatures(new PowerOrSpellFinishedByMeSanctuary(ConditionSanctuary))
             .AddToDB();
 
         return spell;
+    }
+
+    /**Returns false if target has Sanctuary and Attacker failed saving throw against it*/
+    internal static bool CheckSanctuary(RulesetCharacter attacker, RulesetCharacter target)
+    {
+        if (attacker == null || target == null) { return true; }
+
+        //Sanctuary does not affect same-side actions
+        if (!attacker.IsOppositeSide(target.Side)) { return true; }
+
+        if (!target.TryGetConditionOfCategoryAndType(AttributeDefinitions.TagEffect, ConditionSanctuary.Name,
+                out var condition))
+        {
+            return true;
+        }
+
+        var outcome = attacker.MakeSimpleSavingThrow(AttributeDefinitions.Wisdom, dc: condition.Amount,
+            ConditionSanctuary, schoolOfMagic: SchoolOfMagicDefinitions.SchoolAbjuration.Name);
+
+        return outcome is RollOutcome.Success or RollOutcome.CriticalSuccess;
+    }
+
+    public static bool CheckSanctuaryForMagicEffect(CharacterActionMagicEffect magic, GameLocationCharacter target,
+        out bool isImmune)
+    {
+        var effect = magic switch
+        {
+            CharacterActionCastSpell spell => spell.activeSpell.EffectDescription,
+            CharacterActionUsePower power => power.activePower.EffectDescription,
+            _ => null
+        };
+
+        var invalidForSanctuary = effect?.TargetType is not TargetType.Individuals and not TargetType.IndividualsUnique;
+        if (invalidForSanctuary || CheckSanctuary(magic.ActingCharacter.RulesetCharacter, target.RulesetCharacter))
+        {
+            isImmune = false;
+            return true;
+        }
+
+        isImmune = true;
+        return false;
     }
 
     // store the caster Save DC on condition amount
@@ -2533,78 +2555,6 @@ internal static partial class SpellBuilders
                     rulesetCaster.FeaturesToBrowse, rulesetCaster.FeaturesOrigin);
                 activeCondition.Amount = rulesetCaster.ComputeSaveDC(actionCastSpell.activeSpell.SpellRepertoire);
             }
-        }
-    }
-
-    // force the attacker to roll a WIS saving throw or lose the attack
-    private sealed class CustomBehaviorSanctuary : ITryAlterOutcomeAttack
-    {
-        private readonly ConditionDefinition _conditionReduceDamage;
-        private readonly ConditionDefinition _conditionSanctuary;
-
-        internal CustomBehaviorSanctuary(
-            ConditionDefinition conditionSanctuary,
-            ConditionDefinition conditionReduceDamage)
-        {
-            _conditionSanctuary = conditionSanctuary;
-            _conditionReduceDamage = conditionReduceDamage;
-        }
-
-        public int HandlerPriority => 20;
-
-        public IEnumerator OnTryAlterOutcomeAttack(
-            GameLocationBattleManager instance,
-            CharacterAction action,
-            GameLocationCharacter attacker,
-            GameLocationCharacter defender,
-            GameLocationCharacter helper,
-            ActionModifier actionModifier,
-            RulesetAttackMode attackMode,
-            RulesetEffect rulesetEffect)
-        {
-            var rulesetDefender = defender.RulesetCharacter;
-
-            if (helper.IsOppositeSide(defender.Side))
-            {
-                yield break;
-            }
-
-            if (!rulesetDefender.TryGetConditionOfCategoryAndType(
-                    AttributeDefinitions.TagEffect,
-                    _conditionSanctuary.Name,
-                    out var activeCondition))
-            {
-                yield break;
-            }
-
-            var casterSaveDC = activeCondition.Amount;
-            var modifierTrend = attacker.RulesetCharacter.actionModifier.savingThrowModifierTrends;
-            var advantageTrends = attacker.RulesetCharacter.actionModifier.savingThrowAdvantageTrends;
-            var attackerWisModifier = AttributeDefinitions.ComputeAbilityScoreModifier(
-                attacker.RulesetCharacter.TryGetAttributeValue(AttributeDefinitions.Wisdom));
-
-            attacker.RulesetCharacter.RollSavingThrow(
-                0, AttributeDefinitions.Wisdom, null, modifierTrend, advantageTrends, attackerWisModifier, casterSaveDC,
-                false, out var savingOutcome, out _);
-
-            if (savingOutcome == RollOutcome.Success)
-            {
-                yield break;
-            }
-
-            rulesetDefender.InflictCondition(
-                _conditionReduceDamage.Name,
-                DurationType.Round,
-                0,
-                TurnOccurenceType.StartOfTurn,
-                AttributeDefinitions.TagEffect,
-                rulesetDefender.guid,
-                rulesetDefender.CurrentFaction.Name,
-                1,
-                _conditionReduceDamage.Name,
-                0,
-                0,
-                0);
         }
     }
 

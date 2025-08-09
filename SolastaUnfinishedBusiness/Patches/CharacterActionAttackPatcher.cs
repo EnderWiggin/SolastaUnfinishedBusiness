@@ -97,6 +97,13 @@ public static class CharacterActionAttackPatcher
             var rulesetDefender = target.RulesetActor;
             var defenderWasConscious = !rulesetDefender.IsDeadOrDyingOrUnconscious;
 
+            //PATCH: handle target under Sanctuary spell
+            if (!SpellBuilders.CheckSanctuary(actingCharacter.RulesetCharacter, target.RulesetCharacter))
+            {
+                __instance.Abort(CharacterAction.InterruptionType.Failed);
+                yield break;
+            }
+
             // Check if the attack is possible, and compute modifiers
             var attackParams = new BattleDefinitions.AttackEvaluationParams();
             var attackModifier = new ActionModifier();
