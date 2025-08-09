@@ -2051,6 +2051,23 @@ public static class RulesetCharacterPatcher
         }
     }
 
+    [HarmonyPatch(typeof(RulesetCharacter), nameof(RulesetCharacter.ComputeSaveDC))]
+    [SuppressMessage("Minor Code Smell", "S101:Types should be named in PascalCase", Justification = "Patch")]
+    [UsedImplicitly]
+    public static class ComputeSaveDC_Patch
+    {
+        [UsedImplicitly]
+        public static bool Prefix(RulesetCharacter __instance, RulesetSpellRepertoire spellRepertoire, ref int __result)
+        {
+            //PATCH: fixes crash when using some custom spell scrolls
+            if (spellRepertoire != null) { return true; }
+
+            __result = 8 + __instance.TryGetProficiencyBonus();
+
+            return false;
+        }
+    }
+
     //PATCH: supports `IModifyScribeCostAndDuration`
     [HarmonyPatch(typeof(RulesetCharacter), nameof(RulesetCharacter.ComputeScribeCosts))]
     [SuppressMessage("Minor Code Smell", "S101:Types should be named in PascalCase", Justification = "Patch")]
