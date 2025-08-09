@@ -159,7 +159,8 @@ public enum ExtraConditionInterruption
     UsesBonusAction,
     AttacksWithMeleeAndDamages,
     SpendPower,
-    SpendPowerExecuted
+    SpendPowerExecuted,
+    AffectsEnemy
 }
 
 internal enum ExtraMotionType

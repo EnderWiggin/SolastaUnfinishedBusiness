@@ -1021,6 +1021,12 @@ public static class CharacterActionMagicEffectPatcher
             var rulesetTarget = target.RulesetActor;
             var effectDescription = rulesetEffect.EffectDescription;
 
+            if (actingCharacter.IsOppositeSide(rulesetTarget.Side))
+            {
+                actingCharacter.RulesetCharacter.ProcessConditionsMatchingInterruption(
+                    (ConditionInterruption)ExtraConditionInterruption.AffectsEnemy);
+            }
+
             __instance.AttackRollOutcome = RollOutcome.Success;
 
             var needToRollDie = effectDescription.NeedsToRollDie();
