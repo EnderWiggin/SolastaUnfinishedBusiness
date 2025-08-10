@@ -1,3 +1,9 @@
+1.5.97.74:
+- fixed Sanctuary rolling saving throw for each projectile in a spell, not once per target per spell
+- updated description of Sanctuary to better reflect recent changes
+- fixed Seeking Spell metamagic triggering for missed attacks
+- fixed Command: Grovel and Command: Approach not properly ending target's turn
+
 1.5.97.73:
 - fixed crash when using some custom spell scrolls (like Sanctuary)
 - reworked how Sanctuary works - now it aborts attack action or makes target immune to magic effect in case of failed throw
