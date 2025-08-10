@@ -1662,7 +1662,7 @@ internal static partial class SpellBuilders
         public void OnCharacterTurnStarted(GameLocationCharacter locationCharacter)
         {
             MotionContext.ProneTarget(locationCharacter);
-            
+
             locationCharacter.SpendActionType(ActionType.Main);
             locationCharacter.SpendActionType(ActionType.Bonus);
             locationCharacter.SpendActionType(ActionType.Move);
@@ -2459,7 +2459,7 @@ internal static partial class SpellBuilders
         //TODO: make it break only when targeting enemies
         .AddSpecialInterruptions(ExtraConditionInterruption.AffectsEnemy)
         .AddToDB();
-    
+
     internal static SpellDefinition BuildSanctuary()
     {
         const string NAME = "Sanctuary";
@@ -2509,22 +2509,36 @@ internal static partial class SpellBuilders
     public static bool CheckSanctuaryForMagicEffect(CharacterActionMagicEffect magic, GameLocationCharacter target,
         out bool isImmune)
     {
-        var effect = magic switch
+        isImmune = false;
+
+        RulesetEffect effect = magic switch
         {
-            CharacterActionCastSpell spell => spell.activeSpell.EffectDescription,
-            CharacterActionUsePower power => power.activePower.EffectDescription,
+            CharacterActionCastSpell spell => spell.activeSpell,
+            CharacterActionUsePower power => power.activePower,
             _ => null
         };
 
-        var invalidForSanctuary = effect?.TargetType is not TargetType.Individuals and not TargetType.IndividualsUnique;
-        if (invalidForSanctuary || CheckSanctuary(magic.ActingCharacter.RulesetCharacter, target.RulesetCharacter))
+        if (effect == null) { return true; }
+
+        if (effect.EffectDescription.TargetType is not TargetType.Individuals and not TargetType.IndividualsUnique)
         {
-            isImmune = false;
             return true;
         }
 
-        isImmune = true;
-        return false;
+        var testedKey = $"SanctuaryResult:{effect.guid}";
+        var tested = target.GetSpecialFeatureUses(testedKey);
+
+        if (tested < 0)
+        {
+            isImmune = !CheckSanctuary(magic.ActingCharacter.RulesetCharacter, target.RulesetCharacter);
+            target.SetSpecialFeatureUses(testedKey, isImmune ? 1 : 0);
+        }
+        else
+        {
+            isImmune = tested == 1;
+        }
+
+        return !isImmune;
     }
 
     // store the caster Save DC on condition amount
