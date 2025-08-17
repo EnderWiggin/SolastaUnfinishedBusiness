@@ -919,12 +919,12 @@ public static class RulesetCharacterHeroPatcher
                 .ForEach(listener => listener.OnHeroRefreshed(__instance));
 #endif
         }
-        
+
         [UsedImplicitly]
-        public static void Postfix(RulesetActor __instance)
+        public static void Postfix(RulesetCharacterHero __instance)
         {
             //PATCH: allow power use validators to work on permanent (aura) powers
-            if (__instance is RulesetCharacter character) { character.UpdatePermanentPowersAsNeeded(); }
+            __instance.UpdatePermanentPowersAsNeeded();
         }
     }
 
@@ -1536,7 +1536,8 @@ public static class RulesetCharacterHeroPatcher
         ];
 
         [UsedImplicitly]
-        public static void Postfix(RulesetCharacterHero __instance,  string abilityScoreName, List<TrendInfo> savingThrowModifierTrends)
+        public static void Postfix(RulesetCharacterHero __instance, string abilityScoreName,
+            List<TrendInfo> savingThrowModifierTrends)
         {
             //PATCH: Try finding base feature for saving throws
             //TODO: may need improvement for other sources
