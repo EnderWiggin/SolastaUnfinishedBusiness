@@ -219,6 +219,9 @@ internal static class ValidatorsCharacter
             LocationDefinitions.LightingState.Darkness,
             LocationDefinitions.LightingState.Unlit)(character);
 
+    internal static readonly IsCharacterValidHandler IsRaging = character =>
+        character.HasConditionOfTypeOrSubType(RuleDefinitions.ConditionRaging);
+
     internal static bool HasBowWithoutArmor(RulesetCharacter character)
     {
         return HasNoArmor(character) &&

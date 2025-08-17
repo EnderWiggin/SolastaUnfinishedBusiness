@@ -21,6 +21,9 @@ internal sealed class ValidatorsValidatePowerUse : IValidatePowerUse
 
     public static readonly IValidatePowerUse HasMainAttackAvailable =
         new ValidatorsValidatePowerUse(ValidatorsCharacter.HasMainAttackAvailable);
+    
+    public static readonly IValidatePowerUse IsRaging =
+        new ValidatorsValidatePowerUse(ValidatorsCharacter.IsRaging);
 
     private readonly IsPowerUseValidHandler[] _validators;
 

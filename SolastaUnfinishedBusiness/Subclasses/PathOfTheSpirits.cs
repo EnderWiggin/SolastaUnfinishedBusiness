@@ -9,6 +9,7 @@ using SolastaUnfinishedBusiness.Builders.Features;
 using SolastaUnfinishedBusiness.CustomUI;
 using SolastaUnfinishedBusiness.Interfaces;
 using SolastaUnfinishedBusiness.Properties;
+using SolastaUnfinishedBusiness.Validators;
 using static RuleDefinitions;
 using static FeatureDefinitionAttributeModifier;
 using static SolastaUnfinishedBusiness.Api.DatabaseHelper;
@@ -317,17 +318,16 @@ public sealed class PathOfTheSpirits : AbstractSubclass
         var powerHonedAnimalAspectsBear = FeatureDefinitionPowerBuilder
             .Create($"Power{Name}HonedAnimalAspectsBear")
             .SetGuiPresentation(Category.Feature)
-            .SetUsesFixed(ActivationTime.OnRageStartAutomatic)
+            .SetUsesFixed(ActivationTime.PermanentUnlessIncapacitated)
             .SetShowCasting(false)
-            .SetEffectDescription(
-                EffectDescriptionBuilder
-                    .Create()
-                    .SetDurationData(DurationType.Permanent)
-                    .SetTargetingData(Side.Enemy, RangeType.Self, 0, TargetType.Cube, 3)
-                    .SetRecurrentEffect(
-                        RecurrentEffect.OnActivation | RecurrentEffect.OnEnter | RecurrentEffect.OnTurnStart)
-                    .SetEffectForms(EffectFormBuilder.ConditionForm(conditionHonedAnimalAspectsBear))
-                    .Build())
+            .SetEffectDescription(EffectDescriptionBuilder.Create()
+                .SetDurationData(DurationType.Permanent)
+                .SetTargetingData(Side.Enemy, RangeType.Self, 0, TargetType.Cube, 3)
+                .SetRecurrentEffect(
+                    RecurrentEffect.OnActivation | RecurrentEffect.OnEnter | RecurrentEffect.OnTurnStart)
+                .SetEffectForms(EffectFormBuilder.ConditionForm(conditionHonedAnimalAspectsBear))
+                .Build())
+            .AddCustomSubFeatures(ValidatorsValidatePowerUse.IsRaging)
             .AddToDB();
 
         return powerHonedAnimalAspectsBear;
