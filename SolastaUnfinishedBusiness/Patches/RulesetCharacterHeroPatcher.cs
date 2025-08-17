@@ -919,6 +919,13 @@ public static class RulesetCharacterHeroPatcher
                 .ForEach(listener => listener.OnHeroRefreshed(__instance));
 #endif
         }
+        
+        [UsedImplicitly]
+        public static void Postfix(RulesetActor __instance)
+        {
+            //PATCH: allow power use validators to work on permanent (aura) powers
+            if (__instance is RulesetCharacter character) { character.UpdatePermanentPowersAsNeeded(); }
+        }
     }
 
     [HarmonyPatch(typeof(RulesetCharacterHero), nameof(RulesetCharacterHero.RefreshActiveFightingStyles))]

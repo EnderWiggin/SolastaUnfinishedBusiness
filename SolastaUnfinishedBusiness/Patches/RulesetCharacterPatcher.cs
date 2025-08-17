@@ -951,6 +951,52 @@ public static class RulesetCharacterPatcher
         }
     }
 
+
+    [HarmonyPatch(typeof(RulesetCharacter), nameof(RulesetCharacter.UpdatePermanentPowersAsNeeded))]
+    [SuppressMessage("Minor Code Smell", "S101:Types should be named in PascalCase", Justification = "Patch")]
+    [UsedImplicitly]
+    public static class UpdatePermanentPowersAsNeeded_Patch
+    {
+        [UsedImplicitly]
+        public static bool Prefix(RulesetCharacter __instance)
+        {
+            //PATCH: allow power use validators to work on permanent (aura) powers
+            DoUpdatePermanentPowersAsNeeded(__instance);
+            return false;
+        }
+
+        private static void DoUpdatePermanentPowersAsNeeded(RulesetCharacter character)
+        {
+            if (character.Guid == 0UL) { return; }
+
+            foreach (var usablePower in character.UsablePowers)
+            {
+                bool valid;
+                if (usablePower.PowerDefinition.ActivationTime == ActivationTime.Permanent)
+                {
+                    valid = character.CanUsePower(usablePower.PowerDefinition, false);
+                }
+                else if (usablePower.PowerDefinition.ActivationTime == ActivationTime.PermanentUnlessIncapacitated)
+                {
+                    valid = !character.IsIncapacitated && character.CanUsePower(usablePower.PowerDefinition, false);
+                }
+                else
+                {
+                    continue;
+                }
+
+                if (!character.IsPowerActive(usablePower) && valid && !character.autoActivatingPower)
+                {
+                    character.AutoactivatePower(usablePower);
+                }
+                else if (character.IsPowerActive(usablePower) && !valid)
+                {
+                    character.TerminatePower(character.GetActivePowerFromUsablePower(usablePower));
+                }
+            }
+        }
+    }
+
     [HarmonyPatch(typeof(RulesetCharacter), nameof(RulesetCharacter.UsePower))]
     [SuppressMessage("Minor Code Smell", "S101:Types should be named in PascalCase", Justification = "Patch")]
     [UsedImplicitly]
