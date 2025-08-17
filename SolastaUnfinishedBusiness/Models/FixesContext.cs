@@ -11,6 +11,7 @@ using SolastaUnfinishedBusiness.Builders;
 using SolastaUnfinishedBusiness.Builders.Features;
 using SolastaUnfinishedBusiness.Feats;
 using SolastaUnfinishedBusiness.Interfaces;
+using SolastaUnfinishedBusiness.Patches;
 using SolastaUnfinishedBusiness.Subclasses;
 using SolastaUnfinishedBusiness.Validators;
 using TA.AI;
@@ -100,6 +101,7 @@ internal static class FixesContext
         FixSpikeGrowthAffectingAir();
         NoTwinnedBladeCantripsOrSpellsWithRetargeting();
         FixStaffOfFireToGetFireResistance();
+        AddTitlesToCreedSaves();
 
         // avoid soft lock scenarios with game UI on any affinity that prevents movement
         foreach (var actionAffinity in DatabaseRepository.GetDatabase<FeatureDefinitionActionAffinity>()
@@ -137,6 +139,25 @@ internal static class FixesContext
 
             feature.GuiPresentation.title = term;
             feature.GuiPresentation.description = term;
+        }
+    }
+
+    private static void AddTitlesToCreedSaves()
+    {
+        //These affinities are used by various class/subclass features - need at least a title for them
+        
+        Update(SavingThrowAffinityCreedOfArun);
+        Update(SavingThrowAffinityCreedOfEinar);
+        Update(SavingThrowAffinityCreedOfMaraike);
+        Update(SavingThrowAffinityCreedOfMisaye);
+        Update(SavingThrowAffinityCreedOfPakri);
+        Update(SavingThrowAffinityCreedOfSolasta);
+        return;
+
+        static void Update(FeatureDefinitionSavingThrowAffinity affinity)
+        {
+            affinity.GuiPresentation.Title = $"Attribute/&{affinity.AffinityGroups[0].abilityScoreName}TitleLong";
+            affinity.AddCustomSubFeatures(AllowDuplicates.Mark);
         }
     }
 

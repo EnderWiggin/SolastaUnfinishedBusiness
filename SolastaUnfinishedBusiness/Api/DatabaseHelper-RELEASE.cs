@@ -2585,6 +2585,9 @@ internal static partial class DatabaseHelper
 
         internal static FeatureDefinitionSavingThrowAffinity SavingThrowAffinityCreedOfArun { get; } =
             GetDefinition<FeatureDefinitionSavingThrowAffinity>("SavingThrowAffinityCreedOfArun");
+        
+        internal static FeatureDefinitionSavingThrowAffinity SavingThrowAffinityCreedOfEinar { get; } =
+            GetDefinition<FeatureDefinitionSavingThrowAffinity>("SavingThrowAffinityCreedOfEinar");
 
         internal static FeatureDefinitionSavingThrowAffinity SavingThrowAffinityCreedOfMaraike { get; } =
             GetDefinition<FeatureDefinitionSavingThrowAffinity>("SavingThrowAffinityCreedOfMaraike");

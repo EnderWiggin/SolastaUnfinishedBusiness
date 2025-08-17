@@ -1,9 +1,7 @@
-﻿#if false
-using System.Diagnostics.CodeAnalysis;
+﻿using System.Diagnostics.CodeAnalysis;
 using HarmonyLib;
 using JetBrains.Annotations;
 using SolastaUnfinishedBusiness.Api.GameExtensions;
-using SolastaUnfinishedBusiness.Behaviors;
 
 namespace SolastaUnfinishedBusiness.Patches;
 
@@ -16,10 +14,21 @@ public static class FeatureDefinitionPatcher
     public static class AllowsDuplicate_Getter_Patch
     {
         [UsedImplicitly]
-        public static void Postfix(FeatureDefinition __instance, out bool __result)
+        public static void Postfix(FeatureDefinition __instance, ref bool __result)
         {
-            __result = __instance.HasSubFeatureOfType<AllowConditionDuplicates>();
+            if (__instance.HasSubFeatureOfType<AllowDuplicates>())
+            {
+                __result = true;
+            }
         }
     }
 }
-#endif
+
+internal class AllowDuplicates
+{
+    private AllowDuplicates()
+    {
+    }
+
+    public static AllowDuplicates Mark { get; } = new();
+}

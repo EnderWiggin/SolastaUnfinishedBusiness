@@ -98,10 +98,29 @@ internal static class CharacterInspectionScreenEnhancement
         FeatureDefinition subFeature,
         out FeatureDefinition choiceFeature)
     {
-        choiceFeature = null;
+        if (TryFindChoiceFeature(subFeature, panel.InspectedCharacter.MainClassDefinition.FeatureUnlocks.Select(
+                featureUnlock => featureUnlock.FeatureDefinition), out choiceFeature))
+        {
+            return true;
+        }
 
-        foreach (var featureDefinition in panel.InspectedCharacter.MainClassDefinition.FeatureUnlocks.Select(
-                     featureUnlock => featureUnlock.FeatureDefinition))
+        var subclass = panel.InspectedCharacter.SubclassDefinition;
+
+        if (subclass != null
+            && TryFindChoiceFeature(subFeature, subclass.FeatureUnlocks.Select(x => x.FeatureDefinition),
+                out choiceFeature))
+        {
+            return true;
+        }
+
+        choiceFeature = null;
+        return false;
+    }
+
+    internal static bool TryFindChoiceFeature(FeatureDefinition subFeature, IEnumerable<FeatureDefinition> features,
+        out FeatureDefinition choiceFeature)
+    {
+        foreach (var featureDefinition in features)
         {
             if (featureDefinition is not FeatureDefinitionFeatureSet
                 {
@@ -116,6 +135,58 @@ internal static class CharacterInspectionScreenEnhancement
             return true;
         }
 
+        choiceFeature = null;
+        return false;
+    }
+
+    internal static bool TryFindChoiceFeature(
+        string subFeature,
+        RulesetCharacterHero hero,
+        out FeatureDefinition choiceFeature)
+    {
+        foreach (var def in hero.ClassesAndLevels.Keys)
+        {
+            if (TryFindChoiceFeature(subFeature, def.featureUnlocks.Select(x => x.FeatureDefinition),
+                    out choiceFeature))
+            {
+                return true;
+            }
+
+        }
+        
+        foreach (var def in hero.ClassesAndSubclasses.Values)
+        {
+            if (TryFindChoiceFeature(subFeature, def.featureUnlocks.Select(x => x.FeatureDefinition),
+                    out choiceFeature))
+            {
+                return true;
+            }
+
+        }
+        
+        choiceFeature = null;
+        return false;
+    }
+    
+    internal static bool TryFindChoiceFeature(string subFeature, IEnumerable<FeatureDefinition> features,
+        out FeatureDefinition choiceFeature)
+    {
+        foreach (var featureDefinition in features)
+        {
+            if (featureDefinition is not FeatureDefinitionFeatureSet
+                {
+                    Mode: FeatureDefinitionFeatureSet.FeatureSetMode.Exclusion
+                } definitionFeatureSet || definitionFeatureSet.FeatureSet.All(x => x.Name != subFeature))
+            {
+                continue;
+            }
+
+            choiceFeature = featureDefinition;
+
+            return true;
+        }
+
+        choiceFeature = null;
         return false;
     }
 
@@ -159,11 +230,18 @@ internal static class CharacterInspectionScreenEnhancement
             }
             else if (TryFindChoiceFeature(panel, feature.FeatureDefinition, out var choiceFeature))
             {
-                label.Text = Gui.Format("{1} ({0})", choiceFeature.FormatTitle(),
-                    feature.FeatureDefinition.FormatTitle());
-                tooltip.Content = feature.FeatureDefinition.FormatDescription();
+                label.Text = Gui.Format("{1} ({0})", feature.FeatureDefinition.FormatTitle(),
+                    choiceFeature.FormatTitle());
 
-                provider.SetSubtitle(choiceFeature.GuiPresentation.Title);
+                if (feature.FeatureDefinition.GuiPresentation.Description == Gui.NoLocalization)
+                {
+                    provider.BaseDefinition = choiceFeature;
+                    provider.SetSubtitle(feature.FeatureDefinition.GuiPresentation.Title);
+                }
+                else
+                {
+                    provider.SetSubtitle(choiceFeature.GuiPresentation.Title);
+                }
             }
             else
             {

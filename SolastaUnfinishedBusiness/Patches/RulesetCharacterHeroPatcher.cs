@@ -21,6 +21,7 @@ using static RuleDefinitions;
 using static SolastaUnfinishedBusiness.Api.DatabaseHelper.CharacterClassDefinitions;
 using static SolastaUnfinishedBusiness.Api.DatabaseHelper.FeatureDefinitionAbilityCheckAffinitys;
 using static SolastaUnfinishedBusiness.Api.DatabaseHelper.WeaponTypeDefinitions;
+using static SolastaUnfinishedBusiness.CustomUI.CharacterInspectionScreenEnhancement;
 
 namespace SolastaUnfinishedBusiness.Patches;
 
@@ -1515,6 +1516,35 @@ public static class RulesetCharacterHeroPatcher
             //PATCH: make ISpellCastingAffinityProvider from dynamic item properties apply to repertoires
             return instructions.ReplaceEnumerateFeaturesToBrowse<FeatureDefinitionSavingThrowAffinity>(
                 "RulesetCharacterHero.ComputeBaseSavingThrowBonus", EnumerateFeatureDefinitionSavingThrowAffinity);
+        }
+
+        private static readonly HashSet<string> FeaturesToReplace =
+        [
+            "SavingThrowAffinityCreedOfArun",
+            "SavingThrowAffinityCreedOfEinar",
+            "SavingThrowAffinityCreedOfMaraike",
+            "SavingThrowAffinityCreedOfMisaye",
+            "SavingThrowAffinityCreedOfPakri",
+            "SavingThrowAffinityCreedOfSolasta"
+        ];
+
+        [UsedImplicitly]
+        public static void Postfix(RulesetCharacterHero __instance,  string abilityScoreName, List<TrendInfo> savingThrowModifierTrends)
+        {
+            //PATCH: Try finding base feature for saving throws
+            //TODO: may need improvement for other sources
+
+            for (var i = savingThrowModifierTrends.Count - 1; i >= 0; i--)
+            {
+                var trend = savingThrowModifierTrends[i];
+                if (trend.sourceType == FeatureSourceType.ExplicitFeature
+                    && FeaturesToReplace.Contains(trend.sourceName)
+                    && TryFindChoiceFeature(trend.sourceName, __instance, out var choice))
+                {
+                    trend.sourceName = choice.Name;
+                    savingThrowModifierTrends[i] = trend;
+                }
+            }
         }
     }
 
