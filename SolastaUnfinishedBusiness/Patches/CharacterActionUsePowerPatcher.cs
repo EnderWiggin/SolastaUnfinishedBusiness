@@ -169,7 +169,7 @@ public static class CharacterActionUsePowerPatcher
 
             var actingCharacter = actionUsePower.ActingCharacter;
             var rulesetCharacter = actingCharacter.RulesetCharacter;
-            var actionParams = actionUsePower.ActionParams.TargetAction.ActionParams;
+            var actionParams = actionUsePower.ActionParams;
             var actionModifier = actionParams.ActionModifiers[0];
 
             foreach (var effectForm in actionParams.RulesetEffect.EffectDescription.EffectForms)
