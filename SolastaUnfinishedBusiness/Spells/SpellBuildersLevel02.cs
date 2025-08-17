@@ -1342,10 +1342,12 @@ internal static partial class SpellBuilders
 
             //set upcast damage dice: 3 + ( slot Lv - base spell Lv(2) )
             effectDescription.FindFirstDamageForm().diceNumber = 1 + activeCondition.effectLevel;
+            var dc = activeCondition.Amount;
+            effectDescription.FixedSavingThrowDifficultyClass = dc; 
             //set Spell Save DC
             if (rulesetEffect is RulesetEffectPower rulesetEffectPower)
             {
-                rulesetEffectPower.usablePower.saveDC = activeCondition.Amount;
+                rulesetEffectPower.usablePower.saveDC = dc;
             }
 
             return effectDescription;
@@ -1357,7 +1359,7 @@ internal static partial class SpellBuilders
             EffectDescription effectDescription)
         {
             return character.HasConditionOfType(conditionDragonsBreath) &&
-                   effectDescription == powerDragonsBreath.EffectDescription;
+                   definition == powerDragonsBreath;
         }
     }
 
