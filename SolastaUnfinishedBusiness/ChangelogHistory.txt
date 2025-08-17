@@ -1,3 +1,6 @@
+1.5.97.76:
+- fixed Dragon's Breath DC when cast not on players
+
 1.5.97.75:
 - fixed displaying of Save Proficiency features in some cases (e.g. Iron Mind from Gloomstalker)
 - fixed `Honed Bear` of `Totem Warrior` applying its effect to barbarian, instead of enemies
