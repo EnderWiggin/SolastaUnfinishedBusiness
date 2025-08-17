@@ -1,3 +1,8 @@
+1.5.97.75:
+- fixed displaying of Save Proficiency features in some cases (e.g. Iron Mind from Gloomstalker)
+- fixed `Honed Bear` of `Totem Warrior` applying its effect to barbarian, instead of enemies
+- fixed `Magic Counter` of `Hive Patron` warlock not working
+
 1.5.97.74:
 - fixed Sanctuary rolling saving throw for each projectile in a spell, not once per target per spell
 - updated description of Sanctuary to better reflect recent changes
