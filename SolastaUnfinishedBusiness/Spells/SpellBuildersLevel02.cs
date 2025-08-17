@@ -1210,24 +1210,20 @@ internal static partial class SpellBuilders
                 .Create($"Power{NAME}{damageType}")
                 .SetGuiPresentation(title, description, dragonbornBreathPower.GuiPresentation.SpriteReference)
                 .SetUsesFixed(ActivationTime.Action)
-                .SetEffectDescription(
-                    EffectDescriptionBuilder
-                        .Create()
-                        .SetTargetingData(Side.All, RangeType.Self, 1, TargetType.Cone, 3)
-                        .SetEffectAdvancement(EffectIncrementMethod.None)
-                        .SetEffectForms(
-                            EffectFormBuilder
-                                .Create()
-                                .SetDamageForm(damageType, 3, DieType.D6)
-                                .HasSavingThrow(EffectSavingThrowType.HalfDamage)
-                                .Build())
-                        .SetSavingThrowData(false, AttributeDefinitions.Dexterity, false,
-                            EffectDifficultyClassComputation.FixedValue)
-                        .SetCasterEffectParameters(dragonbornBreathPower)
-                        .SetImpactEffectParameters(dragonbornBreathPower)
-                        .SetParticleEffectParameters(dragonbornBreathPower)
-                        .SetAnimationMagicEffect(dragonbornBreathPower.EffectDescription.AnimationMagicEffect)
+                .SetEffectDescription(EffectDescriptionBuilder.Create()
+                    .SetTargetingData(Side.All, RangeType.Self, 1, TargetType.Cone, 3)
+                    .SetEffectAdvancement(EffectIncrementMethod.None)
+                    .SetEffectForms(EffectFormBuilder.Create()
+                        .SetDamageForm(damageType, 3, DieType.D6)
+                        .HasSavingThrow(EffectSavingThrowType.HalfDamage)
                         .Build())
+                    .SetSavingThrowData(false, AttributeDefinitions.Dexterity, false,
+                        EffectDifficultyClassComputation.FixedValue)
+                    .SetCasterEffectParameters(dragonbornBreathPower)
+                    .SetImpactEffectParameters(dragonbornBreathPower)
+                    .SetParticleEffectParameters(dragonbornBreathPower)
+                    .SetAnimationMagicEffect(dragonbornBreathPower.EffectDescription.AnimationMagicEffect)
+                    .Build())
                 .AddToDB();
 
             description = Gui.Format($"Condition/&Condition{NAME}Description", dmgStr);
@@ -1260,16 +1256,14 @@ internal static partial class SpellBuilders
                 .SetMaterialComponent(MaterialComponentType.Mundane)
                 .SetVocalSpellSameType(VocalSpellSemeType.Buff)
                 .SetRequiresConcentration(true)
-                .SetEffectDescription(
-                    EffectDescriptionBuilder
-                        .Create()
-                        .SetDurationData(DurationType.Minute, 1)
-                        .SetTargetingData(Side.Ally, RangeType.Touch, 0, TargetType.IndividualsUnique)
-                        .SetEffectAdvancement(EffectIncrementMethod.PerAdditionalSlotLevel)
-                        .SetEffectForms(EffectFormBuilder.AddConditionForm(conditionDragonsBreath))
-                        .SetCasterEffectParameters(Heroism)
-                        .SetParticleEffectParameters(magicEffect)
-                        .Build())
+                .SetEffectDescription(EffectDescriptionBuilder.Create()
+                    .SetDurationData(DurationType.Minute, 1)
+                    .SetTargetingData(Side.Ally, RangeType.Touch, 0, TargetType.IndividualsUnique)
+                    .SetEffectAdvancement(EffectIncrementMethod.PerAdditionalSlotLevel)
+                    .SetEffectForms(EffectFormBuilder.AddConditionForm(conditionDragonsBreath))
+                    .SetCasterEffectParameters(Heroism)
+                    .SetParticleEffectParameters(magicEffect)
+                    .Build())
                 .AddCustomSubFeatures(new PowerOrSpellFinishedByMeDragonsBreath(conditionDragonsBreath))
                 .AddToDB();
 
@@ -1288,13 +1282,11 @@ internal static partial class SpellBuilders
             .SetCastingTime(ActivationTime.BonusAction)
             .SetRequiresConcentration(true)
             .SetSubSpells([.. subSpells])
-            .SetEffectDescription(
-                EffectDescriptionBuilder
-                    .Create()
-                    .SetDurationData(DurationType.Minute, 1)
-                    .SetTargetingData(Side.All, RangeType.Touch, 0, TargetType.IndividualsUnique)
-                    .SetEffectAdvancement(EffectIncrementMethod.PerAdditionalSlotLevel)
-                    .Build())
+            .SetEffectDescription(EffectDescriptionBuilder.Create()
+                .SetDurationData(DurationType.Minute, 1)
+                .SetTargetingData(Side.All, RangeType.Touch, 0, TargetType.IndividualsUnique)
+                .SetEffectAdvancement(EffectIncrementMethod.PerAdditionalSlotLevel)
+                .Build())
             .AddToDB();
     }
 
