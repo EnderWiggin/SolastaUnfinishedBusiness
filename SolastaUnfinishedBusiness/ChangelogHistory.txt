@@ -1,3 +1,8 @@
+1.5.97.77:
+- removed 13 DEX requirement from `Dual Wielder` feat as it is not present in 5e 2014
+- fixed `Sprite's Ability` from `Abilities of the Chain Master` invocation giving disadvantage to user, not to enemies and fixed its AC modifier being tied to Barkskin
+- Lighting and Obscurement - do not allow to see targets in the magical darkness without proper senses like blind sight, true sight or tremor sense
+
 1.5.97.76:
 - fixed Dragon's Breath DC when cast not on players
 
