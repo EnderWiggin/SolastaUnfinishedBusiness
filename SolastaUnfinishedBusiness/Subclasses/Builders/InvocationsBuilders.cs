@@ -921,9 +921,16 @@ internal static class InvocationsBuilders
             .Create("ConditionAbilitySprite")
             .SetGuiPresentation(Category.Condition, ConditionDefinitions.ConditionPactChainSprite)
             .AddFeatures(
-                FeatureDefinitionAttributeModifiers.AttributeModifierBarkskin,
-                FeatureDefinitionCombatAffinitys.CombatAffinityBlinded)
+                FeatureDefinitionAttributeModifierBuilder.Create("AttributeModifierAbilitySprite")
+                    .SetGuiPresentation(Gui.NoLocalization, "Feature/&AttributeModifier{0}Description")
+                    .SetModifier(AttributeModifierOperation.ForceIfBetter, AttributeDefinitions.ArmorClass, 16)
+                    .AddToDB(),
+                FeatureDefinitionCombatAffinityBuilder.Create("CombatAffinityAbilitySprite")
+                    .SetGuiPresentationNoContent()
+                    .SetAttackOnMeAdvantage(AdvantageType.Disadvantage)
+                    .AddToDB())
             .SetSilent(Silent.WhenAddedOrRemoved)
+            .SetPossessive()
             .AddToDB();
 
         var conditionAbilityImp = ConditionDefinitionBuilder
