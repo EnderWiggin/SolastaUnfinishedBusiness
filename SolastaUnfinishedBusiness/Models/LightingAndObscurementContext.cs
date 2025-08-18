@@ -26,9 +26,7 @@ using static SolastaUnfinishedBusiness.Api.DatabaseHelper.FeatureDefinitionPower
 using static SolastaUnfinishedBusiness.Api.DatabaseHelper.FeatureDefinitionSenses;
 using static SolastaUnfinishedBusiness.Api.DatabaseHelper.InvocationDefinitions;
 using static SolastaUnfinishedBusiness.Api.DatabaseHelper.SpellDefinitions;
-using Mono.CSharp;
 using System.Text.RegularExpressions;
-using System.Threading;
 
 namespace SolastaUnfinishedBusiness.Models;
 
@@ -371,6 +369,12 @@ internal static class LightingAndObscurementContext
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    private static bool IsInMagicalDarkness(RulesetActor actor)
+    {
+        return actor != null && actor.HasConditionOfType(ConditionInMagicalDarknessName);
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private static bool IsBlindNotFromDarkness(RulesetActor actor)
     {
         return
@@ -442,6 +446,7 @@ internal static class LightingAndObscurementContext
         var sourceIsBlindFromDarkness = IsBlindFromDarkness(sensorCharacter);
         var sourceIsBlindNotFromDarkness = IsBlindNotFromDarkness(sensorCharacter);
         var targetIsNotTouchingGround = target != null && !target.RulesetActor.IsTouchingGround();
+        var targetIsInMagicalDarkness = target != null && IsInMagicalDarkness(target.RulesetCharacter);
         var targetIsInvisible =
             target != null && target.RulesetActor.HasConditionOfTypeOrSubType(ConditionInvisibleBase.Name);
 
@@ -490,7 +495,7 @@ internal static class LightingAndObscurementContext
             }
 
             // MAGICAL DARKNESS
-            if (sourceIsBlindFromDarkness && senseType is
+            if ((sourceIsBlindFromDarkness || targetIsInMagicalDarkness) && senseType is
                     SenseMode.Type.DetectInvisibility or
                     SenseMode.Type.NormalVision or
                     SenseMode.Type.Darkvision or
@@ -578,7 +583,9 @@ internal static class LightingAndObscurementContext
 
             if (sensorAllowedToRoll)
             {
-                sensor.RollAbilityCheck(AttributeDefinitions.Wisdom, SkillDefinitions.Perception, (int)distance + 10, advantage, new ActionModifier(), false, 0, out _, out _, out _, out _, out var sensorOutcome, out _, true);
+                sensor.RollAbilityCheck(AttributeDefinitions.Wisdom, SkillDefinitions.Perception, (int)distance + 10,
+                    advantage, new ActionModifier(), false, 0, out _, out _, out _, out _, out var sensorOutcome, out _,
+                    true);
                 if (sensorOutcome != 0)
                     if (!Global.RolledPerceptionThisTurn.ContainsKey(sensor))
                         Global.RolledPerceptionThisTurn.Add(sensor, []);
@@ -844,6 +851,14 @@ internal static class LightingAndObscurementContext
         .SetFeatures()
         .AddToDB();
 
+    private const string ConditionInMagicalDarknessName = "ConditionInMagicalDarkness";
+
+    private static readonly ConditionDefinition ConditionInMagicalDarkness = ConditionDefinitionBuilder
+        .Create(ConditionBlinded, ConditionInMagicalDarknessName)
+        .SetGuiPresentationNoContent(true)
+        .SetFeatures()
+        .AddToDB();
+
     private static readonly ConditionDefinition ConditionBlindedByCloudKill = ConditionDefinitionBuilder
         .Create(ConditionBlinded, "ConditionBlindedByCloudKill")
         .SetGuiPresentation(Gui.Format(BlindTitle, CloudKill.FormatTitle()), BlindDescription, ConditionBlinded)
@@ -969,6 +984,7 @@ internal static class LightingAndObscurementContext
 
             PowerDefilerDarkness.EffectDescription.EffectForms[1].ConditionForm.ConditionDefinition =
                 ConditionBlindedByDarkness;
+            AddInMagicDarkness(PowerDefilerDarkness);
 
             // >> ConditionDarkness
             // ConditionAffinityInvocationDevilsSight
@@ -979,9 +995,12 @@ internal static class LightingAndObscurementContext
 
             WayOfShadow.SpellDarkness.EffectDescription.EffectForms[1].ConditionForm.ConditionDefinition =
                 ConditionBlindedByDarkness;
+            AddInMagicDarkness(WayOfShadow.SpellDarkness);
             Darkness.EffectDescription.EffectForms[1].ConditionForm.ConditionDefinition = ConditionBlindedByDarkness;
+            AddInMagicDarkness(Darkness);
             SpellsContext.MaddeningDarkness.EffectDescription.EffectForms[1].ConditionForm.ConditionDefinition =
                 ConditionBlindedByDarkness;
+            AddInMagicDarkness(SpellsContext.MaddeningDarkness);
 
             // >> ConditionHeavilyObscured
             // FogCloud
@@ -1035,6 +1054,7 @@ internal static class LightingAndObscurementContext
             ConditionAffinityVeilImmunity.conditionType = ConditionVeil.Name;
 
             PowerDefilerDarkness.EffectDescription.EffectForms[1].ConditionForm.ConditionDefinition = ConditionVeil;
+            RemoveInMagicDarkness(PowerDefilerDarkness);
 
             // >> ConditionDarkness
             // ConditionAffinityInvocationDevilsSight
@@ -1048,9 +1068,12 @@ internal static class LightingAndObscurementContext
 
             WayOfShadow.SpellDarkness.EffectDescription.EffectForms[1].ConditionForm.ConditionDefinition =
                 ConditionDarkness;
+            RemoveInMagicDarkness(WayOfShadow.SpellDarkness);
             Darkness.EffectDescription.EffectForms[1].ConditionForm.ConditionDefinition = ConditionDarkness;
+            RemoveInMagicDarkness(Darkness);
             SpellsContext.MaddeningDarkness.EffectDescription.EffectForms[1].ConditionForm.ConditionDefinition =
                 ConditionDarkness;
+            RemoveInMagicDarkness(SpellsContext.MaddeningDarkness);
 
             // >> ConditionHeavilyObscured
             // FogCloud
@@ -1087,6 +1110,19 @@ internal static class LightingAndObscurementContext
             CombatAffinityHeavilyObscuredSelf.nullifiedBySenses = [];
             CombatAffinityHeavilyObscuredSelf.nullifiedBySelfSenses =
                 [SenseMode.Type.Truesight, SenseMode.Type.Blindsight];
+        }
+
+        return;
+
+        void AddInMagicDarkness(IMagicEffect eff)
+        {
+            eff.EffectDescription.EffectForms.Add(EffectFormBuilder.AddConditionForm(ConditionInMagicalDarkness));
+        }
+
+        void RemoveInMagicDarkness(IMagicEffect eff)
+        {
+            eff.EffectDescription.EffectForms
+                .RemoveAll(x => x.ConditionForm is { conditionDefinition.Name: ConditionInMagicalDarknessName });
         }
     }
 
