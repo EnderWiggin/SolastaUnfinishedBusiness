@@ -51,7 +51,6 @@ internal static class TwoWeaponCombatFeats
                         AttributeDefinitions.ArmorClass, 1)
                     .SetSituationalContext(SituationalContext.DualWieldingMeleeWeapons)
                     .AddToDB())
-            .SetAbilityScorePrerequisite(AttributeDefinitions.Dexterity, 13)
             .AddToDB();
     }
 
