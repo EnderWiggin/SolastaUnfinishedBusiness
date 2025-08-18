@@ -113,6 +113,7 @@ Feature/&AttackModifierMonkMartialArtsExtendedDescription=You can roll a d6 in p
 Feature/&AttackModifierMonkMartialArtsUnarmedStrikeBonusDescription=You can make one unarmed strike as a bonus action.
 Feature/&AttackModifierMonkMartialArtsUnarmedStrikeBonusTitle=Martial Arts - Bonus Unarmed Strike
 Feature/&AttributeModifierDazzledTitle=Dazzled
+Feature/&AttributeModifierForceIfBetterDescription={0} is at least {1}
 Feature/&AttributeModifierMonkAbundantKiDescription=Add half your proficiency bonus (rounded down) to your Ki Points pool.
 Feature/&AttributeModifierMonkAbundantKiTitle=Abundant Ki
 Feature/&AutoPreparedSpellsBardWordOfCreationDescription=You have mastered two of the prime Words of Creation: the words of life and death. You therefore always have the Power Word Heal and Power Word Kill spells prepared. When you cast either spell, you can target a second creature with it if the creature is within 10 feet of the first target.
