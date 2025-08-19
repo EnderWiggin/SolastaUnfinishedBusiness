@@ -19,7 +19,8 @@ internal enum Silent
     WhenRemoved = 2,
     WhenRefreshed = 4,
     WhenAddedOrRemoved = WhenAdded | WhenRemoved,
-    WhenRefreshedOrRemoved = WhenRefreshed | WhenRemoved
+    WhenRefreshedOrRemoved = WhenRefreshed | WhenRemoved,
+    Always = WhenAdded | WhenRemoved | WhenRefreshed
 }
 
 [UsedImplicitly]

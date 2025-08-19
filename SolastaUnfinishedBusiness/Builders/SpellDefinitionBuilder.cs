@@ -99,6 +99,12 @@ internal class SpellDefinitionBuilder : DefinitionBuilder<SpellDefinition, Spell
         return this;
     }
 
+    internal SpellDefinitionBuilder AddEffectForm(EffectForm form)
+    {
+        Definition.effectDescription.effectForms.Add(form);
+        return this;
+    }
+
     internal SpellDefinitionBuilder SetUniqueInstance()
     {
         Definition.uniqueInstance = true;
