@@ -848,6 +848,7 @@ internal static class LightingAndObscurementContext
         .Create(ConditionBlinded, "ConditionBlindedByDarkness")
         .SetGuiPresentation(Gui.Format(BlindTitle, Darkness.FormatTitle()), BlindDescription, ConditionBlinded)
         .SetParentCondition(ConditionBlinded)
+        .SetSilent(Silent.WhenRefreshed)
         .SetFeatures()
         .AddToDB();
 
