@@ -113,6 +113,7 @@ Feature/&AttackModifierMonkMartialArtsExtendedDescription=Puoi tirare un d6 al p
 Feature/&AttackModifierMonkMartialArtsUnarmedStrikeBonusDescription=Puoi effettuare un colpo senz'armi come azione bonus.
 Feature/&AttackModifierMonkMartialArtsUnarmedStrikeBonusTitle=Arti marziali - Bonus colpo senza armi
 Feature/&AttributeModifierDazzledTitle=Abbagliato
+Feature/&AttributeModifierForceIfBetterDescription={0} è almeno {1}
 Feature/&AttributeModifierMonkAbundantKiDescription=Aggiungi metà del tuo bonus di competenza (arrotondato per difetto) al tuo pool di Punti Ki.
 Feature/&AttributeModifierMonkAbundantKiTitle=Ki abbondante
 Feature/&AutoPreparedSpellsBardWordOfCreationDescription=Hai padroneggiato due delle principali Parole della Creazione: le parole di vita e di morte. Pertanto hai sempre pronti gli incantesimi Power Word Heal e Power Word Kill. Quando lanci uno dei due incantesimi, puoi bersagliare una seconda creatura con esso se la creatura si trova entro 10 piedi dal primo bersaglio.

@@ -113,6 +113,7 @@ Feature/&AttackModifierMonkMartialArtsExtendedDescription=Você pode rolar um d6
 Feature/&AttackModifierMonkMartialArtsUnarmedStrikeBonusDescription=Você pode fazer um ataque desarmado como uma ação bônus.
 Feature/&AttackModifierMonkMartialArtsUnarmedStrikeBonusTitle=Artes Marciais - Ataque Desarmado Bônus
 Feature/&AttributeModifierDazzledTitle=Deslumbrado
+Feature/&AttributeModifierForceIfBetterDescription={0} é pelo menos {1}
 Feature/&AttributeModifierMonkAbundantKiDescription=Adicione metade do seu bônus de proficiência (arredondado para baixo) ao seu conjunto de Pontos Ki.
 Feature/&AttributeModifierMonkAbundantKiTitle=Ki abundante
 Feature/&AutoPreparedSpellsBardWordOfCreationDescription=Você dominou duas das principais Palavras da Criação: as palavras de vida e morte. Portanto, você sempre tem as magias Palavra de Poder Cura e Palavra de Poder Matar preparadas. Quando você conjura qualquer uma das magias, você pode mirar em uma segunda criatura com ela se a criatura estiver a até 10 pés do primeiro alvo.

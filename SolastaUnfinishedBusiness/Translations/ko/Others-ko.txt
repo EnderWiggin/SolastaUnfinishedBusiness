@@ -113,6 +113,7 @@ Feature/&AttackModifierMonkMartialArtsExtendedDescription=갑옷이나 방패를
 Feature/&AttackModifierMonkMartialArtsUnarmedStrikeBonusDescription=보너스 행동으로 비무장 공격을 1회 할 수 있습니다.
 Feature/&AttackModifierMonkMartialArtsUnarmedStrikeBonusTitle=무술 - 보너스 비무장 공격
 Feature/&AttributeModifierDazzledTitle=AC Penalty
+Feature/&AttributeModifierForceIfBetterDescription={0}은 적어도 {1}입니다.
 Feature/&AttributeModifierMonkAbundantKiDescription=당신의 숙련도 보너스 절반(반올림)을 Ki 포인트 풀에 추가하십시오.
 Feature/&AttributeModifierMonkAbundantKiTitle=풍부한 기
 Feature/&AutoPreparedSpellsBardWordOfCreationDescription=당신은 창조의 두 가지 주요 단어, 즉 생명과 죽음의 단어를 마스터했습니다. 따라서 당신은 항상 파워 워드 힐과 파워 워드 킬 주문을 준비합니다. 두 주문을 시전할 때, 생물이 첫 번째 대상에서 10피트 이내에 있는 경우 두 번째 생물을 대상으로 지정할 수 있습니다.

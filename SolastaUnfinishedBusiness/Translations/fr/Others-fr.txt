@@ -113,6 +113,7 @@ Feature/&AttackModifierMonkMartialArtsExtendedDescription=Vous pouvez lancer un 
 Feature/&AttackModifierMonkMartialArtsUnarmedStrikeBonusDescription=Vous pouvez effectuer une attaque non armée en tant qu'action bonus.
 Feature/&AttackModifierMonkMartialArtsUnarmedStrikeBonusTitle=Arts martiaux - Bonus de frappe à mains nues
 Feature/&AttributeModifierDazzledTitle=Ébloui
+Feature/&AttributeModifierForceIfBetterDescription={0} est au moins {1}
 Feature/&AttributeModifierMonkAbundantKiDescription=Ajoutez la moitié de votre bonus de maîtrise (arrondi à l'inférieur) à votre réserve de points Ki.
 Feature/&AttributeModifierMonkAbundantKiTitle=Ki abondant
 Feature/&AutoPreparedSpellsBardWordOfCreationDescription=Vous maîtrisez deux des principaux mots de la création : les mots de vie et de mort. Vous avez donc toujours les sorts Mot de pouvoir Soin et Mot de pouvoir Tuer prêts. Lorsque vous lancez l'un de ces sorts, vous pouvez cibler une seconde créature avec celui-ci si celle-ci se trouve à 3 mètres ou moins de la première cible.

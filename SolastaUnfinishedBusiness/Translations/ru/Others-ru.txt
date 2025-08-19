@@ -113,6 +113,7 @@ Feature/&AttackModifierMonkMartialArtsExtendedDescription=Вы можете ис
 Feature/&AttackModifierMonkMartialArtsUnarmedStrikeBonusDescription=Бонусным действием вы можете совершить один безоружный удар.
 Feature/&AttackModifierMonkMartialArtsUnarmedStrikeBonusTitle=Боевые искусства — бонусный безоружный удар
 Feature/&AttributeModifierDazzledTitle=Ослеплён
+Feature/&AttributeModifierForceIfBetterDescription={0} не менее {1}
 Feature/&AttributeModifierMonkAbundantKiDescription=Добавьте половину бонуса мастерства (округленного в меньшую сторону) к вашему запасу очков Ки.
 Feature/&AttributeModifierMonkAbundantKiTitle=Обильная Ци
 Feature/&AutoPreparedSpellsBardWordOfCreationDescription=Вы освоили два Слова Творения: слова жизни и смерти. Поэтому у вас всегда подготовлены заклинания Слово силы: Исцеление и Слово силы: Смерть. Когда вы накладываете любое из этих заклинаний, вы можете нацелить его на второе существо, если оно находится в пределах 10 футов от первой цели.

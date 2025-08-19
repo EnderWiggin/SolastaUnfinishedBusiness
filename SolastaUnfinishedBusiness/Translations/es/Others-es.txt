@@ -113,6 +113,7 @@ Feature/&AttackModifierMonkMartialArtsExtendedDescription=Puedes tirar un d6 en 
 Feature/&AttackModifierMonkMartialArtsUnarmedStrikeBonusDescription=Puedes realizar un ataque desarmado como acción adicional.
 Feature/&AttackModifierMonkMartialArtsUnarmedStrikeBonusTitle=Artes marciales: Bonificación de golpe sin armas
 Feature/&AttributeModifierDazzledTitle=Deslumbrado
+Feature/&AttributeModifierForceIfBetterDescription={0} es al menos {1}
 Feature/&AttributeModifierMonkAbundantKiDescription=Añade la mitad de tu bonificación de competencia (redondeada hacia abajo) a tu reserva de puntos Ki.
 Feature/&AttributeModifierMonkAbundantKiTitle=Ki abundante
 Feature/&AutoPreparedSpellsBardWordOfCreationDescription=Has dominado dos de las palabras principales de la creación: las palabras de vida y muerte. Por lo tanto, siempre tienes preparados los hechizos Palabra de poder sanar y Palabra de poder matar. Cuando lanzas cualquiera de los hechizos, puedes seleccionar una segunda criatura con él si la criatura está a 10 pies o menos del primer objetivo.
