@@ -369,9 +369,12 @@ internal static class LightingAndObscurementContext
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private static bool IsInMagicalDarkness(RulesetActor actor)
+    private static bool IsInMagicalDarkness(RulesetActor target, RulesetActor sensor)
     {
-        return actor != null && actor.HasConditionOfType(ConditionInMagicalDarknessName);
+        return target != null
+               && target.HasConditionOfType(ConditionInMagicalDarknessName)
+               && (sensor == null || target.AllConditions.All(c =>
+                   c.Guid != sensor.Guid || c.conditionDefinition != ConditionSourceCanSeeMark));
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -446,7 +449,7 @@ internal static class LightingAndObscurementContext
         var sourceIsBlindFromDarkness = IsBlindFromDarkness(sensorCharacter);
         var sourceIsBlindNotFromDarkness = IsBlindNotFromDarkness(sensorCharacter);
         var targetIsNotTouchingGround = target != null && !target.RulesetActor.IsTouchingGround();
-        var targetIsInMagicalDarkness = target != null && IsInMagicalDarkness(target.RulesetCharacter);
+        var targetIsInMagicalDarkness = target != null && IsInMagicalDarkness(target.RulesetCharacter, sensorCharacter);
         var targetIsInvisible =
             target != null && target.RulesetActor.HasConditionOfTypeOrSubType(ConditionInvisibleBase.Name);
 
@@ -858,6 +861,13 @@ internal static class LightingAndObscurementContext
         .Create(ConditionBlinded, ConditionInMagicalDarknessName)
         .SetGuiPresentationNoContent(true)
         .SetFeatures()
+        .AddToDB();
+
+    //Source of this condition can see actor that has this condition through magical darkness
+    internal static readonly ConditionDefinition ConditionSourceCanSeeMark = ConditionDefinitionBuilder
+        .Create("ConditionSourceCanSeeMark")
+        .SetGuiPresentationNoContent(true)
+        .SetSilent(Silent.Always)
         .AddToDB();
 
     private static readonly ConditionDefinition ConditionBlindedByCloudKill = ConditionDefinitionBuilder
