@@ -1,3 +1,7 @@
+1.5.97.78:
+- fixed `Pact of the Tome` granting extra cantrips if you go back after selecting it and re-select it
+- made `Way of Shadow` monk see anyone inside Darkness that is created by monk ability
+
 1.5.97.77:
 - removed 13 DEX requirement from `Dual Wielder` feat as it is not present in 5e 2014
 - fixed `Sprite's Ability` from `Abilities of the Chain Master` invocation giving disadvantage to user, not to enemies and fixed its AC modifier being tied to Barkskin
