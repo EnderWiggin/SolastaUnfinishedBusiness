@@ -1,3 +1,9 @@
+1.5.97.79:
+- fixed `Change magically obscured areas to be projectile blockers` not affecting Darkness from `Way of Shadows` monk and `Maddening Darkness` spell
+- fixed interaction between Darknesses from several `Way of Shadows` monks
+- allow `Way of Shadows` monk to shoot projectiles inside own darkness even if projectile blocking is enabled for magical darkness
+- Made Kobold's Draconic Cry distract for a full round + fixed area not extending up and down
+
 1.5.97.78:
 - fixed `Pact of the Tome` granting extra cantrips if you go back after selecting it and re-select it
 - made `Way of Shadow` monk see anyone inside Darkness that is created by monk ability
