@@ -868,6 +868,7 @@ internal static class LightingAndObscurementContext
         .Create("ConditionSourceCanSeeMark")
         .SetGuiPresentationNoContent(true)
         .SetSilent(Silent.Always)
+        .AllowMultipleInstances()
         .AddToDB();
 
     private static readonly ConditionDefinition ConditionBlindedByCloudKill = ConditionDefinitionBuilder
