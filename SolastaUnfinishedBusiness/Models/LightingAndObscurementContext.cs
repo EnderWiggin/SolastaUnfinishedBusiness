@@ -1188,11 +1188,15 @@ internal static class LightingAndObscurementContext
         {
             PowerDefilerDarkness.EffectDescription.EffectForms.TryAdd(FormProjectileBlocker);
             Darkness.EffectDescription.EffectForms.TryAdd(FormProjectileBlocker);
+            WayOfShadow.SpellDarkness.EffectDescription.EffectForms.TryAdd(FormProjectileBlocker);
+            SpellsContext.MaddeningDarkness.EffectDescription.EffectForms.TryAdd(FormProjectileBlocker);
         }
         else
         {
             PowerDefilerDarkness.EffectDescription.EffectForms.Remove(FormProjectileBlocker);
             Darkness.EffectDescription.EffectForms.Remove(FormProjectileBlocker);
+            WayOfShadow.SpellDarkness.EffectDescription.EffectForms.Remove(FormProjectileBlocker);
+            SpellsContext.MaddeningDarkness.EffectDescription.EffectForms.Remove(FormProjectileBlocker);
         }
     }
 
