@@ -292,13 +292,13 @@ internal class ConditionDefinitionBuilder
         return this;
     }
 
-#if false
     internal ConditionDefinitionBuilder ClearSpecialInterruptions()
     {
         Definition.SpecialInterruptions.Clear();
         return this;
     }
 
+#if false
     internal ConditionDefinitionBuilder SetInterruptionDamageThreshold(int value)
     {
         Definition.interruptionDamageThreshold = value;
