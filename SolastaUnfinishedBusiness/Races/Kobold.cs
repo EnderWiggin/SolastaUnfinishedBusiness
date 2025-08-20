@@ -117,23 +117,21 @@ internal static class RaceKoboldBuilder
     private static CharacterRaceDefinition BuildDraconicKobold(CharacterRaceDefinition characterRaceDefinition)
     {
         var koboldSpriteReference = Sprites.GetSprite("Kobold", Resources.Kobold, 1024, 512);
+        var distracted = ConditionDefinitionBuilder
+            .Create(CustomConditionsContext.Distracted, "ConditionDistractedByKoboldDraconicCry")
+            .ClearSpecialInterruptions()
+            .AddToDB();
 
         var powerDraconicKoboldDraconicCry = FeatureDefinitionPowerBuilder
             .Create("PowerDraconicKoboldDraconicCry")
             .SetGuiPresentation(Category.Feature,
                 Sprites.GetSprite("PowerDraconicCry", Resources.PowerDraconicCry, 256, 128))
             .SetUsesProficiencyBonus(ActivationTime.BonusAction)
-            .SetEffectDescription(
-                EffectDescriptionBuilder
-                    .Create()
-                    .SetDurationData(DurationType.Round, 1)
-                    .SetTargetingData(Side.Enemy, RangeType.Self, 0, TargetType.Cube, 5)
-                    .SetEffectForms(
-                        EffectFormBuilder
-                            .Create()
-                            .SetConditionForm(CustomConditionsContext.Distracted, ConditionForm.ConditionOperation.Add)
-                            .Build())
-                    .Build())
+            .SetEffectDescription(EffectDescriptionBuilder.Create()
+                .SetDurationData(DurationType.Round, 1)
+                .SetTargetingData(Side.Enemy, RangeType.Self, 0, TargetType.Cube, 5, 5)
+                .SetEffectForms(EffectFormBuilder.ConditionForm(distracted))
+                .Build())
             .SetUniqueInstance()
             .AddToDB();
 
