@@ -375,8 +375,16 @@ internal static class LightingAndObscurementContext
     {
         return target != null
                && target.HasConditionOfType(ConditionInMagicalDarknessName)
-               && (sensor == null || target.AllConditions.All(c =>
-                   c.Guid != sensor.Guid || c.conditionDefinition != ConditionSourceCanSeeMark));
+               && !SensorCanSeeTargetThroughDarkness(target, sensor);
+    }
+    
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    internal static bool SensorCanSeeTargetThroughDarkness(RulesetActor target, RulesetActor sensor)
+    {
+        return sensor != null
+               && target != null
+               && target.AllConditions
+                   .Any(c => c.SourceGuid == sensor.Guid && c.conditionDefinition == ConditionSourceCanSeeMark);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]

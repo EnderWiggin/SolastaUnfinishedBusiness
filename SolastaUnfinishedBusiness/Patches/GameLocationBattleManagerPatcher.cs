@@ -18,7 +18,7 @@ using SolastaUnfinishedBusiness.Spells;
 using SolastaUnfinishedBusiness.Subclasses;
 using SolastaUnfinishedBusiness.Validators;
 using TA;
-using UnityEngine;
+using static BattleDefinitions;
 using static RuleDefinitions;
 
 namespace SolastaUnfinishedBusiness.Patches;
@@ -136,7 +136,7 @@ public static class GameLocationBattleManagerPatcher
     public static class IsValidAttackForReadiedAction_Patch
     {
         [UsedImplicitly]
-        public static void Postfix(ref bool __result, BattleDefinitions.AttackEvaluationParams attackParams)
+        public static void Postfix(ref bool __result, AttackEvaluationParams attackParams)
         {
             //PATCH: Checks if attack cantrip is valid to be cast as readied action on a target
             // Used to properly check if melee cantrip can hit target when used for readied action
@@ -522,7 +522,7 @@ public static class GameLocationBattleManagerPatcher
     public static class CanAttack_Patch
     {
         [UsedImplicitly]
-        public static bool Prefix(BattleDefinitions.AttackEvaluationParams attackParams)
+        public static bool Prefix(AttackEvaluationParams attackParams)
         {
             if (Main.Settings.ModifyThrowingRulesForStrength)
             {
@@ -547,7 +547,7 @@ public static class GameLocationBattleManagerPatcher
         [UsedImplicitly]
         public static void Postfix(
             bool __result,
-            BattleDefinitions.AttackEvaluationParams attackParams)
+            AttackEvaluationParams attackParams)
         {
             //PATCH: support for features removing ranged attack disadvantage
             RemoveRangedAttackInMeleeDisadvantage.CheckToRemoveRangedDisadvantage(attackParams);
@@ -576,7 +576,31 @@ public static class GameLocationBattleManagerPatcher
             
         }
 
-        private static void ApplyCustomModifiers(BattleDefinitions.AttackEvaluationParams attackParams)
+        [NotNull]
+        [UsedImplicitly]
+        public static IEnumerable<CodeInstruction> Transpiler([NotNull] IEnumerable<CodeInstruction> instructions)
+        {
+            var oldIsProjBlocked = typeof(IGameLocationPositioningService)
+                .GetMethod(nameof(IGameLocationPositioningService.IsProjectileBlocked));
+            var newIsProjBlocked = new Func<IGameLocationPositioningService, int3, int3, AttackEvaluationParams,
+                bool>(CustomIsProjectileBlocked).Method;
+
+            //PATCH: allow `Way of Shadows` monk to shoot projectiles through own darkness
+            return instructions.ReplaceCalls(oldIsProjBlocked,
+                "GameLocationBattleManager.CanAttack.IsProjectileBlocked",
+                new CodeInstruction(OpCodes.Ldarg_1),
+                new CodeInstruction(OpCodes.Call, newIsProjBlocked));
+        }
+
+        private static bool CustomIsProjectileBlocked(IGameLocationPositioningService service, int3 origin,
+            int3 destination, AttackEvaluationParams attackParams)
+        {
+            return service.IsProjectileBlocked(origin, destination)
+                   && !LightingAndObscurementContext.SensorCanSeeTargetThroughDarkness(
+                       attackParams.defender.RulesetCharacter, attackParams.attacker.RulesetCharacter);
+        }
+
+        private static void ApplyCustomModifiers(AttackEvaluationParams attackParams)
         {
             var attacker = attackParams.attacker.RulesetCharacter;
             var defender = attackParams.defender.RulesetCharacter;
