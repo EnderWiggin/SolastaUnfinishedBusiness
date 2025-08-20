@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Text.RegularExpressions;
 using SolastaUnfinishedBusiness.Api.GameExtensions;
 using SolastaUnfinishedBusiness.Api.Helpers;
 using SolastaUnfinishedBusiness.Api.LanguageExtensions;
@@ -26,7 +27,6 @@ using static SolastaUnfinishedBusiness.Api.DatabaseHelper.FeatureDefinitionPower
 using static SolastaUnfinishedBusiness.Api.DatabaseHelper.FeatureDefinitionSenses;
 using static SolastaUnfinishedBusiness.Api.DatabaseHelper.InvocationDefinitions;
 using static SolastaUnfinishedBusiness.Api.DatabaseHelper.SpellDefinitions;
-using System.Text.RegularExpressions;
 
 namespace SolastaUnfinishedBusiness.Models;
 
@@ -260,13 +260,15 @@ internal static class LightingAndObscurementContext
 
         RuleDefinitions.TrendInfo PerceiveDisadvantage()
         {
-            string toolTip="";
+            var toolTip = "";
             if (Main.Settings.EnableShotInDarknessPenalties)
             {
                 toolTip = string.Format(Gui.Localize("Feedback/&FailureShotInTheDarkMessage")
                     , (int)int3.Distance(attacker.LocationPosition, defender.LocationPosition));
             }
-            return new RuleDefinitions.TrendInfo(-1, RuleDefinitions.FeatureSourceType.Lighting, TAG, defenderActor,additionalDetails:toolTip);
+
+            return new RuleDefinitions.TrendInfo(-1, RuleDefinitions.FeatureSourceType.Lighting, TAG, defenderActor,
+                additionalDetails: toolTip);
         }
 
         static bool BlindedAdvantage(RuleDefinitions.TrendInfo trendInfo)
@@ -596,11 +598,11 @@ internal static class LightingAndObscurementContext
                     Global.RolledPerceptionThisTurn[sensor].Add(target, sensorOutcome);
             }
 
-            if (Global.RolledPerceptionThisTurn.ContainsKey(sensor) 
+            if (Global.RolledPerceptionThisTurn.ContainsKey(sensor)
                 && Global.RolledPerceptionThisTurn[sensor].ContainsKey(target)
                 && Global.RolledPerceptionThisTurn[sensor][target] == RuleDefinitions.RollOutcome.Success)
                 return additionalBlockedLightingState == LightingState.Darkness ||
-                    targetLightingState != additionalBlockedLightingState;
+                       targetLightingState != additionalBlockedLightingState;
         }
 
 
@@ -948,7 +950,7 @@ internal static class LightingAndObscurementContext
     {
         SwitchOfficialObscurementRules();
     }
-    
+
     //used by patches to check if condition is ConditionDarkness, return it for similar conditions
     internal static ConditionDefinition CheckForDarknessCondition(ConditionForm conditionForm)
     {
@@ -1206,10 +1208,10 @@ internal static class LightingAndObscurementContext
         foreach (var monster in DatabaseRepository.GetDatabase<MonsterDefinition>())
         {
             var name = monster.Name;
-            
+
             if (Main.Settings.OfficialObscurementRulesTweakMonsters)
             {
-                if (MonstersThatShouldHaveDarkvision.Where(m => Regex.IsMatch(name, m, RegexOptions.IgnoreCase)).Any())
+                if (MonstersThatShouldHaveDarkvision.Any(m => Regex.IsMatch(name, m, RegexOptions.IgnoreCase)))
                 {
                     monster.Features.TryAdd(SenseDarkvision);
                 }
