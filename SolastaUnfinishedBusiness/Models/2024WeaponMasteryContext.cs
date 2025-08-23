@@ -139,7 +139,8 @@ public static partial class Tabletop2024Context
             .SetFeatures(
                 FeatureDefinitionAdditionalActionBuilder
                     .Create("AdditionalActionWeaponMasteryNick")
-                    .SetGuiPresentationNoContent(true)
+                    .SetGuiPresentation("Feature/&FeatureWeaponMasteryNickTitle",
+                        "Feature/&FeatureWeaponMasteryNickDescription", hidden: true)
                     .SetActionType(ActionType.Bonus)
                     .AddToDB())
             .AddCustomSubFeatures(new CustomBehaviorConditionNick())

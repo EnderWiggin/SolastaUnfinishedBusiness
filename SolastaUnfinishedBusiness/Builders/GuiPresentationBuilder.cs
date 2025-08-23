@@ -154,7 +154,7 @@ internal static class BaseDefinitionBuilderGuiPresentationExtensions
     ///     Create and set a GuiPresentation from the provided title, description and optional AssetReferenceSprite.
     /// </summary>
     internal static TBuilder SetGuiPresentation<TBuilder>(this TBuilder builder, string title, string description,
-        AssetReferenceSprite sprite = null, int? sortOrder = null)
+        AssetReferenceSprite sprite = null, int? sortOrder = null, bool hidden = false)
         where TBuilder : IDefinitionBuilder
     {
         return SetGuiPresentation(builder, GuiPresentationBuilder.Build(null, title, description, sprite, sortOrder));
