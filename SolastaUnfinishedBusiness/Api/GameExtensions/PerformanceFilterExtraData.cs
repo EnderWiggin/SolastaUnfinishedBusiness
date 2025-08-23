@@ -218,14 +218,13 @@ internal class PerformanceFilterExtraData
 
     public string FormatTitle()
     {
-        if (!Feature)
-        {
-            return null;
-        }
+        if (!Feature) { return null; }
 
         var title = Feature.FormatTitle();
 
-        if (string.IsNullOrEmpty(title) || Feature.GuiPresentation.Title == GuiPresentationBuilder.EmptyString)
+        if (string.IsNullOrEmpty(title)
+            || Feature.GuiPresentation.Title is GuiBaseDefinitionWrapper.MissingDescription
+                or GuiPresentationBuilder.EmptyString)
         {
             title = ToString() + " (NO TITLE!)";
         }
