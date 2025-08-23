@@ -239,7 +239,7 @@ internal static partial class SpellBuilders
             .SetDamageDice(DieType.D6, 0)
             .SetSavingThrowData(
                 EffectDifficultyClassComputation.SpellCastingFeature,
-                EffectSavingThrowType.Negates,
+                EffectSavingThrowType.None,
                 AttributeDefinitions.Strength)
             .AddConditionOperation(new ConditionOperationDescription
             {
@@ -498,7 +498,7 @@ internal static partial class SpellBuilders
             .SetAdvancement(AdditionalDamageAdvancement.SlotLevel)
             .SetSavingThrowData(
                 EffectDifficultyClassComputation.SpellCastingFeature,
-                EffectSavingThrowType.Negates,
+                EffectSavingThrowType.None,
                 AttributeDefinitions.Wisdom)
             .AddConditionOperation(
                 new ConditionOperationDescription
