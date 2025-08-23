@@ -951,6 +951,26 @@ public static class RulesetCharacterPatcher
         }
     }
 
+    [HarmonyPatch(typeof(RulesetCharacter), nameof(RulesetCharacter.ActivePowerTerminatedSelf))]
+    [SuppressMessage("Minor Code Smell", "S101:Types should be named in PascalCase", Justification = "Patch")]
+    [UsedImplicitly]
+    public static class ActivePowerTerminatedSelf_Patch
+    {
+        [UsedImplicitly]
+        public static void Prefix(RulesetCharacter __instance, RulesetEffect activeEffect)
+        {
+            //PATCH: fixes aura powers breaking on location change - root cause is UB changes that make auto-powers refresh on RefreshAll to allow for validation on those powers 
+            __instance.autoActivatingPower = true;
+        }
+
+        [UsedImplicitly]
+        public static void Postfix(RulesetCharacter __instance, RulesetEffect activeEffect)
+        {
+            //PATCH: fixes aura powers breaking on location change - root cause is UB changes that make auto-powers refresh on RefreshAll to allow for validation on those powers 
+            __instance.autoActivatingPower = false;
+        }
+    }
+
 
     [HarmonyPatch(typeof(RulesetCharacter), nameof(RulesetCharacter.UpdatePermanentPowersAsNeeded))]
     [SuppressMessage("Minor Code Smell", "S101:Types should be named in PascalCase", Justification = "Patch")]
@@ -967,11 +987,16 @@ public static class RulesetCharacterPatcher
 
         private static void DoUpdatePermanentPowersAsNeeded(RulesetCharacter character)
         {
-            if (character.Guid == 0UL) { return; }
+            if (character.Guid == 0UL || character.autoActivatingPower) { return; }
+
+            //PATCH: fixes aura powers breaking on location change - root cause is UB changes that make auto-powers refresh on RefreshAll to allow for validation on those powers 
+            if (!ServiceRepository.GetService<IGameLocationService>().LocationIsReady) { return; }
 
             foreach (var usablePower in character.UsablePowers)
             {
                 bool valid;
+                if (character.autoActivatingPower) { break; }
+
                 if (usablePower.PowerDefinition.ActivationTime == ActivationTime.Permanent)
                 {
                     valid = character.CanUsePower(usablePower.PowerDefinition, false);
@@ -985,11 +1010,13 @@ public static class RulesetCharacterPatcher
                     continue;
                 }
 
-                if (!character.IsPowerActive(usablePower) && valid && !character.autoActivatingPower)
+                var powerIsActive = character.IsPowerActive(usablePower);
+
+                if (!powerIsActive && valid)
                 {
                     character.AutoactivatePower(usablePower);
                 }
-                else if (character.IsPowerActive(usablePower) && !valid)
+                else if (powerIsActive && !valid)
                 {
                     character.TerminatePower(character.GetActivePowerFromUsablePower(usablePower));
                 }
