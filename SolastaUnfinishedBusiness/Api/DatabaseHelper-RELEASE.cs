@@ -1065,6 +1065,9 @@ internal static partial class DatabaseHelper
         internal static FeatureDefinitionActionAffinity ActionAffinitySorcererMetamagicToggle { get; } =
             GetDefinition<FeatureDefinitionActionAffinity>("ActionAffinitySorcererMetamagicToggle");
 
+        internal static FeatureDefinitionActionAffinity ActionAffinityThiefFastHands { get; } =
+            GetDefinition<FeatureDefinitionActionAffinity>("ActionAffinityThiefFastHands");
+
         internal static FeatureDefinitionActionAffinity ActionAffinityUncannyDodge { get; } =
             GetDefinition<FeatureDefinitionActionAffinity>("ActionAffinityUncannyDodge");
     }

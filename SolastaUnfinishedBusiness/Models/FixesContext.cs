@@ -102,6 +102,7 @@ internal static class FixesContext
         NoTwinnedBladeCantripsOrSpellsWithRetargeting();
         FixStaffOfFireToGetFireResistance();
         AddTitlesToCreedSaves();
+        ChangeCunningActions();
 
         // avoid soft lock scenarios with game UI on any affinity that prevents movement
         foreach (var actionAffinity in DatabaseRepository.GetDatabase<FeatureDefinitionActionAffinity>()
@@ -140,6 +141,28 @@ internal static class FixesContext
             feature.GuiPresentation.title = term;
             feature.GuiPresentation.description = term;
         }
+    }
+
+    private static void ChangeCunningActions()
+    {
+        /*** These changes achieve several goals:
+         * - reduce chances of player mistakenly using main action Dash/Hide/Disengage etc. because they forgot to click Cunning Action button
+         * - reduce amount of clicks to execute Bonus Action Dash/Disengage/Hide etc.
+         * - fixes interaction with Nick weapon mastery
+         * The only problem this change causes is that these 3 actions take up more space than one Cunning Action 
+         */
+        
+        //Make Cunning Action authorize BA dash, hide and disengage, instead of adding new action that grants new BA with them authorized
+        ActionAffinityRogueCunningAction.authorizedActions =
+        [
+            Id.DashBonus, Id.HideBonus, Id.DisengageBonus
+        ];
+
+        //Make Fast Hands authorize BA use item, instead of adding new action that grants new BA with it authorized
+        ActionAffinityThiefFastHands.authorizedActions =
+        [
+            Id.UseItemBonus
+        ];
     }
 
     private static void AddTitlesToCreedSaves()
