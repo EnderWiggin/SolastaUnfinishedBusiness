@@ -1,3 +1,9 @@
+1.5.97.80:
+- fixed aura powers breaking on location change
+- fixed `Ensnaring Strike` and `Wrathful Smite` damage being negated by successful saving throw
+- made Cunning Action (Rogue) and Fast Hands (Thief) enable respective Bonus Action actions (Dash/Disengage/Hide/Use Item etc.) instead of adding actions that would grant new BA with those new actions enabled
+- fixed Nick weapon mastery interaction with Cunning Action
+
 1.5.97.79:
 - fixed `Change magically obscured areas to be projectile blockers` not affecting Darkness from `Way of Shadows` monk and `Maddening Darkness` spell
 - fixed interaction between Darknesses from several `Way of Shadows` monks
