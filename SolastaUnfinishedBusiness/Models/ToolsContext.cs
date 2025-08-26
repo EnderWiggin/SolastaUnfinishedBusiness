@@ -1,14 +1,18 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Web.UI.WebControls;
 using HarmonyLib;
 using JetBrains.Annotations;
 using SolastaUnfinishedBusiness.Api.Helpers;
+using SolastaUnfinishedBusiness.Api.LanguageExtensions;
 using SolastaUnfinishedBusiness.Builders;
 using TA;
 using UnityEngine;
 using UnityEngine.UI;
+using static Gui.LocalizationSpeakerGender;
 using static RuleDefinitions;
 
 namespace SolastaUnfinishedBusiness.Models;
@@ -105,7 +109,7 @@ internal static class ToolsContext
         // ReSharper disable once Unity.UnknownResource
         var settingCheckboxItem = Resources.Load<GameObject>("Gui/Prefabs/Modal/Setting/SettingCheckboxItem");
         var smallToggleNoFrame = settingCheckboxItem.transform.Find("SmallToggleNoFrame");
-        var checkBox = Object.Instantiate(smallToggleNoFrame, character.transform);
+        var checkBox = UnityEngine.Object.Instantiate(smallToggleNoFrame, character.transform);
         var checkBoxRect = checkBox.GetComponent<RectTransform>();
 
         checkBox.name = "DefaultHeroToggle";
@@ -133,8 +137,12 @@ internal static class ToolsContext
 
     internal sealed class FunctorRespec : Functor
     {
+        private static readonly float STOP_ROUTINE = -1;
+        private static readonly float RETRY_ROUTINE = 0.1f; // Interval of retry (second)
+
         internal static bool IsRespecing { get; private set; }
         internal static string OldHeroName { get; private set; }
+        internal static RulesetCharacterHero OldHero { get; private set; }
 
         public override IEnumerator Execute(
             FunctorParametersDescription functorParameters, FunctorExecutionContext context)
@@ -161,13 +169,23 @@ internal static class ToolsContext
             IsRespecing = true;
 
             var characterBuildingService = ServiceRepository.GetService<ICharacterBuildingService>();
-            var oldHero = functorParameters.RestingHero;
+            OldHero = functorParameters.RestingHero;
             var newHero = characterBuildingService.CreateNewCharacter().HeroCharacter;
 
-            //Register generating new guid
+            // Register generating new guid, then copy basic stats for the character info panel
             newHero.Register(true);
+            newHero.sex = OldHero.sex;
+            newHero.SurName = OldHero.surName;
+            newHero.Name = OldHero.name;
+            newHero.raceDefinition = OldHero.raceDefinition;
+            newHero.subRaceDefinition = OldHero.subRaceDefinition;
+            foreach ( var ability in AttributeDefinitions.AbilityScoreNames ) { 
+                if ( ! OldHero.TryGetAttribute( ability, out var oldScore ) || ! newHero.TryGetAttribute( ability, out var newScore ) ) continue;
+                newScore.baseValue = oldScore.baseValue;
+                newScore.Refresh();
+            }
 
-            OldHeroName = oldHero.Name;
+            OldHeroName = OldHero.Name;
 
             guiConsoleScreen.Hide(true);
             gameLocationScreenExploration.Hide(true);
@@ -176,7 +194,7 @@ internal static class ToolsContext
 
             if (IsRespecing)
             {
-                FinalizeRespec(oldHero, newHero);
+                FinalizeRespec(OldHero, newHero);
             }
 
             guiConsoleScreen.Show();
@@ -193,6 +211,27 @@ internal static class ToolsContext
             characterCreationScreen.OriginScreen = restModalScreen;
             characterCreationScreen.CurrentHero = hero;
             characterCreationScreen.Show();
+            characterCreationScreen.CommonData.CharacterInfoLabel.gameObject.SetActive(false); // Hide "Character Info"
+            if ( characterCreationScreen.StagePanelsByName[ "RaceSelection" ] is CharacterStageRaceSelectionPanel racePanel ) {
+                RespecRaceStageEntered( characterCreationScreen, racePanel );
+            }
+            if ( characterCreationScreen.StagePanelsByName[ "ClassSelection" ] is CharacterStageClassSelectionPanel classPanel ) {
+                classPanel.selectedClass = 1; // Reset to detect panel activation.
+                RespecClassStageEntered( characterCreationScreen, classPanel );
+            }
+            if ( characterCreationScreen.StagePanelsByName[ "BackgroundSelection" ] is CharacterStageBackgroundSelectionPanel backgroundPanel ) {
+                backgroundPanel.selectedBackground = 1; // Reset to detect panel activation.
+                RespecBackgroundStageEntered( characterCreationScreen, backgroundPanel );
+            }
+            if ( characterCreationScreen.StagePanelsByName[ "AbilityScores" ] is CharacterStageAbilityScoresPanel abilityPanel ) {
+                abilityPanel.currentMethod = CharacterStageAbilityScoresPanel.AbilityScoreMethod.DiceRolls;
+                abilityPanel.abilityScoresRolled = false; // Reset to detect panel activation.
+                RespecAbilityStageEntered( characterCreationScreen, abilityPanel );
+            }
+            if ( characterCreationScreen.StagePanelsByName[ "IdentityDefinition" ] is CharacterStageIdentityDefinitionPanel idPanel ) {
+                idPanel.refreshingNames = true; // Set to detect panel activation.
+                RespecIdStageEntered( characterCreationScreen, idPanel);
+            }
 
             while (characterCreationScreen.currentHero != null)
             {
@@ -203,6 +242,147 @@ internal static class ToolsContext
             characterCreationScreen.RestoreOriginScreen();
             restModalScreen.Refresh();
             IsRespecing = !hero.TryGetHeroBuildingData(out _);
+        }
+
+        private static void RespecRaceStageEntered ( MonoBehaviour parent, CharacterStageRaceSelectionPanel panel ) {
+            parent.StartCoroutine( WaitAndDo( 0.1f, () => {
+                var race = OldHero.RaceDefinition;
+                var raceIndex = panel.eligibleRaces.IndexOf( race );
+                Main.Info( $"Respec [{OldHeroName}] Assign original race {race.Name}, index {raceIndex}" );
+                if ( ! IsRespecing || raceIndex < 0 ) return;
+                panel.selectedRace = raceIndex;
+                if ( race.IsContentAvailable ) {
+                    var subraceIndex = panel.sortedSubRaces[ race ]?.IndexOf(OldHero.SubRaceDefinition ) ?? -1;
+                    if ( subraceIndex >= 0 )
+                        panel.selectedSubRace[ raceIndex ] = subraceIndex;
+                }
+                panel.Refresh();
+                panel.CommonData.CharacterPlate.RefreshNameAndRace();
+                panel.CommonData.CharacterInfoLabel.gameObject.SetActive( false ); // Hide "Character Info"
+            } ) );
+        }
+
+        private static void RespecClassStageEntered ( MonoBehaviour parent, CharacterStageClassSelectionPanel panel ) {
+            parent.StartIntervalCoroutine( () => {
+                if ( !IsRespecing) return STOP_ROUTINE;
+                if ( panel.selectedClass == 1 || panel.classesTable.childCount <= 0 ) return RETRY_ROUTINE;
+                var firstClass = OldHero.ClassesHistory.FirstOrDefault();
+                var index = panel.compatibleClasses.IndexOf( firstClass );
+                Main.Info( $"Respec [{OldHeroName}] Assign original class {firstClass.Name}, index {index}" );
+                if ( index < 0 ) return STOP_ROUTINE;
+                panel.selectedClass = index;
+                panel.RefreshNow();
+                return STOP_ROUTINE;
+            } );
+        }
+
+        private static void RespecBackgroundStageEntered ( MonoBehaviour parent, CharacterStageBackgroundSelectionPanel panel ) {
+            parent.StartIntervalCoroutine( () => {
+                if ( ! IsRespecing ) return STOP_ROUTINE;
+                if ( panel.selectedBackground == 1 || panel.backgroundsTable.childCount <= 0 ) return RETRY_ROUTINE;
+                var backrgound = OldHero.BackgroundDefinition;
+                var index = panel.compatibleBackgrounds.IndexOf( backrgound );
+                Main.Info( $"Respec [{OldHeroName}] Assign original background {backrgound.Name}, index {index}" );
+                if ( index < 0 ) return STOP_ROUTINE;
+                panel.selectedBackground = index;
+                panel.selectedBackgroundPersonalityFlagsMap[ backrgound ].Clear();
+                panel.selectedBackgroundPersonalityFlagsMap[ backrgound ].AddRange( OldHero.BackgroundOptionalPersonalityFlags );
+                panel.selectedAlignmentPersonalityFlags.Clear();
+                panel.selectedAlignmentPersonalityFlags.AddRange( OldHero.AlignmentOptionaPersonalityFlags );
+                panel.Refresh();
+                return STOP_ROUTINE;
+            } );
+        }
+
+        private static void RespecAbilityStageEntered ( MonoBehaviour parent, CharacterStageAbilityScoresPanel panel ) {
+            parent.StartIntervalCoroutine( () => {
+                if ( !IsRespecing ) return STOP_ROUTINE;
+                if ( ! panel.abilityScoresRolled ) return RETRY_ROUTINE;
+                var abilityCount = AttributeDefinitions.AbilityScoreNames.Length;
+                var sortedScores = AttributeDefinitions.AbilityScoreNames.Select( e => OldHero.GetAttribute( e, true )?.baseValue ?? 10 ).ToArray();
+                Array.Sort( sortedScores );
+                Array.Reverse( sortedScores );
+                Main.Info( $"Respec [{OldHeroName}] Assign original ability scores {string.Join( ", ", sortedScores )}" );
+                panel.rollValues.SetRange( sortedScores );
+                var mainClass = panel.guiCharacter.MainClassDefinition;
+                if ( mainClass.AbilityScoresPriority != null && mainClass.AbilityScoresPriority.Count == abilityCount ) {
+                    for ( int i = 0 ; i < abilityCount ; i++ ) {
+                        // Assign score
+                        var assignedBox = panel.abilityScoresTable.GetChild( i ).GetComponent< AbilityRollBox >();
+                        var abilityScore = assignedBox.AbilityScore;
+                        abilityScore.BaseValue = OldHero.Attributes[ abilityScore.Name ].BaseValue;
+                        abilityScore.Refresh( false );
+                        var isImportant = mainClass.AbilityScoresPriority.IndexOf( abilityScore.Name ) < 3;
+                        // Find index of roll and bind both boxes.
+                        var scoreIndex = Array.IndexOf( sortedScores, abilityScore.BaseValue );
+                        if ( scoreIndex < 0 ) scoreIndex = sortedScores.ToList().FindIndex( e => e > 0 );
+                        sortedScores[ scoreIndex ] = 0;
+                        var rollBox = panel.diceRollsTable.GetChild( scoreIndex ).GetComponent< AbilityRollBox >();
+                        rollBox.Bind( scoreIndex, 0, null );
+                        assignedBox.Bind( abilityScore, scoreIndex, abilityScore.CurrentValue, isImportant, new AbilityValueCell.DragStartedHandler( panel.OnScoreBoxDragStarted ) );
+                    }
+                }
+                panel.Refresh();
+                return STOP_ROUTINE;
+            } );
+        }
+
+        private static void RespecIdStageEntered ( MonoBehaviour parent, CharacterStageIdentityDefinitionPanel panel ) {
+            parent.StartIntervalCoroutine( () => {
+                if ( ! IsRespecing ) return STOP_ROUTINE;
+                if ( panel.refreshingNames ) return RETRY_ROUTINE;
+                Main.Info( $"Respec [{OldHeroName}] Assign original identity" );
+                panel.firstNameInputField.text = panel.currentHero.Name = OldHero.name;
+                panel.lastNameInputField.text = panel.currentHero.SurName = OldHero.surName;
+                panel.backstoryInputField.text = OldHero.additionalBackstory;
+
+                var morphOptions = panel.customizationOptionsBySelectedOrigin[ panel.selectedOptionsByPart[ MorphotypeElementDefinition.ElementCategory.Origin ] ];
+                var oldMorphs = OldHero.MorphotypeElements;
+                for ( int i = 0 ; i < panel.modifiers.Count ; i++ ) {
+                    var modifier = panel.modifiers[ i ];
+                    if ( ! modifier.gameObject.activeSelf ) continue;
+                    var category = MorphotypeElementDefinition.CommonCategories[ i ];
+                    if ( ! oldMorphs.TryGetValue( category, out var morphText ) ) continue;
+                    // Sliding Values
+                    if ( modifier.sliderGroup.gameObject.activeSelf 
+                            && OldHero.MorphotypeElementAdditionalValues.TryGetValue( category, out var num ) ) {
+                        //Main.Info( category.ToString() + " = " + num );
+                        modifier.slider.value = num;
+                        modifier.OnSliderCb();
+                        modifier.OnSliderDragEndCb();
+                        //panel.OnCustomizationAdditionalValueChanged( category, num );
+                        continue;
+                    }
+                    // Non-sliding values: colours, images (), or toggle
+                    var morphIndex = morphOptions[ category ].IndexOf( morphText );
+                    //Main.Info( category.ToString() + " = " + morphText + ", Index " + morphIndex );
+                    if ( morphIndex < 0 ) continue;
+                    if ( modifier.colorsGroup.gameObject.activeSelf ) {
+                        modifier.OnColorSelected( morphIndex );
+                    } else if ( morphIndex < modifier.valuesList.Count ) {
+                        if ( modifier.selectorGroup.gameObject.activeSelf || modifier.gamepadSelector.gameObject.activeSelf )
+                            while ( modifier.currentValue != morphIndex )
+                                modifier.OnSelectNext();
+                        else if ( modifier.imagesGroup.gameObject.activeSelf )
+                            modifier.OnImageSelected( morphIndex );
+                        else
+                            Main.Error( $"Respec [{OldHeroName}] Morph control not implemented: {category}" );
+                    }
+                    //panel.OnCustomizationChanged( category, morphIndex );
+                }
+
+                var voiceIndex = panel.compatibleVoices.FindIndex( e => string.Equals( e.Name, OldHero.voiceID ) );
+                if ( voiceIndex >= 0 )
+                    panel.voiceModifier.OnLabelSelected( voiceIndex );
+
+                var pronounIndex = new List<Gui.LocalizationSpeakerGender>{ Female, Male, NonBinary }.IndexOf( OldHero.pronoun );
+                if ( pronounIndex >= 0 )
+                    panel.pronounModifier.OnLabelSelected( pronounIndex );
+
+                panel.CommonData.CharacterPlate.CommonBind( new GuiCharacter( panel.currentHero ) );
+                panel.Refresh();
+                return STOP_ROUTINE;
+            } );
         }
 
         //TODO: prefer to use below code once I identify why RESPEC saves break on load
@@ -474,4 +654,18 @@ internal static class ToolsContext
             }
         }
     }
+
+    private static void StartIntervalCoroutine ( this MonoBehaviour coroutineObject, Func<float> actionReturnNextInterval )
+    {
+        var nextInterval = actionReturnNextInterval();
+        if ( nextInterval < 0 ) return;
+        coroutineObject.StartCoroutine( WaitAndDo( nextInterval, () => StartIntervalCoroutine( coroutineObject, actionReturnNextInterval ) ) );
+    }
+
+    private static IEnumerator WaitAndDo ( float waitSeconds, Action action )
+    {
+        yield return new WaitForSeconds(waitSeconds);
+        action();
+    }
+
 }
