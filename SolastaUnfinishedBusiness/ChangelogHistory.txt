@@ -1,3 +1,9 @@
+1.5.97.81:
+- fixed potential crash with Spell Points system
+- show Spell Points and point cost on reactions that spend spell slots
+- changed 2024 Divine Smite Toggle to make it a spell, not just consume BA
+- added setting to turn Smite spells (Wrathful, Branding, Thunderous, Searing, Staggering, Banishing and Blinding) to 5e 2024 - no concentration, trigger on hit while still using Bonus Action
+
 1.5.97.80:
 - fixed aura powers breaking on location change
 - fixed `Ensnaring Strike` and `Wrathful Smite` damage being negated by successful saving throw
