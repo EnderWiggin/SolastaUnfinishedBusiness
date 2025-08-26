@@ -235,6 +235,7 @@ ModUi/&EnableRogueSteadyAim2024=在 3 级时启用<color=#D89555>稳定瞄准</c
 ModUi/&EnableRogueStrSaving=在<color=#D89555>狡猾/卑鄙的打击</color>上启用<b>Hoodlum</b> DEX 或 STR 修正
 ModUi/&EnableScimitarSpecialization=授予弯刀<color=#D89555>武器专长</color>
 ModUi/&EnableSignatureSpellsRelearn=每次长时间休息时都可准备<color=#D89555>招牌法术</color><i><color=#F0DAA0>[而不是在 20 级时准备一次]</color></i>
+ModUi/&EnableSmiteSpells2024=交换Smite咒语与5E 2024版本<i> <color =＃f0daa0> [触发而不需要集中精力] </color> </i> </i>
 ModUi/&EnableSorcererArcaneApotheosis2024=在 20 级时启用<color=#D89555>奥术神化</color>来替代<color=#D89555>魔法恢复</color>
 ModUi/&EnableSorcererInnateSorcery2024=在 1 级和 7 级时启用<color=#D89555>天生巫术</color>和<color=#D89555>巫术化身</color>
 ModUi/&EnableSorcererMagicalGuidance=在 5 级时启用<color=#D89555>魔法指引</color>

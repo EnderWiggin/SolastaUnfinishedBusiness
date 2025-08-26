@@ -235,6 +235,7 @@ ModUi/&EnableRogueSteadyAim2024=Abilita <color=#D89555>Mira Fissa</color> al liv
 ModUi/&EnableRogueStrSaving=Abilita i modificatori DEX o STR di <b>Hoodlum</b> su <color=#D89555>Colpo astuto/subdolo</color>
 ModUi/&EnableScimitarSpecialization=Grant Scimitar <color=#D89555>Specializzazione in arma</color>
 ModUi/&EnableSignatureSpellsRelearn=Abilita la preparazione degli <color=#D89555>incantesimi distintivi</color> a ogni riposo lungo <i><color=#F0DAA0>[invece di una volta al livello 20]</color></i>
+ModUi/&EnableSmiteSpells2024=Scambia gli incantesimi con la versione 5E 2024 <i> <color =#f0daa0> [trigger su hit e non richiedono concentrazione] </ color> </i>
 ModUi/&EnableSorcererArcaneApotheosis2024=Abilita <color=#D89555>Apoteosi Arcana</color> per sostituire <color=#D89555>Restauro Stregonesco</color> al livello 20
 ModUi/&EnableSorcererInnateSorcery2024=Abilita <color=#D89555>Stregoneria Innata</color> e <color=#D89555>Stregoneria Incarnata</color> al livello 1 e 7
 ModUi/&EnableSorcererMagicalGuidance=Abilita <color=#D89555>Guida magica</color> al livello 5
