@@ -67,7 +67,6 @@ public static class CharacterReactionItemPatcher
             //PATCH: support for displaying custom resources on reaction popup
             __instance.remainingResourceImage.canvasRenderer.SetAlpha(1);
             __instance.resourceCostImage.canvasRenderer.SetAlpha(1);
-            Main.Log2($"CRI [{__instance.ReactionRequest.GetType().Name}]", true);
             if (__instance.ReactionRequest is IReactionRequestWithResource attack)
             {
                 SetupResource(__instance, attack.Resource);
