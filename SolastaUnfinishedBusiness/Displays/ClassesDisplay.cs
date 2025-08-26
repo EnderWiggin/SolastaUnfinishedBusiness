@@ -409,6 +409,7 @@ internal static class ClassesDisplay
         if (UI.Toggle(Gui.Localize("ModUi/&AddPaladinSmiteToggle"), ref toggle, UI.AutoWidth()))
         {
             Main.Settings.AddPaladinSmiteToggle = toggle;
+            Global.RefreshControlledCharacter();
         }
 
         toggle = Main.Settings.EnablePaladinAbjureFoes2024;
@@ -456,6 +457,17 @@ internal static class ClassesDisplay
         if (UI.Toggle(Gui.Localize("ModUi/&EnablePaladinSmite2024"), ref toggle, UI.AutoWidth()))
         {
             Main.Settings.EnablePaladinSmite2024 = toggle;
+            Tabletop2024Context.SwitchPaladinDivineSmite();
+        }
+
+        if (Main.Settings.EnablePaladinSmite2024)
+        {
+            toggle = Main.Settings.EnableSmiteSpells2024;
+            if (UI.Toggle(" + " + Gui.Localize("ModUi/&EnableSmiteSpells2024"), ref toggle, UI.AutoWidth()))
+            {
+                Main.Settings.EnableSmiteSpells2024 = toggle;
+                SmiteSpells2024Context.SwitchSmiteSpells();
+            }
         }
 
         toggle = Main.Settings.EnablePaladinLayOnHands2024;

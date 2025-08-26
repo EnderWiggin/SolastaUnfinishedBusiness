@@ -7,7 +7,6 @@ using SolastaUnfinishedBusiness.Interfaces;
 using SolastaUnfinishedBusiness.Models;
 using SolastaUnfinishedBusiness.Subclasses;
 using SolastaUnfinishedBusiness.Subclasses.Builders;
-using SolastaUnfinishedBusiness.Validators;
 using UnityEngine;
 using static SolastaUnfinishedBusiness.Api.DatabaseHelper.FeatureDefinitionAdditionalDamages;
 
@@ -767,6 +766,9 @@ internal static class GLBM
         bool criticalHit,
         bool firstTarget)
     {
+        //Should be first, so effects from smite spells will apply before enumerating damage features
+        yield return SmiteSpells2024Context.OnAttackHitConfirmed(instance, attacker, defender, attackMode, criticalHit);
+
         instance.triggeredAdditionalDamageTags.Clear();
         attacker.RulesetCharacter.EnumerateFeaturesToBrowse<IAdditionalDamageProvider>(
             instance.featuresToBrowseReaction);
@@ -992,13 +994,15 @@ internal static class GLBM
                             NotificationTag: "DivineSmite"
                         };
 
+                        //Skip divine smites when 2024 smite rules are enabled - it is processed earlier with spells
+                        if (isDivineSmite && Main.Settings.EnablePaladinSmite2024) { continue; }
+
                         if (isDivineSmite && rangedAttack)
                         {
                             if (attackMode.Thrown)
                             {
                                 // Dnd 2014 don't allow thrown smites except if Oath of Thunder attack
-                                if (!Main.Settings.EnablePaladinSmite2024
-                                    && !OathOfThunder.IsOathOfThunderWeapon(attackMode, null,
+                                if (!OathOfThunder.IsOathOfThunderWeapon(attackMode, null,
                                         attacker.RulesetCharacter))
                                 {
                                     break;
@@ -1010,14 +1014,6 @@ internal static class GLBM
                             {
                                 break;
                             }
-                        }
-
-                        // One DnD only allow smites as bonus action
-                        if (Main.Settings.EnablePaladinSmite2024 &&
-                            isDivineSmite &&
-                            !ValidatorsCharacter.HasAvailableBonusAction(attacker.RulesetCharacter))
-                        {
-                            break;
                         }
 
                         if (!criticalHit &&
@@ -1084,12 +1080,6 @@ internal static class GLBM
                                 selectedSpellRepertoire, provider.NotificationTag, reactionParams);
 
                             validTrigger = reactionParams.ReactionValidated;
-
-                            // One DnD only allow smites as bonus action
-                            if (Main.Settings.EnablePaladinSmite2024 && isDivineSmite && validTrigger)
-                            {
-                                attacker.SpendActionType(ActionDefinitions.ActionType.Bonus);
-                            }
 
                             /*
                              * ######################################

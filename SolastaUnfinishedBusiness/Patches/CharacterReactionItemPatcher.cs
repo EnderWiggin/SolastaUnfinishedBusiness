@@ -9,6 +9,7 @@ using SolastaUnfinishedBusiness.Api.GameExtensions;
 using SolastaUnfinishedBusiness.Api.Helpers;
 using SolastaUnfinishedBusiness.CustomUI;
 using SolastaUnfinishedBusiness.Interfaces;
+using SolastaUnfinishedBusiness.Models;
 using UnityEngine;
 
 namespace SolastaUnfinishedBusiness.Patches;
@@ -50,7 +51,7 @@ public static class CharacterReactionItemPatcher
         public static void Postfix([NotNull] CharacterReactionItem __instance)
         {
             var request = __instance.ReactionRequest;
-            var size = request is ReactionRequestWarcaster or ReactionRequestSpendBundlePower
+            var size = request is ReactionRequestWarcaster or ReactionRequestSpendBundlePower or ReactionRequestSelectSmiteSpell
                 ? 400
                 : 290;
 
@@ -151,6 +152,9 @@ public static class CharacterReactionItemPatcher
             {
                 case ReactionRequestWarcaster warcasterRequest:
                     instance.BindWarcaster(warcasterRequest, slotLevel, interactable, subitemSelected);
+                    break;
+                case ReactionRequestSelectSmiteSpell smiteRequest:
+                    instance.BindSmite(smiteRequest, slotLevel, interactable, subitemSelected);
                     break;
                 case ReactionRequestSpendBundlePower bundlePowerRequest:
                     instance.BindPowerBundle(bundlePowerRequest, slotLevel, interactable, subitemSelected);

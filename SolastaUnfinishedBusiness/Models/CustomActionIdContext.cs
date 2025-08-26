@@ -59,6 +59,11 @@ public static class CustomActionIdContext
         (Id)ExtraActionId.ZenShotToggle
     ];
 
+    internal static readonly List<Id> ExtraActionIdReverseToggles =
+    [
+        (Id)ExtraActionId.PaladinSmiteToggle
+    ];
+
     private static readonly List<Id> ExtraActionIdPowers =
     [
         (Id)ExtraActionId.AmazingDisplayToggle,
@@ -384,7 +389,6 @@ public static class CustomActionIdContext
         ActionDefinitionBuilder
             .Create(MetamagicToggle, "PaladinSmiteToggle")
             .SetOrUpdateGuiPresentation(Category.Action)
-            .RequiresAuthorization()
             .SetActionId(ExtraActionId.PaladinSmiteToggle)
             .OverrideClassName("Toggle")
             .AddToDB();
@@ -631,6 +635,11 @@ public static class CustomActionIdContext
                 result = CanUseActionQuickened(locationCharacter, scope);
                 return;
             }
+            case (Id)ExtraActionId.PaladinSmiteToggle:
+                result = SmiteSpells2024Context.HasSmites(character)
+                    ? ActionStatus.Available
+                    : ActionStatus.Unavailable;
+                return;
         }
 
         var isInvocationAction = IsInvocationActionId(actionId);
@@ -785,6 +794,11 @@ public static class CustomActionIdContext
     internal static bool IsToggleId(Id id)
     {
         return ExtraActionIdToggles.Contains(id);
+    }
+    
+    internal static bool IsReverseToggleId(Id id)
+    {
+        return ExtraActionIdReverseToggles.Contains(id);
     }
 
     private static ActionStatus CanUseActionQuickened(GameLocationCharacter glc, ActionScope scope)

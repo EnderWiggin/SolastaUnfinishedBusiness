@@ -472,6 +472,10 @@ internal static partial class SpellBuilders
                     .Build())
             .AddToDB();
 
+        SmiteSpells2024Context.SmiteSpells.Add(spell);
+        SmiteSpells2024Context.SmiteDamages.Add(additionalDamageBanishingSmite);
+        SmiteSpells2024Context.SmiteConditions.Add(conditionBanishingSmite);
+
         return spell;
     }
 

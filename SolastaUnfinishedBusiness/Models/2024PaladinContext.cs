@@ -11,6 +11,7 @@ using SolastaUnfinishedBusiness.Builders.Features;
 using SolastaUnfinishedBusiness.CustomUI;
 using SolastaUnfinishedBusiness.Interfaces;
 using SolastaUnfinishedBusiness.Properties;
+using SolastaUnfinishedBusiness.Spells;
 using static RuleDefinitions;
 using static FeatureDefinitionAttributeModifier;
 using static SolastaUnfinishedBusiness.Api.DatabaseHelper;
@@ -23,6 +24,24 @@ namespace SolastaUnfinishedBusiness.Models;
 
 public static partial class Tabletop2024Context
 {
+    internal static readonly SpellDefinition DivineSmiteSpell = SpellBuilders.BuildDivineSmite();
+
+    private static readonly FeatureDefinitionFeatureSet DivineSmite2024 = FeatureDefinitionFeatureSetBuilder
+        .Create("FeatureSetDivineSmite2024")
+        .SetGuiPresentation(Category.Feature)
+        .SetMode(FeatureDefinitionFeatureSet.FeatureSetMode.Union)
+        .SetFeatureSet(
+            FeatureDefinitionAutoPreparedSpellsBuilder.Create("AutoPreparedSpellsDivineSmite2024")
+                .SetGuiPresentation(Category.Feature)
+                .SetSpellcastingClass(Paladin)
+                .SetAutoTag("Paladin")
+                .AddPreparedSpellGroup(2, DivineSmiteSpell)
+                .AddToDB()
+        )
+        .AddToDB();
+
+    private static readonly FeatureUnlockByLevel DivineSmite2024Unlock = new(DivineSmite2024, 2);
+
     private static readonly FeatureDefinitionAttributeModifier AttributeModifierPaladinChannelDivinity11 =
         FeatureDefinitionAttributeModifierBuilder
             .Create("AttributeModifierPaladinChannelDivinity11")
@@ -187,6 +206,82 @@ public static partial class Tabletop2024Context
             {
                 subclass.FeatureUnlocks.Remove(feature);
             }
+        }
+    }
+
+    internal static void SwitchPaladinDivineSmite()
+    {
+        //Auto-prepared Divine Smite spell
+        if (Main.Settings.EnablePaladinSmite2024)
+        {
+            Paladin.FeatureUnlocks.TryAdd(DivineSmite2024Unlock);
+        }
+        else
+        {
+            Paladin.FeatureUnlocks.Remove(DivineSmite2024Unlock);
+        }
+
+        Paladin.FeatureUnlocks.Sort(Sorting.CompareFeatureUnlock);
+
+        //Add spell knowledge
+        foreach (var duplet in SpellListDefinitions.SpellListPaladin.SpellsByLevel)
+        {
+            if (duplet.level != 1) { continue; }
+
+            if (Main.Settings.EnablePaladinSmite2024)
+            {
+                duplet.spells.TryAdd(DivineSmiteSpell);
+            }
+            else
+            {
+                duplet.spells.Remove(DivineSmiteSpell);
+            }
+
+            break;
+        }
+
+        //Update all currently active characters
+        var locationCharacterService = ServiceRepository.GetService<IGameLocationCharacterService>();
+        if (locationCharacterService != null)
+        {
+            foreach (var partyCharacter in locationCharacterService.PartyCharacters)
+            {
+                UpdatePaladinSmite(partyCharacter.RulesetCharacter as RulesetCharacterHero);
+            }
+        }
+    }
+
+    internal static void UpdatePaladinSmite(RulesetCharacterHero hero)
+    {
+        var tag = AttributeDefinitions.GetClassTag(Paladin, 2);
+        if (!hero.ActiveFeatures.TryGetValue(tag, out var features)) { return; }
+
+        if (Main.Settings.EnablePaladinSmite2024)
+        {
+            features.TryAddRange(DivineSmite2024.FeatureSet);
+        }
+        else
+        {
+            features.RemoveAll(DivineSmite2024.FeatureSet);
+        }
+
+        foreach (var repertoire in hero.SpellRepertoires)
+        {
+            hero.ComputeAutopreparedSpells(repertoire);
+            
+            var castingFeature = repertoire.SpellCastingFeature;
+            if (castingFeature.SpellReadyness != SpellReadyness.Prepared
+                || castingFeature.SpellKnowledge != SpellKnowledge.WholeList)
+            {
+                continue;
+            }
+
+            //un-prepare unknown spells
+            repertoire.PreparedSpells.RemoveAll(spell =>
+                castingFeature.SpellListDefinition.SpellsByLevel.All(x => !x.Spells.Contains(spell)));
+                
+            //prepare auto-spells
+            repertoire.PreparedSpells.TryAddRange(repertoire.AutoPreparedSpells);
         }
     }
 

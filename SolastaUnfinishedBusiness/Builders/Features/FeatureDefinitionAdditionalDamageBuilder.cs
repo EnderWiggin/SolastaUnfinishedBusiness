@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using JetBrains.Annotations;
 using SolastaUnfinishedBusiness.Api.GameExtensions;
 using SolastaUnfinishedBusiness.Api.LanguageExtensions;
@@ -155,6 +156,12 @@ internal class FeatureDefinitionAdditionalDamageBuilder
         Definition.impactParticleReference = asset;
         return this;
     }
+    
+    internal FeatureDefinitionAdditionalDamageBuilder SetImpactParticleReference(FeatureDefinitionAdditionalDamage asset)
+    {
+        Definition.impactParticleReference = asset.impactParticleReference;
+        return this;
+    }
 
 
     internal FeatureDefinitionAdditionalDamageBuilder SetImpactParticleReference(IMagicEffect effect)
@@ -203,6 +210,13 @@ internal class FeatureDefinitionAdditionalDamageBuilder
     }
 #endif
 
+    internal FeatureDefinitionAdditionalDamageBuilder SetAdditionalDamageFamilies(int dice, params CharacterFamilyDefinition[] families)
+    {
+        Definition.FamiliesWithAdditionalDice.SetRange(families.Select(x => x.Name));
+        Definition.familiesDiceNumber = dice;
+        return this;
+    }
+    
     internal FeatureDefinitionAdditionalDamageBuilder SetRequiredCharacterFamily(CharacterFamilyDefinition value)
     {
         Definition.requiredCharacterFamily = value;

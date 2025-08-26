@@ -2357,31 +2357,8 @@ public static class RulesetCharacterPatcher
             //PATCH: support adding required power to keep a tab on spell points (SPELL_POINTS)
             SpellPointsContext.GrantPowerSpellPoints(hero);
 
-            //PATCH: support adding required action affinities to classes that can use toggles
-            if (hero.ClassesHistory.Contains(Paladin))
-            {
-                var tag = AttributeDefinitions.GetClassTag(Paladin, 1);
-
-                switch (Main.Settings.AddPaladinSmiteToggle)
-                {
-                    case true:
-                        if (!hero.HasAnyFeature(CampaignsContext.ActionAffinityPaladinSmiteToggle))
-                        {
-                            hero.ActiveFeatures[tag].Add(CampaignsContext.ActionAffinityPaladinSmiteToggle);
-                            hero.EnableToggle((Id)ExtraActionId.PaladinSmiteToggle);
-                        }
-
-                        break;
-                    case false:
-                        if (hero.HasAnyFeature(CampaignsContext.ActionAffinityPaladinSmiteToggle))
-                        {
-                            hero.ActiveFeatures[tag].Remove(CampaignsContext.ActionAffinityPaladinSmiteToggle);
-                        }
-
-                        hero.EnableToggle((Id)ExtraActionId.PaladinSmiteToggle);
-                        break;
-                }
-            }
+            //PATCH: support for 2024 Smite spells
+            Tabletop2024Context.UpdatePaladinSmite(hero);
 
             //PATCH: fix scenarios where hero doesn't have an instance of a usable power
             var featureDefinitionPowers = hero.ActiveFeatures

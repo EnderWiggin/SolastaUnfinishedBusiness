@@ -7,6 +7,7 @@ using SolastaUnfinishedBusiness.Builders;
 using SolastaUnfinishedBusiness.Builders.Features;
 using SolastaUnfinishedBusiness.CustomUI;
 using SolastaUnfinishedBusiness.Interfaces;
+using SolastaUnfinishedBusiness.Models;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using static ActionDefinitions;
@@ -302,6 +303,10 @@ internal static partial class SpellBuilders
                     .SetEffectEffectParameters(new AssetReference())
                     .Build())
             .AddToDB();
+
+        SmiteSpells2024Context.SmiteSpells.Add(spell);
+        SmiteSpells2024Context.SmiteDamages.Add(additionalDamageStaggeringSmite);
+        SmiteSpells2024Context.SmiteConditions.Add(conditionStaggeringSmite);
 
         return spell;
     }

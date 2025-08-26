@@ -1,6 +1,7 @@
 ﻿using JetBrains.Annotations;
 using SolastaUnfinishedBusiness.Behaviors.Specific;
 using SolastaUnfinishedBusiness.CustomUI;
+using SolastaUnfinishedBusiness.Models;
 using UnityEngine;
 
 namespace SolastaUnfinishedBusiness.Api.GameExtensions;
@@ -53,6 +54,48 @@ internal static class CharacterReactionSubitemExtension
                     .GetGuiSpellDefinition(spell.Name)
                     .SetupTooltip(tooltip, reactionRequest.Character.RulesetActor);
             }
+        }
+
+        label.Text = title;
+        toggle.interactable = interactable;
+        instance.canvasGroup.interactable = interactable;
+        instance.SubitemSelected = subitemSelected;
+
+        var rectTransform = toggle.GetComponent<RectTransform>();
+
+        rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 250);
+
+        // Hide all slots
+        var slotStatusTable = instance.slotStatusTable;
+
+        for (var index = 0; index < slotStatusTable.childCount; ++index)
+        {
+            slotStatusTable.GetChild(index).gameObject.SetActive(false);
+        }
+    }
+
+    internal static void BindSmite(
+        [NotNull] this CharacterReactionSubitem instance,
+        [NotNull] ReactionRequestSelectSmiteSpell reactionRequest,
+        int slotLevel,
+        bool interactable,
+        CharacterReactionSubitem.SubitemSelectedHandler subitemSelected)
+    {
+        var label = instance.label;
+        var toggle = instance.toggle;
+        var tooltip = GetOrMakeBackgroundTooltip(toggle.transform);
+
+        var smite = reactionRequest.Smites[slotLevel];
+        var spell = smite.Spell;
+
+        var title = spell.GuiPresentation.Title;
+
+        if (tooltip)
+        {
+            tooltip.Disabled = false;
+            ServiceRepository.GetService<IGuiWrapperService>()
+                .GetGuiSpellDefinition(spell.Name)
+                .SetupTooltip(tooltip, reactionRequest.Character.RulesetActor);
         }
 
         label.Text = title;

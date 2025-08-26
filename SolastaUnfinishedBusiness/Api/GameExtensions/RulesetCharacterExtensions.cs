@@ -7,6 +7,7 @@ using SolastaUnfinishedBusiness.Behaviors;
 using SolastaUnfinishedBusiness.Behaviors.Specific;
 using SolastaUnfinishedBusiness.Classes;
 using SolastaUnfinishedBusiness.Interfaces;
+using SolastaUnfinishedBusiness.Models;
 using SolastaUnfinishedBusiness.Validators;
 using static RuleDefinitions;
 using static ActionDefinitions;
@@ -469,22 +470,35 @@ internal static class RulesetCharacterExtensions
     internal static bool IsToggleEnabled(this RulesetCharacter rulesetCharacter, Id actionId)
     {
         var toggleName = actionId.ToString();
+        var reverse = CustomActionIdContext.IsReverseToggleId(actionId);
 
-        return rulesetCharacter.ToggledPowersOn.Contains(toggleName);
+        return reverse ^ rulesetCharacter.ToggledPowersOn.Contains(toggleName);
     }
 
     internal static void DisableToggle(this RulesetCharacter rulesetCharacter, Id actionId)
     {
-        var toggleName = actionId.ToString();
-
-        rulesetCharacter.ToggledPowersOn.Remove(toggleName);
+        var reverse = CustomActionIdContext.IsReverseToggleId(actionId);
+        rulesetCharacter.SetToggle(actionId, reverse);
     }
 
     internal static void EnableToggle(this RulesetCharacter rulesetCharacter, Id actionId)
     {
+        var reverse = CustomActionIdContext.IsReverseToggleId(actionId);
+        rulesetCharacter.SetToggle(actionId, !reverse);
+    }
+    
+    private static void SetToggle(this RulesetCharacter rulesetCharacter, Id actionId, bool value)
+    {
         var toggleName = actionId.ToString();
 
-        rulesetCharacter.ToggledPowersOn.Add(toggleName);
+        if (value)
+        {
+            rulesetCharacter.ToggledPowersOn.Add(toggleName);
+        }
+        else
+        {
+            rulesetCharacter.ToggledPowersOn.Remove(toggleName);
+        }
     }
 
     internal static RulesetAttackMode TryRefreshAttackMode(

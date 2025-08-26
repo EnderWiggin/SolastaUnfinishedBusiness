@@ -138,6 +138,23 @@ internal static partial class RulesDisplay
             Main.Settings.UseOfficialFlankingRulesAlsoForRanged = false;
         }
 
+        toggle = Main.Settings.EnableSmiteSpells2024;
+        if (UI.Toggle(Gui.Localize("ModUi/&EnableSmiteSpells2024"), ref toggle, UI.AutoWidth()))
+        {
+            Main.Settings.EnableSmiteSpells2024 = toggle;
+            SmiteSpells2024Context.SwitchSmiteSpells();
+        }
+
+        if (Main.Settings.EnableSmiteSpells2024)
+        {
+            toggle = Main.Settings.AddPaladinSmiteToggle;
+            if (UI.Toggle(" + " + Gui.Localize("ModUi/&AddPaladinSmiteToggle"), ref toggle, UI.AutoWidth()))
+            {
+                Main.Settings.AddPaladinSmiteToggle = toggle;
+                Global.RefreshControlledCharacter();
+            }
+        }
+
         toggle = Main.Settings.UseAlternateSpellPointsSystem;
         if (UI.Toggle(Gui.Localize("ModUi/&UseAlternateSpellPointsSystem"), ref toggle, UI.AutoWidth()))
         {

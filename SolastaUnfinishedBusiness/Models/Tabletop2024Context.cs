@@ -148,6 +148,7 @@ public static partial class Tabletop2024Context
         SwitchPaladinLayOnHand();
         SwitchPaladinRestoringTouch();
         SwitchPaladinSpellCastingAtOne();
+        SwitchPaladinDivineSmite();
         SwitchPoisonsBonusAction();
         SwitchPotionsBonusAction();
         SwitchRangerDeftExplorer();
@@ -182,6 +183,7 @@ public static partial class Tabletop2024Context
         SwitchWeaponMastery();
         SwitchMartialChampion();
         HomeBrewSomeSpells();
+        SmiteSpells2024Context.LateLoad();
     }
 
     internal static void SwitchSurprisedEnforceDisadvantage()

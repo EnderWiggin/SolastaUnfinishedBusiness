@@ -147,6 +147,61 @@ internal static partial class SpellBuilders
 
     #endregion
 
+    #region Divine Smite
+
+    internal static SpellDefinition BuildDivineSmite()
+    {
+        const string NAME = "DivineSmiteSpell";
+
+        var divineSmite = FeatureDefinitionAdditionalDamages.AdditionalDamagePaladinDivineSmite;
+        var smiteGui = divineSmite.GuiPresentation;
+        var additionalDamageDivineSmite = FeatureDefinitionAdditionalDamageBuilder
+            .Create($"AdditionalDamage{NAME}")
+            .SetGuiPresentation(smiteGui)
+            .SetTriggerCondition(AdditionalDamageTriggerCondition.AlwaysActive)
+            .SetAttackModeOnly()
+            .SetNotificationTag("DivineSmite")
+            .SetDamageDice(DieType.D8, 1)
+            .SetSpecificDamageType(DamageTypeRadiant)
+            .SetDamageValueDetermination(AdditionalDamageValueDetermination.Die)
+            .SetAdditionalDamageFamilies(1, CharacterFamilyDefinitions.Undead, CharacterFamilyDefinitions.Fiend)
+            .SetAdvancement(AdditionalDamageAdvancement.SlotLevel, divineSmite.DiceByRankTable)
+            .SetImpactParticleReference(divineSmite)
+            .AddToDB();
+
+        var spell = SpellDefinitionBuilder.Create(BrandingSmite, NAME)
+            .SetGuiPresentation(smiteGui.Title, smiteGui.Description,
+                Sprites.GetSprite(NAME, Resources.DivineSmite, 128))
+            .SetSchoolOfMagic(SchoolOfMagicDefinitions.SchoolEvocation)
+            .SetSpellLevel(1)
+            .SetCastingTime(ActivationTime.OnAttackHit)
+            .SetMaterialComponent(MaterialComponentType.None)
+            .SetVerboseComponent(true)
+            .SetSomaticComponent(false)
+            .SetRequiresConcentration(false)
+            .SetVocalSpellSameType(VocalSpellSemeType.Buff)
+            .SetEffectDescription(EffectDescriptionBuilder.Create()
+                .SetDurationData(DurationType.Minute, 1)
+                .SetTargetingData(Side.Ally, RangeType.Self, 0, TargetType.Self)
+                .SetEffectAdvancement(EffectIncrementMethod.PerAdditionalSlotLevel, additionalDicePerIncrement: 1)
+                .SetEffectForms(EffectFormBuilder.ConditionForm(ConditionDefinitionBuilder.Create($"Condition{NAME}")
+                    .SetGuiPresentation(divineSmite.GuiPresentation)
+                    .SetSilent(Silent.Always)
+                    .SetSpecialDuration(DurationType.Minute, 1)
+                    .AddSpecialInterruptions(ConditionInterruption.AttacksAndDamages)
+                    .SetFeatures(additionalDamageDivineSmite)
+                    .AddToDB()))
+                .SetParticleEffectParameters(Shield)
+                .UseQuickAnimations()
+                .Build())
+            .AddToDB();
+        
+        // SmiteSpells2024Context.SmiteSpells[spell] = additionalDamageDivineSmite;
+        return spell;
+    }
+
+    #endregion
+    
     #region Earth Tremor
 
     internal static SpellDefinition BuildEarthTremor()
@@ -476,6 +531,10 @@ internal static partial class SpellBuilders
                     .Build())
             .AddToDB();
 
+        SmiteSpells2024Context.SmiteSpells.Add(spell);
+        SmiteSpells2024Context.SmiteDamages.Add(additionalDamageSearingSmite);
+        SmiteSpells2024Context.SmiteConditions.Add(conditionSearingSmite);
+
         return spell;
     }
 
@@ -515,7 +574,7 @@ internal static partial class SpellBuilders
                     saveAffinity = EffectSavingThrowType.Negates,
                     saveOccurence = TurnOccurenceType.EndOfTurn
                 })
-            .SetImpactParticleReference(Fear.EffectDescription.EffectParticleParameters.impactParticleReference)
+            .SetImpactParticleReference(Fear)
             .AddToDB();
 
         var conditionWrathfulSmite = ConditionDefinitionBuilder
@@ -546,6 +605,10 @@ internal static partial class SpellBuilders
                     .SetParticleEffectParameters(Fear)
                     .Build())
             .AddToDB();
+        
+        SmiteSpells2024Context.SmiteSpells.Add(spell);
+        SmiteSpells2024Context.SmiteDamages.Add(additionalDamageWrathfulSmite);
+        SmiteSpells2024Context.SmiteConditions.Add(conditionWrathfulSmite);
 
         return spell;
     }
@@ -734,11 +797,13 @@ internal static partial class SpellBuilders
 
     #region Thunderous Smite
 
+    internal static FeatureDefinitionPower PowerThunderousSmite;
+
     internal static SpellDefinition BuildThunderousSmite()
     {
         const string NAME = "ThunderousSmite";
 
-        var powerThunderousSmite = FeatureDefinitionPowerBuilder
+        PowerThunderousSmite = FeatureDefinitionPowerBuilder
             .Create($"Power{NAME}ThunderousSmite")
             .SetGuiPresentation(NAME, Category.Spell, hidden: true)
             .SetUsesFixed(ActivationTime.OnAttackHitMeleeAuto)
@@ -767,7 +832,7 @@ internal static partial class SpellBuilders
             .SetGuiPresentation(
                 $"{NAME}Title".Formatted(Category.Spell), Gui.EmptyContent, ConditionBrandingSmite)
             .SetPossessive()
-            .SetFeatures(powerThunderousSmite)
+            .SetFeatures(PowerThunderousSmite)
             .AddCustomSubFeatures(AddUsablePowersFromCondition.Marker)
             .SetSpecialInterruptions(ExtraConditionInterruption.AttacksWithMeleeAndDamages)
             .AddToDB();
@@ -794,6 +859,9 @@ internal static partial class SpellBuilders
                     .SetParticleEffectParameters(Shatter)
                     .Build())
             .AddToDB();
+
+        SmiteSpells2024Context.SmiteSpells.Add(spell);
+        SmiteSpells2024Context.SmiteConditions.Add(conditionThunderousSmite);
 
         return spell;
     }
