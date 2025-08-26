@@ -26,6 +26,7 @@
       <PubliciseInputAssemblies Include="$(SolastaInstallDir)/Solasta_Data/Managed/Assembly-CSharp.dll" />
     </ItemGroup>
     <Publicise AssemblyPath="@(PubliciseInputAssemblies)" OutputPath="$(SolutionDir)lib/" />
+    <Copy SourceFiles="$(SolutionDir)lib/Assembly-CSharp_public.dll" DestinationFiles="$(ProjectDir)/Assembly-CSharp.dll" />
   </Target>
 
   <ItemGroup>

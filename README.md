@@ -37,7 +37,8 @@ Do you have a mod you want to see included here? We are happy to take new contri
 3. Create the environment variable *SolastaInstallDir* and point it to your Solasta game home folder
     - tip: search for "edit the system environment variables" on windows search bar
 4. Open the project and clean the solution. This is key to allow the publicize assembly to be created
-5. Use "Install Release" or "Install Debug" to have the Mod installed directly to your Game Mods folder
+5. Build project on "Release Workflow" to create translation data
+6. Use "Release Install" or "Debug Install" to have the Mod installed directly to your Game Mods folder
 
 NOTE Unity Mod Manager and this mod template make use of [Harmony](https://go.microsoft.com/fwlink/?linkid=874338)
 
