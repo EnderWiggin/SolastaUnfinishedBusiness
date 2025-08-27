@@ -120,6 +120,25 @@ public static class CharacterActionPanelPatcher
         }
     }
 
+    [HarmonyPatch(typeof(CharacterActionPanel), nameof(CharacterActionPanel.ActionStarted))]
+    [SuppressMessage("Minor Code Smell", "S101:Types should be named in PascalCase", Justification = "Patch")]
+    [UsedImplicitly]
+    public static class ActionStarted_Patch
+    {
+        [UsedImplicitly]
+        public static void Postfix(CharacterActionPanel __instance, CharacterAction characterAction)
+        {
+            if (characterAction.ActingCharacter != __instance.GuiCharacter.GameLocationCharacter) { return; }
+
+            if (__instance.cursorCaptionScreen != null && __instance.cursorCaptionScreen.Visible)
+            {
+                //PATCH: fixes action callback triggering on wrong character when Disengage used by movement, not Confirm button
+                __instance.SetDisengageModeInCursor(ActionDefinitions.Id.NoAction);
+                __instance.actionId = ActionDefinitions.Id.NoAction;
+            }
+        }
+    }
+
     [HarmonyPatch(typeof(CharacterActionPanel), nameof(CharacterActionPanel.OnActivateAction))]
     [HarmonyPatch([typeof(ActionDefinitions.Id), typeof(GuiCharacterAction)])]
     [SuppressMessage("Minor Code Smell", "S101:Types should be named in PascalCase", Justification = "Patch")]
