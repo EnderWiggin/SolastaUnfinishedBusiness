@@ -3393,7 +3393,7 @@ internal static class OtherFeats
             var rulesetAttacker = attacker.RulesetCharacter;
             var rulesetDefender = defender.RulesetActor;
 
-            actionService.StopCharacterActions(defender, CharacterAction.InterruptionType.Abort);
+            actionService.StopCharacterActions(defender, CharacterAction.InterruptionType.ForcedMovement);
             rulesetDefender.InflictCondition(
                 conditionSentinelStopMovement.Name,
                 DurationType.Round,
