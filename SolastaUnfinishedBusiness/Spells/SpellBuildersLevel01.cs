@@ -542,18 +542,19 @@ internal static partial class SpellBuilders
 
     #region Wrathful Smite
 
+    internal static FeatureDefinitionAdditionalDamage AdditionalDamageWrathfulSmite;
     internal static SpellDefinition BuildWrathfulSmite()
     {
         const string NAME = "WrathfulSmite";
 
-        var additionalDamageWrathfulSmite = FeatureDefinitionAdditionalDamageBuilder
+        AdditionalDamageWrathfulSmite = FeatureDefinitionAdditionalDamageBuilder
             .Create($"AdditionalDamage{NAME}")
             .SetGuiPresentation(NAME, Category.Spell)
             .SetNotificationTag(NAME)
             .SetAttackModeOnly()
             .SetRequiredProperty(RestrictedContextRequiredProperty.MeleeWeapon)
             .SetDamageDice(DieType.D6, 1)
-            .SetSpecificDamageType(DamageTypeNecrotic)
+            .SetSpecificDamageType(DamageTypePsychic)
             .SetAdvancement(AdditionalDamageAdvancement.SlotLevel)
             .SetSavingThrowData(
                 EffectDifficultyClassComputation.SpellCastingFeature,
@@ -581,14 +582,14 @@ internal static partial class SpellBuilders
             .Create($"Condition{NAME}")
             .SetGuiPresentation(NAME, Category.Spell, ConditionBrandingSmite)
             .SetPossessive()
-            .SetFeatures(additionalDamageWrathfulSmite)
+            .SetFeatures(AdditionalDamageWrathfulSmite)
             .SetSpecialInterruptions(ExtraConditionInterruption.AttacksWithMeleeAndDamages)
             .AddToDB();
 
         var spell = SpellDefinitionBuilder
             .Create(BrandingSmite, NAME)
             .SetGuiPresentation(Category.Spell, Sprites.GetSprite(NAME, Resources.WrathfulSmite, 128))
-            .SetSchoolOfMagic(SchoolOfMagicDefinitions.SchoolNecromancy)
+            .SetSchoolOfMagic(SchoolOfMagicDefinitions.SchoolEvocation)
             .SetSpellLevel(1)
             .SetCastingTime(ActivationTime.BonusAction)
             .SetMaterialComponent(MaterialComponentType.None)
@@ -607,7 +608,7 @@ internal static partial class SpellBuilders
             .AddToDB();
         
         SmiteSpells2024Context.SmiteSpells.Add(spell);
-        SmiteSpells2024Context.SmiteDamages.Add(additionalDamageWrathfulSmite);
+        SmiteSpells2024Context.SmiteDamages.Add(AdditionalDamageWrathfulSmite);
         SmiteSpells2024Context.SmiteConditions.Add(conditionWrathfulSmite);
 
         return spell;

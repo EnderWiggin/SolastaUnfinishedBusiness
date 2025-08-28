@@ -50,6 +50,8 @@ public static class SmiteSpells2024Context
             SmiteConditions.ForEach(SwitchSmiteConditionOn);
 
             SpellBuilders.PowerThunderousSmite.activationTime = ActivationTime.OnAttackHitAuto;
+            SpellBuilders.AdditionalDamageWrathfulSmite.specificDamageType = DamageTypeNecrotic;
+            SpellsContext.WrathfulSmite.schoolOfMagic = SchoolNecromancy;
         }
         else
         {
@@ -58,6 +60,8 @@ public static class SmiteSpells2024Context
             SmiteConditions.ForEach(SwitchSmiteConditionOff);
 
             SpellBuilders.PowerThunderousSmite.activationTime = ActivationTime.OnAttackHitMeleeAuto;
+            SpellBuilders.AdditionalDamageWrathfulSmite.specificDamageType = DamageTypePsychic;
+            SpellsContext.WrathfulSmite.schoolOfMagic = SchoolEvocation;
         }
 
         Global.RefreshControlledCharacter();
