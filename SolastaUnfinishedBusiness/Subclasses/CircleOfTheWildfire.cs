@@ -311,7 +311,7 @@ public sealed class CircleOfTheWildfire : AbstractSubclass
                             .Build())
                     .Build())
             .AddCustomSubFeatures(ValidatorsValidatePowerUse.InCombat,
-                new ValidatorsValidatePowerUse(x => HasSpirit(x.Guid)))
+                new ValidatorsValidatePowerUse(HasSpirit))
             .AddToDB();
 
         powerCommandSpirit.AddCustomSubFeatures(
@@ -463,6 +463,13 @@ public sealed class CircleOfTheWildfire : AbstractSubclass
     // ReSharper disable once UnassignedGetOnlyAutoProperty
     internal override DeityDefinition DeityDefinition { get; }
 
+    [CanBeNull]
+    private static GameLocationCharacter GetMySpirit(RulesetCharacter character)
+    {
+        return GetMySpirit((character.OriginalFormCharacter ?? character).Guid);
+    }
+
+    [CanBeNull]
     private static GameLocationCharacter GetMySpirit(ulong guid)
     {
         var locationCharacterService = ServiceRepository.GetService<IGameLocationCharacterService>();
@@ -475,6 +482,11 @@ public sealed class CircleOfTheWildfire : AbstractSubclass
                 conjured.SourceGuid == guid);
 
         return mySpirit;
+    }
+
+    private static bool HasSpirit(RulesetCharacter character)
+    {
+        return GetMySpirit(character) != null;
     }
 
     private static bool HasSpirit(ulong guid)
@@ -609,7 +621,7 @@ public sealed class CircleOfTheWildfire : AbstractSubclass
             var status = locationCharacter.GetActionStatus(Id.PowerBonus, ActionScope.Battle);
 
             if (status != ActionStatus.Available ||
-                !HasSpirit(locationCharacter.Guid))
+                !HasSpirit(locationCharacter.RulesetCharacter))
             {
                 return;
             }
@@ -646,7 +658,13 @@ public sealed class CircleOfTheWildfire : AbstractSubclass
             var attacker = action.ActingCharacter;
             var rulesetAttacker = attacker.RulesetCharacter;
             var usablePower = PowerProvider.Get(powerSummonSpiritDamage, rulesetAttacker);
-            var spirit = GetMySpirit(attacker.Guid);
+            var spirit = GetMySpirit(rulesetAttacker);
+            if (spirit == null)
+            {
+                Main.Error($"[{attacker.Name}] couldn't find Circle of Wildfire spirit after summoning.");
+                yield break;
+            }
+
             var contenders =
                 Gui.Battle?.AllContenders ??
                 locationCharacterService.PartyCharacters.Union(locationCharacterService.GuestCharacters);
@@ -749,7 +767,7 @@ public sealed class CircleOfTheWildfire : AbstractSubclass
             bool firstTarget,
             bool criticalHit)
         {
-            if (!HasSpirit(attacker.Guid))
+            if (!HasSpirit(attacker.RulesetCharacter))
             {
                 yield break;
             }
@@ -813,7 +831,8 @@ public sealed class CircleOfTheWildfire : AbstractSubclass
                 yield break;
             }
 
-            if (HasSpirit(attacker.Guid))
+            var rulesetAttacker = attacker.RulesetCharacter;
+            if (HasSpirit(rulesetAttacker))
             {
                 var effectForms = activeEffect.EffectDescription.EffectForms;
                 var hasHealingForm = effectForms.Any(x => x.FormType == EffectForm.EffectFormType.Healing);
@@ -823,7 +842,7 @@ public sealed class CircleOfTheWildfire : AbstractSubclass
 
                 if (hasHealingForm || hasDamageForm)
                 {
-                    attacker.RulesetCharacter.LogCharacterUsedFeature(featureEnhancedBond);
+                    rulesetAttacker.LogCharacterUsedFeature(featureEnhancedBond);
                 }
             }
 
@@ -878,7 +897,7 @@ public sealed class CircleOfTheWildfire : AbstractSubclass
                 yield break;
             }
 
-            var spirit = GetMySpirit(ally.Guid);
+            var spirit = GetMySpirit(ally.RulesetCharacter);
 
             if (!ally.IsWithinRange(downedCreature, 6) &&
                 (spirit == null || !spirit.IsWithinRange(downedCreature, 6)))
