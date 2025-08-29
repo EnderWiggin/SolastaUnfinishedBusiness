@@ -1,3 +1,9 @@
+1.5.97.82:
+- fixed Disengage sometimes re-triggering when another character acts if it was confirmed by movement, not Confirm button
+- made Wrathful Smite deal Psychic damage and be Evocation school if 2024 Smite Spell changes disabled, and deal Necrotic and be Necromancy school if enabled
+- fixed Sentinel reaction attack and Blizzard Conduit from Way of the Elements barbarian sometimes making enemy attack not consume action
+- fixed error when `Circle of Wildfire` druid summons it's spirit while wildshaped
+
 1.5.97.81:
 - fixed potential crash with Spell Points system
 - show Spell Points and point cost on reactions that spend spell slots
