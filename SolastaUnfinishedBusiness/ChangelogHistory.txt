@@ -1,3 +1,7 @@
+1.5.97.83:
+- merged Sheep-y's PR for smoother respec process
+- fixed audio disappearing or having wrong levels when using generated speech
+
 1.5.97.82:
 - fixed Disengage sometimes re-triggering when another character acts if it was confirmed by movement, not Confirm button
 - made Wrathful Smite deal Psychic damage and be Evocation school if 2024 Smite Spell changes disabled, and deal Necrotic and be Necromancy school if enabled
