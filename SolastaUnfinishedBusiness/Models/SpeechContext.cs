@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using HarmonyLib;
 using JetBrains.Annotations;
 using NAudio.Wave;
+using NAudio.Wave.SampleProviders;
 using SolastaUnfinishedBusiness.Api.LanguageExtensions;
 using UnityEngine;
 using Random = System.Random;
@@ -53,7 +54,7 @@ internal static class SpeechContext
 
     private static readonly string VoicesFolder = Path.Combine(Main.ModFolder, Path.Combine("..", "Voices"));
 
-    private static readonly WaveOutEvent WaveOutEvent = new();
+    [NotNull] private static readonly WaveOutEvent SpeechEvent = new();
 
     private static readonly (string, Gender)[] SuggestedVoicesUrls =
     [
@@ -309,6 +310,14 @@ internal static class SpeechContext
         RefreshAvailableVoices();
         InitVoiceAssignments();
         UpdateAvailableVoices();
+
+        //A fix for UB issue that was setting global game volume when any generated speech was played
+        //A one-off change to not force confused users to go into windows sound mixer and change there
+        if (!Main.Settings.FixGameVolume)
+        {
+            SpeechEvent.Volume = 1;
+            Main.Settings.FixGameVolume = true;
+        }
     }
 
     private static void InitPiper()
@@ -492,7 +501,7 @@ internal static class SpeechContext
 
     internal static void ShutUp()
     {
-        WaveOutEvent.Stop();
+        SpeechEvent.Stop();
     }
 
     private static string StripXmlTagsAndNarration(string str)
@@ -710,9 +719,12 @@ internal static class SpeechContext
 
         waveStream.Position = 0;
 
-        WaveOutEvent.Init(waveStream);
-        WaveOutEvent.Volume = Main.Settings.SpeechVolume;
-        WaveOutEvent.Play();
+        ShutUp();
+        SpeechEvent.Init(new SampleChannel(waveStream)
+        {
+            Volume = Main.Settings.SpeechVolume
+        });
+        SpeechEvent.Play();
     }
 
     private static async Task<MemoryStream> GetPiperTask(

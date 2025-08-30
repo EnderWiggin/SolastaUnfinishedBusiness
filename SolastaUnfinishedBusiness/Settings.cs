@@ -190,6 +190,7 @@ public class Settings : UnityModManager.ModSettings
     public int SpeechChoice { get; set; }
     public SerializableDictionary<int, (string, float)> SpeechVoices { get; set; } = [];
     public float SpeechVolume { get; set; }
+    public bool FixGameVolume { get; set; }
     public bool EnableHeroWithBestProficiencyToRollChoice { get; set; }
     public bool MarkInvisibleTeleportersOnLevelMap { get; set; }
     public bool EnableAlternateVotingSystem { get; set; }
