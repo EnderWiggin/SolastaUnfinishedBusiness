@@ -315,8 +315,16 @@ internal static class SpeechContext
         //A one-off change to not force confused users to go into windows sound mixer and change there
         if (!Main.Settings.FixGameVolume)
         {
-            SpeechEvent.Volume = 1;
             Main.Settings.FixGameVolume = true;
+            try
+            {
+                SpeechEvent.Volume = 1;
+            }
+            catch (Exception)
+            {
+                // calling this setter crashes on Linux
+            }
+
         }
     }
 
