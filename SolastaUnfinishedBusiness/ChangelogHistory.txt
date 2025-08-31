@@ -1,3 +1,7 @@
+1.5.97.84:
+- fixed crash on Linux related to generated speech fix
+- fixed 2024 ritual casting for all casters not working on `Spellblade`, `Arcane Scoundrel`, `Shadowcaster` and `Eldritch Knight` subclasses
+
 1.5.97.83:
 - merged Sheep-y's PR for smoother respec process
 - fixed audio disappearing or having wrong levels when using generated speech
