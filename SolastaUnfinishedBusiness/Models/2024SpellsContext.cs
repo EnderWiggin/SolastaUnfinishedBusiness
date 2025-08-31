@@ -122,8 +122,7 @@ public static partial class Tabletop2024Context
         Ranger.FeatureUnlocks.Sort(Sorting.CompareFeatureUnlock);
         Sorcerer.FeatureUnlocks.Sort(Sorting.CompareFeatureUnlock);
 
-        foreach (var subclass in subclasses
-                     .Where(x => x.HasSubFeatureOfType<FeatureDefinitionCastSpell>()))
+        foreach (var subclass in subclasses)
         {
             if (Main.Settings.EnableRitualOnAllCasters2024)
             {
