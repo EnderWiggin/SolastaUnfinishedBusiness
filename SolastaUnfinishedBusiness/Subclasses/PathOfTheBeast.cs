@@ -176,36 +176,41 @@ public sealed class PathOfTheBeast : AbstractSubclass
             .SetUsesFixed(ActivationTime.OnPowerActivatedAuto)
             .AddToDB();
 
-        string[] suffixes = ["Bite", "Claws", "Tail"];
-
-        object[] subFeatures = [new BeastBiteHandler(), new BeastClawsHandler(), new BeastTailHandler()];
-        var powers = new List<FeatureDefinitionPower>();
-
-        for (var i = 0; i < suffixes.Length; i++)
+        Dictionary<string, object> variants = new()
         {
+            {"Bite",new BeastBiteHandler() },
+            {"Claws", new BeastClawsHandler()},
+            {"Tail",  new BeastTailHandler()}
+        };
+
+        List<FeatureDefinitionPower> powers = [];
+
+        foreach (var variant in variants)
+        {
+            var suffix = variant.Key;
+            var subFeature = variant.Value;
+            
             var condition = ConditionDefinitionBuilder
-                .Create($"Condition{Name}FormOfTheBeast{suffixes[i]}")
-                .SetGuiPresentation($"Feature/&Power{Name}FormOfTheBeast{suffixes[i]}Title",
-                    $"Feature/&Power{Name}FormOfTheBeast{suffixes[i]}Description",
+                .Create($"Condition{Name}FormOfTheBeast{suffix}")
+                .SetGuiPresentation($"Feature/&Power{Name}FormOfTheBeast{suffix}Title",
+                    $"Feature/&Power{Name}FormOfTheBeast{suffix}Description",
                     ConditionDefinitions.ConditionBlessed)
                 .SetSpecialInterruptions((ConditionInterruption)ExtraConditionInterruption.SourceRageStop,
                     ConditionInterruption.BattleEnd)
                 .SetPossessive()
-                .AddCustomSubFeatures(subFeatures[i])
+                .AddCustomSubFeatures(subFeature)
                 .AddToDB();
 
             var power = FeatureDefinitionPowerSharedPoolBuilder
-                .Create($"Power{Name}FormOfTheBeast{suffixes[i]}")
+                .Create($"Power{Name}FormOfTheBeast{suffix}")
                 .SetGuiPresentation(Category.Feature)
                 .SetSharedPool(ActivationTime.OnPowerActivatedAuto, powerFormOfTheBeast)
                 .SetShowCasting(false)
-                .SetEffectDescription(
-                    EffectDescriptionBuilder
-                        .Create()
-                        .SetTargetingData(Side.All, RangeType.Self, 0, TargetType.Self)
-                        .SetDurationData(DurationType.UntilLongRest)
-                        .SetEffectForms(EffectFormBuilder.ConditionForm(condition))
-                        .Build())
+                .SetEffectDescription(EffectDescriptionBuilder.Create()
+                    .SetTargetingData(Side.All, RangeType.Self, 0, TargetType.Self)
+                    .SetDurationData(DurationType.UntilLongRest)
+                    .SetEffectForms(EffectFormBuilder.ConditionForm(condition))
+                    .Build())
                 .AddToDB();
 
             powers.Add(power);
@@ -318,6 +323,9 @@ public sealed class PathOfTheBeast : AbstractSubclass
             RollOutcome rollOutcome,
             int damageAmount)
         {
+            attackMode = attackMode.Clone();
+            attackMode.actionType = ActionDefinitions.ActionType.NoCost;
+
             if (attackMode.SourceDefinition is not ItemDefinition item || item != _beastClaws ||
                 attacker.UsedSpecialFeatures.ContainsKey(TagBeastClawAttack) ||
                 defender.RulesetCharacter is not { IsDeadOrDyingOrUnconscious: false })
@@ -326,12 +334,13 @@ public sealed class PathOfTheBeast : AbstractSubclass
             }
 
             yield return attacker.MyReactToDoNothing(
-                ExtraActionId.DoNothingReaction,
+                ExtraActionId.DoNothingFree,
                 attacker,
                 "ExtraClawAttack",
                 "CustomReactionExtraClawAttackDescription".Localized(Category.Reaction),
                 ReactionValidated,
-                battleManager: battleManager);
+                () => attackMode.Return(),
+                battleManager);
 
             yield break;
 
@@ -343,6 +352,8 @@ public sealed class PathOfTheBeast : AbstractSubclass
                     defender,
                     attackMode,
                     new ActionModifier());
+
+                attackMode.Return();
             }
         }
 
@@ -379,7 +390,7 @@ public sealed class PathOfTheBeast : AbstractSubclass
                         _beastClaws,
                         _beastClaws.WeaponDescription,
                         ValidatorsCharacter.IsFreeOffhandVanilla(character),
-                        type != ActionDefinitions.ActionType.Bonus,
+                        true,
                         type != ActionDefinitions.ActionType.Bonus
                             ? EquipmentDefinitions.SlotTypeMainHand
                             : EquipmentDefinitions.SlotTypeOffHand,
