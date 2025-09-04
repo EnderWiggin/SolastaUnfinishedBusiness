@@ -1,3 +1,7 @@
+1.5.97.85:
+- changed `Evasive Footwork` maneuver to last until start of next turn, not end of current turn - as per PHB24
+- changed extra claw attack of `Path of the Beast` Barbarian to always add ability bonus and not consume Reaction
+
 1.5.97.84:
 - fixed crash on Linux related to generated speech fix
 - fixed 2024 ritual casting for all casters not working on `Spellblade`, `Arcane Scoundrel`, `Shadowcaster` and `Eldritch Knight` subclasses
