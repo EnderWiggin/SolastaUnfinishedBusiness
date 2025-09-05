@@ -17,6 +17,7 @@ using SolastaUnfinishedBusiness.Interfaces;
 using SolastaUnfinishedBusiness.Models;
 using SolastaUnfinishedBusiness.Subclasses;
 using SolastaUnfinishedBusiness.Validators;
+using UnityEngine;
 using static RuleDefinitions;
 using static SolastaUnfinishedBusiness.Api.DatabaseHelper.CharacterClassDefinitions;
 using static SolastaUnfinishedBusiness.Api.DatabaseHelper.FeatureDefinitionAbilityCheckAffinitys;
@@ -158,19 +159,54 @@ public static class RulesetCharacterHeroPatcher
     public static class ComputeAndApplyHitDieRoll_Patch
     {
         [UsedImplicitly]
-        public static void Prefix(
+        public static bool Prefix(
             RulesetCharacterHero __instance,
-            ref DieType die,
-            ref int modifier,
-            ref AdvantageType advantageType,
-            ref bool healKindred,
-            ref bool isBonus)
+            DieType die,
+            int modifier,
+            AdvantageType advantageType,
+            bool healKindred,
+            bool isBonus)
         {
-            foreach (var modifyDiceRollHitDice in __instance.GetSubFeaturesByType<IModifyDiceRollHitDice>())
+            ComputeAndApplyHitDieRoll(__instance, die, modifier, advantageType, healKindred, isBonus);
+            return false;
+        }
+
+        private static void ComputeAndApplyHitDieRoll(RulesetCharacterHero hero,
+            DieType die,
+            int modifier,
+            AdvantageType advantageType,
+            bool healKindred,
+            bool isBonus)
+        {
+            foreach (var mod in hero.GetSubFeaturesByType<IModifyDiceRollHitDice>())
             {
-                modifyDiceRollHitDice.BeforeRoll(
-                    __instance, ref die, ref modifier, ref advantageType, ref healKindred, ref isBonus);
+                mod.BeforeRoll(hero, ref die, ref modifier, ref advantageType, ref healKindred, ref isBonus);
             }
+
+            int firstRoll;
+            var secondRoll = -1;
+            var service = ServiceRepository.GetService<IGameSettingsService>();
+            var maxHealing = service is { MaxHpOnHitDice: true } || hero.ReceivesMaximizedHealing();
+            if (maxHealing)
+            {
+                firstRoll = DiceMaxValue[(int)die];
+            }
+            else
+            {
+                RollDie(die, advantageType, out firstRoll, out secondRoll);
+            }
+
+            var totalHealing = Mathf.Max(0, firstRoll + modifier);
+
+            var hitDieRolled = hero.HitDieRolled;
+            hitDieRolled?.Invoke(hero, die, totalHealing, advantageType, firstRoll, secondRoll, modifier, isBonus);
+            if (totalHealing <= 0)
+                return;
+            hero.ReceiveHealing(totalHealing, false, 0UL);
+            if (!healKindred || !ServiceRepository.GetService<IGameService>().TryFindKindredSpiritFromController(hero, out var kindredSpirit))
+                return;
+            kindredSpirit.ReceiveHealing(totalHealing, false, 0UL);
+            
         }
     }
 

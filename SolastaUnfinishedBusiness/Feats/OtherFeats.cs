@@ -1388,7 +1388,8 @@ internal static class OtherFeats
 
             rulesetCharacter.RemoveCondition(activeCondition);
 
-            var roll = RollDie(DieType.D6, AdvantageType.None, out _, out _);
+            var roll = rulesetCharacter.RollDiceAndSum(DieType.D6, RollContext.HealValueRoll, 1,
+                maximumDamage: rulesetCharacter.ReceivesMaximizedHealing());
             var healAmount = roll + rulesetCharacter.TryGetAttributeValue(AttributeDefinitions.ProficiencyBonus);
 
             rulesetCharacter.ReceiveHealing(healAmount, true, rulesetCharacter.Guid);

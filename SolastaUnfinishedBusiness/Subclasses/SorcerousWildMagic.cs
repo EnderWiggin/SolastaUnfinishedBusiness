@@ -1240,9 +1240,8 @@ public sealed class SorcerousWildMagic : AbstractSubclass
             case 3:
                 EffectHelpers.StartVisualEffect(
                     caster, caster, CureWounds, EffectHelpers.EffectType.Effect);
-                rulesetCaster.ReceiveHealing(
-                    rulesetCaster.RollDiceAndSum(DieType.D10, RollContext.HealValueRoll, 2, [], false),
-                    true, rulesetCaster.Guid);
+                rulesetCaster.ReceiveHealing(rulesetCaster.RollDiceAndSum(DieType.D10, RollContext.HealValueRoll, 2,
+                    maximumDamage: rulesetCaster.ReceivesMaximizedHealing()), true, rulesetCaster.Guid);
                 break;
 
             // each creature within 20 feet of you (including you) catches on fire

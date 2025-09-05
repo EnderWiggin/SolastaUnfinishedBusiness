@@ -970,7 +970,8 @@ public static partial class Tabletop2024Context
             void ReactionValidated()
             {
                 var healing = rulesetCharacter.GetClassLevel(Monk) + rulesetCharacter.RollDiceAndSum(
-                    rulesetCharacter.GetMonkDieType(), RollContext.HealValueRoll, 1, []);
+                    rulesetCharacter.GetMonkDieType(), RollContext.HealValueRoll, 1,
+                    maximumDamage: rulesetCharacter.ReceivesMaximizedHealing());
 
                 // be silent on combat log
                 usablePower.remainingUses--;

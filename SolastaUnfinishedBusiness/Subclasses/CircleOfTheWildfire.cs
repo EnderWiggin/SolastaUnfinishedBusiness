@@ -868,8 +868,8 @@ public sealed class CircleOfTheWildfire : AbstractSubclass
 
             character.HealingReceived -= HealingReceived;
 
-            var healingRoll = character.RollDie(
-                DieType.D8, RollContext.HealValueRoll, false, AdvantageType.None, out _, out _);
+            var healingRoll = character.RollDiceAndSum(DieType.D8, RollContext.HealValueRoll, 1,
+                maximumDamage: character.ReceivesMaximizedHealing());
 
             character.ReceiveHealing(healingRoll, true, sourceGuid);
         }

@@ -401,4 +401,10 @@ internal static class RulesetActorExtensions
 
         return outcome;
     }
+    
+    internal static bool ReceivesMaximizedHealing(this RulesetActor actor)
+    {
+        return actor.GetFeaturesByType<IHealingModificationProvider>()
+            .Any(x => x.MaximizeReceivedHealing);
+    }
 }
