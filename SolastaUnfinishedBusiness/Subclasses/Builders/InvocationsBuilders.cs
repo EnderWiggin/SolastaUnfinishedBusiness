@@ -376,12 +376,11 @@ internal static class InvocationsBuilders
             .AddToDB();
     }
 
-    internal static InvocationDefinition BuildStasis()
+    internal static void BuildStasis()
     {
-        const string NAME = "InvocationStasis";
-
-        return InvocationDefinitionBuilder
-            .Create(NAME)
+        //Kept for compatibility
+        InvocationDefinitionBuilder
+            .Create("InvocationStasis")
             .SetGuiPresentation(Category.Invocation, Slow)
             .SetRequirements(5)
             .SetGrantedSpell(Slow, false, true)

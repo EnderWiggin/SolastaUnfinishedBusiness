@@ -52,7 +52,7 @@ internal static class InvocationsContext
         LoadInvocation(BuildPoisonousBlast());
         LoadInvocation(BuildShroudOfShadow());
         LoadInvocation(BuildSpectralShield());
-        LoadInvocation(BuildStasis());
+        BuildStasis(); //identical to Mire The Mind from vanilla - do not show it, but keep built for compatibility
         LoadInvocation(BuildSuperiorPactWeapon());
         LoadInvocation(BuildTenaciousPlague());
         LoadInvocation(BuildTombOfFrost());

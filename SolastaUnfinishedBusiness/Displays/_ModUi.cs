@@ -188,7 +188,6 @@ internal static class ModUi
         "InvocationInexorableHex",
         "InvocationPerniciousCloak",
         "InvocationShroudOfShadow",
-        "InvocationStasis",
         "InvocationSuperiorPactWeapon",
         "InvocationTombOfFrost",
         "InvocationTrickstersEscape",
