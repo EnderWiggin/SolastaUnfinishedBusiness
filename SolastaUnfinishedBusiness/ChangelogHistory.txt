@@ -1,6 +1,7 @@
 1.5.97.86:
 - fixed `Gift of the Ever-Living Ones` and similar healing-maximization effects not applying to some forms of healing
 - fixed Sentinel's movement stopping triggering for readied attacks
+- removed duplicate Mire the Mind invocation
 
 1.5.97.85:
 - changed `Evasive Footwork` maneuver to last until start of next turn, not end of current turn - as per PHB24
