@@ -53,6 +53,19 @@ public static class GameLocationActionManagerPatcher
         }
     }
 
+    [HarmonyPatch(typeof(GameLocationActionManager), nameof(GameLocationActionManager.ReactForReadiedAction))]
+    [SuppressMessage("Minor Code Smell", "S101:Types should be named in PascalCase", Justification = "Patch")]
+    [UsedImplicitly]
+    public static class ReactForReadiedAction_Patch
+    {
+        [UsedImplicitly]
+        public static void Prefix(GameLocationActionManager __instance, CharacterActionParams reactionParams)
+        {
+            //PATCH: mark this attack as not AoO, so Sentinel movement stop won't trigger
+            reactionParams.AttackMode?.AddAttackTagAsNeeded(AttacksOfOpportunity.NotAoOTag);
+        }
+    }
+
     [HarmonyPatch(typeof(GameLocationActionManager), nameof(GameLocationActionManager.ReactToSpendPower))]
     [SuppressMessage("Minor Code Smell", "S101:Types should be named in PascalCase", Justification = "Patch")]
     [UsedImplicitly]
