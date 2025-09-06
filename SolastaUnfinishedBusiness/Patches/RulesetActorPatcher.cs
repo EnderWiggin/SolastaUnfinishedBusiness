@@ -164,7 +164,7 @@ public static class RulesetActorPatcher
         public static bool Prefix(RulesetActor __instance)
         {
             __instance.isArmorClassDependentToPositioning = __instance
-                .GetFeaturesByType<FeatureDefinitionAttributeModifier>()
+                .FeaturesByType<FeatureDefinitionAttributeModifier>()
                 .Any(attributeModifier =>
                     attributeModifier.ModifiedAttribute == AttributeDefinitions.ArmorClass &&
                     (attributeModifier.SituationalContext

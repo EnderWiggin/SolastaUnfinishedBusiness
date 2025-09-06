@@ -226,7 +226,7 @@ internal static class AiHelpers
     internal static RulesetCondition GetRestrainingCondition(RulesetCharacter rulesetCharacter)
     {
         return rulesetCharacter
-            .GetFeaturesByType<FeatureDefinitionActionAffinity>()
+            .FeaturesByType<FeatureDefinitionActionAffinity>()
             .Where(actionAffinity => actionAffinity.AuthorizedActions.Contains(ActionDefinitions.Id.BreakFree))
             .Select(rulesetCharacter.FindFirstConditionHoldingFeature)
             .FirstOrDefault(rulesetCondition => rulesetCondition != null);

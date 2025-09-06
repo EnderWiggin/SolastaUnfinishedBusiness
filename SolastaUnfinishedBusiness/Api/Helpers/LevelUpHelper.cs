@@ -435,7 +435,7 @@ internal static class LevelUpHelper
             return;
         }
 
-        foreach (var feature in hero.GetFeaturesByType<FeatureDefinitionAutoPreparedSpells>())
+        foreach (var feature in hero.FeaturesByType<FeatureDefinitionAutoPreparedSpells>())
         {
             var maxLevel = GetMaxAutoPrepSpellsLevel(hero, feature);
 

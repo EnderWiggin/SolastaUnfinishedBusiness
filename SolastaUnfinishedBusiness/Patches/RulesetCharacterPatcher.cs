@@ -1747,7 +1747,7 @@ public static class RulesetCharacterPatcher
                     __instance.UsedRagePoints--;
                 }
 
-                __instance.recoveredFeatures.Add(__instance.GetFeaturesByType<FeatureDefinitionAttributeModifier>()
+                __instance.recoveredFeatures.Add(__instance.FeaturesByType<FeatureDefinitionAttributeModifier>()
                     .FirstOrDefault(attributeModifier =>
                         attributeModifier.ModifiedAttribute == AttributeDefinitions.RagePoints));
             }
@@ -2156,7 +2156,7 @@ public static class RulesetCharacterPatcher
         {
             EquipmentDefinitions.ComputeStandardScribeCosts(spellDefinition, costs);
 
-            foreach (var definitionMagicAffinity in __instance.GetFeaturesByType<FeatureDefinitionMagicAffinity>())
+            foreach (var definitionMagicAffinity in __instance.FeaturesByType<FeatureDefinitionMagicAffinity>())
             {
                 var costMultiplier = definitionMagicAffinity.ScribeCostMultiplier;
 
@@ -2189,7 +2189,7 @@ public static class RulesetCharacterPatcher
         {
             var scribeDurationSeconds = EquipmentDefinitions.ComputeStandardScribeDurationSeconds(spellDefinition);
 
-            foreach (var definitionMagicAffinity in __instance.GetFeaturesByType<FeatureDefinitionMagicAffinity>())
+            foreach (var definitionMagicAffinity in __instance.FeaturesByType<FeatureDefinitionMagicAffinity>())
             {
                 var durationMultiplier = definitionMagicAffinity.ScribeDurationMultiplier;
 
@@ -2697,7 +2697,7 @@ public static class RulesetCharacterPatcher
             if (effectLevel > 0)
             {
                 foreach (var featureDefinition in __instance
-                             .GetFeaturesByType<ISpellCastingAffinityProvider>()
+                             .FeaturesByType<ISpellCastingAffinityProvider>()
                              .Where(featureDefinition =>
                                  featureDefinition.PreserveSlotRoll &&
                                  featureDefinition.PreserveSlotLevelCap >= effectLevel))

@@ -403,7 +403,7 @@ public static class GameLocationBattleManagerPatcher
             //                           || defender.PerceivedAllies.Contains(attacker);
 
             foreach (var feature in defenderCharacter
-                         .GetFeaturesByType<FeatureDefinitionReduceDamage>())
+                         .FeaturesByType<FeatureDefinitionReduceDamage>())
             {
                 var isValid = defenderCharacter.IsValid(feature.GetAllSubFeaturesOfType<IsCharacterValidHandler>());
 

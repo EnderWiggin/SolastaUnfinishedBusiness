@@ -1267,7 +1267,7 @@ internal static class OtherFeats
             opponent.ComputeAbilityCheckActionModifier(
                 AttributeDefinitions.Wisdom, SkillDefinitions.Insight, actionModifierOpponent);
 
-            foreach (var key in actor.RulesetCharacter.GetFeaturesByType<IActionPerformanceProvider>())
+            foreach (var key in actor.RulesetCharacter.FeaturesByType<IActionPerformanceProvider>())
             {
                 foreach (var executionModifier in key.ActionExecutionModifiers)
                 {

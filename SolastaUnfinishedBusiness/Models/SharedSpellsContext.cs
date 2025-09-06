@@ -128,7 +128,7 @@ internal static class SharedSpellsContext
     {
         var warlockLevel = GetWarlockCasterLevel(rulesetCharacterHero);
         var warlockAdditionalSlots = rulesetCharacterHero
-            .GetFeaturesByType<FeatureDefinitionMagicAffinity>()
+            .FeaturesByType<FeatureDefinitionMagicAffinity>()
             .Where(x => x == DatabaseHelper.FeatureDefinitionMagicAffinitys
                 .MagicAffinityChitinousBoonAdditionalSpellSlot)
             .SelectMany(x => x.AdditionalSlots)

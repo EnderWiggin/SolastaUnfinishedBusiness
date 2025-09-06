@@ -364,7 +364,7 @@ public sealed class CollegeOfElegance : AbstractSubclass
 
             // remove enemies immune to charmed
             targets.RemoveAll(x =>
-                x.RulesetCharacter.GetFeaturesByType<IConditionAffinityProvider>().Any(y =>
+                x.RulesetCharacter.FeaturesByType<IConditionAffinityProvider>().Any(y =>
                     y.ConditionAffinityType == ConditionAffinityType.Immunity && y.ConditionType == ConditionCharmed));
 
             if (targets.Count == 0)

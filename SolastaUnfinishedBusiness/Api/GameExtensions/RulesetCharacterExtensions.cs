@@ -545,7 +545,7 @@ internal static class RulesetCharacterExtensions
 
         return DatabaseHelper.FeatureDefinitionFeatureSets.AdditionalDamageRangerFavoredEnemyChoice.FeatureSet
             .OfType<FeatureDefinitionAdditionalDamage>()
-            .Intersect(me.GetFeaturesByType<FeatureDefinitionAdditionalDamage>())
+            .Intersect(me.FeaturesByType<FeatureDefinitionAdditionalDamage>())
             .Any(x => x.RequiredCharacterFamily.Name == enemy.CharacterFamily);
     }
 #if false

@@ -938,7 +938,7 @@ public sealed class MartialForceKnight : AbstractSubclass
 
             savingThrowModifierTrends.Add(new TrendInfo(bonus, FeatureSourceType.AbilityScore, abilityScoreName, null));
 
-            var proficiency = defender.GetFeaturesByType<FeatureDefinitionProficiency>()
+            var proficiency = defender.FeaturesByType<FeatureDefinitionProficiency>()
                 .FirstOrDefault(x =>
                     x.ProficiencyType == ProficiencyType.SavingThrow &&
                     x.Proficiencies.Contains(abilityScoreName));

@@ -1717,7 +1717,7 @@ internal static class Level20SubclassesContext
             }
 
             // only enemies with darkvision
-            if (defender.GetFeaturesByType<FeatureDefinitionSense>().All(x => x.senseType != SenseMode.Type.Darkvision))
+            if (defender.FeaturesByType<FeatureDefinitionSense>().All(x => x.senseType != SenseMode.Type.Darkvision))
             {
                 return;
             }

@@ -36,7 +36,7 @@ internal sealed class FeatureDefinitionReduceDamage : FeatureDefinition
             return reduction;
         }
 
-        foreach (var feature in defender.GetFeaturesByType<FeatureDefinitionReduceDamage>())
+        foreach (var feature in defender.FeaturesByType<FeatureDefinitionReduceDamage>())
         {
             if (feature.DamageTypes != null
                 && feature.DamageTypes.Count != 0

@@ -761,7 +761,7 @@ internal static partial class SpellBuilders
                 var hasSkill =
                     hero.SkillProficiencies.Contains(skill.Name) ||
                     hero.TrainedSkills.Contains(skill) ||
-                    hero.GetFeaturesByType<FeatureDefinitionProficiency>()
+                    hero.FeaturesByType<FeatureDefinitionProficiency>()
                         .Any(x =>
                             x.ProficiencyType == ProficiencyType.Skill &&
                             x.Proficiencies.Contains(skillName));

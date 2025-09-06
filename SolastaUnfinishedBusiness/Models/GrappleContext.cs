@@ -407,7 +407,7 @@ internal static class GrappleContext
 
         if (hero != null &&
             // only Astral Reach grants reach on unarmed
-            hero.GetFeaturesByType<FeatureDefinition>().Any(x => x.Name == AstralReach.AstralReachFeatureName))
+            hero.FeaturesByType<FeatureDefinition>().Any(x => x.Name == AstralReach.AstralReachFeatureName))
         {
             return 2;
         }

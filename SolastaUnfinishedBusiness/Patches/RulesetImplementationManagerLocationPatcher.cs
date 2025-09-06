@@ -322,7 +322,7 @@ public static class RulesetImplementationManagerLocationPatcher
             var creatureTags = formsParams.targetSubstitute.CreatureTags;
 
             foreach (var summoningAffinity in source
-                         .GetFeaturesByType<FeatureDefinitionSummoningAffinity>()
+                         .FeaturesByType<FeatureDefinitionSummoningAffinity>()
                          .Where(x => creatureTags.Contains(x.RequiredMonsterTag)))
             {
                 foreach (var addedCondition in summoningAffinity.AddedConditions)
