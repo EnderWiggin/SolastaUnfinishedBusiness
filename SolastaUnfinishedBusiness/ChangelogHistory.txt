@@ -1,3 +1,8 @@
+1.5.97.87:
+- fixed Divine Smite 2024 description and hide 2014 Divine Smite if 2024 Smite is enabled
+- fixed no Divine Smite prompts if 2024 rules enabled and you have no bonus action spells prepared
+- implemented 2024 Divine Smite free use once per long rest
+
 1.5.97.86:
 - fixed `Gift of the Ever-Living Ones` and similar healing-maximization effects not applying to some forms of healing
 - fixed Sentinel's movement stopping triggering for readied attacks
