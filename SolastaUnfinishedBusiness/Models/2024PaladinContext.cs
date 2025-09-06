@@ -211,6 +211,10 @@ public static partial class Tabletop2024Context
 
     internal static void SwitchPaladinDivineSmite()
     {
+        //Hide 2014 feature if 2024 is enabled
+        FeatureDefinitionAdditionalDamages.AdditionalDamagePaladinDivineSmite.GuiPresentation.hidden =
+            Main.Settings.EnablePaladinSmite2024;
+
         //Auto-prepared Divine Smite spell
         if (Main.Settings.EnablePaladinSmite2024)
         {
