@@ -155,6 +155,8 @@ internal static partial class SpellBuilders
 
         var divineSmite = FeatureDefinitionAdditionalDamages.AdditionalDamagePaladinDivineSmite;
         var smiteGui = divineSmite.GuiPresentation;
+        var dices = DiceByRankBuilder.BuildDiceByRankTable(2);
+        dices[0].rank = 0;
         var additionalDamageDivineSmite = FeatureDefinitionAdditionalDamageBuilder
             .Create($"AdditionalDamage{NAME}")
             .SetGuiPresentation(smiteGui)
@@ -165,7 +167,7 @@ internal static partial class SpellBuilders
             .SetSpecificDamageType(DamageTypeRadiant)
             .SetDamageValueDetermination(AdditionalDamageValueDetermination.Die)
             .SetAdditionalDamageFamilies(1, CharacterFamilyDefinitions.Undead, CharacterFamilyDefinitions.Fiend)
-            .SetAdvancement(AdditionalDamageAdvancement.SlotLevel, divineSmite.DiceByRankTable)
+            .SetAdvancement(AdditionalDamageAdvancement.SlotLevel, dices)
             .SetImpactParticleReference(divineSmite)
             .AddToDB();
 

@@ -166,6 +166,9 @@ public static class CharacterReactionItemPatcher
                 case ReactionRequestSpendBundlePower bundlePowerRequest:
                     instance.BindPowerBundle(bundlePowerRequest, slotLevel, interactable, subitemSelected);
                     break;
+                case ReactionRequestSelectSmiteSlot:
+                    instance.BindSmiteSlot(spellRepertoire, slotLevel, text, interactable, subitemSelected);
+                    break;
                 default:
                     instance.Bind(spellRepertoire, slotLevel, text, interactable, subitemSelected);
                     break;

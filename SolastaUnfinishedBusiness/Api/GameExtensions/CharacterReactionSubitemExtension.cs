@@ -161,6 +161,35 @@ internal static class CharacterReactionSubitemExtension
         }
     }
 
+    internal static void BindSmiteSlot(
+        [NotNull] this CharacterReactionSubitem instance,
+        RulesetSpellRepertoire spellRepertoire,
+        int slotLevel,
+        string text,
+        bool interactable,
+        CharacterReactionSubitem.SubitemSelectedHandler subitemSelected)
+    {
+        if (slotLevel == 0)
+        {
+            text = "Action/&ActionTypeFreeOnceTitle";
+            var toggle = instance.toggle;
+            var rectTransform = toggle.GetComponent<RectTransform>();
+
+            rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 100);
+
+            var tooltip = GetOrMakeBackgroundTooltip(toggle.transform);
+            if (tooltip != null)
+            {
+                tooltip.Disabled = false;
+                tooltip.TooltipClass = GuiManager.DefaultTooltipClass;
+                tooltip.Content = "Reaction/&ReactionDivineSmite2024SlotFreeDescription";
+                tooltip.Context = null;
+                tooltip.DataProvider = null;
+            }
+        }
+        instance.Bind(spellRepertoire, slotLevel, text, interactable, subitemSelected);
+    }
+
     private static GuiTooltip GetOrMakeBackgroundTooltip(Transform root)
     {
         var background = root.FindChildRecursive("Background");

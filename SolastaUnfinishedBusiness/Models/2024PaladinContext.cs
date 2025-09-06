@@ -26,21 +26,22 @@ public static partial class Tabletop2024Context
 {
     internal static readonly SpellDefinition DivineSmiteSpell = SpellBuilders.BuildDivineSmite();
 
-    private static readonly FeatureDefinitionFeatureSet DivineSmite2024 = FeatureDefinitionFeatureSetBuilder
+    internal static readonly FeatureDefinitionAutoPreparedSpells DivineSmite2024AutoSpell =
+        FeatureDefinitionAutoPreparedSpellsBuilder.Create("AutoPreparedSpellsDivineSmite2024")
+            .SetGuiPresentationNoContent()
+            .SetSpellcastingClass(Paladin)
+            .SetAutoTag("Paladin")
+            .AddPreparedSpellGroup(2, DivineSmiteSpell)
+            .AddToDB();
+    
+    private static readonly FeatureDefinitionFeatureSet DivineSmite2024FeatureSet = FeatureDefinitionFeatureSetBuilder
         .Create("FeatureSetDivineSmite2024")
         .SetGuiPresentation(Category.Feature)
         .SetMode(FeatureDefinitionFeatureSet.FeatureSetMode.Union)
-        .SetFeatureSet(
-            FeatureDefinitionAutoPreparedSpellsBuilder.Create("AutoPreparedSpellsDivineSmite2024")
-                .SetGuiPresentation(Category.Feature)
-                .SetSpellcastingClass(Paladin)
-                .SetAutoTag("Paladin")
-                .AddPreparedSpellGroup(2, DivineSmiteSpell)
-                .AddToDB()
-        )
+        .SetFeatureSet(DivineSmite2024AutoSpell)
         .AddToDB();
 
-    private static readonly FeatureUnlockByLevel DivineSmite2024Unlock = new(DivineSmite2024, 2);
+    private static readonly FeatureUnlockByLevel DivineSmite2024Unlock = new(DivineSmite2024FeatureSet, 2);
 
     private static readonly FeatureDefinitionAttributeModifier AttributeModifierPaladinChannelDivinity11 =
         FeatureDefinitionAttributeModifierBuilder
@@ -262,11 +263,11 @@ public static partial class Tabletop2024Context
 
         if (Main.Settings.EnablePaladinSmite2024)
         {
-            features.TryAddRange(DivineSmite2024.FeatureSet);
+            features.TryAddRange(DivineSmite2024FeatureSet.FeatureSet);
         }
         else
         {
-            features.RemoveAll(DivineSmite2024.FeatureSet);
+            features.RemoveAll(DivineSmite2024FeatureSet.FeatureSet);
         }
 
         foreach (var repertoire in hero.SpellRepertoires)

@@ -472,6 +472,7 @@ Reaction/&CustomReactionUncannyMetabolismReactTitle=Uncanny Metabolism
 Reaction/&CustomReactionUncannyMetabolismTitle=Uncanny Metabolism
 Reaction/&ReactionDivineSmite2024SelectDescription={0} hit {1} with attack and can spend Bonus Action to cast one of smite spells to deal more damage!
 Reaction/&ReactionDivineSmite2024SelectReactDescription=Use Bonus Action to cast smite spell
+Reaction/&ReactionDivineSmite2024SlotFreeDescription=You can cast Divine Smite without spending a spell slot once per Long Rest.
 Reaction/&ReactionDivineSmite2024SlotReactDescription=Spend spell slot to cast {0}
 Reaction/&ReactionSpendPowerBundleDescription=Spend Power.
 Reaction/&ReactionSpendPowerBundlePowerBarbarianBrutalStrikeDescription=You can apply an additional effect.

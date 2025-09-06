@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using SolastaUnfinishedBusiness.Api.GameExtensions;
 using SolastaUnfinishedBusiness.Api.LanguageExtensions;
+using SolastaUnfinishedBusiness.Builders;
 using SolastaUnfinishedBusiness.Spells;
 using static ActionDefinitions;
 using static RuleDefinitions;
@@ -26,6 +27,13 @@ public static class SmiteSpells2024Context
     ];
 
     internal static readonly List<ConditionDefinition> SmiteConditions = [];
+
+    internal static readonly ConditionDefinition ConditionMarkUsedFreeSmite = ConditionDefinitionBuilder
+        .Create("ConditionMarkUsedFreeSmite")
+        .SetGuiPresentationNoContent(true)
+        .SetSilent(Silent.Always)
+        .SetSpecialDuration(DurationType.UntilLongRest)
+        .AddToDB();
 
     internal static void LateLoad()
     {
@@ -194,6 +202,13 @@ public static class SmiteSpells2024Context
         actionManager.AddInterruptRequest(slotRequest);
 
         yield return battleManager.WaitForReactions(attacker, actionManager, pendingRequests);
+
+        //didn't confirm slot selection
+        if (!reactionParams.ReactionValidated || slotRequest.SelectedSubOption > 0) { yield break; }
+
+        attackerCharacter.InflictCondition(ConditionMarkUsedFreeSmite.Name, DurationType.UntilLongRest, 0,
+            TurnOccurenceType.EndOfTurn, AttributeDefinitions.TagEffect, attackerCharacter.Guid,
+            attackerCharacter.CurrentFaction.Name, 1, attackerCharacter.Name, 0, 0, 0);
     }
 
     private static readonly HashSet<SpellDefinition> SpellsToBrowse = [];
@@ -341,6 +356,49 @@ internal class ReactionRequestSelectSmiteSlot : ReactionRequestCastSpell
         _spellName = spellEffect.SpellDefinition.GuiPresentation.Title;
 
         BuildSlotSubOptions();
+    }
+
+    private new void BuildSlotSubOptions()
+    {
+        SubOptionsAvailability.Clear();
+        if (reactionParams.RulesetEffect is not RulesetEffectSpell spellEffect) { return; }
+
+        var spellRepertoire = spellEffect.SpellRepertoire;
+        var spell = spellEffect.SpellDefinition;
+        var spellLevel = spell.SpellLevel;
+        var caster = reactionParams.actingCharacter.RulesetCharacter;
+
+        var preSelected = -1;
+        var hasFreeUse = spell == Tabletop2024Context.DivineSmiteSpell
+                         && caster.HasAnyFeature(Tabletop2024Context.DivineSmite2024AutoSpell);
+
+        if (hasFreeUse)
+        {
+            var available = !caster.HasAnyConditionOfType(SmiteSpells2024Context.ConditionMarkUsedFreeSmite.Name);
+            SubOptionsAvailability.Add(0, available);
+            if (available) { preSelected = 0; }
+
+            SelectSubOption(0);
+        }
+
+        for (var index = 1; index <= spellRepertoire.MaxSpellLevelOfSpellCastingLevel; ++index)
+        {
+            if (index < spellLevel) { continue; }
+
+            spellRepertoire.GetSlotsNumber(index, out var remaining, out _);
+            var hasSlots = remaining > 0;
+            SubOptionsAvailability.Add(index, hasSlots);
+            if (preSelected < 0 && hasSlots) { preSelected = index; }
+        }
+
+        if (preSelected >= 0) { SelectSubOption(preSelected); }
+    }
+
+    public override void SelectSubOption(int option)
+    {
+        if (reactionParams.RulesetEffect is not RulesetEffectSpell spellEffect) { return; }
+
+        spellEffect.SlotLevel = option;
     }
 
     public override string SuboptionTag => "DivineSmite";
