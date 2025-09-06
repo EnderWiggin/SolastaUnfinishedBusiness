@@ -240,13 +240,13 @@ public static class SmiteSpells2024Context
         return options;
     }
 
-    internal static bool HasSmites(RulesetCharacter character)
+    internal static bool HasSmites(this RulesetCharacter character)
     {
         if (character is not RulesetCharacterHero hero) { return false; }
 
         if (!Main.Settings.AddPaladinSmiteToggle) { return false; }
 
-        if (hero.ClassesHistory.Contains(CharacterClassDefinitions.Paladin)) return true;
+        if (hero.ClassesHistory.Contains(CharacterClassDefinitions.Paladin)) { return true; }
 
         if (!Main.Settings.EnableSmiteSpells2024) { return false; }
 

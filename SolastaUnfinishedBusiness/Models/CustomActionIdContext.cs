@@ -636,7 +636,7 @@ public static class CustomActionIdContext
                 return;
             }
             case (Id)ExtraActionId.PaladinSmiteToggle:
-                result = SmiteSpells2024Context.HasSmites(character)
+                result = character.HasSmites()
                     ? ActionStatus.Available
                     : ActionStatus.Unavailable;
                 return;

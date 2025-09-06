@@ -1585,13 +1585,17 @@ public static class RulesetCharacterPatcher
             ActionType actionType,
             bool canOnlyUseCantrips)
         {
-            if (__result)
-            {
-                return;
-            }
+            if (__result) { return; }
 
-            if (actionType == ActionType.Bonus &&
-                (__instance.GetOriginalHero()?.HasAnyFeature(PatronEldritchSurge.FeatureBlastReload) ?? false))
+            if (actionType != ActionType.Bonus) { return; }
+
+            if (__instance.GetOriginalHero() is not { } hero) { return; }
+
+            if (!canOnlyUseCantrips && hero.HasSmites())
+            {
+                __result = true;
+            }
+            else if (hero.HasAnyFeature(PatronEldritchSurge.FeatureBlastReload))
             {
                 __result = true;
             }
