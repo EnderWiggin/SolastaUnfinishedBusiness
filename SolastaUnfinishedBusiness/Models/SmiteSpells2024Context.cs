@@ -114,15 +114,24 @@ public static class SmiteSpells2024Context
         }
     }
 
-    internal static IEnumerator OnAttackHitConfirmed(
-        GameLocationBattleManager battleManager,
+    internal static IEnumerator OnAttackHitConfirmed(GameLocationBattleManager battleManager,
         GameLocationCharacter attacker,
         GameLocationCharacter defender,
         RulesetAttackMode attackMode,
-        bool criticalHit
-    )
+        bool criticalHit,
+        bool rangedAttack)
     {
         if (attackMode == null) { yield break; }
+
+        var weapon = attackMode.SourceDefinition as ItemDefinition;
+
+        //Only attacks with melee weapons or unarmed are supported (can be thrown melee weapon)
+        if (rangedAttack
+            && weapon != null
+            && weapon.WeaponDescription?.WeaponTypeDefinition?.WeaponProximity != AttackProximity.Melee)
+        {
+            yield break;
+        }
 
         var attackerCharacter = attacker.RulesetCharacter;
 

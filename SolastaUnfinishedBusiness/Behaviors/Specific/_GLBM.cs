@@ -767,7 +767,7 @@ internal static class GLBM
         bool firstTarget)
     {
         //Should be first, so effects from smite spells will apply before enumerating damage features
-        yield return SmiteSpells2024Context.OnAttackHitConfirmed(instance, attacker, defender, attackMode, criticalHit);
+        yield return SmiteSpells2024Context.OnAttackHitConfirmed(instance, attacker, defender, attackMode, criticalHit, rangedAttack);
 
         instance.triggeredAdditionalDamageTags.Clear();
         attacker.RulesetCharacter.EnumerateFeaturesToBrowse<IAdditionalDamageProvider>(
