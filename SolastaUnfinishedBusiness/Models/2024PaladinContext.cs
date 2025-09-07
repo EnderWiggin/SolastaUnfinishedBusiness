@@ -28,7 +28,7 @@ public static partial class Tabletop2024Context
 
     internal static readonly FeatureDefinitionAutoPreparedSpells DivineSmite2024AutoSpell =
         FeatureDefinitionAutoPreparedSpellsBuilder.Create("AutoPreparedSpellsDivineSmite2024")
-            .SetGuiPresentationNoContent()
+            .SetGuiPresentationNoContent(hidden: true)
             .SetSpellcastingClass(Paladin)
             .SetAutoTag("Paladin")
             .AddPreparedSpellGroup(2, DivineSmiteSpell)
