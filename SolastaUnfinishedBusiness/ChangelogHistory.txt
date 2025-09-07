@@ -1,3 +1,7 @@
+1.5.97.89:
+- fixed Divine Smite not dealing damage if cast with level 1 slot
+- fixed Oath of Demon Hunter not being able to use Divine Smite with crossbows
+
 1.5.97.88:
 - Smite Spells 2024: allow only attacks with melee weapons or unarmed (can be thrown melee weapon)
 - Smite Spells 2024: do not show smite popup if character has no spell slots to cast spell
