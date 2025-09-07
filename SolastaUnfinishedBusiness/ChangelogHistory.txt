@@ -1,3 +1,7 @@
+1.5.97.88:
+- Smite Spells 2024: allow only attacks with melee weapons or unarmed (can be thrown melee weapon)
+- Smite Spells 2024: do not show smite popup if character has no spell slots to cast spell
+
 1.5.97.87:
 - fixed Divine Smite 2024 description and hide 2014 Divine Smite if 2024 Smite is enabled
 - fixed no Divine Smite prompts if 2024 rules enabled and you have no bonus action spells prepared
