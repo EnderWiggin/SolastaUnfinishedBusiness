@@ -6,6 +6,7 @@ using SolastaUnfinishedBusiness.Api.GameExtensions;
 using SolastaUnfinishedBusiness.Api.LanguageExtensions;
 using SolastaUnfinishedBusiness.Builders;
 using SolastaUnfinishedBusiness.Spells;
+using SolastaUnfinishedBusiness.Subclasses;
 using static ActionDefinitions;
 using static RuleDefinitions;
 using static SolastaUnfinishedBusiness.Api.DatabaseHelper;
@@ -125,12 +126,21 @@ public static class SmiteSpells2024Context
 
         var weapon = attackMode.SourceDefinition as ItemDefinition;
 
+        var divineSmiteOnly = false;
         //Only attacks with melee weapons or unarmed are supported (can be thrown melee weapon)
         if (rangedAttack
             && weapon != null
             && weapon.WeaponDescription?.WeaponTypeDefinition?.WeaponProximity != AttackProximity.Melee)
         {
-            yield break;
+            //Demon Hunter can use Divine Smite on crossbows, but not other Smite spells
+            if (OathOfDemonHunter.IsOathOfDemonHunterWeapon(attackMode, null, attacker.RulesetCharacter))
+            {
+                divineSmiteOnly = true;
+            }
+            else
+            {
+                yield break;
+            }
         }
 
         var attackerCharacter = attacker.RulesetCharacter;
@@ -164,7 +174,7 @@ public static class SmiteSpells2024Context
         var spellPoints = attackerCharacter.IsSpellPointsEnabled();
         var hasFreeUseDivineSmite = attackerCharacter.HasAnyFeature(Tabletop2024Context.DivineSmite2024AutoSpell);
         var freeUseDivineSmiteAvailable = !attackerCharacter.HasAnyConditionOfType(ConditionMarkUsedFreeSmite.Name);
-        var smites = GetSmiteOptions(attackerCharacter, spellPoints,
+        var smites = GetSmiteOptions(attackerCharacter, divineSmiteOnly, spellPoints,
             hasFreeUseDivineSmite && freeUseDivineSmiteAvailable);
 
         var availableSmites = smites.Where(x => x.Available).ToList();
@@ -229,7 +239,7 @@ public static class SmiteSpells2024Context
 
     private static readonly HashSet<SpellDefinition> SpellsToBrowse = [];
 
-    private static List<SmiteOption> GetSmiteOptions(RulesetCharacter character, bool spellPoints,
+    private static List<SmiteOption> GetSmiteOptions(RulesetCharacter character, bool divineSmiteOnly, bool spellPoints,
         bool canFreeUseDivineSmite)
     {
         List<SmiteOption> options = [];
@@ -257,7 +267,8 @@ public static class SmiteSpells2024Context
             //Find smite spells
             foreach (var spell in SpellsToBrowse)
             {
-                if (spell.ActivationTime == ActivationTime.OnAttackHit)
+                if (spell.ActivationTime == ActivationTime.OnAttackHit
+                    && (!divineSmiteOnly || spell == Tabletop2024Context.DivineSmiteSpell))
                 {
                     options.Add(new SmiteOption(spell, repertoire, CanCast(repertoire, spell)));
                 }
@@ -272,10 +283,11 @@ public static class SmiteSpells2024Context
 
         bool CanCast(RulesetSpellRepertoire repertoire, SpellDefinition spell)
         {
-            return (canFreeUseDivineSmite && spell == Tabletop2024Context.DivineSmiteSpell)
-                   || (spellPoints
-                       ? SpellPointsContext.CanCastSpellOfLevel(character, spell.SpellLevel)
-                       : repertoire.CanCastSpellOfLevel(spell.SpellLevel));
+            return character.AreSpellComponentsValid(spell)
+                   && ((canFreeUseDivineSmite && spell == Tabletop2024Context.DivineSmiteSpell)
+                       || (spellPoints
+                           ? SpellPointsContext.CanCastSpellOfLevel(character, spell.SpellLevel)
+                           : repertoire.CanCastSpellOfLevel(spell.SpellLevel)));
         }
     }
 
