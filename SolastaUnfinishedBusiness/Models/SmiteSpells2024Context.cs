@@ -28,7 +28,7 @@ public static class SmiteSpells2024Context
 
     internal static readonly List<ConditionDefinition> SmiteConditions = [];
 
-    internal static readonly ConditionDefinition ConditionMarkUsedFreeSmite = ConditionDefinitionBuilder
+    private static readonly ConditionDefinition ConditionMarkUsedFreeSmite = ConditionDefinitionBuilder
         .Create("ConditionMarkUsedFreeSmite")
         .SetGuiPresentationNoContent(true)
         .SetSilent(Silent.Always)
@@ -161,10 +161,15 @@ public static class SmiteSpells2024Context
         //Wrong service, can't properly add custom reactions - should never trigger
         if (actionService is not GameLocationActionManager actionManager) { yield break; }
 
-        var smites = GetSmiteOptions(attackerCharacter);
+        var spellPoints = attackerCharacter.IsSpellPointsEnabled();
+        var hasFreeUseDivineSmite = attackerCharacter.HasAnyFeature(Tabletop2024Context.DivineSmite2024AutoSpell);
+        var freeUseDivineSmiteAvailable = !attackerCharacter.HasAnyConditionOfType(ConditionMarkUsedFreeSmite.Name);
+        var smites = GetSmiteOptions(attackerCharacter, spellPoints,
+            hasFreeUseDivineSmite && freeUseDivineSmiteAvailable);
 
+        var availableSmites = smites.Where(x => x.Available).ToList();
         //No smites
-        if (smites.Count == 0) { yield break; }
+        if (availableSmites.Count == 0) { yield break; }
 
         SpellDefinition smite;
         RulesetSpellRepertoire repertoire;
@@ -172,7 +177,7 @@ public static class SmiteSpells2024Context
         CharacterActionParams reactionParams;
         int pendingRequests;
         //Need to choose smite
-        if (smites.Count > 1)
+        if (availableSmites.Count > 1)
         {
             pendingRequests = actionManager.PendingReactionRequestGroups.Count;
             reactionParams = new CharacterActionParams(attacker, (Id)ExtraActionId.DoNothingFree)
@@ -194,8 +199,8 @@ public static class SmiteSpells2024Context
         }
         else
         {
-            smite = smites[0].Spell;
-            repertoire = smites[0].Repertoire;
+            smite = availableSmites[0].Spell;
+            repertoire = availableSmites[0].Repertoire;
         }
 
         pendingRequests = actionManager.PendingReactionRequestGroups.Count;
@@ -207,7 +212,9 @@ public static class SmiteSpells2024Context
             ruleService.InstantiateEffectSpell(attackerCharacter, repertoire, smite, 0, false);
         reactionParams.IsReactionEffect = true;
 
-        var slotRequest = new ReactionRequestSelectSmiteSlot(reactionParams);
+        hasFreeUseDivineSmite = hasFreeUseDivineSmite && smite == Tabletop2024Context.DivineSmiteSpell;
+        var slotRequest = new ReactionRequestSelectSmiteSlot(reactionParams, hasFreeUseDivineSmite,
+            freeUseDivineSmiteAvailable);
         actionManager.AddInterruptRequest(slotRequest);
 
         yield return battleManager.WaitForReactions(attacker, actionManager, pendingRequests);
@@ -222,10 +229,10 @@ public static class SmiteSpells2024Context
 
     private static readonly HashSet<SpellDefinition> SpellsToBrowse = [];
 
-    private static List<SmiteOption> GetSmiteOptions(RulesetCharacter character)
+    private static List<SmiteOption> GetSmiteOptions(RulesetCharacter character, bool spellPoints,
+        bool canFreeUseDivineSmite)
     {
         List<SmiteOption> options = [];
-        options.SetRange();
 
         foreach (var repertoire in character.SpellRepertoires)
         {
@@ -252,7 +259,7 @@ public static class SmiteSpells2024Context
             {
                 if (spell.ActivationTime == ActivationTime.OnAttackHit)
                 {
-                    options.Add(new SmiteOption(spell, repertoire));
+                    options.Add(new SmiteOption(spell, repertoire, CanCast(repertoire, spell)));
                 }
             }
         }
@@ -262,6 +269,14 @@ public static class SmiteSpells2024Context
             : a.Spell.spellLevel.CompareTo(b.Spell.spellLevel));
 
         return options;
+
+        bool CanCast(RulesetSpellRepertoire repertoire, SpellDefinition spell)
+        {
+            return (canFreeUseDivineSmite && spell == Tabletop2024Context.DivineSmiteSpell)
+                   || (spellPoints
+                       ? SpellPointsContext.CanCastSpellOfLevel(character, spell.SpellLevel)
+                       : repertoire.CanCastSpellOfLevel(spell.SpellLevel));
+        }
     }
 
     internal static bool HasSmites(this RulesetCharacter character)
@@ -279,10 +294,11 @@ public static class SmiteSpells2024Context
     }
 }
 
-internal readonly struct SmiteOption(SpellDefinition spell, RulesetSpellRepertoire repertoire)
+internal readonly struct SmiteOption(SpellDefinition spell, RulesetSpellRepertoire repertoire, bool available)
 {
     public SpellDefinition Spell { get; } = spell;
     public RulesetSpellRepertoire Repertoire { get; } = repertoire;
+    public bool Available { get; } = available;
 }
 
 internal class ReactionRequestSelectSmiteSpell : ReactionRequest
@@ -312,7 +328,7 @@ internal class ReactionRequestSelectSmiteSpell : ReactionRequest
         for (var index = 0; index < Smites.Count; index++)
         {
             var smite = Smites[index];
-            SubOptionsAvailability.Add(index, smite.Repertoire.CanCastSpell(smite.Spell, true));
+            SubOptionsAvailability.Add(index, smite.Available);
         }
 
         foreach (var pair in SubOptionsAvailability.Where(pair => pair.Value))
@@ -355,12 +371,16 @@ internal class ReactionRequestSelectSmiteSpell : ReactionRequest
 
 internal class ReactionRequestSelectSmiteSlot : ReactionRequestCastSpell
 {
+    private readonly bool _hasFreeUse;
+    private readonly bool _freeUseAvailable;
     public const string Name = "SmiteSlotSelect";
     private readonly string _spellName;
 
-    public ReactionRequestSelectSmiteSlot(CharacterActionParams actionParams)
+    public ReactionRequestSelectSmiteSlot(CharacterActionParams actionParams, bool hasFreeUse, bool freeUseAvailable)
         : base(Name, actionParams)
     {
+        _hasFreeUse = hasFreeUse;
+        _freeUseAvailable = freeUseAvailable;
         var spellEffect = (ReactionParams.RulesetEffect as RulesetEffectSpell)!;
         _spellName = spellEffect.SpellDefinition.GuiPresentation.Title;
 
@@ -375,17 +395,12 @@ internal class ReactionRequestSelectSmiteSlot : ReactionRequestCastSpell
         var spellRepertoire = spellEffect.SpellRepertoire;
         var spell = spellEffect.SpellDefinition;
         var spellLevel = spell.SpellLevel;
-        var caster = reactionParams.actingCharacter.RulesetCharacter;
 
         var preSelected = -1;
-        var hasFreeUse = spell == Tabletop2024Context.DivineSmiteSpell
-                         && caster.HasAnyFeature(Tabletop2024Context.DivineSmite2024AutoSpell);
-
-        if (hasFreeUse)
+        if (_hasFreeUse)
         {
-            var available = !caster.HasAnyConditionOfType(SmiteSpells2024Context.ConditionMarkUsedFreeSmite.Name);
-            SubOptionsAvailability.Add(0, available);
-            if (available) { preSelected = 0; }
+            SubOptionsAvailability.Add(0, _freeUseAvailable);
+            if (_freeUseAvailable) { preSelected = 0; }
 
             SelectSubOption(0);
         }
