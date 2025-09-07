@@ -156,7 +156,10 @@ internal static partial class SpellBuilders
         var divineSmite = FeatureDefinitionAdditionalDamages.AdditionalDamagePaladinDivineSmite;
         var smiteGui = divineSmite.GuiPresentation;
         var dices = DiceByRankBuilder.BuildDiceByRankTable(2);
-        dices[0].rank = 0;
+
+        // Add dice number for rank 0 - used by free cast
+        dices.Insert(0, new DiceByRank { rank = 0, diceNumber = dices[0].diceNumber });
+
         var additionalDamageDivineSmite = FeatureDefinitionAdditionalDamageBuilder
             .Create($"AdditionalDamage{NAME}")
             .SetGuiPresentation(smiteGui)
