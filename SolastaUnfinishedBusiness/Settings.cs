@@ -93,7 +93,7 @@ public class Settings : UnityModManager.ModSettings
     public bool EnableEpicPointsAndArray { get; set; }
     [Tag(Type = TagType.T2014)] public bool EnableLevel20 { get; set; }
     [Tag(Type = TagType.T2014)] public bool EnableMulticlass { get; set; }
-    public int MaxAllowedClasses { get; set; }
+    public int MaxAllowedClasses { get; set; } = MulticlassContext.DefaultClasses;
     public bool DisplayAllKnownSpellsDuringLevelUp { get; set; }
     public bool DisplayPactSlotsOnSpellSelectionPanel { get; set; }
     public bool EnableMinInOutAttributes { get; set; }

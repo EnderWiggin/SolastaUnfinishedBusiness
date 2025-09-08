@@ -59,6 +59,16 @@ internal static class FixesContext
     {
         InitMagicAffinitiesAndCastSpells();
         FixMinorMagicEffectsIssues();
+
+        //Dirty fix for broken multiclass allowed classes
+        if (Main.Settings.MaxAllowedClasses < MulticlassContext.MinClasses)
+        {
+            Main.Settings.MaxAllowedClasses = MulticlassContext.MinClasses;
+        }
+        else if (Main.Settings.MaxAllowedClasses > MulticlassContext.MaxClasses)
+        {
+            Main.Settings.MaxAllowedClasses = MulticlassContext.MaxClasses;
+        }
     }
 
     internal static void LateLoad()

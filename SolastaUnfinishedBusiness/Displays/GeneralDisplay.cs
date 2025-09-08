@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using System.Linq;
 using SolastaUnfinishedBusiness.Api.ModKit;
 using SolastaUnfinishedBusiness.Models;
@@ -1229,9 +1230,16 @@ internal static class ToolsDisplay
 
             var intValue = Main.Settings.MaxAllowedClasses;
             if (UI.Slider(Gui.Localize("ModUi/&MaxAllowedClasses"), ref intValue,
-                    2, MulticlassContext.MaxClasses, MulticlassContext.DefaultClasses, "", UI.AutoWidth()))
+                    MulticlassContext.MinClasses, MulticlassContext.MaxClasses, MulticlassContext.DefaultClasses,
+                    "", UI.AutoWidth()))
             {
-                Main.Settings.MaxAllowedClasses = intValue;
+                //For some reason Math.Clamp is not available
+                Main.Settings.MaxAllowedClasses = intValue switch
+                {
+                    < MulticlassContext.MinClasses => MulticlassContext.MinClasses,
+                    > MulticlassContext.MaxClasses => MulticlassContext.MaxClasses,
+                    _ => intValue
+                };
             }
 
             UI.Label();
