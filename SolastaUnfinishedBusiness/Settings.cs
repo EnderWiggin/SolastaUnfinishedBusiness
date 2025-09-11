@@ -132,7 +132,6 @@ public class Settings : UnityModManager.ModSettings
     public bool OfficialObscurementRulesHeavilyObscuredAsProjectileBlocker { get; set; }
     public bool OfficialObscurementRulesMagicalDarknessAsProjectileBlocker { get; set; }
     [Tag(Type = TagType.T2014)] public bool OfficialObscurementRulesTweakMonsters { get; set; }
-    [Tag(Type = TagType.T2014)] public bool KeepStealthOnHeroIfPerceivedDuringSurpriseAttack { get; set; }
     [Tag(Type = TagType.T2014)] public bool StealthDoesNotBreakWithSubtle { get; set; }
     [Tag(Type = TagType.T2014)] public bool StealthBreaksWhenAttackHits { get; set; }
     [Tag(Type = TagType.T2014)] public bool StealthBreaksWhenAttackMisses { get; set; }

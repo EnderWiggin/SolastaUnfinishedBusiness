@@ -313,7 +313,6 @@ ModUi/&Items=<color=#F0DAA0>Articles :</color>
 ModUi/&ItemsHelp1=<color=#C04040E0>Ouvrez l'écran d'inspection des personnages pour ajouter des objets aux héros...</color>
 ModUi/&ItemsHelp2=<b>Appuyez sur + pour ajouter des éléments au conteneur au sol</b>
 ModUi/&KeepInvisibilityWhenUsingItems=Activer l'utilisation des objets sans rompre l'<color=#D89555>invisibilité</color>
-ModUi/&KeepStealthOnHeroIfPerceivedDuringSurpriseAttack=Mettre à jour la furtivité du héros après une attaque si perçue lors d'un tour de surprise <i><color=#F0DAA0>[premier héros uniquement]</color></i>
 ModUi/&LegendaryTweaksDetails=Ici, vous pouvez changer les armes légendaires de type d'armes. Pour la sécurité, faites cela pendant que l'arme n'est pas équipée.
 ModUi/&LegendaryTweaksTitle=<color = # f0daa0> ajustements légendaires: </pol>
 ModUi/&MakeAllMagicStaveArcaneFoci=Faites de tous les bâtons magiques des foyers arcaniques <i><color=#F0DAA0>[sauf pour <color=#D89555>Bâton de guérison</color> qui est universel]</color></i>

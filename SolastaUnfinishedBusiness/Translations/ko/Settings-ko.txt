@@ -313,7 +313,6 @@ ModUi/&Items=<color=#F0DAA0>아이템:</color>
 ModUi/&ItemsHelp1=<color=#C04040E0>영웅에게 아이템을 추가하려면 캐릭터 검사 화면을 여세요...</color>
 ModUi/&ItemsHelp2=<b>지상 컨테이너에 아이템을 추가하려면 +를 누르세요.</b>
 ModUi/&KeepInvisibilityWhenUsingItems=아이템 사용을 활성화해도 <color=#D89555>투명성</color>이 깨지지 않습니다.
-ModUi/&KeepStealthOnHeroIfPerceivedDuringSurpriseAttack=깜짝 라운드에서 감지된 경우 공격 후 영웅의 은신 상태를 업데이트합니다. <i><color=#F0DAA0>[첫 번째 영웅만 해당]</color></i>
 ModUi/&LegendaryTweaksDetails=여기서 전설적인 무기의 무기 유형을 변경할 수 있습니다. 안전을 위해 무기는 장비가없는 동안이 작업을 수행하십시오.
 ModUi/&LegendaryTweaksTitle=<color =#f0daa0> 전설 조정 : </color>
 ModUi/&MakeAllMagicStaveArcaneFoci=모든 마법 지팡이를 비전 초점으로 만듭니다. <i><color=#F0DAA0>[일반적인 <color=#D89555>치유의 지팡이</color>는 제외]</color></i>

@@ -313,7 +313,6 @@ ModUi/&Items=<color=#F0DAA0>Oggetti:</color>
 ModUi/&ItemsHelp1=<color=#C04040E0>Apri la schermata di ispezione del personaggio per aggiungere oggetti agli eroi...</color>
 ModUi/&ItemsHelp2=<b>Premi + per aggiungere elementi al contenitore di terra</b>
 ModUi/&KeepInvisibilityWhenUsingItems=Abilita l'utilizzo degli oggetti senza interrompere <color=#D89555>Invisibilità</color>
-ModUi/&KeepStealthOnHeroIfPerceivedDuringSurpriseAttack=Aggiorna la furtività dell'eroe dopo l'attacco se percepito nel round a sorpresa <i><color=#F0DAA0>[solo primo eroe]</color></i>
 ModUi/&LegendaryTweaksDetails=Qui puoi cambiare il tipo di armi di armi leggendarie. Per la sicurezza, fallo mentre l'arma non è attrezzata.
 ModUi/&LegendaryTweaksTitle=<color =#f0daa0> modifiche leggendarie: </ color>
 ModUi/&MakeAllMagicStaveArcaneFoci=Rendi tutti i bastoni magici dei fuochi arcani <i><color=#F0DAA0>[tranne <color=#D89555>Bastone della Guarigione</color> che è Universale]</color></i>

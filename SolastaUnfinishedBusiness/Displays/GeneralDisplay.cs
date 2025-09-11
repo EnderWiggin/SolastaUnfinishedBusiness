@@ -1381,13 +1381,6 @@ internal static class ToolsDisplay
 
         UI.Label();
 
-        toggle = Main.Settings.KeepStealthOnHeroIfPerceivedDuringSurpriseAttack;
-        if (UI.Toggle(Gui.Localize("ModUi/&KeepStealthOnHeroIfPerceivedDuringSurpriseAttack"), ref toggle,
-                UI.AutoWidth()))
-        {
-            Main.Settings.KeepStealthOnHeroIfPerceivedDuringSurpriseAttack = toggle;
-        }
-
         toggle = Main.Settings.StealthDoesNotBreakWithSubtle;
         if (UI.Toggle(Gui.Localize("ModUi/&StealthDoesNotBreakWithSubtle"), ref toggle, UI.AutoWidth()))
         {

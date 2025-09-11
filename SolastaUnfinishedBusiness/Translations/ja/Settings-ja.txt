@@ -313,7 +313,6 @@ ModUi/&Items=<color=#F0DAA0>アイテム:</color>
 ModUi/&ItemsHelp1=<color=#C04040E0>キャラクター検査画面を開いてヒーローにアイテムを追加します...</color>
 ModUi/&ItemsHelp2=<b>+ を押すと地上コンテナにアイテムが追加されます</b>
 ModUi/&KeepInvisibilityWhenUsingItems=<color=#D89555>不可視性</color>を破壊しないアイテムの使用を有効にする
-ModUi/&KeepStealthOnHeroIfPerceivedDuringSurpriseAttack=奇襲ラウンドで攻撃を察知した場合、攻撃後にヒーローのステルスを更新します <i><color=#F0DAA0>[最初のヒーローのみ]</color></i>
 ModUi/&LegendaryTweaksDetails=ここでは、ペンラリー武器の武器タイプを変更できます。安全のために、武器が装備されていない間にこれを行います。
 ModUi/&LegendaryTweaksTitle=<color =＃f0daa0>伝説的な調整：</color>
 ModUi/&MakeAllMagicStaveArcaneFoci=すべての魔法の杖をアーケイン フォーカスにします <i><color=#F0DAA0>[ユニバーサルな <color=#D89555>治癒の杖</color> を除く]</color></i>

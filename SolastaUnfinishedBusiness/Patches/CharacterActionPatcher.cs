@@ -273,24 +273,12 @@ public static class CharacterActionPatcher
         }
 
         private static bool ComputeStealthBreak(
-            GameLocationCharacter __instance,
+            GameLocationCharacter character,
             bool roll,
             ActionModifier actionModifier,
             List<GameLocationCharacter> detectorsWithAdvantage,
             CharacterAction action)
         {
-            //PATCH: fix vanilla issues that removes hero off stealth if within enemy perceived range on a surprise attack
-            if (Main.Settings.KeepStealthOnHeroIfPerceivedDuringSurpriseAttack &&
-                Gui.Battle != null &&
-                Gui.Battle.CurrentRound == 1 &&
-                Gui.Battle.InitiativeSortedContenders.Count > 0 &&
-                __instance == Gui.Battle.InitiativeSortedContenders[0])
-            {
-                __instance.wasPerceivedByFoes = false; // this is key to force below to recalculate
-                __instance.UpdateStealthStatus();
-            }
-            //END PATCH
-
             ShouldBanter = true;
 
             switch (action)
@@ -373,7 +361,7 @@ public static class CharacterActionPatcher
                 }
             }
 
-            return __instance.ComputeStealthBreak(roll, actionModifier, detectorsWithAdvantage);
+            return character.ComputeStealthBreak(roll, actionModifier, detectorsWithAdvantage);
         }
     }
     /// <summary>

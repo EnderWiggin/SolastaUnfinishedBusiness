@@ -1,10 +1,9 @@
-﻿using System;
-using SolastaUnfinishedBusiness.Api.ModKit;
+﻿using SolastaUnfinishedBusiness.Api.ModKit;
 using SolastaUnfinishedBusiness.Models;
 
 namespace SolastaUnfinishedBusiness.Displays;
 
-internal static partial class RulesDisplay
+internal static class RulesDisplay
 {
     private static readonly string[] CriticalHitOptions = ["0", "1", "2", "3"];
     private static readonly string[] SenseNormalVisionOptions = ["12", "24", "48"];
@@ -365,13 +364,6 @@ internal static partial class RulesDisplay
         }
 
         UI.Label();
-
-        toggle = Main.Settings.KeepStealthOnHeroIfPerceivedDuringSurpriseAttack;
-        if (UI.Toggle(Gui.Localize("ModUi/&KeepStealthOnHeroIfPerceivedDuringSurpriseAttack"), ref toggle,
-                UI.AutoWidth()))
-        {
-            Main.Settings.KeepStealthOnHeroIfPerceivedDuringSurpriseAttack = toggle;
-        }
 
         toggle = Main.Settings.StealthDoesNotBreakWithSubtle;
         if (UI.Toggle(Gui.Localize("ModUi/&StealthDoesNotBreakWithSubtle"), ref toggle, UI.AutoWidth()))
