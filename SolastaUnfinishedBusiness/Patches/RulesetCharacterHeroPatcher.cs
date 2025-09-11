@@ -1094,27 +1094,25 @@ public static class RulesetCharacterHeroPatcher
             //     return true;
             // }
 
-            var allRitualSpells = new List<SpellDefinition>();
+            var allRitualSpells = new HashSet<SpellDefinition>();
             var magicAffinities = new List<FeatureDefinition>();
-
-            ritualSpells.SetRange(allRitualSpells);
 
             __instance.EnumerateFeaturesToBrowse<FeatureDefinitionMagicAffinity>(magicAffinities);
 
+            var rituals = magicAffinities
+                .OfType<FeatureDefinitionMagicAffinity>()
+                .Select(a => a.RitualCasting)
+                .Where(a => a != RitualCasting.None)
+                .ToHashSet();
+            
             // ReSharper disable once PossibleInvalidCastExceptionInForeachLoop
-            foreach (var featureDefinitionMagicAffinity in magicAffinities
-                         .OfType<FeatureDefinitionMagicAffinity>())
+            foreach (var ritual in rituals)
             {
-                if (featureDefinitionMagicAffinity.RitualCasting == RitualCasting.None)
-                {
-                    continue;
-                }
-
                 foreach (var spellRepertoire in __instance.SpellRepertoires)
                 {
                     // this is very similar to switch statement TA wrote but with spell loops outside
                     // ReSharper disable once SwitchStatementMissingSomeEnumCasesNoDefault
-                    switch (featureDefinitionMagicAffinity.RitualCasting)
+                    switch (ritual)
                     {
                         case RitualCasting.PactTomeRitual:
                         {
@@ -1145,14 +1143,14 @@ public static class RulesetCharacterHeroPatcher
                             break;
                         }
 
-                        case RitualCasting.Prepared
-                            when spellRepertoire.SpellCastingFeature.SpellReadyness ==
-                                 SpellReadyness.Prepared &&
-                                 spellRepertoire.SpellCastingFeature.SpellKnowledge ==
-                                 SpellKnowledge.WholeList:
+                        case RitualCasting.Prepared:
                         {
                             var maxSpellLevel = SharedSpellsContext.MaxSpellLevelOfSpellCastingLevel(spellRepertoire);
-                            var spells = spellRepertoire.PreparedSpells
+                            var spells = (spellRepertoire.SpellCastingFeature.SpellReadyness switch
+                                {
+                                    SpellReadyness.Prepared => spellRepertoire.PreparedSpells,
+                                    _ => spellRepertoire.KnownSpells
+                                })
                                 .Where(s => s.Ritual)
                                 .Where(s => maxSpellLevel >= s.SpellLevel);
 
@@ -1209,7 +1207,7 @@ public static class RulesetCharacterHeroPatcher
                 }
             }
 
-            ritualSpells.SetRange(allRitualSpells.Distinct());
+            ritualSpells.SetRange(allRitualSpells);
 
             return false;
         }
