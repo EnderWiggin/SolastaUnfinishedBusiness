@@ -571,19 +571,18 @@ public static class GameLocationCharacterExtensions
     }
 
     /**
-     * Finds first attack mode that can attack target on positionBefore, but can't on positionAfter
+     * Finds first attack mode that can attack the target on positionBefore, but is out of reach on positionAfter
      */
-    internal static bool CanPerformOpportunityAttackOnCharacter(
-        this GameLocationCharacter instance,
+    internal static bool CanPerformOpportunityAttackOnCharacter(this GameLocationCharacter instance,
         GameLocationCharacter target,
         int3? positionBefore,
         int3? positionAfter,
         out RulesetAttackMode attackMode,
         out ActionModifier attackModifier,
-        bool allowRange = false,
+        bool accountAoOImmunity,
         IGameLocationBattleService service = null,
-        bool accountAoOImmunity = false,
-        IsWeaponValidHandler weaponValidator = null)
+        IsWeaponValidHandler weaponValidator = null,
+        bool allowRange = false)
     {
         service ??= ServiceRepository.GetService<IGameLocationBattleService>();
         attackMode = null;
@@ -601,7 +600,7 @@ public static class GameLocationCharacterExtensions
                 continue;
             }
 
-            if (!(weaponValidator?.Invoke(mode, null, instance.RulesetCharacter) ?? true))
+            if (weaponValidator?.Invoke(mode, null, instance.RulesetCharacter) != true)
             {
                 continue;
             }
@@ -628,13 +627,9 @@ public static class GameLocationCharacterExtensions
 
             if (positionAfter != null)
             {
-                var paramsAfter = new BattleDefinitions.AttackEvaluationParams();
-
-                paramsAfter.FillForPhysicalReachAttack(instance, instance.LocationPosition, mode,
-                    target, positionAfter.Value, new ActionModifier());
-
-                // skip if attack is still possible after move - target hasn't left reach yet
-                if (service.CanAttack(paramsAfter))
+                // skip if the target hasn't left reach yet
+                if (DistanceCalculation.GetDistanceFromCharacter(instance, (int3)positionAfter)
+                    <= (mode.Ranged ? mode.MaxRange : mode.ReachRange))
                 {
                     continue;
                 }
