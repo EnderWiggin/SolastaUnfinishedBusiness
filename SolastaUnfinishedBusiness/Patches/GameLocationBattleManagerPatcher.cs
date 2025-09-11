@@ -641,6 +641,29 @@ public static class GameLocationBattleManagerPatcher
     }
 
     [HarmonyPatch(typeof(GameLocationBattleManager),
+        nameof(GameLocationBattleManager.CanPerformOpportunityAttackOnCharacter))]
+    [SuppressMessage("Minor Code Smell", "S101:Types should be named in PascalCase", Justification = "Patch")]
+    [UsedImplicitly]
+    public static class CanPerformOpportunityAttackOnCharacter_Patch
+    {
+        [UsedImplicitly]
+        public static bool Prefix(GameLocationBattleManager __instance, out bool __result,
+            GameLocationCharacter character,
+            GameLocationCharacter movingTarget,
+            int3 movingTargetSourcePosition,
+            int3 movingTargetDestinationPosition,
+            out RulesetAttackMode attackMode)
+        {
+            //PATCH: replace vanilla check with more robust custom one
+            __result = character.CanPerformOpportunityAttackOnCharacter(movingTarget,
+                movingTargetSourcePosition, movingTargetDestinationPosition,
+                out attackMode, out __instance.actionModifierBefore, true, __instance);
+
+            return false;
+        }
+    }
+
+    [HarmonyPatch(typeof(GameLocationBattleManager),
         nameof(GameLocationBattleManager.HandleAdditionalDamageOnCharacterAttackHitConfirmed))]
     [SuppressMessage("Minor Code Smell", "S101:Types should be named in PascalCase", Justification = "Patch")]
     [UsedImplicitly]
