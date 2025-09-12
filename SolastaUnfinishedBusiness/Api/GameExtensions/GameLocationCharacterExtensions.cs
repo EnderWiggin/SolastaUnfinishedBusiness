@@ -462,8 +462,8 @@ public static class GameLocationCharacterExtensions
     }
 
     // consolidate all checks if a character can perceive another
-    public static bool CanPerceiveTarget(
-        this GameLocationCharacter __instance, GameLocationCharacter target)
+    public static bool CanPerceiveTarget(this GameLocationCharacter __instance,
+        GameLocationCharacter target, int3? targetPosition = null)
     {
         if (__instance == target)
         {
@@ -483,7 +483,7 @@ public static class GameLocationCharacterExtensions
         var visibilityService = ServiceRepository.GetService<IGameLocationVisibilityService>();
 
         var size = target.RulesetActor.sizeParams;
-        var targetPos = target.LocationPosition;
+        var targetPos = targetPosition ?? target.LocationPosition;
         if (size.IsSmallest)
         {
             return visibilityService.MyIsCellPerceivedByCharacter(targetPos, __instance, target);
@@ -844,7 +844,7 @@ public static class GameLocationCharacterExtensions
         var mainAttacks = instance.RulesetCharacter.AttackModes
             .Where(mode => mode.ActionType == ActionType.Main)
             .ToList();
-        
+
         var maxAttacks = mainAttacks.Count > 0
             ? mainAttacks.Max(mode => mode.AttacksNumber)
             : 0;

@@ -73,7 +73,7 @@ internal static class GameLocationBattleExtensions
 
         if (hasToPerceiveTarget)
         {
-            aliveContenders = aliveContenders.Where(finalPerceiver.CanPerceiveTarget);
+            aliveContenders = aliveContenders.Where(x => finalPerceiver.CanPerceiveTarget(x));
         }
 
         if (hasToPerceivePerceiver)
