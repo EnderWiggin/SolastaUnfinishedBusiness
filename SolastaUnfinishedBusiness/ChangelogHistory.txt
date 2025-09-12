@@ -1,3 +1,9 @@
+1.5.97.92:
+- again removed duplicate `Mire the Mind` invocation
+- fixed Attacks of Opportunity not working
+- fixed Attacks of Opportunity highlight not being accurate in case some tiles near enemy have different visibility
+- renamed `Enable no attacks of opportunity when Blinded or if target is Invisible` setting to `Prevent attacks of opportunity when target is not perceived`
+
 1.5.97.91:
 - fixed Bardic Inspiration animation using weapon instead of instrument
 
