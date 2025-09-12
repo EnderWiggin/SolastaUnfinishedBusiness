@@ -5,6 +5,7 @@ using SolastaUnfinishedBusiness.Api;
 using SolastaUnfinishedBusiness.Api.Helpers;
 using SolastaUnfinishedBusiness.Api.LanguageExtensions;
 using SolastaUnfinishedBusiness.Feats;
+using SolastaUnfinishedBusiness.Models;
 using UnityEngine;
 
 namespace SolastaUnfinishedBusiness.CustomUI;
@@ -73,7 +74,8 @@ public class CustomInvocationSubPanel : MonoBehaviour
     public static void UpdateRelevantInvocations(InvocationSubPanel panel)
     {
         var all = DatabaseRepository.GetDatabase<InvocationDefinition>()
-            .Where(x => !x.GuiPresentation.Hidden);
+            .Where(x => !x.GuiPresentation.Hidden)
+            .Except(InvocationsContext.DisabledInvocations);
 
         IEnumerable<InvocationDefinition> invocations;
 

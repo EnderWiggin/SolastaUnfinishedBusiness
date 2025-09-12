@@ -376,10 +376,10 @@ internal static class InvocationsBuilders
             .AddToDB();
     }
 
-    internal static void BuildStasis()
+    internal static InvocationDefinition BuildStasis()
     {
         //Kept for compatibility
-        InvocationDefinitionBuilder
+        return InvocationDefinitionBuilder
             .Create("InvocationStasis")
             .SetGuiPresentation(Category.Invocation, Slow)
             .SetRequirements(5)
