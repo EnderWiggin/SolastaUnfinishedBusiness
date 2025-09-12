@@ -600,7 +600,7 @@ public static class GameLocationCharacterExtensions
                 continue;
             }
 
-            if (weaponValidator?.Invoke(mode, null, instance.RulesetCharacter) != true)
+            if (weaponValidator?.Invoke(mode, null, instance.RulesetCharacter) == false)
             {
                 continue;
             }
