@@ -104,6 +104,7 @@ internal static class FixesContext
         FixStaffOfFireToGetFireResistance();
         AddTitlesToCreedSaves();
         ChangeCunningActions();
+        FixMonsterAttacks();
 
         // avoid soft lock scenarios with game UI on any affinity that prevents movement
         foreach (var actionAffinity in DatabaseRepository.GetDatabase<FeatureDefinitionActionAffinity>()
@@ -695,6 +696,17 @@ internal static class FixesContext
         foreach (var spell in spells)
         {
             spell.EffectDescription.EffectAdvancement.alteredDuration = AdvancementDuration.None;
+        }
+    }
+
+    private static void FixMonsterAttacks()
+    {
+        var db = DatabaseRepository.GetDatabase<MonsterAttackDefinition>();
+
+        //It is mistakenly marked as ranged, leading to no AoO from Evil Priests
+        if (db.TryGetElement("Attack_Priest_Mace", out var attack))
+        {
+            attack.proximity = AttackProximity.Melee;
         }
     }
 
