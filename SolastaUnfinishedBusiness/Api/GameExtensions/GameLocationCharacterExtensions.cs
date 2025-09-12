@@ -593,6 +593,12 @@ public static class GameLocationCharacterExtensions
             return false;
         }
 
+        if (Main.Settings.BlindedConditionDontAllowAttackOfOpportunity &&
+            !instance.CanPerceiveTarget(target, positionBefore))
+        {
+            return false;
+        }
+
         foreach (var mode in instance.RulesetCharacter.AttackModes)
         {
             if (mode.Ranged && !allowRange)
