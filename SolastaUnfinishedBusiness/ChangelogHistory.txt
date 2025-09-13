@@ -1,3 +1,7 @@
+1.5.97.93:
+- Dungeon Maker: turn ConditionForms that add Prone condition into MovementForm of FallProne type. This fixes custom monsters that inflict Prone.
+- Dungeon Maker: if attack definition is not overriden - use raw base definition. This makes possible for custom monsters to reuse their base attacks that may have effects that are not damage or condition - like some wolves that have prone.
+
 1.5.97.92:
 - again removed duplicate `Mire the Mind` invocation
 - fixed Attacks of Opportunity not working
