@@ -1331,7 +1331,6 @@ internal static class ToolsDisplay
             Main.Settings.OfficialObscurementRulesHeavilyObscuredAsProjectileBlocker = false;
             Main.Settings.OfficialObscurementRulesMagicalDarknessAsProjectileBlocker = false;
             Main.Settings.EnableChanceToPerceiveCloseRange = false;
-            Main.Settings.EnableShotInDarknessPenalties = false;
             Main.Settings.OfficialObscurementRulesTweakMonsters = toggle;
             LightingAndObscurementContext.SwitchOfficialObscurementRules();
         }
@@ -1359,12 +1358,6 @@ internal static class ToolsDisplay
             {
                 Main.Settings.OfficialObscurementRulesTweakMonsters = toggle;
                 LightingAndObscurementContext.SwitchMonstersOnObscurementRules();
-            }
-
-            toggle = Main.Settings.EnableShotInDarknessPenalties;
-            if (UI.Toggle(Gui.Localize("ModUI/&EnableShotInDarknessPenalties"), ref toggle, UI.AutoWidth()))
-            {
-                Main.Settings.EnableShotInDarknessPenalties = toggle;
             }
 
             toggle = Main.Settings.EnableChanceToPerceiveCloseRange;

@@ -260,15 +260,7 @@ internal static class LightingAndObscurementContext
 
         RuleDefinitions.TrendInfo PerceiveDisadvantage()
         {
-            var toolTip = "";
-            if (Main.Settings.EnableShotInDarknessPenalties)
-            {
-                toolTip = string.Format(Gui.Localize("Feedback/&FailureShotInTheDarkMessage")
-                    , (int)int3.Distance(attacker.LocationPosition, defender.LocationPosition));
-            }
-
-            return new RuleDefinitions.TrendInfo(-1, RuleDefinitions.FeatureSourceType.Lighting, TAG, defenderActor,
-                additionalDetails: toolTip);
+            return new RuleDefinitions.TrendInfo(-1, RuleDefinitions.FeatureSourceType.Lighting, TAG, defenderActor);
         }
 
         static bool BlindedAdvantage(RuleDefinitions.TrendInfo trendInfo)

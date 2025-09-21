@@ -1,7 +1,6 @@
 ModUI/&EnableChanceToPerceiveCloseRange=<i>+ rodará para la percepción de objetivos dentro de 10 pies cuando no se perciban </i>
 ModUI/&EnableCriticalHitsMissesAt10=Habilitar golpes y fallas críticas cuando la diferencia entre el resultado de AC y la tirada de ataque modificado es 10 o más
 ModUI/&EnableDamageOnFailedJumpCheck=Aplica 1d4 de daño en las verificaciones de salto fallidas
-ModUI/&EnableShotInDarknessPenalties=<i>+ aplicará sanciones del modificador de ataque para ataques a distancia en no percibido </i>
 ModUI/&ModVersionControl=-Construcción de la versión de mod de negocio no definido-
 ModUI/&ModifyJumpRulesForArmorAndEncumberance=Aplicar penalizaciones de gravamen y armadura para saltar el rango
 ModUI/&ModifyThrowingRulesForStrength=Aplicar las sanciones de lanzamiento a la falta de fuerza

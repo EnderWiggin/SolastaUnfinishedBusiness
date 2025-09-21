@@ -620,23 +620,6 @@ public static class GameLocationBattleManagerPatcher
                     attackParams.effectName,
                     ref attackParams.attackModifier);
             }
-
-            //if the attacker cannot perceive the target, ranged attacks should be more than disadvantaged, but lucky hits or not at all
-            if (Global.RolledPerceptionThisTurn.ContainsKey(attackParams.attacker) 
-                && Global.RolledPerceptionThisTurn[attackParams.attacker].ContainsKey(attackParams.defender)
-                && Global.RolledPerceptionThisTurn[attackParams.attacker][attackParams.defender] == RollOutcome.Success) //then this attacker can perceive
-            {
-                
-            }
-            else //if this is ranged or thrown, it is next to impossible
-            {
-                if (Main.Settings.EnableShotInDarknessPenalties)
-                {
-                    int actualDistance = (int)int3.Distance(attackParams.attackPosition, attackParams.defensePosition);
-
-                    attackParams.attackModifier.AttackRollModifier = -actualDistance;
-                }
-            }
         }
     }
 

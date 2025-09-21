@@ -1,6 +1,5 @@
 Failure/&FailureFlagTargetOutOfRangeStrength=Cible hors de portée (force)
 Feature/&ListSeparatorTitle=, 
-Feedback/&FailureShotInTheDarkMessage={0} ne peut pas percevoir {1}. Tourné dans l'obscurité faite à {2} pénalité sans bonus. Essayez une torche!
 Tutorial/&TutorialActionSwitchingDescription=Lorsque vous avez plusieurs actions principales ou bonus disponibles, vous pouvez cliquer sur le symbole d'état de l'action pour en faire votre action actuellement active. Cela permet d'attaquer en utilisant l'action Hâte ou Briseur de Horde, puis de lancer un sort avec l'action par défaut. Ou toute autre combinaison dont vous pourriez avoir besoin.\nLe survol du symbole d'état de l'action affiche une info-bulle avec le nom de la fonctionnalité ou de la condition qui a accordé l'action.
 Tutorial/&TutorialActionSwitchingTitle=Actions multiples
 UI/&Add=Add

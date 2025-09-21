@@ -50,12 +50,6 @@ internal static class RoleplayDisplay
             Main.Settings.StealthRollForBreak = toggle;
         }
 
-        toggle = Main.Settings.EnableShotInDarknessPenalties;
-        if (UI.Toggle(Gui.Localize("ModUI/&EnableShotInDarknessPenalties"), ref toggle, UI.AutoWidth()))
-        {
-            Main.Settings.EnableShotInDarknessPenalties = toggle;
-        }
-
         toggle = Main.Settings.EnableChanceToPerceiveCloseRange;
         if (UI.Toggle(Gui.Localize("ModUI/&EnableChanceToPerceiveCloseRange"), ref toggle, UI.AutoWidth()))
         {

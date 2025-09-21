@@ -299,7 +299,6 @@ internal static class RulesDisplay
             Main.Settings.OfficialObscurementRulesHeavilyObscuredAsProjectileBlocker = false;
             Main.Settings.OfficialObscurementRulesMagicalDarknessAsProjectileBlocker = false;
             Main.Settings.EnableChanceToPerceiveCloseRange = false;
-            Main.Settings.EnableShotInDarknessPenalties = false;
             Main.Settings.OfficialObscurementRulesTweakMonsters = toggle;
             LightingAndObscurementContext.SwitchOfficialObscurementRules();
         }
@@ -345,12 +344,6 @@ internal static class RulesDisplay
                 LightingAndObscurementContext.SwitchMonstersOnObscurementRules();
             }
             
-            toggle = Main.Settings.EnableShotInDarknessPenalties;
-            if (UI.Toggle(Gui.Localize("ModUI/&EnableShotInDarknessPenalties"), ref toggle, UI.AutoWidth()))
-            {
-                Main.Settings.EnableShotInDarknessPenalties = toggle;
-            }
-
             toggle = Main.Settings.EnableChanceToPerceiveCloseRange;
             if (UI.Toggle(Gui.Localize("ModUI/&EnableChanceToPerceiveCloseRange"), ref toggle, UI.AutoWidth()))
             {

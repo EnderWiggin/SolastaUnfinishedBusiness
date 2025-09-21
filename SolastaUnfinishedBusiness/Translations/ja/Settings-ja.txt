@@ -1,7 +1,6 @@
 ModUI/&EnableChanceToPerceiveCloseRange=<i>+は、認識されていないときに10フィート以内のターゲットの知覚のために転がります</i>
 ModUI/&EnableCriticalHitsMissesAt10=ACと変更された攻撃ロール結果の違いが10以上の場合、クリティカルヒットとミスを有効にします
 ModUI/&EnableDamageOnFailedJumpCheck=失敗したジャンプチェックに1D4ダメージを適用します
-ModUI/&EnableShotInDarknessPenalties=<i>+は、認識されていない攻撃に対して攻撃修正装置のペナルティを適用します</i>
 ModUI/&ModVersionControl=- 不明瞭なビジネスmodバージョン設定 -
 ModUI/&ModifyJumpRulesForArmorAndEncumberance=ジャンプ範囲に介入と鎧のペナルティを適用します
 ModUI/&ModifyThrowingRulesForStrength=強さの欠如のために範囲に罰金を投げます

@@ -125,7 +125,6 @@ public class Settings : UnityModManager.ModSettings
     public bool EnableInitiativeRollOnEveryRoundStart { get; set; }
     [Tag(Type = TagType.T2014)] public bool BlindedConditionDontAllowAttackOfOpportunity { get; set; }
     [Tag(Type = TagType.T2014)] public bool UseOfficialLightingObscurementAndVisionRules { get; set; }
-    [Tag(Type = TagType.T2014)] public bool EnableShotInDarknessPenalties { get; set; }
     [Tag(Type = TagType.T2014)] public bool EnableChanceToPerceiveCloseRange { get; set; }
     [Tag(Type = TagType.T2014)] public bool OfficialObscurementRulesInvisibleCreaturesCanBeTarget { get; set; }
     [Tag(Type = TagType.T2014)] public bool OfficialObscurementRulesCancelAdvDisPairs { get; set; }
