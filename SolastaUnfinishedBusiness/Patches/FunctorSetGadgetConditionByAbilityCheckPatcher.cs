@@ -178,7 +178,6 @@ public static class FunctorSetGadgetConditionByAbilityCheckPatcher
                     AbilityCheckActionModifier = actionModifier,
                     Action = null
                 };
-            Main.Log2($"[{actingCharacter.Name}] tries to alter outcome for gadget", true, true);
 
                 yield return TryAlterOutcomeAttributeCheck
                     .HandleITryAlterOutcomeAttributeCheck(actingCharacter, abilityCheckData, rawRoll);

@@ -945,9 +945,6 @@ public static class GameLocationCharacterExtensions
             checkModifier.AbilityCheckModifier, checkDC, passive, minRoll, out rawRoll, out var firstRoll,
             out var secondRoll, out outcome, out successDelta, rollDie, notify, displayDieOutcome);
 
-        Main.Log2(
-            $"[{instance.Name}] checks '{abilityScoreName} ({proficiencyName})' result:{result}, rawRoll:{rawRoll}, first: {firstRoll}, second:{secondRoll}",
-            true);
         return result;
     }
 }

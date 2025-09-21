@@ -377,8 +377,6 @@ internal static class TryAlterOutcomeAttributeCheck
     internal static IEnumerator HandleITryAlterOutcomeAttributeCheck(GameLocationCharacter actingCharacter,
         AbilityCheckData abilityCheckData, int rawRoll)
     {
-            Main.Log2($"[{actingCharacter.Name}] tries to alter outcome", true, true);
-        
         var battleManager = ServiceRepository.GetService<IGameLocationBattleService>()
             as GameLocationBattleManager;
 
