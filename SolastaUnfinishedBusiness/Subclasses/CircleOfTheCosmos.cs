@@ -883,6 +883,7 @@ public sealed class CircleOfTheCosmos : AbstractSubclass
 
         public IEnumerator OnTryAlterAttributeCheck(
             GameLocationBattleManager battleManager,
+            int rawRoll,
             AbilityCheckData abilityCheckData,
             GameLocationCharacter defender,
             GameLocationCharacter helper)
@@ -890,7 +891,7 @@ public sealed class CircleOfTheCosmos : AbstractSubclass
             var rulesetHelper = helper.RulesetCharacter;
             var usablePower = PowerProvider.Get(powerPool, rulesetHelper);
 
-            if (abilityCheckData.AbilityCheckRoll == 0 ||
+            if (rawRoll == 0 ||
                 abilityCheckData.AbilityCheckRollOutcome != RollOutcome.Failure ||
                 abilityCheckData.AbilityCheckSuccessDelta + MaxDieTypeValue < 0 ||
                 rulesetHelper.GetRemainingUsesOfPower(usablePower) == 0 ||
@@ -1105,6 +1106,7 @@ public sealed class CircleOfTheCosmos : AbstractSubclass
 
         public IEnumerator OnTryAlterAttributeCheck(
             GameLocationBattleManager battleManager,
+            int rawRoll,
             AbilityCheckData abilityCheckData,
             GameLocationCharacter defender,
             GameLocationCharacter helper)
@@ -1112,7 +1114,7 @@ public sealed class CircleOfTheCosmos : AbstractSubclass
             var rulesetHelper = helper.RulesetCharacter;
             var usablePower = PowerProvider.Get(powerPool, rulesetHelper);
 
-            if (abilityCheckData.AbilityCheckRoll == 0 ||
+            if (rawRoll == 0 ||
                 abilityCheckData.AbilityCheckRollOutcome is not (RollOutcome.Success or RollOutcome.CriticalSuccess) ||
                 abilityCheckData.AbilityCheckSuccessDelta - MaxDieTypeValue >= 0 ||
                 !helper.CanReact() ||

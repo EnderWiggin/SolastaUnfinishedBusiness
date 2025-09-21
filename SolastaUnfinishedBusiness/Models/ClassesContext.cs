@@ -300,13 +300,14 @@ internal static class ClassesContext
     {
         public IEnumerator OnTryAlterAttributeCheck(
             GameLocationBattleManager battleManager,
+            int rawRoll,
             AbilityCheckData abilityCheckData,
             GameLocationCharacter defender,
             GameLocationCharacter helper)
         {
             var rulesetHelper = helper.RulesetCharacter;
 
-            if (abilityCheckData.AbilityCheckRoll == 0 ||
+            if (rawRoll == 0 ||
                 abilityCheckData.AbilityCheckRollOutcome != RollOutcome.Failure ||
                 helper != defender ||
                 rulesetHelper.RemainingSorceryPoints == 0)
@@ -332,23 +333,29 @@ internal static class ClassesContext
 
                 var dieRoll = rulesetHelper.RollDie(DieType.D20, RollContext.None, false, AdvantageType.None, out _,
                     out _);
-                var previousRoll = abilityCheckData.AbilityCheckRoll;
 
-                abilityCheckData.AbilityCheckSuccessDelta += dieRoll - abilityCheckData.AbilityCheckRoll;
-                abilityCheckData.AbilityCheckRoll = dieRoll;
+                var delta = dieRoll - rawRoll;
+                abilityCheckData.AbilityCheckSuccessDelta += delta;
+                abilityCheckData.AbilityCheckRoll += delta;
                 abilityCheckData.AbilityCheckRollOutcome = abilityCheckData.AbilityCheckSuccessDelta >= 0
                     ? RollOutcome.Success
                     : RollOutcome.Failure;
 
+                var totalRoll = abilityCheckData.AbilityCheckRoll.ToString();
                 rulesetHelper.LogCharacterActivatesAbility(
                     "Feature/&FeatureSorcererMagicalGuidanceTitle",
                     "Feedback/&MagicalGuidanceCheckToHitRoll",
                     extra:
                     [
-                        (dieRoll > previousRoll ? ConsoleStyleDuplet.ParameterType.Positive : ConsoleStyleDuplet.ParameterType.Negative,
+                        (dieRoll > rawRoll ? ConsoleStyleDuplet.ParameterType.Positive : ConsoleStyleDuplet.ParameterType.Negative,
                             dieRoll.ToString()),
-                        (previousRoll > dieRoll ? ConsoleStyleDuplet.ParameterType.Positive : ConsoleStyleDuplet.ParameterType.Negative,
-                            previousRoll.ToString())
+                        (rawRoll > dieRoll ? ConsoleStyleDuplet.ParameterType.Positive : ConsoleStyleDuplet.ParameterType.Negative,
+                            rawRoll.ToString()),
+                        abilityCheckData.AbilityCheckRollOutcome == RollOutcome.Success
+                            ? (ConsoleStyleDuplet.ParameterType.SuccessfulRoll,
+                                Gui.Format(GameConsole.AbilityCheckSuccessOutcome, totalRoll))
+                            : (ConsoleStyleDuplet.ParameterType.FailedRoll,
+                                Gui.Format(GameConsole.AbilityCheckFailureOutcome, totalRoll))
                     ]);
             }
         }

@@ -391,7 +391,7 @@ Feedback/&ConcentrationEffectCheckRolledAnyAdvantageLine={0} бросает дл
 Feedback/&ConcentrationEffectCheckRolledLine={0} бросает для поддержания {1} против Сл {2}, выкидывает {3} = {4}
 Feedback/&FlankingAttack=Угроза с фланга
 Feedback/&HigherGroundAttack=Возвышенность
-Feedback/&MagicalGuidanceCheckToHitRoll={0} использует {1} и бросает {2} для замены {3} в результате броска проверки
+Feedback/&MagicalGuidanceCheckToHitRoll={0} использует {1} и бросает {2} для замены {3} в результате броска проверки: {4}
 Feedback/&MetamagicActivatedShortLine={0} активирует метамагию {1}
 Feedback/&NarrativeChoiceRoll={0} бросает нарративный выбор {1} с результатом {2}.
 Feedback/&PowerAfterRestIdentifyUsedWhileTravellingFormat=Вы не можете использовать опознание после отдыха во время путешествия

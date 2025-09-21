@@ -394,7 +394,7 @@ Feedback/&ConcentrationEffectCheckRolledAnyAdvantageLine={0} rola para manter {1
 Feedback/&ConcentrationEffectCheckRolledLine={0} rola para manter {1} versus DC {2}, rola {3} = {4}
 Feedback/&FlankingAttack=Flanqueando
 Feedback/&HigherGroundAttack=Terreno mais elevado
-Feedback/&MagicalGuidanceCheckToHitRoll={0} usou {1} e rola um {2} para substituir {3} no teste
+Feedback/&MagicalGuidanceCheckToHitRoll={0} usou {1} e rola um {2} para substituir {3} no teste: {4}
 Feedback/&MetamagicActivatedShortLine={0} ativa a metamagia {1}
 Feedback/&NarrativeChoiceRoll={0} rola uma escolha narrativa {1} com um resultado {2}.
 Feedback/&PowerAfterRestIdentifyUsedWhileTravellingFormat=Você não pode usar o poder de identificação após o descanso enquanto viaja

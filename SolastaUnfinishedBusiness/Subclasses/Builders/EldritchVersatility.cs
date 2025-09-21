@@ -857,7 +857,7 @@ internal static class EldritchVersatilityBuilders
 
                 if (glc != null)
                 {
-                    var abilityCheckRoll = glc.RollAbilityCheck(
+                    var abilityCheckRoll = glc.RollAbilityCheckEx(
                         AttributeDefinitions.Intelligence, SkillDefinitions.Arcana,
                         14 + spellLevel + Math.Max(-6, spellLevel - supportCondition.CurrentPoints),
                         AdvantageType.None,
@@ -866,6 +866,7 @@ internal static class EldritchVersatilityBuilders
                         -1,
                         out var rollOutcome,
                         out var successDelta,
+                        out var rawRoll,
                         true);
 
                     //PATCH: support for Bardic Inspiration roll off battle and ITryAlterOutcomeAttributeCheck
@@ -879,7 +880,7 @@ internal static class EldritchVersatilityBuilders
                     };
 
                     yield return TryAlterOutcomeAttributeCheck
-                        .HandleITryAlterOutcomeAttributeCheck(glc, abilityCheckData);
+                        .HandleITryAlterOutcomeAttributeCheck(glc, abilityCheckData, rawRoll);
 
                     castAction.AbilityCheckRoll = abilityCheckData.AbilityCheckRoll;
                     castAction.AbilityCheckRollOutcome = abilityCheckData.AbilityCheckRollOutcome;
@@ -933,7 +934,7 @@ internal static class EldritchVersatilityBuilders
                 checkModifier.AbilityCheckModifierTrends.Add(new TrendInfo(checkModifier.AbilityCheckModifier,
                     FeatureSourceType.CharacterFeature, "PowerPatronEldritchSurgeVersatilitySwitchPool", null));
 
-                var abilityCheckRoll = gameLocationCharacter.RollAbilityCheck(
+                var abilityCheckRoll = gameLocationCharacter.RollAbilityCheckEx(
                     AttributeDefinitions.Intelligence, SkillDefinitions.Arcana,
                     supportCondition.CreateSlotDC,
                     AdvantageType.None,
@@ -942,6 +943,7 @@ internal static class EldritchVersatilityBuilders
                     -1,
                     out var rollOutcome,
                     out var successDelta,
+                    out var rawRoll,
                     true);
 
                 //PATCH: support for Bardic Inspiration roll off battle and ITryAlterOutcomeAttributeCheck
@@ -955,7 +957,7 @@ internal static class EldritchVersatilityBuilders
                 };
 
                 yield return TryAlterOutcomeAttributeCheck
-                    .HandleITryAlterOutcomeAttributeCheck(gameLocationCharacter, abilityCheckData);
+                    .HandleITryAlterOutcomeAttributeCheck(gameLocationCharacter, abilityCheckData, rawRoll);
 
                 action.AbilityCheckRoll = abilityCheckData.AbilityCheckRoll;
                 action.AbilityCheckRollOutcome = abilityCheckData.AbilityCheckRollOutcome;

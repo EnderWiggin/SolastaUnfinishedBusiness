@@ -234,6 +234,7 @@ public static partial class Tabletop2024Context
     {
         public IEnumerator OnTryAlterAttributeCheck(
             GameLocationBattleManager battleManager,
+            int rawRoll,
             AbilityCheckData abilityCheckData,
             GameLocationCharacter defender,
             GameLocationCharacter helper)
@@ -241,7 +242,7 @@ public static partial class Tabletop2024Context
             var rulesetHelper = helper.RulesetCharacter;
             var usablePower = PowerProvider.Get(PowerFighterSecondWind, rulesetHelper);
 
-            if (abilityCheckData.AbilityCheckRoll == 0 ||
+            if (rawRoll == 0 ||
                 abilityCheckData.AbilityCheckRollOutcome != RollOutcome.Failure ||
                 abilityCheckData.AbilityCheckSuccessDelta < -10 ||
                 helper != defender ||

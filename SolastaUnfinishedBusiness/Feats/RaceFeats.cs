@@ -709,11 +709,12 @@ internal static class RaceFeats
 
         public IEnumerator OnTryAlterAttributeCheck(
             GameLocationBattleManager battleManager,
+            int rawRoll,
             AbilityCheckData abilityCheckData,
             GameLocationCharacter defender,
             GameLocationCharacter helper)
         {
-            if (abilityCheckData.AbilityCheckRoll != 1 ||
+            if (rawRoll != 1 ||
                 abilityCheckData.AbilityCheckRollOutcome is not (RollOutcome.Failure or RollOutcome.CriticalFailure) ||
                 helper == defender ||
                 helper.IsOppositeSide(defender.Side) ||
@@ -740,9 +741,8 @@ internal static class RaceFeats
                 var rulesetHelper = helper.RulesetCharacter;
                 var dieRoll = rulesetHelper.RollDie(DieType.D20, RollContext.None, false, AdvantageType.None, out _,
                     out _);
-                var previousRoll = abilityCheckData.AbilityCheckRoll;
 
-                if (dieRoll <= abilityCheckData.AbilityCheckRoll)
+                if (dieRoll <= rawRoll)
                 {
                     rulesetHelper.LogCharacterActivatesAbility(
                         "Feat/&FeatBountifulLuckyTitle",
@@ -750,14 +750,16 @@ internal static class RaceFeats
                         extra:
                         [
                             (ConsoleStyleDuplet.ParameterType.Negative, dieRoll.ToString()),
-                            (ConsoleStyleDuplet.ParameterType.Positive, abilityCheckData.AbilityCheckRoll.ToString())
+                            (ConsoleStyleDuplet.ParameterType.Positive, rawRoll.ToString())
                         ]);
 
                     return;
                 }
 
-                abilityCheckData.AbilityCheckSuccessDelta += dieRoll - abilityCheckData.AbilityCheckRoll;
-                abilityCheckData.AbilityCheckRoll = dieRoll;
+                var delta = dieRoll - rawRoll;
+
+                abilityCheckData.AbilityCheckSuccessDelta += delta;
+                abilityCheckData.AbilityCheckRoll += delta;
                 abilityCheckData.AbilityCheckRollOutcome = abilityCheckData.AbilityCheckSuccessDelta >= 0
                     ? RollOutcome.Success
                     : RollOutcome.Failure;
@@ -776,15 +778,21 @@ internal static class RaceFeats
                     0,
                     0);
 
+                var totalRoll = abilityCheckData.AbilityCheckRoll.ToString();
                 rulesetHelper.LogCharacterActivatesAbility(
                     "Feat/&FeatBountifulLuckTitle",
                     "Feedback/&BountifulLuckCheckToHitRoll",
                     extra:
                     [
-                        (dieRoll > previousRoll ? ConsoleStyleDuplet.ParameterType.Positive : ConsoleStyleDuplet.ParameterType.Negative,
+                        (dieRoll > rawRoll ? ConsoleStyleDuplet.ParameterType.Positive : ConsoleStyleDuplet.ParameterType.Negative,
                             dieRoll.ToString()),
-                        (previousRoll > dieRoll ? ConsoleStyleDuplet.ParameterType.Positive : ConsoleStyleDuplet.ParameterType.Negative,
-                            previousRoll.ToString())
+                        (rawRoll > dieRoll ? ConsoleStyleDuplet.ParameterType.Positive : ConsoleStyleDuplet.ParameterType.Negative,
+                            rawRoll.ToString()),
+                        abilityCheckData.AbilityCheckRollOutcome == RollOutcome.Success
+                            ? (ConsoleStyleDuplet.ParameterType.SuccessfulRoll,
+                                Gui.Format(GameConsole.AbilityCheckSuccessOutcome, totalRoll))
+                            : (ConsoleStyleDuplet.ParameterType.FailedRoll,
+                                Gui.Format(GameConsole.AbilityCheckFailureOutcome, totalRoll))
                     ]);
             }
         }

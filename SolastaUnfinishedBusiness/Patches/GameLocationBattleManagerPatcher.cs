@@ -248,8 +248,8 @@ public static class GameLocationBattleManagerPatcher
                 AbilityCheckActionModifier = actionModifier,
                 Action = action
             };
-
-            yield return TryAlterOutcomeAttributeCheck.HandleITryAlterOutcomeAttributeCheck(checker, abilityCheckData);
+            var rawRoll = action.AbilityCheckRoll;//TODO: this is actually dirty roll with ability bonuses - find a raw roll somehow
+            yield return TryAlterOutcomeAttributeCheck.HandleITryAlterOutcomeAttributeCheck(checker, abilityCheckData, rawRoll);
 
             action.AbilityCheckRoll = abilityCheckData.AbilityCheckRoll;
             action.AbilityCheckRollOutcome = abilityCheckData.AbilityCheckRollOutcome;

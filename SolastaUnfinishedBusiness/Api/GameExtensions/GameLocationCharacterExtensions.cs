@@ -915,4 +915,39 @@ public static class GameLocationCharacterExtensions
         instance.CurrentActionRankByType[ActionType.Bonus]++;
         instance.UsedBonusAttacks = 0;
     }
+
+    internal static int RollAbilityCheckEx(this GameLocationCharacter instance,
+        string abilityScoreName,
+        string proficiencyName,
+        int checkDC,
+        RuleDefinitions.AdvantageType baseAffinity,
+        ActionModifier checkModifier,
+        bool passive,
+        int minRoll,
+        out RuleDefinitions.RollOutcome outcome,
+        out int successDelta,
+        out int rawRoll,
+        bool rollDie,
+        bool notify = true,
+        bool displayDieOutcome = true)
+    {
+        var abilityCheckBonus = instance.RulesetCharacter.ComputeBaseAbilityCheckBonus(abilityScoreName,
+            checkModifier.AbilityCheckModifierTrends, proficiencyName);
+        var contextField = (int)RuleDefinitions.AbilityCheckContext.None;
+        if (instance.RulesetCharacter != null && !instance.RulesetCharacter.IsWearingHeavyArmor())
+        {
+            contextField |= (int)RuleDefinitions.AbilityCheckContext.NotWearingHeavyArmor;
+        }
+
+        instance.PrepareActionModifier(abilityScoreName, proficiencyName, baseAffinity, checkModifier, contextField);
+        var result = instance.RulesetCharacter.RollAbilityCheck(abilityCheckBonus, abilityScoreName, proficiencyName,
+            checkModifier.AbilityCheckModifierTrends, checkModifier.AbilityCheckAdvantageTrends,
+            checkModifier.AbilityCheckModifier, checkDC, passive, minRoll, out rawRoll, out var firstRoll,
+            out var secondRoll, out outcome, out successDelta, rollDie, notify, displayDieOutcome);
+
+        Main.Log2(
+            $"[{instance.Name}] checks '{abilityScoreName} ({proficiencyName})' result:{result}, rawRoll:{rawRoll}, first: {firstRoll}, second:{secondRoll}",
+            true);
+        return result;
+    }
 }

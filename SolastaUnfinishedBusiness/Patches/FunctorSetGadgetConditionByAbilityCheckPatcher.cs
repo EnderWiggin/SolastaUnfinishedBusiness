@@ -4,6 +4,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using HarmonyLib;
 using JetBrains.Annotations;
+using SolastaUnfinishedBusiness.Api.GameExtensions;
 using SolastaUnfinishedBusiness.Interfaces;
 using UnityEngine;
 
@@ -154,7 +155,7 @@ public static class FunctorSetGadgetConditionByAbilityCheckPatcher
 
             if (rollOutcome == RuleDefinitions.RollOutcome.Neutral)
             {
-                var abilityCheckRoll = actingCharacter.RollAbilityCheck(
+                var abilityCheckRoll = actingCharacter.RollAbilityCheckEx(
                     functorParameters.AbilityCheck.AbilityScoreName,
                     functorParameters.AbilityCheck.ProficiencyName,
                     checkDC,
@@ -164,6 +165,7 @@ public static class FunctorSetGadgetConditionByAbilityCheckPatcher
                     minRoll,
                     out rollOutcome,
                     out var successDelta,
+                    out var rawRoll,
                     !functorParameters.AbilityCheck.Silent,
                     !functorParameters.AbilityCheck.Silent);
 
@@ -176,9 +178,10 @@ public static class FunctorSetGadgetConditionByAbilityCheckPatcher
                     AbilityCheckActionModifier = actionModifier,
                     Action = null
                 };
+            Main.Log2($"[{actingCharacter.Name}] tries to alter outcome for gadget", true, true);
 
                 yield return TryAlterOutcomeAttributeCheck
-                    .HandleITryAlterOutcomeAttributeCheck(actingCharacter, abilityCheckData);
+                    .HandleITryAlterOutcomeAttributeCheck(actingCharacter, abilityCheckData, rawRoll);
 
                 rollOutcome = abilityCheckData.AbilityCheckRollOutcome;
             }

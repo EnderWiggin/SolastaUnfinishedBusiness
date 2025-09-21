@@ -13,8 +13,8 @@ namespace SolastaUnfinishedBusiness.Interfaces;
 public interface ITryAlterOutcomeAttributeCheck
 {
     [UsedImplicitly]
-    IEnumerator OnTryAlterAttributeCheck(
-        GameLocationBattleManager battleManager,
+    IEnumerator OnTryAlterAttributeCheck(GameLocationBattleManager battleManager,
+        int rawRoll,
         AbilityCheckData abilityCheckData,
         GameLocationCharacter defender,
         GameLocationCharacter helper);
@@ -304,7 +304,7 @@ internal static class TryAlterOutcomeAttributeCheck
         PrepareActorAbilityCheckData();
 
         yield return HandleITryAlterOutcomeAttributeCheck(
-            GameLocationCharacter.GetFromActor(rulesetCharacter), abilityCheckData);
+            GameLocationCharacter.GetFromActor(rulesetCharacter), abilityCheckData, rawRoll);
 
         totalRoll = totalRoll - rawRoll + abilityCheckData.AbilityCheckRoll +
                     abilityCheckData.AbilityCheckActionModifier.AbilityCheckModifier;
@@ -315,7 +315,7 @@ internal static class TryAlterOutcomeAttributeCheck
         PrepareOpponentAbilityCheckData();
 
         yield return HandleITryAlterOutcomeAttributeCheck(
-            GameLocationCharacter.GetFromActor(opponent), opponentAbilityCheckData);
+            GameLocationCharacter.GetFromActor(opponent), opponentAbilityCheckData, opponentRawRoll);
 
         opponentTotalRoll = opponentTotalRoll - opponentRawRoll + opponentAbilityCheckData.AbilityCheckRoll +
                             opponentAbilityCheckData.AbilityCheckActionModifier.AbilityCheckModifier;
@@ -353,7 +353,7 @@ internal static class TryAlterOutcomeAttributeCheck
 
         void PrepareActorAbilityCheckData()
         {
-            abilityCheckData.AbilityCheckRoll = rawRoll;
+            abilityCheckData.AbilityCheckRoll = totalRoll;
             abilityCheckData.AbilityCheckSuccessDelta = totalRoll - opponentTotalRoll;
             abilityCheckData.AbilityCheckRollOutcome =
                 abilityCheckData.AbilityCheckSuccessDelta < 0 ? RollOutcome.Failure : RollOutcome.Success;
@@ -364,7 +364,7 @@ internal static class TryAlterOutcomeAttributeCheck
         {
             totalRoll++;
 
-            opponentAbilityCheckData.AbilityCheckRoll = opponentRawRoll;
+            opponentAbilityCheckData.AbilityCheckRoll = opponentTotalRoll;
             opponentAbilityCheckData.AbilityCheckSuccessDelta = opponentTotalRoll - totalRoll;
             opponentAbilityCheckData.AbilityCheckRollOutcome =
                 opponentAbilityCheckData.AbilityCheckSuccessDelta < 0 ? RollOutcome.Failure : RollOutcome.Success;
@@ -374,10 +374,11 @@ internal static class TryAlterOutcomeAttributeCheck
         }
     }
 
-    internal static IEnumerator HandleITryAlterOutcomeAttributeCheck(
-        GameLocationCharacter actingCharacter,
-        AbilityCheckData abilityCheckData)
+    internal static IEnumerator HandleITryAlterOutcomeAttributeCheck(GameLocationCharacter actingCharacter,
+        AbilityCheckData abilityCheckData, int rawRoll)
     {
+            Main.Log2($"[{actingCharacter.Name}] tries to alter outcome", true, true);
+        
         var battleManager = ServiceRepository.GetService<IGameLocationBattleService>()
             as GameLocationBattleManager;
 
@@ -407,7 +408,7 @@ internal static class TryAlterOutcomeAttributeCheck
                          .GetSubFeaturesByType<ITryAlterOutcomeAttributeCheck>())
             {
                 yield return tryAlterOutcomeAttributeCheck.OnTryAlterAttributeCheck(
-                    battleManager, abilityCheckData, actingCharacter, unit);
+                    battleManager, rawRoll, abilityCheckData, actingCharacter, unit);
             }
         }
     }

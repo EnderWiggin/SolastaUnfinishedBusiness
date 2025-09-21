@@ -46,7 +46,7 @@ public static class CharacterActionMoveStepJumpPatcher
             {
                 const int CHECK_DC = 10;
 
-                var abilityCheckRoll = actingCharacter.RollAbilityCheck(
+                var abilityCheckRoll = actingCharacter.RollAbilityCheckEx(
                     AttributeDefinitions.Dexterity,
                     SkillDefinitions.Acrobatics,
                     CHECK_DC,
@@ -56,6 +56,7 @@ public static class CharacterActionMoveStepJumpPatcher
                     -1,
                     out var outcome,
                     out var successDelta,
+                    out var rawRoll,
                     true);
 
                 var abilityCheckData = new AbilityCheckData
@@ -68,7 +69,7 @@ public static class CharacterActionMoveStepJumpPatcher
                 };
 
                 yield return TryAlterOutcomeAttributeCheck
-                    .HandleITryAlterOutcomeAttributeCheck(actingCharacter, abilityCheckData);
+                    .HandleITryAlterOutcomeAttributeCheck(actingCharacter, abilityCheckData, rawRoll);
 
                 action.AbilityCheckRoll = abilityCheckData.AbilityCheckRoll;
                 action.AbilityCheckRollOutcome = abilityCheckData.AbilityCheckRollOutcome;
@@ -81,7 +82,7 @@ public static class CharacterActionMoveStepJumpPatcher
             {
                 int CHECK_DC = Main.Settings.ModifyJumpRulesForArmorAndEncumberance ? distance*5 : 15;
 
-                var abilityCheckRoll = action.ActingCharacter.RollAbilityCheck(
+                var abilityCheckRoll = action.ActingCharacter.RollAbilityCheckEx(
                     AttributeDefinitions.Strength,
                     SkillDefinitions.Athletics,
                     CHECK_DC,
@@ -91,6 +92,7 @@ public static class CharacterActionMoveStepJumpPatcher
                     -1,
                     out var outcome,
                     out var successDelta,
+                    out var rawRoll,
                     true);
 
                 var abilityCheckData = new AbilityCheckData
@@ -103,7 +105,7 @@ public static class CharacterActionMoveStepJumpPatcher
                 };
 
                 yield return TryAlterOutcomeAttributeCheck
-                    .HandleITryAlterOutcomeAttributeCheck(actingCharacter, abilityCheckData);
+                    .HandleITryAlterOutcomeAttributeCheck(actingCharacter, abilityCheckData, rawRoll);
 
                 action.AbilityCheckRoll = abilityCheckData.AbilityCheckRoll;
                 action.AbilityCheckRollOutcome = abilityCheckData.AbilityCheckRollOutcome;

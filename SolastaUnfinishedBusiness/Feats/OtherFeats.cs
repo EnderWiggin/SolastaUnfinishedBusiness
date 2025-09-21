@@ -1643,7 +1643,7 @@ internal static class OtherFeats
             var actingCharacter = action.ActingCharacter;
             var rulesetCharacter = actingCharacter.RulesetCharacter;
             var actionModifier = new ActionModifier();
-            var abilityCheckRoll = actingCharacter.RollAbilityCheck(
+            var abilityCheckRoll = actingCharacter.RollAbilityCheckEx(
                 AttributeDefinitions.Dexterity,
                 SkillDefinitions.Acrobatics,
                 15,
@@ -1652,6 +1652,7 @@ internal static class OtherFeats
                 false, -1,
                 out var rollOutcome,
                 out var successDelta,
+                out var rawRoll, 
                 true);
 
             //PATCH: support for Bardic Inspiration roll off battle and ITryAlterOutcomeAttributeCheck
@@ -1665,7 +1666,7 @@ internal static class OtherFeats
             };
 
             yield return TryAlterOutcomeAttributeCheck
-                .HandleITryAlterOutcomeAttributeCheck(actingCharacter, abilityCheckData);
+                .HandleITryAlterOutcomeAttributeCheck(actingCharacter, abilityCheckData, rawRoll);
 
             if (abilityCheckData.AbilityCheckRollOutcome is RollOutcome.Success or RollOutcome.CriticalSuccess)
             {
@@ -2514,6 +2515,7 @@ internal static class OtherFeats
 
         public IEnumerator OnTryAlterAttributeCheck(
             GameLocationBattleManager battleManager,
+            int rawRoll,
             AbilityCheckData abilityCheckData,
             GameLocationCharacter defender,
             GameLocationCharacter helper)
@@ -2521,7 +2523,7 @@ internal static class OtherFeats
             var rulesetHelper = helper.RulesetCharacter;
             var usablePower = PowerProvider.Get(powerLucky, rulesetHelper);
 
-            if (abilityCheckData.AbilityCheckRoll == 0 ||
+            if (rawRoll == 0 ||
                 abilityCheckData.AbilityCheckRollOutcome is not (RollOutcome.Failure or RollOutcome.CriticalFailure) ||
                 helper != defender ||
                 rulesetHelper.GetRemainingUsesOfPower(usablePower) == 0)
@@ -2545,9 +2547,8 @@ internal static class OtherFeats
 
                 var dieRoll = rulesetHelper.RollDie(DieType.D20, RollContext.None, false, AdvantageType.None, out _,
                     out _);
-                var previousRoll = abilityCheckData.AbilityCheckRoll;
-
-                if (dieRoll <= abilityCheckData.AbilityCheckRoll)
+                
+                if (dieRoll <= rawRoll)
                 {
                     rulesetHelper.LogCharacterActivatesAbility(
                         "Feat/&FeatLuckyTitle",
@@ -2555,27 +2556,34 @@ internal static class OtherFeats
                         extra:
                         [
                             (ConsoleStyleDuplet.ParameterType.Negative, dieRoll.ToString()),
-                            (ConsoleStyleDuplet.ParameterType.Positive, abilityCheckData.AbilityCheckRoll.ToString())
+                            (ConsoleStyleDuplet.ParameterType.Positive, rawRoll.ToString())
                         ]);
 
                     return;
                 }
 
-                abilityCheckData.AbilityCheckSuccessDelta += dieRoll - abilityCheckData.AbilityCheckRoll;
-                abilityCheckData.AbilityCheckRoll = dieRoll;
+                var delta = dieRoll - rawRoll;
+                abilityCheckData.AbilityCheckSuccessDelta += delta;
+                abilityCheckData.AbilityCheckRoll += delta;
                 abilityCheckData.AbilityCheckRollOutcome = abilityCheckData.AbilityCheckSuccessDelta >= 0
                     ? RollOutcome.Success
                     : RollOutcome.Failure;
 
+                var totalRoll = abilityCheckData.AbilityCheckRoll.ToString();
                 rulesetHelper.LogCharacterActivatesAbility(
                     "Feat/&FeatLuckyTitle",
                     "Feedback/&LuckyCheckToHitRoll",
                     extra:
                     [
-                        (dieRoll > previousRoll ? ConsoleStyleDuplet.ParameterType.Positive : ConsoleStyleDuplet.ParameterType.Negative,
+                        (dieRoll > rawRoll ? ConsoleStyleDuplet.ParameterType.Positive : ConsoleStyleDuplet.ParameterType.Negative,
                             dieRoll.ToString()),
-                        (previousRoll > dieRoll ? ConsoleStyleDuplet.ParameterType.Positive : ConsoleStyleDuplet.ParameterType.Negative,
-                            previousRoll.ToString())
+                        (rawRoll > dieRoll ? ConsoleStyleDuplet.ParameterType.Positive : ConsoleStyleDuplet.ParameterType.Negative,
+                            rawRoll.ToString()),
+                        abilityCheckData.AbilityCheckRollOutcome == RollOutcome.Success
+                            ? (ConsoleStyleDuplet.ParameterType.SuccessfulRoll,
+                                Gui.Format(GameConsole.AbilityCheckSuccessOutcome, totalRoll))
+                            : (ConsoleStyleDuplet.ParameterType.FailedRoll,
+                                Gui.Format(GameConsole.AbilityCheckFailureOutcome, totalRoll))
                     ]);
             }
         }

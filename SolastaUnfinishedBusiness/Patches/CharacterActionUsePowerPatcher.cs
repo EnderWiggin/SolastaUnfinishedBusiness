@@ -246,7 +246,7 @@ public static class CharacterActionUsePowerPatcher
                         proficiencyName = "ForcedProficiency";
                     }
 
-                    var abilityCheckRoll = actingCharacter.RollAbilityCheck(
+                    var abilityCheckRoll = actingCharacter.RollAbilityCheckEx(
                         abilityScoreName,
                         proficiencyName,
                         checkDC,
@@ -256,6 +256,7 @@ public static class CharacterActionUsePowerPatcher
                         0,
                         out var outcome,
                         out var successDelta,
+                        out var rawRoll,
                         true);
 
                     var abilityCheckData = new AbilityCheckData
@@ -268,7 +269,7 @@ public static class CharacterActionUsePowerPatcher
                     };
 
                     yield return TryAlterOutcomeAttributeCheck
-                        .HandleITryAlterOutcomeAttributeCheck(actingCharacter, abilityCheckData);
+                        .HandleITryAlterOutcomeAttributeCheck(actingCharacter, abilityCheckData, rawRoll);
 
                     actionUsePower.AbilityCheckRoll = abilityCheckData.AbilityCheckRoll;
                     actionUsePower.AbilityCheckRollOutcome = abilityCheckData.AbilityCheckRollOutcome;

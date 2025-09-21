@@ -64,7 +64,7 @@ Feature/&PowerFeatOrcishAggressionTitle=兽人侵袭
 Feedback/&AdditionalDamageOrcishFuryFormat=兽人之怒
 Feedback/&AdditionalDamageOrcishFuryLine=兽人之怒造成额外 +{2} 伤害！
 Feedback/&BountifulLuckAttackToHitRoll={0} 使用 {1} 并掷出 {2} 以替换攻击检定上的 {3}
-Feedback/&BountifulLuckCheckToHitRoll={0} 使用 {1} 并掷出 {2} 以替换检定结果上的 {3}
+Feedback/&BountifulLuckCheckToHitRoll={0} 使用 {1} 并掷出 {2} 以替换检定结果上的 {3}: {4}
 Feedback/&BountifulLuckSavingToHitRoll={0} 使用 {1} 并掷出 {2} 以替换豁免结果上的 {3}
 Feedback/&DwarvenFortitudeHitDieRolled={0}掷出{2}并治愈了{3} = {4}。
 Feedback/&FlamesOfPhlegethosReroll={0} 使用弗莱格索斯之焰重新掷出 {1} 个魔法伤害骰子，从 {2} 变为 {3}。

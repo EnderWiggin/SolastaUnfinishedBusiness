@@ -227,7 +227,7 @@ public static class CharacterActionCastSpellPatcher
                         proficiencyName = "ForcedProficiency";
                     }
 
-                    var abilityCheckRoll = actingCharacter.RollAbilityCheck(
+                    var abilityCheckRoll = actingCharacter.RollAbilityCheckEx(
                         characterActionCastSpell.activeSpell.SpellRepertoire.SpellCastingAbility,
                         proficiencyName,
                         checkDC,
@@ -237,6 +237,7 @@ public static class CharacterActionCastSpellPatcher
                         0,
                         out var outcome,
                         out var successDelta,
+                        out var rawRoll,
                         true);
 
                     var abilityCheckData = new AbilityCheckData
@@ -249,7 +250,7 @@ public static class CharacterActionCastSpellPatcher
                     };
 
                     yield return TryAlterOutcomeAttributeCheck
-                        .HandleITryAlterOutcomeAttributeCheck(actingCharacter, abilityCheckData);
+                        .HandleITryAlterOutcomeAttributeCheck(actingCharacter, abilityCheckData, rawRoll);
 
                     characterActionCastSpell.AbilityCheckRoll = abilityCheckData.AbilityCheckRoll;
                     characterActionCastSpell.AbilityCheckRollOutcome = abilityCheckData.AbilityCheckRollOutcome;

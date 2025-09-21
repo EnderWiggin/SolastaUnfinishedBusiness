@@ -1015,6 +1015,7 @@ internal class TryAlterOutcomeSavingThrowFlashOfGenius(FeatureDefinitionPower po
 {
     public IEnumerator OnTryAlterAttributeCheck(
         GameLocationBattleManager battleManager,
+        int rawRoll,
         AbilityCheckData abilityCheckData,
         GameLocationCharacter defender,
         GameLocationCharacter helper)
@@ -1036,7 +1037,7 @@ internal class TryAlterOutcomeSavingThrowFlashOfGenius(FeatureDefinitionPower po
         var intelligence = rulesetHelper.TryGetAttributeValue(AttributeDefinitions.Intelligence);
         var bonus = Math.Max(AttributeDefinitions.ComputeAbilityScoreModifier(intelligence), 1);
 
-        if (abilityCheckData.AbilityCheckRoll == 0 ||
+        if (rawRoll == 0 ||
             abilityCheckData.AbilityCheckRollOutcome != RollOutcome.Failure ||
             !helper.CanReact() ||
             !helper.CanPerceiveTarget(defender) ||

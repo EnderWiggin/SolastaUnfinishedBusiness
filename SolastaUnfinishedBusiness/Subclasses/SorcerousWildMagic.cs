@@ -714,6 +714,7 @@ public sealed class SorcerousWildMagic : AbstractSubclass
 
         public IEnumerator OnTryAlterAttributeCheck(
             GameLocationBattleManager battleManager,
+            int rawRoll,
             AbilityCheckData abilityCheckData,
             GameLocationCharacter defender,
             GameLocationCharacter helper)
@@ -749,8 +750,10 @@ public sealed class SorcerousWildMagic : AbstractSubclass
                 var dieRoll = rulesetHelper.RollDie(
                     DieType.D20, RollContext.None, false, AdvantageType.Advantage, out _, out _);
 
-                abilityCheckData.AbilityCheckSuccessDelta += dieRoll - abilityCheckData.AbilityCheckRoll;
-                abilityCheckData.AbilityCheckRoll = dieRoll;
+                var delta = dieRoll - rawRoll;
+
+                abilityCheckData.AbilityCheckSuccessDelta += delta;
+                abilityCheckData.AbilityCheckRoll += delta;
                 abilityCheckData.AbilityCheckRollOutcome = abilityCheckData.AbilityCheckSuccessDelta >= 0
                     ? RollOutcome.Success
                     : RollOutcome.Failure;
@@ -937,6 +940,7 @@ public sealed class SorcerousWildMagic : AbstractSubclass
 
         public IEnumerator OnTryAlterAttributeCheck(
             GameLocationBattleManager battleManager,
+            int rawRoll,
             AbilityCheckData abilityCheckData,
             GameLocationCharacter defender,
             GameLocationCharacter helper)

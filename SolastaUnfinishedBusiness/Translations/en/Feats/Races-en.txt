@@ -64,7 +64,7 @@ Feature/&PowerFeatOrcishAggressionTitle=Orcish Aggression
 Feedback/&AdditionalDamageOrcishFuryFormat=Orcish Fury
 Feedback/&AdditionalDamageOrcishFuryLine=Orcish Fury deals extra +{2} damage!
 Feedback/&BountifulLuckAttackToHitRoll={0} used {1} and rolls a {2} to replace {3} on the attack roll
-Feedback/&BountifulLuckCheckToHitRoll={0} used {1} and rolls a {2} to replace {3} on the check roll
+Feedback/&BountifulLuckCheckToHitRoll={0} used {1} and rolls a {2} to replace {3} on the check roll: {4}
 Feedback/&BountifulLuckSavingToHitRoll={0} used {1} and rolls a {2} to replace {3} on the saving roll
 Feedback/&DwarvenFortitudeHitDieRolled={0} rolled a {2} and healed {3} = {4}.
 Feedback/&FlamesOfPhlegethosReroll={0} uses Flames of Phlegethos to reroll a {1} magic damage die from {2} to {3}.
