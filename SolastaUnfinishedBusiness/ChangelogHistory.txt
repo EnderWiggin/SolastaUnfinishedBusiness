@@ -1,3 +1,8 @@
+1.5.97.94:
+- fixed several instances where dice re-rolls from Lucky feat or similar sources were not respecting attributes and other modifiers
+- removed `Will apply attack modifier penalties for ranged attacks on non-perceived` setting as it has issues and is really redundant on top of disadvantage
+- fixed game breaking if several characters detect trap on location load
+
 1.5.97.93:
 - Dungeon Maker: turn ConditionForms that add Prone condition into MovementForm of FallProne type. This fixes custom monsters that inflict Prone.
 - Dungeon Maker: if attack definition is not overriden - use raw base definition. This makes possible for custom monsters to reuse their base attacks that may have effects that are not damage or condition - like some wolves that have prone.
