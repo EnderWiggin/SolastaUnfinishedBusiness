@@ -207,6 +207,26 @@ public static class RulesetCharacterPatcher
                 }
             }
 
+            foreach (var affinity in defender.GetSubFeaturesByType<CombatAffinityOnMyAttacker>()
+                         .Select(x => x.Affinity))
+            {
+                var contextParams = new RulesetImplementationDefinitions.SituationalContextParams(
+                    affinity!.SituationalContext,
+                    __instance,
+                    defender,
+                    implementationService.FindSourceIdOfFeature(defender, affinity),
+                    affinity.RequiredCondition,
+                    attackModifier.Proximity == AttackProximity.Range,
+                    null);
+
+                if (!implementationService.IsSituationalContextValid(contextParams)) { continue; }
+
+                var origin = new FeatureOrigin(FeatureSourceType.CharacterFeature, affinity.name, affinity,
+                    affinity.ParseSpecialFeatureTags());
+                affinity.ComputeAttackModifier(__instance, defender, attackMode, attackModifier,
+                    origin, 0, distance);
+            }
+
             var flag = attackModifier.AttacktoHitTrends.Any(attackToHitTrend =>
                 attackToHitTrend.sourceType == FeatureSourceType.Difficulty);
 
