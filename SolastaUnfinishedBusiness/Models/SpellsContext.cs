@@ -47,6 +47,7 @@ internal static class SpellsContext
     internal static readonly SpellDefinition AuraOfVitality = BuildAuraOfVitality();
     internal static readonly SpellDefinition BanishingSmite = BuildBanishingSmite();
     internal static readonly SpellDefinition BindingIce = BuildBindingIce();
+    internal static readonly SpellDefinition BladeWard = BuildBladeWard();
     internal static readonly SpellDefinition BlessingOfRime = BuildBlessingOfRime();
     internal static readonly SpellDefinition BlindingSmite = BuildBlindingSmite();
     internal static readonly SpellDefinition BurstOfRadiance = BuildBurstOfRadiance();
@@ -257,7 +258,7 @@ internal static class SpellsContext
 
         // cantrips
         RegisterSpell(AirBlast, 0, SpellListDruid, SpellListSorcerer, SpellListWizard);
-        RegisterSpell(BuildBladeWard(), 0, SpellListBard, SpellListSorcerer, SpellListWarlock, SpellListWizard);
+        RegisterSpell(BladeWard, 0, SpellListBard, SpellListSorcerer, SpellListWarlock, SpellListWizard);
         RegisterSpell(BuildBoomingBlade(), 0, SpellListSorcerer, SpellListWarlock, SpellListWizard,
             spellListInventorClass);
         RegisterSpell(BurstOfRadiance, 0, SpellListCleric);

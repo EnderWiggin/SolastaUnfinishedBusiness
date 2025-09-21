@@ -9,6 +9,7 @@ using SolastaUnfinishedBusiness.Behaviors.Specific;
 using SolastaUnfinishedBusiness.Builders;
 using SolastaUnfinishedBusiness.Builders.Features;
 using SolastaUnfinishedBusiness.Interfaces;
+using SolastaUnfinishedBusiness.Spells;
 using UnityEngine.AddressableAssets;
 using static RuleDefinitions;
 using static SolastaUnfinishedBusiness.Api.DatabaseHelper;
@@ -154,6 +155,23 @@ public static partial class Tabletop2024Context
             AttributeModifierBarkskin.modifierValue = 16;
             Barkskin.GuiPresentation.description = "Spell/&BarkskinDescription";
             ConditionBarkskin.GuiPresentation.description = "Rules/&ConditionBarkskinDescription";
+        }
+    }
+    
+    internal static void SwitchOneDndCantripBladeWard()
+    {
+        var bladeWard = SpellsContext.BladeWard;
+        if (Main.Settings.EnableOneDndBladeWardCantrip)
+        {
+            bladeWard.requiresConcentration = true;
+            bladeWard.effectDescription = SpellBuilders.BladeWardEffect2024;
+            bladeWard.guiPresentation.description = "Spell/&BladeWard2024Description";
+        }
+        else
+        {
+            bladeWard.requiresConcentration = false;
+            bladeWard.effectDescription = SpellBuilders.BladeWardEffect2014;
+            bladeWard.guiPresentation.description = "Spell/&BladeWardDescription";
         }
     }
 

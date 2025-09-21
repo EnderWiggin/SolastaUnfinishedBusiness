@@ -185,6 +185,7 @@ ModUi/&EnableMonkSuperiorDefense2024=Habilita <color=#D89555>Defensa superior</c
 ModUi/&EnableMonkUncannyMetabolism2024=Habilita <color=#D89555>Metabolismo sobrenatural</color> en el nivel 2 <i><color=#F0DAA0>[recupera Ki y HP en la tirada de iniciativa]</color></i>
 ModUi/&EnableMulticlass=Habilitar <color=#D89555>multiclase</color> <b><i><color=#C04040E0>[Requiere reinicio]</color></i></b>
 ModUi/&EnableOneDndBarkskinSpell=Habilitar la versión del hechizo <color=#D89555>Corteza</color> 5e 2024 <i><color=#F0DAA0>[acción adicional, sin concentración, CA establecida en 17]</color></i>
+ModUi/&EnableOneDndBladeWardCantrip=Enable <color =#d895555> blade ward </ color> cantrip 5e 2024 versión <i> <color =#f0daa0> [concentración de 1 minuto, los atacantes restan 1d4 de los rollos de ataque] </color> </i>
 ModUi/&EnableOneDndDamagingSpellsUpgrade=Habilita los hechizos <color=#D89555>Espada arcana</color>, <color=#D89555>Círculo de la muerte</color>, <color=#D89555>Golpe de llamas</color>, <color=#D89555>Tormenta de hielo</color>, <color=#D89555>Rociado prismático</color> y <color=#D89555>Burla cruel</color> versión 5e 2024 <i><color=#F0DAA0>[mejor daño]</color></i>
 ModUi/&EnableOneDndDivineFavorSpell=Habilitar <color=#D89555>Favor divino</color> versión del hechizo 5e 2024 <i><color=#F0DAA0>[sin concentración]</color></i>
 ModUi/&EnableOneDndGuidanceSpell=Habilitar <color=#D89555>Orientación</color> versión del hechizo 5e 2024 <i><color=#F0DAA0>[Elige una habilidad al lanzar y obtén una bonificación por hasta 1 minuto.]</color></i>

@@ -477,6 +477,7 @@ public class Settings : UnityModManager.ModSettings
     [Tag(Type = TagType.T2014)] public bool FixEldritchBlastRange { get; set; }
     public bool ModifyGravitySlam { get; set; }
     [Tag(Type = TagType.T2024)] public bool EnableOneDndBarkskinSpell { get; set; }
+    [Tag(Type = TagType.T2024)] public bool EnableOneDndBladeWardCantrip { get; set; }
     [Tag(Type = TagType.T2024)] public bool EnableOneDndDamagingSpellsUpgrade { get; set; }
     [Tag(Type = TagType.T2024)] public bool EnableOneDndHealingSpellsUpgrade { get; set; }
     [Tag(Type = TagType.T2024)] public bool EnableOneDndDivineFavorSpell { get; set; }

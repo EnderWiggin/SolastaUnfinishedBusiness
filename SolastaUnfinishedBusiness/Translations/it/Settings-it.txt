@@ -185,6 +185,7 @@ ModUi/&EnableMonkSuperiorDefense2024=Abilita <color=#D89555>Difesa superiore</co
 ModUi/&EnableMonkUncannyMetabolism2024=Abilita <color=#D89555>Metabolismo Straniero</color> al livello 2 <i><color=#F0DAA0>[recupera Ki e HP al tiro di iniziativa]</color></i>
 ModUi/&EnableMulticlass=Abilita <color=#D89555>multiclasse</color> <b><i><color=#C04040E0>[Richiede riavvio]</color></i></b>
 ModUi/&EnableOneDndBarkskinSpell=Abilita la versione dell'incantesimo <color=#D89555>Barkskin</color> 5e 2024 <i><color=#F0DAA0>[azione bonus, nessuna concentrazione, CA impostata a 17]</color></i>
+ModUi/&EnableOneDndBladeWardCantrip=Abilita <color =#D89555> Blade Ward </ Color> Cantrip 5E 2024 versione <i> <color =#f0daa0> [concentrazione di 1 minuto, gli aggressori sottrano 1d4 dai rotoli di attacco] </ color> </i>
 ModUi/&EnableOneDndDamagingSpellsUpgrade=Abilita <color=#D89555>Spada Arcana</color>, <color=#D89555>Cerchio della Morte</color>, <color=#D89555>Colpo di Fiamma</color>, <color=#D89555>Tempesta di Ghiaccio</color>, <color=#D89555>Spruzzo Prismatico</color> e <color=#D89555>Scherno Vizioso</color> versione incantesimi 5e 2024 <i><color=#F0DAA0>[danni migliori]</color></i>
 ModUi/&EnableOneDndDivineFavorSpell=Abilita <color=#D89555>Favore divino</color> versione incantesimo 5e 2024 <i><color=#F0DAA0>[nessuna concentrazione]</color></i>
 ModUi/&EnableOneDndGuidanceSpell=Abilita la versione dell'incantesimo <color=#D89555>Guida</color> 5e 2024 <i><color=#F0DAA0>[Scegli un'abilità al momento del lancio e ottieni un bonus fino a 1 minuto.]</color></i>

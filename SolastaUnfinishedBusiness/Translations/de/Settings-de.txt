@@ -185,6 +185,7 @@ ModUi/&EnableMonkSuperiorDefense2024=Aktivieren Sie <color=#D89555>Überlegene V
 ModUi/&EnableMonkUncannyMetabolism2024=Aktiviere <color=#D89555>Unheimlichen Stoffwechsel</color> auf Stufe 2 <i><color=#F0DAA0>[Ki und HP bei Initiativewurf wiederherstellen]</color></i>
 ModUi/&EnableMulticlass=Aktivieren Sie <color=#D89555>Multiclass</color> <b><i><color=#C04040E0>[Neustart erforderlich]</color></i></b>
 ModUi/&EnableOneDndBarkskinSpell=Aktiviere <color=#D89555>Barkskin</color> 5e 2024 Zauberversion <i><color=#F0DAA0>[Bonusaktion, keine Konzentration, AC auf 17 gesetzt]</color></i>
+ModUi/&EnableOneDndBladeWardCantrip=Aktivieren <color =#d89555> Blade Ward </color> Cantrip 5e 2024 Version <i> <color =#f0daa0> [1 Minute Konzentration, Angreifer subtrahieren 1D4 von Angriffsrollen] </color> </i>
 ModUi/&EnableOneDndDamagingSpellsUpgrade=Aktiviere <color=#D89555>Arkanes Schwert</color>, <color=#D89555>Kreis des Todes</color>, <color=#D89555>Flammenschlag</color>, <color=#D89555>Eissturm</color>, <color=#D89555>Prismatischer Sprühnebel</color>. und <color=#D89555>Bösartige Verhöhnung</color> 5e 2024 Zauberversion <i><color=#F0DAA0>[besserer Schaden]</color></i>
 ModUi/&EnableOneDndDivineFavorSpell=Aktivieren Sie die Zauberversion <color=#D89555>Göttliche Gunst</color> 5e 2024 <i><color=#F0DAA0>[keine Konzentration]</color></i>
 ModUi/&EnableOneDndGuidanceSpell=Aktivieren Sie die Zauberversion <color=#D89555>Anleitung</color> 5e 2024 <i><color=#F0DAA0>[Wählen Sie beim Zaubern eine Fertigkeit aus und erhalten Sie bis zu 1 Minute lang einen Bonus.]</color></i>

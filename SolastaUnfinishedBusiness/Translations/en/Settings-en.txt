@@ -178,6 +178,7 @@ ModUi/&EnableMonkUncannyMetabolism2024=Enable <color=#D89555>Uncanny Metabolism<
 ModUi/&EnableMulticlass=Enable <color=#D89555>multiclass</color> <b><i><color=#C04040E0>[Requires Restart]</color></i></b>
 ModUI/&SwapShineCantrip=Enable Shine DC 15
 ModUi/&EnableOneDndBarkskinSpell=Enable <color=#D89555>Barkskin</color> 5e 2024 spell version <i><color=#F0DAA0>[bonus action, no concentration, AC set to 17]</color></i>
+ModUi/&EnableOneDndBladeWardCantrip=Enable <color=#D89555>Blade Ward</color> cantrip 5e 2024 version <i><color=#F0DAA0>[1 minute concentration, attackers subtract 1d4 from attack rolls]</color></i>
 ModUi/&EnableOneDndDamagingSpellsUpgrade=Enable <color=#D89555>Arcane Sword</color>, <color=#D89555>Circle of Death</color>, <color=#D89555>Flame Strike</color>, <color=#D89555>Ice Storm</color>, <color=#D89555>Prismatic Spray</color>. and <color=#D89555>Vicious Mockery</color> 5e 2024 spells version <i><color=#F0DAA0>[better damage]</color></i>
 ModUi/&EnableOneDndDivineFavorSpell=Enable <color=#D89555>Divine Favor</color> 5e 2024 spell version <i><color=#F0DAA0>[no concentration]</color></i>
 ModUi/&EnableOneDndGuidanceSpell=Enable <color=#D89555>Guidance</color> 5e 2024 spell version <i><color=#F0DAA0>[choose one skill at casting and get bonus for up to 1 minute]</color></i>

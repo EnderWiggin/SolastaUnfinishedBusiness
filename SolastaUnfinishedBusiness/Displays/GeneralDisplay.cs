@@ -1052,6 +1052,13 @@ internal static class ToolsDisplay
             Tabletop2024Context.SwitchOneDndSpellBarkskin();
         }
 
+        toggle = Main.Settings.EnableOneDndBladeWardCantrip;
+        if (UI.Toggle(Gui.Localize("ModUi/&EnableOneDndBladeWardCantrip"), ref toggle, UI.AutoWidth()))
+        {
+            Main.Settings.EnableOneDndBladeWardCantrip = toggle;
+            Tabletop2024Context.SwitchOneDndCantripBladeWard();
+        }
+
         toggle = Main.Settings.EnableOneDndDamagingSpellsUpgrade;
         if (UI.Toggle(Gui.Localize("ModUi/&EnableOneDndDamagingSpellsUpgrade"), ref toggle, UI.AutoWidth()))
         {
