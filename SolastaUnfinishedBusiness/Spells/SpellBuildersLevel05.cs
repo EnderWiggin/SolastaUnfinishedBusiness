@@ -363,7 +363,7 @@ internal static partial class SpellBuilders
                     .Create($"CombatAffinity{NAME}")
                     .SetGuiPresentation($"Condition{NAME}", Category.Condition, Gui.NoLocalization)
                     .SetMyAttackModifierSign(AttackModifierSign.Substract)
-                    .SetMyAttackModifierDieType(DieType.D6)
+                    .SetMyAttackModifierDie(DieType.D6)
                     .AddToDB(),
                 FeatureDefinitionAbilityCheckAffinityBuilder
                     .Create($"AbilityCheckAffinity{NAME}")

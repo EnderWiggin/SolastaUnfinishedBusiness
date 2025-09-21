@@ -10,9 +10,10 @@ namespace SolastaUnfinishedBusiness.Builders.Features;
 internal class FeatureDefinitionCombatAffinityBuilder
     : DefinitionBuilder<FeatureDefinitionCombatAffinity, FeatureDefinitionCombatAffinityBuilder>
 {
-    internal FeatureDefinitionCombatAffinityBuilder SetMyAttackModifierDieType(DieType dieType)
+    internal FeatureDefinitionCombatAffinityBuilder SetMyAttackModifierDie(DieType dieType, int diceNumber = 1)
     {
         Definition.myAttackModifierValueDetermination = CombatAffinityValueDetermination.Die;
+        Definition.myAttackModifierDiceNumber = diceNumber;
         Definition.myAttackModifierDieType = dieType;
         return this;
     }

@@ -1151,7 +1151,7 @@ public sealed class PathOfTheWildMagic : AbstractSubclass
             .Create($"CombatAffinity{Name}BolsteringMagicRoll")
             .SetGuiPresentationNoContent(true)
             .SetMyAttackModifier((ExtraCombatAffinityValueDetermination)CombatAffinityValueDetermination.Die)
-            .SetMyAttackModifierDieType(DieType.D3)
+            .SetMyAttackModifierDie(DieType.D3)
             .SetMyAttackModifierSign(AttackModifierSign.Add)
             .AddToDB();
 

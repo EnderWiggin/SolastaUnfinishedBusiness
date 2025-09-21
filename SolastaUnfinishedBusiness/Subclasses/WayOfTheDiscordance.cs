@@ -132,7 +132,7 @@ public sealed class WayOfTheDiscordance : AbstractSubclass
             .Create($"CombatAffinity{Name}Turmoil")
             .SetGuiPresentation($"Condition{Name}TurmoilTitle".Formatted(Category.Condition), Gui.NoLocalization)
             .SetMyAttackModifierSign(AttackModifierSign.Substract)
-            .SetMyAttackModifierDieType(DieType.D4)
+            .SetMyAttackModifierDie(DieType.D4)
             .AddToDB();
 
         var savingThrowAffinityTurmoil = FeatureDefinitionSavingThrowAffinityBuilder
