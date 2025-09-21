@@ -166,7 +166,7 @@ public static class GameLocationBattlePatcher
         [UsedImplicitly]
         public static void Prefix()
         {
-            Global.RolledPerceptionThisTurn = new Dictionary<GameLocationCharacter, Dictionary<GameLocationCharacter, RuleDefinitions.RollOutcome>>();
+            Global.RolledPerceptionThisTurn.Clear();
             if (!Main.Settings.EnableInitiativeRollOnEveryRoundStart ||
                 Gui.Battle == null ||
                 Gui.Battle.CurrentRound < 2)

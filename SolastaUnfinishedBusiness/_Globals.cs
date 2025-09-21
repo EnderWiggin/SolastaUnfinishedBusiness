@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using JetBrains.Annotations;
 using UnityEngine;
 
@@ -18,7 +17,7 @@ internal static class Global
     // last level up hero name to allow an easier level up on characters pool with less mouse clicks
     internal static string LastLevelUpHeroName { get; set; }
 
-    internal static Dictionary<GameLocationCharacter, Dictionary<GameLocationCharacter, RuleDefinitions.RollOutcome>> RolledPerceptionThisTurn = new Dictionary<GameLocationCharacter, Dictionary<GameLocationCharacter, RuleDefinitions.RollOutcome>>();
+    internal static readonly Dictionary<GameLocationCharacter, Dictionary<GameLocationCharacter, RuleDefinitions.RollOutcome>> RolledPerceptionThisTurn = [];
 
     // level up hero
     [CanBeNull]

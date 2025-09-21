@@ -570,10 +570,10 @@ internal static class LightingAndObscurementContext
                    targetLightingState != additionalBlockedLightingState;
         }
 
-        if (distance < 11
+        if (Main.Settings.EnableChanceToPerceiveCloseRange
+            && distance < 11
             && sensor != null
             && target != null
-            && Main.Settings.EnableChanceToPerceiveCloseRange
             && !targetIsInvisible
             && !sourceIsBlindFromDarkness)
         {
@@ -583,26 +583,35 @@ internal static class LightingAndObscurementContext
                 || targetLightingState is (LightingState)MyLightingState.HeavilyObscured
                 || sourceIsBlindNotFromDarkness) advantage = RuleDefinitions.AdvantageType.Disadvantage;
 
-            if (!Global.RolledPerceptionThisTurn.ContainsKey(sensor)) sensorAllowedToRoll = true;
-            else if (!Global.RolledPerceptionThisTurn[sensor].ContainsKey(target)) sensorAllowedToRoll = true;
+            if (!Global.RolledPerceptionThisTurn.TryGetValue(sensor, out var targets))
+            {
+                targets = [];
+                Global.RolledPerceptionThisTurn[sensor] = targets;
+                sensorAllowedToRoll = true;
+            } else if (!targets.ContainsKey(target))
+            {
+                sensorAllowedToRoll = true;
+            }
 
+            RuleDefinitions.RollOutcome sensorOutcome;
             if (sensorAllowedToRoll)
             {
                 sensor.RollAbilityCheck(AttributeDefinitions.Wisdom, SkillDefinitions.Perception, (int)distance + 10,
-                    advantage, new ActionModifier(), false, 0, out _, out _, out _, out _, out var sensorOutcome, out _,
+                    advantage, new ActionModifier(), false, 0, out _, out _, out _, out _, out sensorOutcome, out _,
                     true);
-                if (sensorOutcome != 0)
-                    if (!Global.RolledPerceptionThisTurn.ContainsKey(sensor))
-                        Global.RolledPerceptionThisTurn.Add(sensor, []);
-                if (!Global.RolledPerceptionThisTurn[sensor].ContainsKey(target))
-                    Global.RolledPerceptionThisTurn[sensor].Add(target, sensorOutcome);
+
+                 targets[target] = sensorOutcome;
+            }
+            else if (!targets.TryGetValue(target, out sensorOutcome))
+            {
+                sensorOutcome = RuleDefinitions.RollOutcome.Failure;
             }
 
-            if (Global.RolledPerceptionThisTurn.ContainsKey(sensor)
-                && Global.RolledPerceptionThisTurn[sensor].ContainsKey(target)
-                && Global.RolledPerceptionThisTurn[sensor][target] == RuleDefinitions.RollOutcome.Success)
+            if (sensorOutcome == RuleDefinitions.RollOutcome.Success)
+            {
                 return additionalBlockedLightingState == LightingState.Darkness ||
                        targetLightingState != additionalBlockedLightingState;
+            }
         }
 
 
