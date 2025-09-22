@@ -265,12 +265,13 @@ public static partial class Tabletop2024Context
         .SetGuiPresentation(Category.Feature,
             Sprites.GetSprite("PowerStepOfTheWindNoCost", Resources.PowerStepOfTheWindNoCost, 256, 128))
         .SetUsesFixed(ActivationTime.BonusAction)
-        .SetEffectDescription(
-            EffectDescriptionBuilder
-                .Create(PowerMonkStepOfTheWindDash)
-                .SetEffectForms(EffectFormBuilder.ConditionForm(ConditionDashingBonusStepOfTheWind))
-                .SetCasterEffectParameters(SpellDefinitions.Command)
-                .Build())
+        .SetEffectDescription(EffectDescriptionBuilder.Create(PowerMonkStepOfTheWindDash)
+            .SetEffectForms(EffectFormBuilder.ConditionForm(ConditionDefinitionBuilder
+                .Create(ConditionDashingBonusStepOfTheWind, "ConditionMonkStepOfTheWind2024AtWill")
+                .SetFeatures(MovementAffinityConditionDashingBonus)
+                .AddToDB()))
+            .SetCasterEffectParameters(SpellDefinitions.Command)
+            .Build())
         .AddCustomSubFeatures(WayOfBlade.PowerOrSpellFinishedByMeSwiftStrike.Marker)
         .AddToDB();
 
