@@ -1,3 +1,7 @@
+1.5.97.95:
+- added option to make `Blade Ward` cantrip into 2024 version
+- fixed free version of `Step of the Wind` from 2024 Monk granting doubled jump distance
+
 1.5.97.94:
 - fixed several instances where dice re-rolls from Lucky feat or similar sources were not respecting attributes and other modifiers
 - removed `Will apply attack modifier penalties for ranged attacks on non-perceived` setting as it has issues and is really redundant on top of disadvantage
