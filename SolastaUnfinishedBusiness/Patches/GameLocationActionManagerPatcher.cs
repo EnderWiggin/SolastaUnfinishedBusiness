@@ -63,6 +63,8 @@ public static class GameLocationActionManagerPatcher
         {
             //PATCH: mark this attack as not AoO, so Sentinel movement stop won't trigger
             reactionParams.AttackMode?.AddAttackTagAsNeeded(AttacksOfOpportunity.NotAoOTag);
+            //PATCH: mark as a reaction, so Attack After Magic Effect won't check for attack validity, since it was already checked prior to triggering the reaction
+            reactionParams.IsReactionEffect = true;
         }
     }
 
