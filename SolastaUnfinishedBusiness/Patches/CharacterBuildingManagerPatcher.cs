@@ -395,7 +395,7 @@ public static class CharacterBuildingManagerPatcher
             }
 
             // consider cantrips from subclasses
-            var subclassTag = AttributeDefinitions.GetSubclassTag(selectedClass, 1, selectedSubclass);
+            var subclassTag = AttributeDefinitions.GetSubclassTag(selectedClass, selectedClassLevel, selectedSubclass);
             var subclassPoolName = $"{subclassTag}{name}";
 
             if (!heroBuildingData.AcquiredCantrips.TryGetValue(subclassPoolName, out var cantrips3))
