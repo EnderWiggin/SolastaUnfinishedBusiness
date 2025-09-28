@@ -1,3 +1,9 @@
+1.5.97.96:
+- fixed readied `True Strike` 2024 version triggering without any effect in some cases
+- fixed material component validation for blade cantrips to properly require melee weapon in currently active equipment slots
+- fixed cantrips from some custom sub-classes (like Druid cantrips from `Nature Domain` Clerics) not being learned if 2024 rules for sub-class on level 3 are enabled
+- hide smite spells from spell panel so you can't manually cast them outside of battle
+
 1.5.97.95:
 - added option to make `Blade Ward` cantrip into 2024 version
 - fixed free version of `Step of the Wind` from 2024 Monk granting doubled jump distance
