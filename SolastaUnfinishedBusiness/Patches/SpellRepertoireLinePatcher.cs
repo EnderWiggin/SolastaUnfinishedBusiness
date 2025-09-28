@@ -21,6 +21,8 @@ public static class SpellRepertoireLinePatcher
         {
             //PATCH: hide reaction spells from spell panel
             spellDefinitions.RemoveAll(x => x.ActivationTime == ActivationTime.Reaction);
+            //PATCH: hide smite spells from spell panel
+            spellDefinitions.RemoveAll(x => x.ActivationTime == ActivationTime.OnAttackHit);
         }
 
         [UsedImplicitly]
