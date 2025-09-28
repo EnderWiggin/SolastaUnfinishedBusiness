@@ -776,16 +776,24 @@ public static class RulesetCharacterPatcher
             ref bool result,
             ref string failure)
         {
-            if (result || spell.MaterialComponentType != MaterialComponentType.Specific)
-            {
-                return;
-            }
+            if (spell.MaterialComponentType != MaterialComponentType.Specific) { return; }
 
+            var onlyCurrentlyEquipped = false;
             var materialTag = spell.SpecificMaterialComponentTag;
             var requiredCost = spell.SpecificMaterialComponentCostGp;
-            var items = new List<RulesetItem>();
 
-            caster.CharacterInventory.EnumerateAllItems(items);
+            if (materialTag == TagsDefinitions.WeaponTagMelee)
+            {
+                onlyCurrentlyEquipped = true;
+                result = false;
+                failure = Gui.Format(SpellAndPowersDefinitions.FailureFlagMaterialComponentMissingSpecific,
+                    Gui.FormatTag(materialTag), Gui.FormatCostGp(requiredCost));
+            }
+
+            if (result) { return; }
+
+            var items = new List<RulesetItem>();
+            caster.CharacterInventory.EnumerateAllItems(items, !onlyCurrentlyEquipped, onlyCurrentlyEquipped);
 
             var tagsMap = new Dictionary<string, TagsDefinitions.Criticity>();
 
@@ -797,7 +805,7 @@ public static class RulesetCharacterPatcher
                 var itemItemDefinition = rulesetItem.ItemDefinition;
                 var costInGold = EquipmentDefinitions.GetApproximateCostInGold(itemItemDefinition.Costs);
 
-                if (tagsMap.ContainsKey(materialTag) && costInGold >= requiredCost)
+                if (!tagsMap.ContainsKey(materialTag) || costInGold < requiredCost)
                 {
                     continue;
                 }
