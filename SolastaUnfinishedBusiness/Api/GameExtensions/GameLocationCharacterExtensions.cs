@@ -634,7 +634,7 @@ public static class GameLocationCharacterExtensions
             if (positionAfter != null)
             {
                 // skip if the target hasn't left reach yet
-                if (DistanceCalculation.GetDistanceFromCharacter(instance, (int3)positionAfter)
+                if (DistanceCalculation.GetDistanceFromCharacters(instance, target, positionAfter)
                     <= (mode.Ranged ? mode.MaxRange : mode.ReachRange))
                 {
                     continue;

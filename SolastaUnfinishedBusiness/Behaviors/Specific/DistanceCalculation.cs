@@ -7,7 +7,8 @@ internal static class DistanceCalculation
 {
     internal static float GetDistanceFromCharacters(
         GameLocationCharacter character1,
-        GameLocationCharacter character2)
+        GameLocationCharacter character2,
+        int3? pos2 = null)
     {
 #if false
         // some users face issue loading game and getting an exception using extended distance calculation
@@ -16,9 +17,18 @@ internal static class DistanceCalculation
             return GetDistanceFromPositions(character1.LocationPosition, character2.LocationPosition);
         }
 #endif
+        //If pos2 is present - assume character2 is at it
+        var before = character2.LocationPosition;
+        character2.LocationPosition = pos2 ?? before;
 
+        //Get the closest cube of character1 to the center of character2, applying shift if necessary
         var character1ClosestCube = GetCharacterClosestCubeToPosition(character1, GetPositionCenter(character2));
+
+        //Get the closest cube of character2 to the closest cube of character1, applying shift if necessary
         var character2ClosestCube = GetCharacterClosestCubeToPosition(character2, character1ClosestCube);
+
+        //Restore character2 position
+        character2.LocationPosition = before;
 
         return character1ClosestCube.ChessboardDistance(character2ClosestCube);
     }
