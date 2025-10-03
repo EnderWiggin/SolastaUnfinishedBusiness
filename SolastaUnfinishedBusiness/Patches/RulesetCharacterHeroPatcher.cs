@@ -964,6 +964,70 @@ public static class RulesetCharacterHeroPatcher
         }
     }
 
+    [HarmonyPatch(typeof(RulesetCharacterHero), nameof(RulesetCharacterHero.LookForFeatureOrigin))]
+    [SuppressMessage("Minor Code Smell", "S101:Types should be named in PascalCase", Justification = "Patch")]
+    [UsedImplicitly]
+    public static class LookForFeatureOrigin_Patch
+    {
+        [UsedImplicitly]
+        public static void Postfix(RulesetCharacterHero __instance, 
+            FeatureDefinition featureDefinition, 
+            ref CharacterRaceDefinition raceDefinition, 
+            ref CharacterClassDefinition classDefinition, 
+            ref FeatDefinition featDefinition)
+        {
+            if (raceDefinition != null || classDefinition != null || featDefinition != null)
+            {
+                return;
+            }
+            
+            //PATCH: allow looking for feature origin in union feature sets
+            foreach (var classesAndLevel in __instance.ClassesAndLevels)
+            {
+                foreach (var featureUnlock in classesAndLevel.Key.FeatureUnlocks)
+                {
+                    if (featureUnlock.FeatureDefinition is not FeatureDefinitionFeatureSet
+                        {
+                            Mode: FeatureDefinitionFeatureSet.FeatureSetMode.Union
+                        } featureSet)
+                    {
+                        continue;
+                    }
+
+                    if (featureSet.FeatureSet.Contains(featureDefinition))
+                    {
+                        classDefinition = classesAndLevel.Key;
+                        return;
+                    }
+                }
+
+                if (!__instance.ClassesAndSubclasses.ContainsKey(classesAndLevel.Key)
+                    || __instance.ClassesAndSubclasses[classesAndLevel.Key] == null)
+                {
+                    continue;
+                }
+
+                foreach (var featureUnlock in __instance.ClassesAndSubclasses[classesAndLevel.Key].FeatureUnlocks)
+                {
+                    if (featureUnlock.FeatureDefinition is not FeatureDefinitionFeatureSet
+                        {
+                            Mode: FeatureDefinitionFeatureSet.FeatureSetMode.Union
+                        } featureSet)
+                    {
+                        continue;
+                    }
+
+                    if (featureSet.FeatureSet.Contains(featureDefinition))
+                    {
+                        classDefinition = classesAndLevel.Key;
+                        return;
+                    }
+                }
+            }
+            
+        }
+    }
+    
     [HarmonyPatch(typeof(RulesetCharacterHero), nameof(RulesetCharacterHero.RefreshActiveFightingStyles))]
     [SuppressMessage("Minor Code Smell", "S101:Types should be named in PascalCase", Justification = "Patch")]
     [UsedImplicitly]
