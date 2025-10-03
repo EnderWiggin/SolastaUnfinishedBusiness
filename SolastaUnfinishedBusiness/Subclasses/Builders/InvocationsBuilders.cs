@@ -1236,8 +1236,8 @@ internal static class InvocationsBuilders
         var hasMalediction = hero.SpellRepertoires.Any(x => x.HasKnowledgeOfSpell(Malediction));
         var hasBestowCurse = hero.SpellRepertoires.Any(x => x.HasKnowledgeOfSpell(BestowCurse));
         var hasSignIllOmen = hero.TrainedInvocations.Any(x => x == InvocationDefinitions.SignIllOmen)
-                             || hero.GetHeroBuildingData().LevelupTrainedInvocations.Any(x =>
-                                 x.Value.Any(y => y == InvocationDefinitions.SignIllOmen));
+                             || hero.buildingData?.LevelupTrainedInvocations.Any(x =>
+                                 x.Value.Any(y => y == InvocationDefinitions.SignIllOmen)) == true;
         var isSoulblade = hero.GetSubclassLevel(CharacterClassDefinitions.Warlock, PatronSoulBlade.FullName) > 0;
         var hasHex = hasMalediction || hasBestowCurse || hasSignIllOmen || isSoulblade;
 
