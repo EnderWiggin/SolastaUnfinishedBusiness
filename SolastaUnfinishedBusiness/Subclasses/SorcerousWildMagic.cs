@@ -641,10 +641,6 @@ public sealed class SorcerousWildMagic : AbstractSubclass
 
             void ReactionValidated()
             {
-                // this is an exception to rule and only happens
-                // as powers added at 1st level from subclasses won't have a class assigned
-                usablePower.Consume();
-
                 List<TrendInfo> advantageTrends =
                     [new(1, FeatureSourceType.CharacterFeature, PowerTidesOfChaos.Name, PowerTidesOfChaos)];
 
