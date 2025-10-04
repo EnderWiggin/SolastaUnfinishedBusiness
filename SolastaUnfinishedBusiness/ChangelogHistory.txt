@@ -1,3 +1,10 @@
+1.5.97.97:
+- fixed crash when trying to hover over `Relentless Hex` invocation outside of level-up
+- fixed Tides of Chaos not spending its uses on reaction
+- fixed large creatures sometimes receiving AoO when moving without moving out of reach
+- made `Infectious Fury` from `Path of the Beast` barbarian trigger off unarmed attacks
+- updated description of `Infectious Fury` from `Path of the Beast` barbarian to state that it only works during your turn and elaborate on exact mechanics of marking and then using free actions to consume the mark
+
 1.5.97.96:
 - fixed readied `True Strike` 2024 version triggering without any effect in some cases
 - fixed material component validation for blade cantrips to properly require melee weapon in currently active equipment slots
