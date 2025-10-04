@@ -622,7 +622,7 @@ public sealed class SorcerousWildMagic : AbstractSubclass
 
             if (action.AttackRollOutcome is not (RollOutcome.Failure or RollOutcome.CriticalFailure) ||
                 helper != attacker ||
-                rulesetHelper.GetRemainingUsesOfPower(usablePower) == 0)
+                rulesetHelper.GetRemainingUsesOfPower(usablePower) <= 0)
             {
                 yield break;
             }
@@ -720,7 +720,7 @@ public sealed class SorcerousWildMagic : AbstractSubclass
 
             if (abilityCheckData.AbilityCheckRollOutcome is not (RollOutcome.Failure or RollOutcome.CriticalFailure) ||
                 helper != defender ||
-                rulesetHelper.GetRemainingUsesOfPower(usablePower) == 0)
+                rulesetHelper.GetRemainingUsesOfPower(usablePower) <= 0)
             {
                 yield break;
             }
@@ -775,7 +775,7 @@ public sealed class SorcerousWildMagic : AbstractSubclass
 
             if (savingThrowData.SaveOutcome is not RollOutcome.Failure ||
                 helper != defender ||
-                rulesetHelper.GetRemainingUsesOfPower(usablePower) == 0)
+                rulesetHelper.GetRemainingUsesOfPower(usablePower) <= 0)
             {
                 yield break;
             }
@@ -835,7 +835,7 @@ public sealed class SorcerousWildMagic : AbstractSubclass
 
             if (helper == attacker ||
                 !helper.CanReact() ||
-                rulesetHelper.GetRemainingUsesOfPower(usablePower) == 0 ||
+                rulesetHelper.GetRemainingUsesOfPower(usablePower) <= 0 ||
                 Math.Abs(action.AttackSuccessDelta) > 4)
             {
                 yield break;
@@ -946,7 +946,7 @@ public sealed class SorcerousWildMagic : AbstractSubclass
 
             if (helper == defender ||
                 !helper.CanReact() ||
-                rulesetHelper.GetRemainingUsesOfPower(usablePower) == 0 ||
+                rulesetHelper.GetRemainingUsesOfPower(usablePower) <= 0 ||
                 Math.Abs(abilityCheckData.AbilityCheckSuccessDelta) > 4)
             {
                 yield break;
@@ -1063,7 +1063,7 @@ public sealed class SorcerousWildMagic : AbstractSubclass
 
             if (helper == defender ||
                 !helper.CanReact() ||
-                rulesetHelper.GetRemainingUsesOfPower(usablePower) == 0 ||
+                rulesetHelper.GetRemainingUsesOfPower(usablePower) <= 0 ||
                 Math.Abs(savingThrowData.SaveOutcomeDelta) > 4)
             {
                 yield break;
