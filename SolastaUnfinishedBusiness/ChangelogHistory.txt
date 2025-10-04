@@ -1,3 +1,7 @@
+1.5.97.98:
+- fixed `Tides of Chaos` reaction to missed attack consuming 2 charges
+- fixed `Tides of Chaos` reaction triggering if you have less than 0 charges
+
 1.5.97.97:
 - fixed crash when trying to hover over `Relentless Hex` invocation outside of level-up
 - fixed Tides of Chaos not spending its uses on reaction
