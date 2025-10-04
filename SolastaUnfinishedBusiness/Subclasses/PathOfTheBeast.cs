@@ -707,7 +707,7 @@ public sealed class PathOfTheBeast : AbstractSubclass
                 rulesetDefender is not { IsDeadOrDyingOrUnconscious: false } ||
                 rulesetDefender.HasAnyConditionOfType(condition.name) ||
                 attackMode.SourceDefinition is not ItemDefinition item ||
-                !item.ItemTags.Contains(TagBeastWeapon))
+                (!item.ItemTags.Contains(TagBeastWeapon) && item != ItemDefinitions.UnarmedStrikeBase))
             {
                 yield break;
             }
