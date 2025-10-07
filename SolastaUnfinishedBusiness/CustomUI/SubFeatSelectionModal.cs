@@ -7,7 +7,6 @@ using SolastaUnfinishedBusiness.Models;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
-using static UnityEngine.GameObject;
 
 namespace SolastaUnfinishedBusiness.CustomUI;
 
@@ -66,8 +65,9 @@ internal class SubFeatSelectionModal : GuiGameScreen
 
     private static SubFeatSelectionModal _instance;
     private GuiModifierSubMenu _animator;
+    private CanvasRenderer _renderer;
+    private CanvasGroup _group;
     private RectTransform _attachment;
-    private Image _background;
     private FeatItem _baseItem;
     private Button _button;
     private RulesetCharacterHero _character;
@@ -88,10 +88,10 @@ internal class SubFeatSelectionModal : GuiGameScreen
     {
         gameObject.AddComponent<RectTransform>();
         gameObject.AddComponent<GuiTooltip>();
+        _renderer = gameObject.AddComponent<CanvasRenderer>();
+        _group = gameObject.AddComponent<CanvasGroup>();
         _animator = gameObject.AddComponent<GuiModifierSubMenu>();
-        _image = gameObject.AddComponent<Image>();
         _button = gameObject.AddComponent<Button>();
-
         base.Awake();
     }
 
@@ -123,10 +123,10 @@ internal class SubFeatSelectionModal : GuiGameScreen
 
         attachTo.GetWorldCorners(corners);
 
-        const float H_STEP = FeatsContext.Width + (2 * FeatsContext.Spacing);
+        const float H_STEP = FeatsContext.Width + 2 * FeatsContext.Spacing;
         const float V_STEP = -(FeatsContext.Height + FeatsContext.Spacing);
 
-        var position = attachTo.position;
+        var position = transform.InverseTransformVector(attachTo.position);
         // ReSharper disable once Unity.UnknownResource
         var featPrefab = Resources.Load<GameObject>("Gui/Prefabs/CharacterInspection/Proficiencies/FeatItem");
         var header = Gui.GetPrefabFromPool(featPrefab, _featTable).GetComponent<FeatItem>();
@@ -137,17 +137,17 @@ internal class SubFeatSelectionModal : GuiGameScreen
         var num = subFeats.Count;
         var columns = (int)Math.Ceiling(num / 6f);
         var d = (1 - columns) / 2f;
-        var headerMaxWidth = ((columns + 0.2f) * FeatsContext.Width) + ((columns - 1) * FeatsContext.Spacing * 2);
+        var headerMaxWidth = (columns + 0.2f) * FeatsContext.Width + (columns - 1) * FeatsContext.Spacing * 2;
 
         var sz = headerRect.sizeDelta;
 
         sz.x = FeatsContext.Width;
         headerRect.sizeDelta = sz;
-        headerRect.position = position;
+        headerRect.localPosition = position;
         header.Refresh(ProficiencyBaseItem.InteractiveMode.Static, HeroDefinitions.PointsPoolType.Feat);
         SetColor(header, HeaderColor);
 
-        position += new Vector3(0, V_STEP, 0);
+        position += new Vector3(0, V_STEP);
 
         var i = 0;
 
@@ -160,13 +160,13 @@ internal class SubFeatSelectionModal : GuiGameScreen
             var column = i % columns;
             var row = i / columns;
 
-            item.GetComponent<RectTransform>().position =
-                position + new Vector3(H_STEP * (column + d), V_STEP * row, 0);
+            item.GetComponent<RectTransform>().localPosition =
+                position + new Vector3(H_STEP * (column + d), V_STEP * row);
             item.transform.SetAsFirstSibling();
             i++;
         }
 
-        _animator.Init(_background, _featTable, headerMaxWidth);
+        _animator.Init(_image, _featTable, headerMaxWidth);
 
         Visible = false;
     }
@@ -222,31 +222,32 @@ internal class SubFeatSelectionModal : GuiGameScreen
 
     private void LocalInit()
     {
-        if (_localInitialized)
-        {
-            return;
-        }
+        if (_localInitialized) { return; }
 
-        var levelUp = Gui.GuiService.GetScreen<CharacterLevelUpScreen>();
+        var black = MakeBlackSprite();
+        _renderer.cull = true;
 
-        //set sort index to just above levelUp screen so it has input handling priority
-        SortIndex = levelUp.SortIndex + 1;
+        _group.blocksRaycasts = true;
+        _group.interactable = true;
+        _group.enabled = true;
 
+        var levelUp = Gui.GuiService.GetScreen<CharacterLevelUpScreen>().GetComponent<RectTransform>();
+
+        transform.parent = levelUp.parent;
         //put it visually just above levelUp screen
-        transform.parent = Find("Application/GUI/BackgroundCanvas/ForegroundCanvas").transform.parent;
+        transform.SetSiblingIndex(levelUp.GetSiblingIndex() + 1);
 
-        var levelUpIndex = levelUp.transform.GetSiblingIndex();
+        RectTransform.sizeDelta = levelUp.sizeDelta;
+        RectTransform.anchorMin = levelUp.anchorMin;
+        RectTransform.anchorMax = levelUp.anchorMax;
+        RectTransform.pivot = levelUp.pivot;
+        RectTransform.position = levelUp.position;
+        RectTransform.localScale = Vector3.one;
 
-        transform.SetSiblingIndex(levelUpIndex + 1);
-
-        RectTransform.sizeDelta = new Vector2(200, 200);
-        RectTransform.anchorMin = new Vector2(0, 0);
-        RectTransform.anchorMax = new Vector2(1, 1);
-        RectTransform.pivot = new Vector2(0f, 0f);
-        RectTransform.position = new Vector3(0, 0, 0);
-
-        _image.sprite = Gui.GuiService.GetScreen<BlackScreen>().GetComponent<Image>().sprite;
-        _image.color = new Color(0, 0, 0, 0.25f);
+        _image = gameObject.AddComponent<Image>();
+        _image.sprite = black;
+        _image.raycastTarget = true;
+        _image.color = new Color(0, 0, 0, 0.75f);
         _image.alphaHitTestMinimumThreshold = 0;
 
         _button.onClick.AddListener(OnCloseCb);
@@ -256,33 +257,33 @@ internal class SubFeatSelectionModal : GuiGameScreen
         GuiTooltip.tooltipClass = string.Empty;
 
         //create background
-        var tmp = new GameObject();
-
-        tmp.AddComponent<RectTransform>();
-
-        var rt = tmp.GetComponent<RectTransform>();
+        var tmp = new GameObject { name = "Background" };
+        var rt = tmp.AddComponent<RectTransform>();
 
         rt.parent = transform;
-        rt.anchorMin = new Vector2(0, 0);
-        rt.anchorMax = new Vector2(1, 1);
-        rt.pivot = new Vector2(0f, 0f);
-        rt.position = new Vector3(0, 0, 0);
-        rt.sizeDelta = new Vector2(5120, 2160);
+        rt.sizeDelta = levelUp.sizeDelta;
+        rt.anchorMin = levelUp.anchorMin;
+        rt.anchorMax = levelUp.anchorMax;
+        rt.pivot = levelUp.pivot;
+        rt.position = levelUp.position;
+        rt.localScale = Vector3.one;
 
-        _background = tmp.AddComponent<Image>();
-        _background.sprite = Gui.GuiService.GetScreen<BlackScreen>().GetComponent<Image>().sprite;
-        _background.color = new Color(0, 0, 0, 0.75f);
-        _background.alphaHitTestMinimumThreshold = 0;
+        _image = tmp.AddComponent<Image>();
+        _image.sprite = black;
+        _image.raycastTarget = true;
+        _image.color = new Color(0, 0, 0, 0.75f);
+        _image.alphaHitTestMinimumThreshold = 0;
 
         //create container for feat items
-        tmp = new GameObject();
-        tmp.AddComponent<RectTransform>();
-        _featTable = tmp.GetComponent<RectTransform>();
+        tmp = new GameObject { name = "FeatsTable" };
+
+        _featTable = tmp.AddComponent<RectTransform>();
         _featTable.parent = transform;
         _featTable.anchorMin = new Vector2(0, 0);
         _featTable.anchorMax = new Vector2(1, 1);
         _featTable.pivot = new Vector2(0f, 0f);
         _featTable.position = new Vector3(0, 0, 0);
+        _featTable.localScale = Vector3.one;
 
         _localInitialized = true;
     }
@@ -490,5 +491,18 @@ internal class SubFeatSelectionModal : GuiGameScreen
     {
         Gui.InputService.InputActionAsset.FindActionMap(ActionMap).FindAction("Cancel").performed -=
             CancelPerformed;
+    }
+
+    private static Sprite MakeBlackSprite()
+    {
+        // return Gui.GuiService.GetScreen<BlackScreen>().GetComponent<Image>().sprite;
+
+        // Create a new Texture2D
+        var texture = new Texture2D(1, 1);
+        texture.SetPixels([Color.black]);
+        texture.Apply(); // Apply the changes to the texture
+
+        // Create a new Sprite from the black texture
+        return Sprite.Create(texture, new Rect(0, 0, 1, 1), new Vector2(0.5f, 0.5f));
     }
 }
