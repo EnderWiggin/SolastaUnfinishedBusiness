@@ -896,11 +896,12 @@ public static class RulesetImplementationManagerPatcher
         [UsedImplicitly]
         public static bool Prefix(
             RulesetCharacter caster,
-            RulesetActor target,
+            RulesetActor targetActor,
             BaseDefinition sourceDefinition)
         {
             //PATCH: illusionary spells against creatures with True Sight should automatically save
             if (!Main.Settings.IllusionSpellsAutomaticallyFailAgainstTrueSightInRange ||
+                targetActor is not RulesetCharacter target ||
                 sourceDefinition is not
                     SpellDefinition { SchoolOfMagic: SchoolIllusion, EffectDescription.TargetSide: Side.Enemy } ||
                 sourceDefinition == DatabaseHelper.SpellDefinitions.Silence)
@@ -916,7 +917,7 @@ public static class RulesetImplementationManagerPatcher
                 return true;
             }
 
-            var senseMode = glTarget.RulesetCharacter.SenseModes
+            var senseMode = target.SenseModes
                 .FirstOrDefault(x => x.SenseType == SenseMode.Type.Truesight);
 
             return senseMode == null || !glTarget.IsWithinRange(glCaster, senseMode.SenseRange);

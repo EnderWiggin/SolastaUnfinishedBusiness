@@ -818,12 +818,13 @@ public static class GameLocationBattleManagerPatcher
                 if (rulesetEffect is { SourceDefinition: SpellDefinition spellDefinition })
                 {
                     //PATCH: illusionary spells against creatures with True Sight should automatically save
+                    var rulesetDefender = defender.RulesetCharacter;
                     if (Main.Settings.IllusionSpellsAutomaticallyFailAgainstTrueSightInRange &&
+                        rulesetDefender != null &&
                         spellDefinition.SchoolOfMagic == SchoolIllusion &&
                         spellDefinition.EffectDescription.TargetSide == Side.Enemy &&
                         spellDefinition != DatabaseHelper.SpellDefinitions.Silence)
                     {
-                        var rulesetDefender = defender.RulesetCharacter;
                         var senseMode =
                             rulesetDefender.SenseModes.FirstOrDefault(x => x.SenseType == SenseMode.Type.Truesight);
 
