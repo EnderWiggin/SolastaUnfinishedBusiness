@@ -371,10 +371,20 @@ internal static class GrappleContext
             ConditionGrappleSourceWithGrapplerName,
             ConditionGrappleSourceWithGrapplerLargerName);
     }
-    
+
     internal static bool HasGrappleImmunity(RulesetCharacter character)
     {
         return character.HasAnyFeature(ImmuneToGrappleFeatureName);
+    }
+
+    internal static bool TooBigToGrapple(RulesetCharacter grappler, RulesetCharacter target)
+    {
+        return grappler.SizeDefinition.WieldingSize - target.SizeDefinition.WieldingSize < -1;
+    }
+
+    public static bool CantGrapple(RulesetCharacter grappler, RulesetCharacter target)
+    {
+        return TooBigToGrapple(grappler, target) || HasGrappleImmunity(target);
     }
 
     internal static bool GetGrappledActor(
@@ -447,7 +457,7 @@ internal static class GrappleContext
             var actingCharacter = __instance.ActionParams.ActingCharacter;
             var rulesetCharacter = actingCharacter.RulesetCharacter;
 
-            if (rulesetCharacter.SizeDefinition.WieldingSize - rulesetTarget.SizeDefinition.WieldingSize < -1)
+            if (TooBigToGrapple(actingCharacter.RulesetCharacter, rulesetTarget))
             {
                 __instance.actionModifier.FailureFlags.Add("Failure/&TargetMustBeNoMoreThanOneSizeLarger");
 

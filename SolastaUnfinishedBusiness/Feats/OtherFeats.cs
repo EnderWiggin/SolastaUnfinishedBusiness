@@ -1040,13 +1040,14 @@ internal static class OtherFeats
             int damageAmount)
         {
             var rulesetAttacker = attacker.RulesetCharacter;
+            var rulesetDefender = defender.RulesetCharacter;
 
             if (rollOutcome is not (RollOutcome.Success or RollOutcome.CriticalSuccess) ||
                 !ValidatorsWeapon.IsUnarmed(attackMode) ||
-                defender.RulesetCharacter is not { IsDeadOrDyingOrUnconscious: false } ||
+                rulesetDefender is not { IsDeadOrDyingOrUnconscious: false } ||
                 !rulesetAttacker.IsToggleEnabled((Id)ExtraActionId.GrappleOnUnarmedToggle) ||
-                attacker.GetSpecialFeatureUses(FeatGrappler.Name) >= 0 || 
-                GrappleContext.HasGrappleImmunity(defender.RulesetCharacter))
+                attacker.GetSpecialFeatureUses(FeatGrappler.Name) >= 0 ||
+                GrappleContext.CantGrapple(rulesetAttacker, rulesetDefender))
             {
                 yield break;
             }
