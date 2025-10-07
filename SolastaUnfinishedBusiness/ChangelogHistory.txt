@@ -1,3 +1,9 @@
+1.5.97.99:
+- fixed Grappler feat prompting grapple for creatures that are too big
+- fixed crash when casting Illusion spells/cantrips on gadgets with `Illusion spells automatically fail against targets with True Sight` enabled
+- fixed Feat selection modal for feat groups not blocking clicks on environment
+- fixed Feat selection modal for feat groups background size on some resolutions not fully covering screen
+
 1.5.97.98:
 - fixed `Tides of Chaos` reaction to missed attack consuming 2 charges
 - fixed `Tides of Chaos` reaction triggering if you have less than 0 charges
