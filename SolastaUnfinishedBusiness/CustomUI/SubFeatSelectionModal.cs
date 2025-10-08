@@ -231,9 +231,12 @@ internal class SubFeatSelectionModal : GuiGameScreen
         _group.interactable = true;
         _group.enabled = true;
 
-        var levelUp = Gui.GuiService.GetScreen<CharacterLevelUpScreen>().GetComponent<RectTransform>();
+        var levelUpScreen = Gui.GuiService.GetScreen<CharacterLevelUpScreen>();
+        var levelUp = levelUpScreen.GetComponent<RectTransform>();
 
         transform.parent = levelUp.parent;
+        //set sort index to just above levelUp screen so it has input handling priority
+        SortIndex = levelUpScreen.SortIndex + 1;
         //put it visually just above levelUp screen
         transform.SetSiblingIndex(levelUp.GetSiblingIndex() + 1);
 
