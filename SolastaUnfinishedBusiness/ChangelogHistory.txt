@@ -1,3 +1,7 @@
+1.5.97.100:
+- fixed input handling for Feat selection modal for feat groups
+- fixed (again) being able to interact with the game world below Feat selection modal for feat groups
+
 1.5.97.99:
 - fixed Grappler feat prompting grapple for creatures that are too big
 - fixed crash when casting Illusion spells/cantrips on gadgets with `Illusion spells automatically fail against targets with True Sight` enabled
