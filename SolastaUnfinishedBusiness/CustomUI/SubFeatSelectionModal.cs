@@ -65,7 +65,6 @@ internal class SubFeatSelectionModal : GuiGameScreen
 
     private static SubFeatSelectionModal _instance;
     private GuiModifierSubMenu _animator;
-    private CanvasRenderer _renderer;
     private CanvasGroup _group;
     private RectTransform _attachment;
     private FeatItem _baseItem;
@@ -88,7 +87,7 @@ internal class SubFeatSelectionModal : GuiGameScreen
     {
         gameObject.AddComponent<RectTransform>();
         gameObject.AddComponent<GuiTooltip>();
-        _renderer = gameObject.AddComponent<CanvasRenderer>();
+        gameObject.AddComponent<CanvasRenderer>();
         _group = gameObject.AddComponent<CanvasGroup>();
         _animator = gameObject.AddComponent<GuiModifierSubMenu>();
         _button = gameObject.AddComponent<Button>();
@@ -224,8 +223,7 @@ internal class SubFeatSelectionModal : GuiGameScreen
     {
         if (_localInitialized) { return; }
 
-        var black = MakeBlackSprite();
-        _renderer.cull = true;
+        gameObject.layer = LayerMask.NameToLayer("UI");
 
         _group.blocksRaycasts = true;
         _group.interactable = true;
@@ -248,9 +246,8 @@ internal class SubFeatSelectionModal : GuiGameScreen
         RectTransform.localScale = Vector3.one;
 
         _image = gameObject.AddComponent<Image>();
-        _image.sprite = black;
         _image.raycastTarget = true;
-        _image.color = new Color(0, 0, 0, 0.75f);
+        _image.color = new Color(0, 0, 0, 0.85f);
         _image.alphaHitTestMinimumThreshold = 0;
 
         _button.onClick.AddListener(OnCloseCb);
@@ -259,26 +256,8 @@ internal class SubFeatSelectionModal : GuiGameScreen
         GuiTooltip.Disabled = false;
         GuiTooltip.tooltipClass = string.Empty;
 
-        //create background
-        var tmp = new GameObject { name = "Background" };
-        var rt = tmp.AddComponent<RectTransform>();
-
-        rt.parent = transform;
-        rt.sizeDelta = levelUp.sizeDelta;
-        rt.anchorMin = levelUp.anchorMin;
-        rt.anchorMax = levelUp.anchorMax;
-        rt.pivot = levelUp.pivot;
-        rt.position = levelUp.position;
-        rt.localScale = Vector3.one;
-
-        _image = tmp.AddComponent<Image>();
-        _image.sprite = black;
-        _image.raycastTarget = true;
-        _image.color = new Color(0, 0, 0, 0.75f);
-        _image.alphaHitTestMinimumThreshold = 0;
-
         //create container for feat items
-        tmp = new GameObject { name = "FeatsTable" };
+        var tmp = new GameObject { name = "FeatsTable" };
 
         _featTable = tmp.AddComponent<RectTransform>();
         _featTable.parent = transform;
@@ -494,18 +473,5 @@ internal class SubFeatSelectionModal : GuiGameScreen
     {
         Gui.InputService.InputActionAsset.FindActionMap(ActionMap).FindAction("Cancel").performed -=
             CancelPerformed;
-    }
-
-    private static Sprite MakeBlackSprite()
-    {
-        // return Gui.GuiService.GetScreen<BlackScreen>().GetComponent<Image>().sprite;
-
-        // Create a new Texture2D
-        var texture = new Texture2D(1, 1);
-        texture.SetPixels([Color.black]);
-        texture.Apply(); // Apply the changes to the texture
-
-        // Create a new Sprite from the black texture
-        return Sprite.Create(texture, new Rect(0, 0, 1, 1), new Vector2(0.5f, 0.5f));
     }
 }
