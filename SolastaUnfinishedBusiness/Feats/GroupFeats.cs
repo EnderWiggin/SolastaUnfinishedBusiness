@@ -122,7 +122,6 @@ internal static class GroupFeats
     internal static void Load(Action<FeatDefinition> loader)
     {
         MakeFeatGroupHalfAttributes();
-        Groups.ForEach(ApplyDynamicDescription);
         Groups.ForEach(loader);
     }
 
@@ -185,24 +184,6 @@ internal static class GroupFeats
             featGroupHalfIntelligence,
             featGroupHalfWisdom,
             featGroupHalfCharisma);
-    }
-
-    private static void ApplyDynamicDescription(FeatDefinition groupDefinition)
-    {
-        var groupedFeat = groupDefinition.GetFirstSubFeatureOfType<GroupedFeat>();
-
-        if (groupedFeat == null)
-        {
-            return;
-        }
-
-        var titles = groupedFeat.GetSubFeats(true)
-            .Select(x => x.FormatTitle())
-            .OrderBy(x => x)
-            .ToArray();
-        var title = string.Join(", ", titles);
-
-        groupDefinition.guiPresentation.description = Gui.Format(groupDefinition.guiPresentation.description, title);
     }
 
     //

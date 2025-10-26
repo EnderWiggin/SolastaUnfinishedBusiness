@@ -2045,7 +2045,7 @@ internal static class OtherFeats
     {
         var feat = FeatDefinitionWithPrerequisitesBuilder
             .Create($"Feat{fightingStyle.Name}")
-            .SetGuiPresentation(fightingStyle.GuiPresentation)
+            .SetGuiPresentation(new GuiPresentation(fightingStyle.GuiPresentation))
             .SetFeatures(
                 FeatureDefinitionProficiencyBuilder
                     .Create($"ProficiencyFeat{fightingStyle.Name}")
@@ -2055,6 +2055,8 @@ internal static class OtherFeats
             .SetFeatFamily(GroupFeats.FightingStyle)
             .SetValidators(ValidatorsFeat.ValidateNotFightingStyle(fightingStyle))
             .AddToDB();
+
+        feat.GuiPresentation.hidden = FightingStyleContext.HideFightingStyle(fightingStyle);
 
         // supports custom pools [only superior technique now]
         feat.Features.AddRange(fightingStyle.Features.OfType<FeatureDefinitionCustomInvocationPool>());

@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using JetBrains.Annotations;
-using SolastaUnfinishedBusiness.Feats;
 using SolastaUnfinishedBusiness.FightingStyles;
 
 namespace SolastaUnfinishedBusiness.Models;
@@ -56,10 +55,14 @@ internal static class FightingStyleContext
     {
         var name = fightingStyleDefinition.Name;
         var choiceLists = FightingStylesChoiceList[fightingStyleDefinition];
+        var enabled = Main.Settings.FightingStyleEnabled.Contains(name);
+        var hasFeat = DatabaseRepository.GetDatabase<FeatDefinition>().TryGetElement($"Feat{name}", out var feat);
+
+        if (hasFeat) { feat.GuiPresentation.hidden = !enabled; }
 
         foreach (var fightingStyles in choiceLists.Select(cl => cl.FightingStyles))
         {
-            if (Main.Settings.FightingStyleEnabled.Contains(name))
+            if (enabled)
             {
                 fightingStyles.TryAdd(name);
             }
@@ -70,6 +73,22 @@ internal static class FightingStyleContext
         }
     }
 
+    internal static bool HideFightingStyle(FeatDefinition feat)
+    {
+        if (!feat.Name.StartsWith("Feat")) { return false; }
+
+        var styleName = feat.Name.Substring(4);
+
+        return FightingStyles.Any(x => x.Name == styleName)
+               && !Main.Settings.FightingStyleEnabled.Contains(styleName);
+    }
+
+    internal static bool HideFightingStyle(FightingStyleDefinition fightingStyle)
+    {
+        return FightingStyles.Contains(fightingStyle)
+               && !Main.Settings.FightingStyleEnabled.Contains(fightingStyle.Name);
+    }
+
     internal static void Switch(FightingStyleDefinition fightingStyleDefinition, bool active)
     {
         if (!FightingStyles.Contains(fightingStyleDefinition))
@@ -78,29 +97,18 @@ internal static class FightingStyleContext
         }
 
         var name = fightingStyleDefinition.Name;
-        // Druidic and Paladin FS don't have a feat
-        var hasFeat = DatabaseRepository.GetDatabase<FeatDefinition>().TryGetElement($"Feat{name}", out var feat);
 
         if (active)
         {
             Main.Settings.FightingStyleEnabled.TryAdd(name);
-
-            if (hasFeat)
-            {
-                GroupFeats.FeatGroupFightingStyle.AddFeats(feat);
-            }
         }
         else
         {
             Main.Settings.FightingStyleEnabled.Remove(name);
-
-            if (hasFeat)
-            {
-                GroupFeats.FeatGroupFightingStyle.RemoveFeats(feat);
-            }
         }
 
-        if (hasFeat)
+        // Druidic and Paladin FS don't have a feat
+        if (DatabaseRepository.GetDatabase<FeatDefinition>().TryGetElement($"Feat{name}", out var feat))
         {
             feat.GuiPresentation.hidden = !active;
         }
