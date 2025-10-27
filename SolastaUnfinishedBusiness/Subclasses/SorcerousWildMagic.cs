@@ -1303,7 +1303,7 @@ public sealed class SorcerousWildMagic : AbstractSubclass
             // A random creature within 60 feet of you (other than you) can fly for one minute.
             case 11:
                 InflictConditionOnRandomCreatureWithinRange(
-                    caster, RuleDefinitions.ConditionFlying,
+                    caster, "ConditionFlying12",
                     DurationType.Minute, 1, TurnOccurenceType.EndOfTurn, PowerSorcererManaPainterDrain, 12);
                 break;
 
