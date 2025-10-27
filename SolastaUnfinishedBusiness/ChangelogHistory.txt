@@ -1,3 +1,8 @@
+1.5.97.101:
+- fixed patch for illusionary spells against creatures with True Sight should automatically save being broken by recent changes
+- fixed selected or disabled Fighting Styles not updating in Fighting Initiate feat on game startup, only on option change
+- fixed `Wild Surge` `Fly` condition
+
 1.5.97.100:
 - fixed input handling for Feat selection modal for feat groups
 - fixed (again) being able to interact with the game world below Feat selection modal for feat groups
