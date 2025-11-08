@@ -18,8 +18,8 @@ namespace SolastaUnfinishedBusiness.Api.Helpers;
 
 internal static class LevelUpHelper
 {
-    internal const string ExtraClassTag = ""; //""@Class";
-    internal const string ExtraSubclassTag = ""; //""@Subclass";
+    internal const string ExtraClassTag = "@Class";
+    internal const string ExtraSubclassTag = "@Subclass";
 
     // keeps a tab on all heroes leveling up
     private static readonly Dictionary<RulesetCharacterHero, LevelUpData> LevelUpTab = new();
