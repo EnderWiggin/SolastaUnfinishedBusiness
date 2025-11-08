@@ -305,8 +305,13 @@ paket-files/
 __pycache__/
 *.pyc
 
+<<<<<<< HEAD
 # Environment files with sensitive data
 Scripts/.env
+=======
+# Linux dotenv  files
+.envrc
+>>>>>>> 4b48b486fa (Add .envrc to gitignore for linux direnv users)
 
 # Cake - Uncomment if you are using it
 # tools/**
