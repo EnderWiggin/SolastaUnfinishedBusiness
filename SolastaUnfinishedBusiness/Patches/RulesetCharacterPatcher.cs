@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
@@ -880,6 +880,7 @@ public static class RulesetCharacterPatcher
         }
     }
 
+
     [HarmonyPatch(typeof(RulesetCharacter), nameof(RulesetCharacter.IsSubjectToAttackOfOpportunity))]
     [SuppressMessage("Minor Code Smell", "S101:Types should be named in PascalCase", Justification = "Patch")]
     [UsedImplicitly]
@@ -893,6 +894,19 @@ public static class RulesetCharacterPatcher
             //PATCH: allows custom exceptions for attack of opportunity triggering
             //Mostly for Sentinel feat
             __result = AttacksOfOpportunity.IsSubjectToAttackOfOpportunity(__instance, attacker, __result, distance);
+            
+            //PATCH: Swashbuckler Panache prevents AoO against allies
+            if (__result && attacker.TryGetConditionOfCategoryAndType(
+                AttributeDefinitions.TagEffect,
+                "ConditionRoguishSwashbucklerPanache",
+                out var panacheCondition))
+            {
+                var source = EffectHelpers.GetCharacterByGuid(panacheCondition.SourceGuid);
+                if (source != null && __instance != source && __instance.Side == source.Side)
+                {
+                    __result = false;
+                }
+            }
         }
     }
 
