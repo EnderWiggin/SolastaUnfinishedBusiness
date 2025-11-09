@@ -30,8 +30,8 @@ public static partial class Tabletop2024Context
     private const string Stage = "WeaponMasteryRelearn";
     private const string IndexUnlearn = "WeaponMasteryUnlearn";
     private const string IndexLearn = "WeaponMasteryLearn";
-    private const int StageUnlearn = -1;
-    private const int StageLearn = 1;
+    private const int StageNotLearned = -1;
+    private const int StageLearned = 1;
 
     private const string WeaponMasteryCleave = "WeaponMasteryCleave";
     private const string WeaponMasteryNick = "WeaponMasteryNick";
@@ -1205,7 +1205,7 @@ public static partial class Tabletop2024Context
             }
 
             rulesetCharacter.UsablePowers.AddRange(usablePowers);
-            character.SetSpecialFeatureUses(Stage, StageUnlearn);
+            character.SetSpecialFeatureUses(Stage, StageNotLearned);
 
             yield return character.MyReactToSpendPowerBundle(
                 usablePower,
@@ -1245,7 +1245,6 @@ public static partial class Tabletop2024Context
             }
 
             rulesetCharacter.UsablePowers.AddRange(usablePowers);
-            character.SetSpecialFeatureUses(Stage, StageLearn);
 
             yield return character.MyReactToSpendPowerBundle(
                 usablePower,
@@ -1258,6 +1257,11 @@ public static partial class Tabletop2024Context
 
             usablePowers.Do(x => rulesetCharacter.UsablePowers.Remove(x));
 
+            if (!aborted)
+            {
+                character.SetSpecialFeatureUses(Stage, StageLearned);
+            }
+                
             yield break;
 
             void ReactionValidatedUnlearn(ReactionRequestSpendBundlePower reactionRequest)
