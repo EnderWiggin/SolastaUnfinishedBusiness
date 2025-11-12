@@ -899,7 +899,7 @@ internal static class CampaignsContext
             ResetFormationGrid(i);
         }
 
-        Main.Settings.FormationGridSelectedSet = 0;
+        Main.Settings.FormationGridSelectedSet = 1;
     }
 
     private static void LoadFormationGrid()
