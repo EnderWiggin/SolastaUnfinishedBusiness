@@ -1,3 +1,10 @@
+1.5.97.102:
+- Merged sever Pull Requests:
+  - fixes for spell and cantrip tooltip translations (fix by Jack)
+  - fixed default selected formation when using formation reset button (fix by Jack)
+  - fixed Starry Wisp cantrip not preventing invisibility on target (fix by Zappa)
+  - fixed crash when cancelling Weapon mastery re-learn (fix by Zappa)
+
 1.5.97.101:
 - fixed patch for illusionary spells against creatures with True Sight should automatically save being broken by recent changes
 - fixed selected or disabled Fighting Styles not updating in Fighting Initiate feat on game startup, only on option change
