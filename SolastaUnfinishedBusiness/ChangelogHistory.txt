@@ -1,5 +1,5 @@
 1.5.97.102:
-- Merged sever Pull Requests:
+- Merged several Pull Requests:
   - fixes for spell and cantrip tooltip translations (fix by Jack)
   - fixed default selected formation when using formation reset button (fix by Jack)
   - fixed Starry Wisp cantrip not preventing invisibility on target (fix by Zappa)
