@@ -607,6 +607,13 @@ internal static partial class SpellBuilders
             .SetGuiPresentation(Category.Condition, ConditionDefinitions.ConditionLightSensitive)
             .SetSilent(Silent.WhenAddedOrRemoved)
             .SetConditionType(ConditionType.Detrimental)
+            .SetFeatures(
+                FeatureDefinitionConditionAffinityBuilder
+                        .Create($"ConditionAffinity{NAME}")
+                        .SetGuiPresentationNoContent(true)
+                        .SetConditionAffinityType(ConditionAffinityType.Immunity)
+                        .SetConditionType(ConditionInvisibleBase)
+                        .AddToDB())
             .AddToDB();
 
         var spell = SpellDefinitionBuilder
