@@ -1,3 +1,6 @@
+1.5.97.103:
+- fixed crash when opening spell selection panel 
+
 1.5.97.102:
 - Merged several Pull Requests:
   - fixes for spell and cantrip tooltip translations (fix by Jack)
