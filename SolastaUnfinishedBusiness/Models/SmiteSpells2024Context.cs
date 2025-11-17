@@ -387,6 +387,8 @@ internal class ReactionRequestSelectSmiteSlot : ReactionRequestCastSpell
     private readonly bool _freeUseAvailable;
     public const string Name = "SmiteSlotSelect";
     private readonly string _spellName;
+    private int _spellLevel;
+    private int _selectedOption = -1;
 
     public ReactionRequestSelectSmiteSlot(CharacterActionParams actionParams, bool hasFreeUse, bool freeUseAvailable)
         : base(Name, actionParams)
@@ -401,29 +403,29 @@ internal class ReactionRequestSelectSmiteSlot : ReactionRequestCastSpell
 
     private new void BuildSlotSubOptions()
     {
+        _selectedOption = -1;
         SubOptionsAvailability.Clear();
         if (reactionParams.RulesetEffect is not RulesetEffectSpell spellEffect) { return; }
 
         var spellRepertoire = spellEffect.SpellRepertoire;
+        var maxSpellLevel = spellRepertoire.MaxSpellLevelOfSpellCastingLevel;
         var spell = spellEffect.SpellDefinition;
-        var spellLevel = spell.SpellLevel;
+        _spellLevel = spell.SpellLevel;
 
         var preSelected = -1;
+        var index = 0;
         if (_hasFreeUse)
         {
+            index++;
             SubOptionsAvailability.Add(0, _freeUseAvailable);
             if (_freeUseAvailable) { preSelected = 0; }
-
-            SelectSubOption(0);
         }
 
-        for (var index = 1; index <= spellRepertoire.MaxSpellLevelOfSpellCastingLevel; ++index)
+        for (var slotLevel = _spellLevel; slotLevel <= maxSpellLevel; ++slotLevel, ++index)
         {
-            if (index < spellLevel) { continue; }
-
-            spellRepertoire.GetSlotsNumber(index, out var remaining, out _);
+            spellRepertoire.GetSlotsNumber(slotLevel, out var remaining, out _);
             var hasSlots = remaining > 0;
-            SubOptionsAvailability.Add(index, hasSlots);
+            SubOptionsAvailability.Add(slotLevel, hasSlots);
             if (preSelected < 0 && hasSlots) { preSelected = index; }
         }
 
@@ -434,9 +436,17 @@ internal class ReactionRequestSelectSmiteSlot : ReactionRequestCastSpell
     {
         if (reactionParams.RulesetEffect is not RulesetEffectSpell spellEffect) { return; }
 
-        spellEffect.SlotLevel = option;
+        _selectedOption = option;
+        var slotLevel = _spellLevel + option;
+        if (_hasFreeUse && option == 0)
+        {
+            slotLevel += 1;
+        }
+
+        spellEffect.SlotLevel = slotLevel;
     }
 
+    public override int SelectedSubOption => _selectedOption;
     public override string SuboptionTag => "DivineSmite";
 
     public override string FormatTitle()
