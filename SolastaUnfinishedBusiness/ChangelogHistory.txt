@@ -1,3 +1,8 @@
+1.5.97.104:
+- fixed damage of Branding Smite being 1 dice bigger than intended
+- fixed smite spells 2024 slot level selection using wrong spell slots
+- fixed potential crash related to effect proxies
+
 1.5.97.103:
 - fixed crash when opening spell selection panel 
 
