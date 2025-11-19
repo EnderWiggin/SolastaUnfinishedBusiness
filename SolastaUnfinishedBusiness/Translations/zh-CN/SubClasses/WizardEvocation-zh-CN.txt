@@ -1,6 +1,6 @@
 Action/&OverChannelToggleDescription=激活/停用 Overchannel
 Action/&OverChannelToggleTitle=超通道
-Feature/&FeatureSetWizardEvocationOverChannelDescription=你可以增强简单法术的威力。当你施放 1 至 5 级的造成伤害的法师法术时，你可以用该法术造成最大伤害。第一次这样做时，你不会受到任何不利影响。如果你在完成长时间休息之前再次使用此功能，则在施放该法术后，你会立即受到每级 2d12 点暗蚀伤害。每次在完成长时间休息之前再次使用此功能，每级法术的暗蚀伤害都会增加 1d12。此伤害忽略抵抗力和免疫力。
+Feature/&FeatureSetWizardEvocationOverChannelDescription=你可以增强简单法术的威力。当你施放 1 至 5 级的造成伤害的法师法术时，你可以用该法术造成最大伤害。第一次这样做时，你不会受到任何不利影响。如果你在完成长时间休息之前再次使用此功能，则在施放该法术后，你会立即受到每级 2d12 点暗蚀伤害。每次在完成长时间休息之前再次使用此功能，每级法术的暗蚀伤害都会增加 1d12。此伤害忽略抗性和免疫力。
 Feature/&FeatureSetWizardEvocationOverChannelTitle=超通道
 Feature/&FeatureWizardEvocationEmpoweredEvocationDescription=你可以将你的智力调整值（至少 +1）添加到你施放的任何巫师召唤法术的一次伤害掷骰中。
 Feature/&FeatureWizardEvocationEmpoweredEvocationTitle=强化召唤

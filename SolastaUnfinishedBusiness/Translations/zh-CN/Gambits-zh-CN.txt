@@ -1,6 +1,6 @@
 Condition/&ConditionGambitBlindDistractedDescription=除本状态的来源之外，对你进行的下一次攻击将具有优势。
 Condition/&ConditionGambitBlindDistractedTitle=分心
-Condition/&ConditionGambitDebilitateDescription=你在所有豁免检定和能力检定中都处于劣势。
+Condition/&ConditionGambitDebilitateDescription=你在所有豁免检定和属性检定中都处于劣势。
 Condition/&ConditionGambitDebilitateTitle=虚弱
 Condition/&ConditionGambitSwitchBadDescription=在来源角色的回合结束之前，你无法进行借机攻击。
 Condition/&ConditionGambitSwitchBadTitle=上钩
@@ -18,7 +18,7 @@ Feature/&GambitBraceDescription=当有生物进入你的近战武器触及范围
 Feature/&GambitBraceTitle=戒备
 Feature/&GambitCoordinatedAttackDescription=在你的回合结束之前，下一次以武器或徒手攻击命中某个生物时，你可以花费一枚卓越骰，使该次攻击额外造成等同于卓越骰结果的伤害，并令一名战友移动至更有利的位置。选择一名距你 30 尺内、且未被束缚或失能的盟友为目标，该盟友可以利用其反应移动至多等于其速度一半的距离，并且不会因此引发借机攻击。
 Feature/&GambitCoordinatedAttackTitle=灵动攻击
-Feature/&GambitDebilitateDescription=在你的回合结束之前，下一次以武器或徒手攻击命中某个生物时，你可以花费一枚卓越骰，使该次攻击额外造成等同于卓越骰结果的伤害。若目标未能通过一次对抗你战技 DC 的体质豁免检定，则直到你下个回合结束前，该生物在所有豁免检定和能力检定中都处于劣势。
+Feature/&GambitDebilitateDescription=在你的回合结束之前，下一次以武器或徒手攻击命中某个生物时，你可以花费一枚卓越骰，使该次攻击额外造成等同于卓越骰结果的伤害。若目标未能通过一次对抗你战技 DC 的体质豁免检定，则直到你下个回合结束前，该生物在所有豁免检定和属性检定中都处于劣势。
 Feature/&GambitDebilitateTitle=虚弱打击
 Feature/&GambitElusiveMovementDescription=你可以无需消耗动作而消耗一枚卓越骰，掷出该骰，并将结果值加入你的护甲等级，持续到你的下个回合开始。
 Feature/&GambitElusiveMovementTitle=灵巧步法
