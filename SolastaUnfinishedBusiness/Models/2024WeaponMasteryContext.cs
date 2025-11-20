@@ -1383,7 +1383,7 @@ public static partial class Tabletop2024Context
                         var disabled = mastery == MasteryProperty.Cleave
                                        && weapon.WeaponProximity == AttackProximity.Range;
 
-                        var title = $"{mastery}";
+                        var title = Gui.Localize($"Tooltip/&Tag{mastery}Title");
                         if (disabled)
                         {
                             title = title.Grey();
