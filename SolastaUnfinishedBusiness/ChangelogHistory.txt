@@ -1,3 +1,9 @@
+1.5.97.105:
+- merged PR with updated zh-CN localization from MagicSkySword
+- fixed potential crash related to custom portraits and wild shape
+- fixed concentration spells not terminating properly when stopping concentration after wild-shaping
+- fixed Divine Smite 2024 using wrong slot level and having wrong number of dice
+
 1.5.97.104:
 - fixed damage of Branding Smite being 1 dice bigger than intended
 - fixed smite spells 2024 slot level selection using wrong spell slots
