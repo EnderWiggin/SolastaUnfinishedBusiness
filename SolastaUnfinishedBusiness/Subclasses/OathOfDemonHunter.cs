@@ -201,14 +201,36 @@ public sealed class OathOfDemonHunter : AbstractSubclass
         // LEVEL 07
         //
 
-        // Light Energy Crossbow Bolt
+        // Divine Crossbow
 
-        var lightEnergyCrossbowBolt = FeatureDefinitionBuilder
+        const string DivineCrossbowName = $"FeatureSet{Name}DivineCrossbow";
+
+        var featureRemoveCrossbowMeleeDisadvantage = FeatureDefinitionBuilder
+            .Create($"Feature{Name}RemoveCrossbowMeleeDisadvantage")
+            .SetGuiPresentation(DivineCrossbowName, Category.Feature, Gui.NoLocalization)
+            .AddCustomSubFeatures(new RemoveRangedAttackInMeleeDisadvantage(IsOathOfDemonHunterWeapon))
+            .AddToDB();
+
+        var featureConvertCrossbowDamageToRadiant = FeatureDefinitionBuilder
+            .Create($"Feature{Name}ConvertCrossbowDamageToRadiant")
+            .SetGuiPresentation(DivineCrossbowName, Category.Feature, Gui.NoLocalization)
+            .AddCustomSubFeatures(new ModifyAttackActionModifierDivineCrossbow())
+            .AddToDB();
+
+        var featureLightEnergyCrossbowBolt = FeatureDefinitionBuilder
             .Create($"Feature{Name}LightEnergyCrossbowBolt")
-            .SetGuiPresentation(Category.Feature)
+            .SetGuiPresentation(DivineCrossbowName, Category.Feature, Gui.NoLocalization)
             .AddCustomSubFeatures(
-                new RemoveRangedAttackInMeleeDisadvantage(IsOathOfDemonHunterWeapon),
                 new PhysicalAttackFinishedByMeLightEnergyCrossbowBolt(conditionTrialMark, powerTrialMark))
+            .AddToDB();
+
+        var featureSetDivineCrossbow = FeatureDefinitionFeatureSetBuilder
+            .Create(DivineCrossbowName)
+            .SetGuiPresentation(Category.Feature)
+            .SetFeatureSet(
+                featureRemoveCrossbowMeleeDisadvantage,
+                featureConvertCrossbowDamageToRadiant,
+                featureLightEnergyCrossbowBolt)
             .AddToDB();
 
         //
@@ -241,7 +263,7 @@ public sealed class OathOfDemonHunter : AbstractSubclass
                 featureSetLightEnergyCrossbowBolt,
                 featureSetTrialMark)
             .AddFeaturesAtLevel(7,
-                lightEnergyCrossbowBolt)
+                featureSetDivineCrossbow)
             .AddFeaturesAtLevel(15,
                 CommonBuilders.AttributeModifierThirdExtraAttack)
             .AddFeaturesAtLevel(20,
@@ -309,6 +331,32 @@ public sealed class OathOfDemonHunter : AbstractSubclass
         }
     }
 
+    // Convert crossbow damage to radiant (Level 7)
+    private sealed class ModifyAttackActionModifierDivineCrossbow : IModifyAttackActionModifier
+    {
+        public void OnAttackComputeModifier(
+            RulesetCharacter myself,
+            RulesetCharacter defender,
+            BattleDefinitions.AttackProximity attackProximity,
+            RulesetAttackMode attackMode,
+            string effectName,
+            ref ActionModifier attackModifier)
+        {
+            if (attackMode == null || !IsOathOfDemonHunterWeapon(attackMode, null, myself))
+            {
+                return;
+            }
+
+            // Convert damage type to Radiant
+            var damage = attackMode.EffectDescription?.FindFirstDamageForm();
+            if (damage != null)
+            {
+                damage.DamageType = DamageTypeRadiant;
+            }
+        }
+    }
+
+    // Extend crossbow range (Level 15)
     private sealed class ModifyCrossbowAttackModeDivineCrossbow : IModifyWeaponAttackMode
     {
         public void ModifyWeaponAttackMode(
