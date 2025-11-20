@@ -438,9 +438,16 @@ internal class ReactionRequestSelectSmiteSlot : ReactionRequestCastSpell
 
         _selectedOption = option;
         var slotLevel = _spellLevel + option;
-        if (_hasFreeUse && option == 0)
+        if (_hasFreeUse)
         {
-            slotLevel += 1;
+            if (option == 0)
+            {
+                slotLevel = 0;
+            }
+            else
+            {
+                slotLevel -= 1;
+            }
         }
 
         spellEffect.SlotLevel = slotLevel;
