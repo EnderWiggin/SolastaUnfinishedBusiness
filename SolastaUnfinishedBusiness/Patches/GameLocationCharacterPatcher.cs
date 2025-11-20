@@ -53,50 +53,6 @@ public static class GameLocationCharacterPatcher
         }
     }
 
-    [HarmonyPatch(typeof(GameLocationCharacter), nameof(GameLocationCharacter.PositionKnownToTheParty),
-        MethodType.Getter)]
-    [SuppressMessage("Minor Code Smell", "S101:Types should be named in PascalCase", Justification = "Patch")]
-    [UsedImplicitly]
-    public static class PositionKnownToTheParty_Getter_Patch
-    {
-        [UsedImplicitly]
-        public static bool Prefix(GameLocationCharacter __instance, ref bool __result)
-        {
-            __result = IsPositionKnownToParty(__instance);
-
-            return false;
-        }
-
-        private static bool IsPositionKnownToParty(GameLocationCharacter instance)
-        {
-            var service = ServiceRepository.GetService<IGameLocationCharacterService>();
-            var rulesetCharacter = instance.RulesetCharacter;
-            if (rulesetCharacter is { IsRemovedFromTheGame: true })
-            {
-                return false;
-            }
-
-            if (rulesetCharacter != null && service.PartyHasCharacter(instance, true, true))
-            {
-                return true;
-            }
-
-            if (instance.IsHusk) { return true; }
-
-            if (instance.RulesetActor != null
-                && instance.Side != Side.Enemy && !instance.IsOutOfBounds && instance.IsInVisitedCell)
-            {
-                return true;
-            }
-
-            return rulesetCharacter != null
-                   && instance.IsInVisitedCell
-                   && (!rulesetCharacter.HasConditionOfType("ConditionInvisibleBase")
-                       || instance.IsPerceivedByFoes || instance.IsPositionTemporarilyRevealed)
-                   && !instance.stealthy;
-        }
-    }
-
     [HarmonyPatch(typeof(GameLocationCharacter), nameof(GameLocationCharacter.SignalJumpFinished))]
     [SuppressMessage("Minor Code Smell", "S101:Types should be named in PascalCase", Justification = "Patch")]
     [UsedImplicitly]
