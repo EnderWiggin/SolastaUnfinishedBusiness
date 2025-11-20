@@ -89,6 +89,12 @@ public static class PortraitsContext
     private static bool TryGetPortrait(
         Dictionary<string, Texture2D> dict, string name, string filename, RawImage original, out Texture2D texture)
     {
+        if (original is not { texture: not null })
+        {
+            texture = null;
+            return false;
+        }
+
         if (dict.TryGetValue(name, out texture))
         {
             return true;
