@@ -68,7 +68,7 @@ public sealed class OathOfDemonHunter : AbstractSubclass
 
         var powerLightEnergyCrossbowBolt = FeatureDefinitionPowerBuilder
             .Create($"Power{Name}LightEnergyCrossbowBolt")
-            .SetGuiPresentation(LightEnergyCrossbowBoltName, Category.Feature)
+            .SetGuiPresentationNoContent(true)
             .SetUsesFixed(ActivationTime.OnAttackHitAuto, RechargeRate.ShortRest, 1, 0)
             .SetShowCasting(false)
             .SetEffectDescription(EffectDescriptionBuilder.Create().Build())
@@ -86,13 +86,13 @@ public sealed class OathOfDemonHunter : AbstractSubclass
 
         var featureIgnoreCrossbowLoading = FeatureDefinitionBuilder
             .Create($"Feature{Name}IgnoreCrossbowLoading")
-            .SetGuiPresentation(LightEnergyCrossbowBoltName, Category.Feature, Gui.NoLocalization)
+            .SetGuiPresentationNoContent(true)
             .AddCustomSubFeatures(new IgnoreCrossbowLoadingProperty())
             .AddToDB();
 
         var featureSetLightEnergyCrossbowBolt = FeatureDefinitionFeatureSetBuilder
             .Create(LightEnergyCrossbowBoltName)
-            .SetGuiPresentation(Category.Feature)
+            .SetGuiPresentation(LightEnergyCrossbowBoltName, Category.Feature)
             .SetFeatureSet(powerLightEnergyCrossbowBolt, featureIgnoreCrossbowLoading)
             .AddToDB();
 
@@ -233,10 +233,6 @@ public sealed class OathOfDemonHunter : AbstractSubclass
                 featureLightEnergyCrossbowBolt)
             .AddToDB();
 
-        //
-        // LEVEL 20
-        //
-
         // Hunter's Sight
 
         const string HUNTER_SIGHT_NAME = $"FeatureSet{Name}HunterSight";
@@ -258,9 +254,54 @@ public sealed class OathOfDemonHunter : AbstractSubclass
             .SetGuiPresentation(Category.Feature)
             .AddFeatureSet(attributeModifierHunterSight, combatAffinityHunterSight)
             .AddToDB();
-
+        
         //
+        // LEVEL 15
+        //
+        
+        // Demon Hunter
+        
+        const string DEMON_HUNTER_NAME = $"FeatureSet{Name}DemonHunter";
 
+        var conditionHunterStepUsed = ConditionDefinitionBuilder
+            .Create($"Condition{Name}HunterStepUsed")
+            .SetGuiPresentationNoContent(true)
+            .SetSilent(Silent.WhenAddedOrRemoved)
+            .SetSpecialDuration(DurationType.Round, 1)
+            .AddToDB();
+
+        var powerHunterStep = FeatureDefinitionPowerBuilder
+            .Create($"Power{Name}HunterStep")
+            .SetGuiPresentation(Category.Feature, SpellDefinitions.MistyStep)
+            .SetUsesFixed(ActivationTime.NoCost, RechargeRate.AtWill)
+            .SetEffectDescription(
+                EffectDescriptionBuilder
+                    .Create()
+                    .SetTargetingData(Side.Ally, RangeType.Self, 0, TargetType.Self)
+                    .SetDurationData(DurationType.Instantaneous)
+                    .SetEffectForms(
+                        EffectFormBuilder
+                            .Create()
+                            .SetMotionForm(MotionForm.MotionType.TeleportToDestination, 2)
+                            .Build())
+                    .SetParticleEffectParameters(SpellDefinitions.MistyStep)
+                    .Build())
+            .AddCustomSubFeatures(new ValidatePowerUseHunterStep(conditionHunterStepUsed))
+            .AddToDB();
+
+        var featureSetDemonHunter = FeatureDefinitionFeatureSetBuilder
+            .Create(DEMON_HUNTER_NAME)
+            .SetGuiPresentation(Category.Feature)
+            .AddFeatureSet(powerHunterStep)
+            .AddCustomSubFeatures(
+                new PhysicalAttackFinishedByMeDemonHunter(conditionTrialMark, conditionHunterStepUsed),
+                new ModifyDamageAffinityDemonHunter(conditionTrialMark))
+            .AddToDB();
+        
+        //
+        // LEVEL 20
+        //
+        
         // Demon Slayer
 
         const string DEMON_SLAYER_NAME = $"FeatureSet{Name}DemonSlayer";
@@ -290,7 +331,8 @@ public sealed class OathOfDemonHunter : AbstractSubclass
                 featureSetDivineCrossbow,
                 featureSetHunterSight)
             .AddFeaturesAtLevel(15,
-                CommonBuilders.AttributeModifierThirdExtraAttack)
+                CommonBuilders.AttributeModifierThirdExtraAttack
+                ,featureSetDemonHunter)
             .AddFeaturesAtLevel(20,
                 featureSetDemonSlayer)
             .AddToDB();
@@ -352,7 +394,7 @@ public sealed class OathOfDemonHunter : AbstractSubclass
                 usablePower,
                 [defender],
                 attacker,
-                "LightEnergyCrossbowBolt");
+                "TrialMark");
         }
     }
 
@@ -547,24 +589,6 @@ public sealed class OathOfDemonHunter : AbstractSubclass
                     attacker,
                     "TrialMark");
             }
-            else
-            {
-                // Auto-apply without reaction
-                rulesetAttacker.UsePower(usablePower);
-                rulesetDefender.InflictCondition(
-                    conditionTrialMark.Name,
-                    DurationType.Minute,
-                    1,
-                    TurnOccurenceType.EndOfSourceTurn,
-                    AttributeDefinitions.TagEffect,
-                    rulesetAttacker.Guid,
-                    rulesetAttacker.CurrentFaction.Name,
-                    1,
-                    conditionTrialMark.Name,
-                    0,
-                    0,
-                    0);
-            }
         }
     }
 
@@ -598,6 +622,118 @@ public sealed class OathOfDemonHunter : AbstractSubclass
                 {
                     sourceType: FeatureSourceType.Lighting
                 });
+        }
+    }
+
+    // Demon Hunter - Reveal Monster Knowledge and Ignore Resistances
+    private sealed class PhysicalAttackFinishedByMeDemonHunter(
+        ConditionDefinition conditionTrialMark,
+        ConditionDefinition conditionHunterStepUsed)
+        : IPhysicalAttackFinishedByMe
+    {
+        public IEnumerator OnPhysicalAttackFinishedByMe(
+            GameLocationBattleManager battleManager,
+            CharacterAction action,
+            GameLocationCharacter attacker,
+            GameLocationCharacter defender,
+            RulesetAttackMode attackMode,
+            RollOutcome rollOutcome,
+            int damageAmount)
+        {
+            var rulesetAttacker = attacker.RulesetCharacter;
+            var rulesetDefender = defender.RulesetCharacter;
+
+            // Check if defender has Trial Mark condition
+            if (!rulesetDefender.HasConditionOfCategoryAndType(
+                    AttributeDefinitions.TagEffect, conditionTrialMark.Name))
+            {   
+                yield break;
+            }
+
+            // Reveal full monster knowledge if defender is a monster
+            if (rulesetDefender is RulesetCharacterMonster monster)
+            {
+                var gameLoreService = ServiceRepository.GetService<IGameLoreService>();
+                gameLoreService.LearnMonsterKnowledge(
+                    monster.MonsterDefinition, GetDefinition<KnowledgeLevelDefinition>("Mastered4"));
+            }
+
+            // Grant Hunter Step usage if available and not used this round
+            if (!rulesetAttacker.HasConditionOfCategoryAndType(
+                    AttributeDefinitions.TagEffect, conditionHunterStepUsed.Name))
+            {
+                rulesetAttacker.InflictCondition(
+                    conditionHunterStepUsed.Name,
+                    DurationType.Round,
+                    1,
+                    TurnOccurenceType.EndOfTurn,
+                    AttributeDefinitions.TagEffect,
+                    rulesetAttacker.Guid,
+                    rulesetAttacker.CurrentFaction.Name,
+                    1,
+                    conditionHunterStepUsed.Name,
+                    0,
+                    0,
+                    0);
+            }
+        }
+    }
+
+    // Demon Hunter - Bypass Resistances
+    private sealed class ModifyDamageAffinityDemonHunter(ConditionDefinition conditionTrialMark)
+        : IModifyDamageAffinity
+    {
+        public void ModifyDamageAffinity(RulesetActor defender, RulesetActor attacker, List<FeatureDefinition> features)
+        {
+            if (defender == null || attacker == null)
+            {
+                return;
+            }
+
+            // Check if defender has Trial Mark from this attacker
+            if (!defender.HasConditionOfCategoryAndType(
+                    AttributeDefinitions.TagEffect, conditionTrialMark.Name))
+            {
+                return;
+            }
+
+            // Remove all radiant resistance features
+            features.RemoveAll(f => f is FeatureDefinitionDamageAffinity damageAffinity && 
+                                    damageAffinity == FeatureDefinitionDamageAffinitys.DamageAffinityRadiantResistance);
+        }
+    }
+
+    // Hunter Step - Validate Power Use
+    private sealed class ValidatePowerUseHunterStep(ConditionDefinition conditionHunterStepUsed)
+        : IPowerOrSpellFinishedByMe
+    {
+        public IEnumerator OnPowerOrSpellFinishedByMe(CharacterActionMagicEffect action, BaseDefinition baseDefinition)
+        {
+            // Mark that Hunter Step was used this round
+            if (!action.Countered && !action.ExecutionFailed)
+            {
+                var character = action.ActingCharacter.RulesetCharacter;
+                
+                if (!character.HasConditionOfCategoryAndType(
+                        AttributeDefinitions.TagEffect, conditionHunterStepUsed.Name))
+                {
+                    character.InflictCondition(
+                        conditionHunterStepUsed.Name,
+                        DurationType.Round,
+                        1,
+                        TurnOccurenceType.EndOfTurn,
+                        AttributeDefinitions.TagEffect,
+                        character.Guid,
+                        character.CurrentFaction.Name,
+                        1,
+                        conditionHunterStepUsed.Name,
+                        0,
+                        0,
+                        0);
+                }
+            }
+
+            yield break;
         }
     }
 
