@@ -56,7 +56,8 @@ public static class CustomActionIdContext
         (Id)ExtraActionId.TacticalMasterToggle,
         (Id)ExtraActionId.ThunderousStrikeToggle,
         (Id)ExtraActionId.WeaponMasteryToggle,
-        (Id)ExtraActionId.ZenShotToggle
+        (Id)ExtraActionId.ZenShotToggle,
+        (Id)ExtraActionId.OathOfDemonHunterTrialMarkToggle,
     ];
 
     internal static readonly List<Id> ExtraActionIdReverseToggles =

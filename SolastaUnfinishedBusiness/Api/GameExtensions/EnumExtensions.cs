@@ -94,6 +94,7 @@ internal enum ExtraActionId
     TacticalMasterToggle,
     DruidStarsArcherAttack,
     DruidStarsArcherAttackFree,
+    OathOfDemonHunterTrialMarkToggle,
     PrioritizeAction = 10000
 }
 
