@@ -207,19 +207,19 @@ public sealed class OathOfDemonHunter : AbstractSubclass
 
         var featureRemoveCrossbowMeleeDisadvantage = FeatureDefinitionBuilder
             .Create($"Feature{Name}RemoveCrossbowMeleeDisadvantage")
-            .SetGuiPresentation(DivineCrossbowName, Category.Feature, Gui.NoLocalization)
+            .SetGuiPresentationNoContent(true)
             .AddCustomSubFeatures(new RemoveRangedAttackInMeleeDisadvantage(IsOathOfDemonHunterWeapon))
             .AddToDB();
 
         var featureConvertCrossbowDamageToRadiant = FeatureDefinitionBuilder
             .Create($"Feature{Name}ConvertCrossbowDamageToRadiant")
-            .SetGuiPresentation(DivineCrossbowName, Category.Feature, Gui.NoLocalization)
+            .SetGuiPresentationNoContent(true)
             .AddCustomSubFeatures(new ModifyAttackActionModifierDivineCrossbow())
             .AddToDB();
 
         var featureLightEnergyCrossbowBolt = FeatureDefinitionBuilder
             .Create($"Feature{Name}LightEnergyCrossbowBolt")
-            .SetGuiPresentation(DivineCrossbowName, Category.Feature, Gui.NoLocalization)
+            .SetGuiPresentationNoContent(true)
             .AddCustomSubFeatures(
                 new PhysicalAttackFinishedByMeLightEnergyCrossbowBolt(conditionTrialMark, powerTrialMark))
             .AddToDB();
@@ -235,6 +235,30 @@ public sealed class OathOfDemonHunter : AbstractSubclass
 
         //
         // LEVEL 20
+        //
+
+        // Hunter's Sight
+
+        const string HUNTER_SIGHT_NAME = $"FeatureSet{Name}HunterSight";
+
+        var attributeModifierHunterSight = FeatureDefinitionAttributeModifierBuilder
+            .Create($"AttributeModifier{Name}HunterSightPerception")
+            .SetGuiPresentationNoContent(true)
+            .SetModifierAbilityScore(SkillDefinitions.Perception, AttributeDefinitions.Charisma)
+            .AddToDB();
+
+        var combatAffinityHunterSight = FeatureDefinitionCombatAffinityBuilder
+            .Create($"CombatAffinity{Name}HunterSight")
+            .SetGuiPresentationNoContent(true)
+            .AddCustomSubFeatures(new ModifyAttackActionModifierHunterSight())
+            .AddToDB();
+
+        var featureSetHunterSight = FeatureDefinitionFeatureSetBuilder
+            .Create(HUNTER_SIGHT_NAME)
+            .SetGuiPresentation(Category.Feature)
+            .AddFeatureSet(attributeModifierHunterSight, combatAffinityHunterSight)
+            .AddToDB();
+
         //
 
         // Demon Slayer
@@ -263,7 +287,8 @@ public sealed class OathOfDemonHunter : AbstractSubclass
                 featureSetLightEnergyCrossbowBolt,
                 featureSetTrialMark)
             .AddFeaturesAtLevel(7,
-                featureSetDivineCrossbow)
+                featureSetDivineCrossbow,
+                featureSetHunterSight)
             .AddFeaturesAtLevel(15,
                 CommonBuilders.AttributeModifierThirdExtraAttack)
             .AddFeaturesAtLevel(20,
@@ -540,6 +565,39 @@ public sealed class OathOfDemonHunter : AbstractSubclass
                     0,
                     0);
             }
+        }
+    }
+
+    // Hunter's Sight - Remove Disadvantage in Darkness
+    private sealed class ModifyAttackActionModifierHunterSight : IModifyAttackActionModifier
+    {
+        public void OnAttackComputeModifier(
+            RulesetCharacter myself,
+            RulesetCharacter defender,
+            BattleDefinitions.AttackProximity attackProximity,
+            RulesetAttackMode attackMode,
+            string effectName,
+            ref ActionModifier attackModifier)
+        {
+            if (myself is not { IsDeadOrDyingOrUnconscious: false } ||
+                defender is not { IsDeadOrDyingOrUnconscious: false })
+            {
+                return;
+            }
+
+            // Only apply if defender is not in bright light (i.e., in darkness or dim light)
+            if (!ValidatorsCharacter.IsNotInBrightLight(defender))
+            {
+                return;
+            }
+
+            // Remove disadvantage trends from attacking in darkness
+            attackModifier.AttackAdvantageTrends.RemoveAll(t =>
+                t.value == -1
+                && t is
+                {
+                    sourceType: FeatureSourceType.Lighting
+                });
         }
     }
 
