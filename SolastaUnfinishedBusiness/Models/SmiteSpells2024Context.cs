@@ -5,6 +5,7 @@ using System.Linq;
 using SolastaUnfinishedBusiness.Api.GameExtensions;
 using SolastaUnfinishedBusiness.Api.LanguageExtensions;
 using SolastaUnfinishedBusiness.Builders;
+using SolastaUnfinishedBusiness.Interfaces;
 using SolastaUnfinishedBusiness.Spells;
 using SolastaUnfinishedBusiness.Subclasses;
 using static ActionDefinitions;
@@ -94,11 +95,16 @@ public static class SmiteSpells2024Context
         static void SwitchSmiteDamageOn(FeatureDefinitionAdditionalDamage damage)
         {
             damage.requiredProperty = RestrictedContextRequiredProperty.None;
+            
+            damage.SetSubFeatureOfType<ValidateSmiteDamageForDemonHunter>(null);
         }
 
         static void SwitchSmiteDamageOff(FeatureDefinitionAdditionalDamage damage)
         {
             damage.requiredProperty = RestrictedContextRequiredProperty.MeleeWeapon;
+            
+            // Add custom validator to allow Oath of Demon Hunter to use crossbows in non-2024 mode
+            damage.SetSubFeatureOfType<ValidateSmiteDamageForDemonHunter>(new ValidateSmiteDamageForDemonHunter());
         }
 
 
@@ -462,5 +468,25 @@ internal class ReactionRequestSelectSmiteSlot : ReactionRequestCastSpell
     public override string FormatReactDescription()
     {
         return Gui.Format("Reaction/&ReactionDivineSmite2024SlotReactDescription", _spellName);
+    }
+}
+
+internal sealed class ValidateSmiteDamageForDemonHunter : IValidateContextInsteadOfRestrictedProperty
+{
+    public (OperationType, bool) ValidateContext(
+        BaseDefinition definition,
+        IRestrictedContextProvider provider,
+        RulesetCharacter character,
+        ItemDefinition itemDefinition,
+        bool rangedAttack,
+        RulesetAttackMode attackMode,
+        RulesetEffect rulesetEffect)
+    {
+        if (OathOfDemonHunter.IsOathOfDemonHunterWeapon(attackMode, itemDefinition, character))
+        {
+            return (OperationType.Set, true);
+        }
+
+        return (OperationType.Ignore, false);
     }
 }
