@@ -204,9 +204,10 @@ ModUi/&EnablePaladinChannelDivinity2024=Intercambia <color=#D89555>Divinidad can
 ModUi/&EnablePaladinLayOnHands2024=Intercambia <color=#D89555>Imposición de manos</color> con la versión 5e 2024 <i><color=#F0DAA0>[acción adicional]</color></i>
 ModUi/&EnablePaladinRestoreLevel20Feature=Habilite los poderes de la subclase de <color=#D89555>Nivel 20</color> para recargarse con una ranura de nivel 5
 ModUi/&EnablePaladinRestoringTouch2024=Habilita <color=#D89555>Toque restaurador</color> para reemplazar <color=#D89555>Toque purificador</color> en el nivel 14
-ModUi/&EnablePaladinSmite2024=Intercambia <color=#D89555>Divine Smite</color> con la versión 5e 2024 <i><color=#F0DAA0>[acción adicional]</color></i>
-ModUi/&EnablePaladinSpellCastingAtLevel1=Habilitar el <color=#D89555>lanzamiento de hechizos</color> en el nivel 1 en lugar del 2
-ModUi/&EnablePcgRandom=Habilitar un mejor algoritmo generador aleatorio <i><color=#F0DAA0>[https://www.pcg-random.org]</color></i>
+ModUi/&EnablePaladinSmite2024=Intercambiar <color=#D89555>Divine Smite</color> con versión 5e 2024 <i><color=#F0DAA0>[acción adicional]</color></i>
+ModUi/&EnablePaladinSpellCastingAtLevel1=Habilitar <color=#D89555>lanzamiento de hechizos</color> en el nivel 1 en lugar del 2
+ModUi/&EnablePaladinAnyFightingStyle2024=Permitir que <color=#D89555>Paladín</color> elija cualquier estilo de lucha <i><color=#F0DAA0>[añade Tiro con arco y Lucha con dos armas]</color></i>
+ModUi/&EnablePcgRandom=Habilitar mejor algoritmo generador aleatorio <i><color=#F0DAA0>[https://www.pcg-random.org]</color></i>
 ModUi/&EnablePoisonsBonusAction2024=Habilitar la aplicación de <color=#D89555>venenos</color> a las armas como acción adicional
 ModUi/&EnablePotionsBonusAction2024=Habilitar beber <color=#D89555>Pociones</color> como acción adicional
 ModUi/&EnablePreparedSpellsTables2024=Permitir que todos los <color=#D89555>lanzadores de conjuros</color> utilicen las nuevas tablas de conjuros preparadas <i><color=#F0DAA0>[Bardo, Clérigo, Druida, Paladín, Explorador, Hechicero, Mago]</color></i>
@@ -224,6 +225,7 @@ ModUi/&EnableRangerRelentlessHunter2024AsNoConcentration=<i>+ Eliminar los requi
 ModUi/&EnableRangerRoving2024=Habilita <color=#D89555>Roving</color> en el nivel 6 <i><color=#F0DAA0>[obtén 10 pies de movimiento cuando no uses armadura pesada y la misma velocidad de escalada]</color></i>
 ModUi/&EnableRangerSpellCastingAtLevel1=Habilitar el <color=#D89555>lanzamiento de hechizos</color> en el nivel 1 en lugar del 2
 ModUi/&EnableRangerTireless2024=Habilita <color=#D89555>Incansable</color> para reemplazar <color=#D89555>Ocultarse a simple vista</color> en el nivel 10 <i><color=#F0DAA0>[obtener puntos de vida temporales]</color></i>
+ModUi/&EnableRangerAnyFightingStyle2024=Permitir que <color=#D89555>Explorador</color> elija cualquier estilo de lucha <i><color=#F0DAA0>[añade Lucha con arma grande y Protección]</color></i>
 ModUi/&EnableRelearnSpells=Habilitar la selección de trucos o hechizos ya aprendidos de otras fuentes
 ModUi/&EnableRespecAction=Habilitar la acción <color=#D89555>RESPECT</color> después del descanso <i><color=#F0DAA0>[no usar RESPECT durante una sesión multijugador]</color></i>
 ModUi/&EnableRitualOnAllCasters2024=Habilitar el lanzamiento de <color=#D89555>Ritual</color> para todos los lanzadores

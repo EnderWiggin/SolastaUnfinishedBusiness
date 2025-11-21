@@ -19,6 +19,7 @@ using static SolastaUnfinishedBusiness.Api.DatabaseHelper.FeatureDefinitionPower
 using static SolastaUnfinishedBusiness.Api.DatabaseHelper.CharacterClassDefinitions;
 using static SolastaUnfinishedBusiness.Api.DatabaseHelper.FeatureDefinitionFeatureSets;
 using static SolastaUnfinishedBusiness.Api.DatabaseHelper.FeatureDefinitionAttributeModifiers;
+using static SolastaUnfinishedBusiness.Api.DatabaseHelper.FeatureDefinitionFightingStyleChoices;
 
 namespace SolastaUnfinishedBusiness.Models;
 
@@ -475,6 +476,20 @@ public static partial class Tabletop2024Context
             repertoire?.GetSlotsNumber(5, out remaining, out _);
 
             return remaining > 0 && rulesetCharacter.GetRemainingPowerUses(powerToRecharge) == 0;
+        }
+    }
+
+    internal static void SwitchPaladinAnyFightingStyle()
+    {
+        var fightingStyles = FightingStylePaladin.FightingStyles;
+        
+        fightingStyles.Remove("TwoWeapon");
+        fightingStyles.Remove("Archery");
+
+        if (Main.Settings.EnablePaladinAnyFightingStyle2024)
+        {
+            fightingStyles.TryAdd("TwoWeapon");
+            fightingStyles.TryAdd("Archery");
         }
     }
 }

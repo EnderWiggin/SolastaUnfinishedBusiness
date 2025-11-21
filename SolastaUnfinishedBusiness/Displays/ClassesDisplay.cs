@@ -440,6 +440,13 @@ internal static class ClassesDisplay
             Tabletop2024Context.SwitchPaladinSpellCastingAtOne();
         }
 
+        toggle = Main.Settings.EnablePaladinAnyFightingStyle2024;
+        if (UI.Toggle(Gui.Localize("ModUi/&EnablePaladinAnyFightingStyle2024"), ref toggle, UI.AutoWidth()))
+        {
+            Main.Settings.EnablePaladinAnyFightingStyle2024 = toggle;
+            Tabletop2024Context.SwitchPaladinAnyFightingStyle();
+        }
+
         toggle = Main.Settings.ShowChannelDivinityOnPortrait;
         if (UI.Toggle(Gui.Localize("ModUi/&ShowChannelDivinityOnPortrait"), ref toggle, UI.AutoWidth()))
         {
@@ -557,6 +564,13 @@ internal static class ClassesDisplay
         {
             Main.Settings.EnableRangerTireless2024 = toggle;
             Tabletop2024Context.SwitchRangerTireless();
+        }
+
+        toggle = Main.Settings.EnableRangerAnyFightingStyle2024;
+        if (UI.Toggle(Gui.Localize("ModUi/&EnableRangerAnyFightingStyle2024"), ref toggle, UI.AutoWidth()))
+        {
+            Main.Settings.EnableRangerAnyFightingStyle2024 = toggle;
+            Tabletop2024Context.SwitchRangerAnyFightingStyle();
         }
 
         toggle = Main.Settings.RemoveRangerPrimevalAwareness2024;

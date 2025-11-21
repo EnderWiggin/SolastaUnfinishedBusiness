@@ -150,6 +150,7 @@ public static partial class Tabletop2024Context
         SwitchPaladinRestoringTouch();
         SwitchPaladinSpellCastingAtOne();
         SwitchPaladinDivineSmite();
+        SwitchPaladinAnyFightingStyle();
         SwitchPoisonsBonusAction();
         SwitchPotionsBonusAction();
         SwitchRangerDeftExplorer();
@@ -164,6 +165,7 @@ public static partial class Tabletop2024Context
         SwitchRangerRoving();
         SwitchRangerSpellCastingAtOne();
         SwitchRangerTireless();
+        SwitchRangerAnyFightingStyle();
         SwitchRogueBlindSense();
         SwitchRogueCunningStrike();
         SwitchRogueReliableTalent();

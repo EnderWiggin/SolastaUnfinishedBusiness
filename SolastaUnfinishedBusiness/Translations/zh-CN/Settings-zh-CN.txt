@@ -205,7 +205,8 @@ ModUi/&EnablePaladinLayOnHands2024=将<color=#D89555>圣疗术</color>与 5e 202
 ModUi/&EnablePaladinRestoreLevel20Feature=启用 <color=#D89555>20 级</color> 子类能力，以使用 5 级槽位进行充电
 ModUi/&EnablePaladinRestoringTouch2024=在第 14 级启用<color=#D89555>恢复之触</color>来替换<color=#D89555>清洁之触</color>
 ModUi/&EnablePaladinSmite2024=将<color=#D89555>Divine Smite</color>与 5e 2024 版本交换<i><color=#F0DAA0>[奖励行动]</color></i>
-ModUi/&EnablePaladinSpellCastingAtLevel1=在 1 级（而非 2 级）启用<color=#D89555>施法</color>
+ModUi/&EnablePaladinSpellCastingAtLevel1=在 1 级(而非 2 级)启用<color=#D89555>施法</color>
+ModUi/&EnablePaladinAnyFightingStyle2024=允许<color=#D89555>圣武士</color>选择任意战斗风格<i><color=#F0DAA0>[增加箭术和双武器战斗]</color></i>
 ModUi/&EnablePcgRandom=启用更好的随机生成器算法<i><color=#F0DAA0>[https://www.pcg-random.org]</color></i>
 ModUi/&EnablePoisonsBonusAction2024=启用将<color=#D89555>毒药</color>应用于武器作为奖励行动
 ModUi/&EnablePotionsBonusAction2024=启用饮用<color=#D89555>药水</color>作为奖励行动
@@ -224,6 +225,7 @@ ModUi/&EnableRangerRelentlessHunter2024AsNoConcentration=<i>+ 移除猎人印记
 ModUi/&EnableRangerRoving2024=在 6 级时启用<color=#D89555>漫游</color> <i><color=#F0DAA0>[不使用重型装甲时可移动 10 英尺，且爬升速度相同]</color></i>
 ModUi/&EnableRangerSpellCastingAtLevel1=在 1 级（而非 2 级）启用<color=#D89555>施法</color>
 ModUi/&EnableRangerTireless2024=在 10 级时启用<color=#D89555>不知疲倦</color>来替代<color=#D89555>隐藏在众目睽睽之下</color> <i><color=#F0DAA0>[获得临时生命值]</color></i>
+ModUi/&EnableRangerAnyFightingStyle2024=允许<color=#D89555>游侠</color>选择任意战斗风格<i><color=#F0DAA0>[增加巨武器战斗和防护]</color></i>
 ModUi/&EnableRelearnSpells=可以选择已从其他来源学到的戏法或法术
 ModUi/&EnableRespecAction=休息操作后启用 <color=#D89555>RESPEC</color> <i><color=#F0DAA0>[在多人游戏会话期间不要使用 RESPEC]</color></i>
 ModUi/&EnableRitualOnAllCasters2024=对所有施法者启用<color=#D89555>仪式</color>施法

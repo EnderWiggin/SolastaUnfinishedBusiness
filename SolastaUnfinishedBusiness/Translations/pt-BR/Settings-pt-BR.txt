@@ -204,8 +204,9 @@ ModUi/&EnablePaladinChannelDivinity2024=Troque <color=#D89555>Channel Divinity</
 ModUi/&EnablePaladinLayOnHands2024=Troque <color=#D89555>Lay on Hands</color> pela versão 5e 2024 <i><color=#F0DAA0>[ação bônus]</color></i>
 ModUi/&EnablePaladinRestoreLevel20Feature=Habilitar poderes de subclasse <color=#D89555>Nível 20</color> para recarregar com um slot de nível 5
 ModUi/&EnablePaladinRestoringTouch2024=Habilite <color=#D89555>Restaurando o Toque</color> para substituir <color=#D89555>Toque de Limpeza</color> no nível 14
-ModUi/&EnablePaladinSmite2024=Troque <color=#D89555>Divine Smite</color> pela versão 5e 2024 <i><color=#F0DAA0>[ação bônus]</color></i>
+ModUi/&EnablePaladinSmite2024=Trocar <color=#D89555>Divine Smite</color> pela versão 5e 2024 <i><color=#F0DAA0>[ação bônus]</color></i>
 ModUi/&EnablePaladinSpellCastingAtLevel1=Habilitar <color=#D89555>conjuração de feitiços</color> no nível 1 em vez de 2
+ModUi/&EnablePaladinAnyFightingStyle2024=Permitir que <color=#D89555>Paladino</color> escolha qualquer estilo de luta <i><color=#F0DAA0>[adiciona Arquearia e Luta com Duas Armas]</color></i>
 ModUi/&EnablePcgRandom=Habilitar um algoritmo de gerador aleatório melhor <i><color=#F0DAA0>[https://www.pcg-random.org]</color></i>
 ModUi/&EnablePoisonsBonusAction2024=Habilitar a aplicação de <color=#D89555>Venenos</color> em armas como uma ação bônus
 ModUi/&EnablePotionsBonusAction2024=Habilitar beber <color=#D89555>Poções</color> como uma ação bônus
@@ -224,6 +225,7 @@ ModUi/&EnableRangerRelentlessHunter2024AsNoConcentration=<i>+ Remova os requisit
 ModUi/&EnableRangerRoving2024=Habilite <color=#D89555>Roving</color> no nível 6 <i><color=#F0DAA0>[obtenha 10 pés de movimento quando não estiver usando armadura pesada e a mesma velocidade de escalada]</color></i>
 ModUi/&EnableRangerSpellCastingAtLevel1=Habilitar <color=#D89555>conjuração de feitiços</color> no nível 1 em vez de 2
 ModUi/&EnableRangerTireless2024=Habilite <color=#D89555>Incansável</color> para substituir <color=#D89555>Esconder-se à Vista de Todos</color> no nível 10 <i><color=#F0DAA0>[obter pontos de vida temporários]</color></i>
+ModUi/&EnableRangerAnyFightingStyle2024=Permitir que <color=#D89555>Patrulheiro</color> escolha qualquer estilo de luta <i><color=#F0DAA0>[adiciona Luta com Arma Grande e Proteção]</color></i>
 ModUi/&EnableRelearnSpells=Habilitar seleção de truques ou magias já aprendidas de outras fontes
 ModUi/&EnableRespecAction=Habilitar <color=#D89555>RESPEC</color> após a ação de descanso <i><color=#F0DAA0>[não usar RESPEC durante uma sessão multijogador]</color></i>
 ModUi/&EnableRitualOnAllCasters2024=Habilitar a conjuração de <color=#D89555>Ritual</color> em todos os conjuradores
