@@ -41,6 +41,8 @@ public sealed class OathOfDemonHunter : AbstractSubclass
         };
     };
 
+    internal static FeatureDefinitionPower PowerLightEnergyCrossbowBolt { get; private set; }
+
     public OathOfDemonHunter()
     {
         //
@@ -62,38 +64,83 @@ public sealed class OathOfDemonHunter : AbstractSubclass
             .SetSpellcastingClass(CharacterClassDefinitions.Paladin)
             .AddToDB();
 
-        // Light Energy Crossbow Bolt - Short Rest Resource with Charisma Modifier
+        // Light Energy Crossbow Bolt - Long Rest Resource with Charisma Modifier
+        // Bonus action to activate 1 minute buff: Charisma for attacks, ignore loading, allow smite spells
 
         const string LightEnergyCrossbowBoltName = $"FeatureSet{Name}LightEnergyCrossbowBolt";
-
-        var powerLightEnergyCrossbowBolt = FeatureDefinitionPowerBuilder
-            .Create($"Power{Name}LightEnergyCrossbowBolt")
-            .SetGuiPresentationNoContent(true)
-            .SetUsesFixed(ActivationTime.OnAttackHitAuto, RechargeRate.ShortRest, 1, 0)
-            .SetShowCasting(false)
-            .SetEffectDescription(EffectDescriptionBuilder.Create().Build())
+        
+        var conditionLightEnergyCrossbowBoltActive = ConditionDefinitionBuilder
+            .Create($"Condition{Name}LightEnergyCrossbowBoltActive")
+            .SetGuiPresentation(LightEnergyCrossbowBoltName, Category.Feature, ConditionDefinitions.ConditionBlessed)
+            .SetPossessive()
+            .SetConditionType(ConditionType.Beneficial)
+            .SetFeatures(
+                FeatureDefinitionBuilder
+                    .Create($"Feature{Name}LightEnergyCrossbowBoltCharismaAttack")
+                    .SetGuiPresentationNoContent(true)
+                    .AddCustomSubFeatures(new CanUseAttribute(AttributeDefinitions.Charisma, IsOathOfDemonHunterWeapon))
+                    .AddToDB(),
+                FeatureDefinitionBuilder
+                    .Create($"Feature{Name}LightEnergyCrossbowBoltIgnoreLoading")
+                    .SetGuiPresentationNoContent(true)
+                    .AddCustomSubFeatures(new IgnoreCrossbowLoadingProperty())
+                    .AddToDB(),
+                FeatureDefinitionBuilder
+                    .Create($"Feature{Name}LightEnergyCrossbowBoltRemoveMeleeDisadvantage")
+                    .SetGuiPresentationNoContent(true)
+                    .AddCustomSubFeatures(new RemoveRangedAttackInMeleeDisadvantageLevel7(IsOathOfDemonHunterWeapon))
+                    .AddToDB(),
+                FeatureDefinitionBuilder
+                    .Create($"Feature{Name}LightEnergyCrossbowBoltRadiantDamage")
+                    .SetGuiPresentationNoContent(true)
+                    .AddCustomSubFeatures(new ModifyAttackActionModifierDivineCrossbowLevel7())
+                    .AddToDB())
             .AddToDB();
 
-        powerLightEnergyCrossbowBolt.AddCustomSubFeatures(
+        // Power to activate the condition
+        PowerLightEnergyCrossbowBolt = FeatureDefinitionPowerBuilder
+            .Create($"Power{Name}LightEnergyCrossbowBolt")
+            .SetGuiPresentation(LightEnergyCrossbowBoltName, Category.Feature,
+                Sprites.GetSprite("PowerLightEnergyCrossbowBolt", Resources.PowerTrialMark, 256, 128))
+            .SetUsesFixed(ActivationTime.BonusAction, RechargeRate.LongRest, 1, 0)
+            .SetEffectDescription(
+                EffectDescriptionBuilder
+                    .Create()
+                    .SetDurationData(DurationType.Minute, 1)
+                    .SetTargetingData(Side.Ally, RangeType.Self, 0, TargetType.Self)
+                    .SetEffectForms(
+                        EffectFormBuilder
+                            .Create()
+                            .SetConditionForm(conditionLightEnergyCrossbowBoltActive, ConditionForm.ConditionOperation.Add)
+                            .Build())
+                    .Build())
+            .AddToDB();
+
+        PowerLightEnergyCrossbowBolt.AddCustomSubFeatures(
             HasModifiedUses.Marker,
             new ModifyPowerPoolAmount
             {
-                PowerPool = powerLightEnergyCrossbowBolt,
+                PowerPool = PowerLightEnergyCrossbowBolt,
                 Type = PowerPoolBonusCalculationType.AttributeModifier,
                 Attribute = AttributeDefinitions.Charisma
             },
-            new PowerPortraitPointPool(powerLightEnergyCrossbowBolt, Sprites.LightEnergyCrossbowBolt));
+            new PowerPortraitPointPool(PowerLightEnergyCrossbowBolt, Sprites.LightEnergyCrossbowBolt));
 
-        var featureIgnoreCrossbowLoading = FeatureDefinitionBuilder
-            .Create($"Feature{Name}IgnoreCrossbowLoading")
-            .SetGuiPresentationNoContent(true)
-            .AddCustomSubFeatures(new IgnoreCrossbowLoadingProperty())
+        // Power to restore all uses by spending Channel Divinity
+        var powerRestoreLightEnergyCrossbowBolt = FeatureDefinitionPowerBuilder
+            .Create($"Power{Name}RestoreLightEnergyCrossbowBolt")
+            .SetGuiPresentation($"PowerRestore{LightEnergyCrossbowBoltName}", Category.Feature, 
+                Sprites.GetSprite("PowerLightEnergyCrossbowBoltRecharge", Resources.PowerTrialMarkRecharge, 256, 128))
+            .SetUsesFixed(ActivationTime.NoCost, RechargeRate.ChannelDivinity)
+            .SetShowCasting(false)
+            .SetEffectDescription(EffectDescriptionBuilder.Create().Build())
+            .AddCustomSubFeatures(new RestoreLightEnergyCrossbowBoltUses(PowerLightEnergyCrossbowBolt))
             .AddToDB();
 
         var featureSetLightEnergyCrossbowBolt = FeatureDefinitionFeatureSetBuilder
             .Create(LightEnergyCrossbowBoltName)
             .SetGuiPresentation(LightEnergyCrossbowBoltName, Category.Feature)
-            .SetFeatureSet(powerLightEnergyCrossbowBolt, featureIgnoreCrossbowLoading)
+            .SetFeatureSet(PowerLightEnergyCrossbowBolt, powerRestoreLightEnergyCrossbowBolt)
             .AddToDB();
 
         // Trial Mark - Prevents Invisibility and adds Critical Threshold
@@ -137,14 +184,13 @@ public sealed class OathOfDemonHunter : AbstractSubclass
 
         var powerTrialMark = FeatureDefinitionPowerBuilder
             .Create($"Power{Name}TrialMark")
-            .SetGuiPresentation(TrialMarkName, Category.Feature,
-                Sprites.GetSprite("PowerTrialMark", Resources.PowerTrialMark, 256, 128))
+            .SetGuiPresentationNoContent(hidden: true)
             .SetUsesFixed(ActivationTime.NoCost, RechargeRate.ChannelDivinity)
             .SetShowCasting(false)
             .SetEffectDescription(
                 EffectDescriptionBuilder
                     .Create()
-                    .SetDurationData(DurationType.Minute, 1, TurnOccurenceType.EndOfSourceTurn)
+                    .SetDurationData(DurationType.Minute, 10, TurnOccurenceType.EndOfSourceTurn)
                     .SetTargetingData(Side.Enemy, RangeType.Distance, 12, TargetType.IndividualsUnique)
                     .SetParticleEffectParameters(LightningBolt)
                     .SetEffectForms(
@@ -201,46 +247,24 @@ public sealed class OathOfDemonHunter : AbstractSubclass
         // LEVEL 07
         //
 
-        // Divine Crossbow
+        // Divine Crossbow - Display only feature to show level 7 unlocks
+        // (Actual functionality is in Light Energy Crossbow Bolt condition)
 
         const string DivineCrossbowName = $"FeatureSet{Name}DivineCrossbow";
-
-        var featureRemoveCrossbowMeleeDisadvantage = FeatureDefinitionBuilder
-            .Create($"Feature{Name}RemoveCrossbowMeleeDisadvantage")
-            .SetGuiPresentationNoContent(true)
-            .AddCustomSubFeatures(new RemoveRangedAttackInMeleeDisadvantage(IsOathOfDemonHunterWeapon))
-            .AddToDB();
-
-        var featureConvertCrossbowDamageToRadiant = FeatureDefinitionBuilder
-            .Create($"Feature{Name}ConvertCrossbowDamageToRadiant")
-            .SetGuiPresentationNoContent(true)
-            .AddCustomSubFeatures(new ModifyAttackActionModifierDivineCrossbow())
-            .AddToDB();
-
-        var featureLightEnergyCrossbowBolt = FeatureDefinitionBuilder
-            .Create($"Feature{Name}LightEnergyCrossbowBolt")
-            .SetGuiPresentationNoContent(true)
-            .AddCustomSubFeatures(
-                new PhysicalAttackFinishedByMeLightEnergyCrossbowBolt(conditionTrialMark, powerTrialMark))
-            .AddToDB();
 
         var featureSetDivineCrossbow = FeatureDefinitionFeatureSetBuilder
             .Create(DivineCrossbowName)
             .SetGuiPresentation(Category.Feature)
-            .SetFeatureSet(
-                featureRemoveCrossbowMeleeDisadvantage,
-                featureConvertCrossbowDamageToRadiant,
-                featureLightEnergyCrossbowBolt)
             .AddToDB();
 
         // Hunter's Sight
 
         const string HUNTER_SIGHT_NAME = $"FeatureSet{Name}HunterSight";
 
-        var attributeModifierHunterSight = FeatureDefinitionAttributeModifierBuilder
-            .Create($"AttributeModifier{Name}HunterSightPerception")
+        var featureHunterSightPerception = FeatureDefinitionBuilder
+            .Create($"Feature{Name}HunterSightPerception")
             .SetGuiPresentationNoContent(true)
-            .SetModifierAbilityScore(SkillDefinitions.Perception, AttributeDefinitions.Charisma)
+            .AddCustomSubFeatures(new ModifyAbilityCheckHunterSight())
             .AddToDB();
 
         var combatAffinityHunterSight = FeatureDefinitionCombatAffinityBuilder
@@ -252,7 +276,7 @@ public sealed class OathOfDemonHunter : AbstractSubclass
         var featureSetHunterSight = FeatureDefinitionFeatureSetBuilder
             .Create(HUNTER_SIGHT_NAME)
             .SetGuiPresentation(Category.Feature)
-            .AddFeatureSet(attributeModifierHunterSight, combatAffinityHunterSight)
+            .AddFeatureSet(featureHunterSightPerception, combatAffinityHunterSight)
             .AddToDB();
         
         //
@@ -263,39 +287,70 @@ public sealed class OathOfDemonHunter : AbstractSubclass
         
         const string DEMON_HUNTER_NAME = $"FeatureSet{Name}DemonHunter";
 
-        var conditionHunterStepUsed = ConditionDefinitionBuilder
-            .Create($"Condition{Name}HunterStepUsed")
-            .SetGuiPresentationNoContent(true)
-            .SetSilent(Silent.WhenAddedOrRemoved)
-            .SetSpecialDuration(DurationType.Round, 1)
-            .AddToDB();
-
+        // Power for Hunter Step teleportation
         var powerHunterStep = FeatureDefinitionPowerBuilder
             .Create($"Power{Name}HunterStep")
             .SetGuiPresentation(Category.Feature, SpellDefinitions.MistyStep)
-            .SetUsesFixed(ActivationTime.NoCost, RechargeRate.AtWill)
+            .SetUsesFixed(ActivationTime.NoCost, RechargeRate.TurnStart)
             .SetEffectDescription(
                 EffectDescriptionBuilder
                     .Create()
-                    .SetTargetingData(Side.Ally, RangeType.Self, 0, TargetType.Self)
-                    .SetDurationData(DurationType.Instantaneous)
+                    .SetTargetingData(Side.Ally, RangeType.Distance, 6, TargetType.Position)
+                    .SetDurationData(DurationType.Round, 0, TurnOccurenceType.StartOfTurn)
                     .SetEffectForms(
                         EffectFormBuilder
                             .Create()
-                            .SetMotionForm(MotionForm.MotionType.TeleportToDestination, 6)
+                            .SetMotionForm(MotionForm.MotionType.TeleportToDestination)
                             .Build())
+                    .UseQuickAnimations()
                     .SetParticleEffectParameters(SpellDefinitions.MistyStep)
                     .Build())
-            .AddCustomSubFeatures(new ValidatePowerUseHunterStep(conditionHunterStepUsed))
+            .DelegatedToAction()
+            .AddToDB();
+
+        // Action affinity to show Hunter Step in action bar
+        var actionAffinityHunterStep = FeatureDefinitionActionAffinityBuilder
+            .Create($"ActionAffinity{Name}HunterStep")
+            .SetGuiPresentationNoContent(true)
+            .SetAuthorizedActions((ActionDefinitions.Id)ExtraActionId.OathOfDemonHunterHunterStep)
+            .AddToDB();
+
+        // Action definition for Hunter Step
+        _ = ActionDefinitionBuilder
+            .Create($"Action{Name}HunterStep")
+            .SetGuiPresentation(Category.Action, Sprites.GetSprite("HunterStep", Resources.HunterStep, 128, 128))
+            .SetActionId(ExtraActionId.OathOfDemonHunterHunterStep)
+            .SetActionType(ActionDefinitions.ActionType.NoCost)
+            .SetActionScope(ActionDefinitions.ActionScope.Battle)
+            .SetFormType(ActionDefinitions.ActionFormType.Large)
+            .RequiresAuthorization()
+            .OverrideClassName("UsePower")
+            .SetActivatedPower(powerHunterStep)
+            .AddToDB();
+
+        // Condition that allows using Hunter Step (granted after attacking marked enemy)
+        var conditionHunterStepReady = ConditionDefinitionBuilder
+            .Create($"Condition{Name}HunterStepReady")
+            .SetGuiPresentation(Category.Condition, ConditionDefinitions.ConditionBlessed)
+            .SetSilent(Silent.WhenAddedOrRemoved)
+            .SetSpecialDuration(DurationType.Round, 0, TurnOccurenceType.EndOfTurn)
+            .SetConditionType(ConditionType.Beneficial)
+            .SetFeatures(actionAffinityHunterStep, powerHunterStep)
+            .AddCustomSubFeatures(AddUsablePowersFromCondition.Marker)
+            .AddToDB();
+
+        var featureDemonHunterTrigger = FeatureDefinitionBuilder
+            .Create($"Feature{Name}DemonHunterTrigger")
+            .SetGuiPresentationNoContent(true)
+            .AddCustomSubFeatures(
+                new PhysicalAttackFinishedByMeDemonHunter(conditionTrialMark, conditionHunterStepReady),
+                new ModifyDamageAffinityDemonHunter(conditionTrialMark))
             .AddToDB();
 
         var featureSetDemonHunter = FeatureDefinitionFeatureSetBuilder
             .Create(DEMON_HUNTER_NAME)
             .SetGuiPresentation(Category.Feature)
-            .AddFeatureSet(powerHunterStep)
-            .AddCustomSubFeatures(
-                new PhysicalAttackFinishedByMeDemonHunter(conditionTrialMark, conditionHunterStepUsed),
-                new ModifyDamageAffinityDemonHunter(conditionTrialMark))
+            .AddFeatureSet(featureDemonHunterTrigger)
             .AddToDB();
         
         //
@@ -354,58 +409,8 @@ public sealed class OathOfDemonHunter : AbstractSubclass
     // ReSharper disable once UnassignedGetOnlyAutoProperty
     internal override DeityDefinition DeityDefinition { get; }
 
-    private sealed class PhysicalAttackFinishedByMeLightEnergyCrossbowBolt(
-        ConditionDefinition conditionTrialMark,
-        FeatureDefinitionPower powerTrialMark)
-        : IPhysicalAttackFinishedByMe
-    {
-        public IEnumerator OnPhysicalAttackFinishedByMe(
-            GameLocationBattleManager battleManager,
-            CharacterAction action,
-            GameLocationCharacter attacker,
-            GameLocationCharacter defender,
-            RulesetAttackMode attackMode,
-            RollOutcome rollOutcome,
-            int damageAmount)
-        {
-            if (rollOutcome is RollOutcome.Failure or RollOutcome.CriticalFailure)
-            {
-                yield break;
-            }
-
-            var rulesetAttacker = attacker.RulesetCharacter;
-
-            if (!IsOathOfDemonHunterWeapon(attackMode, null, rulesetAttacker))
-            {
-                yield break;
-            }
-
-            var rulesetDefender = defender.RulesetActor;
-
-            if (rulesetDefender is not { IsDeadOrDyingOrUnconscious: false } ||
-                rulesetDefender.HasConditionOfType(conditionTrialMark))
-            {
-                yield break;
-            }
-
-            var usablePower = PowerProvider.Get(powerTrialMark, rulesetAttacker);
-
-            if (rulesetAttacker.GetRemainingUsesOfPower(usablePower) == 0)
-            {
-                yield break;
-            }
-
-            yield return attacker.MyReactToUsePower(
-                ActionDefinitions.Id.PowerNoCost,
-                usablePower,
-                [defender],
-                attacker,
-                "TrialMark");
-        }
-    }
-
     // Convert crossbow damage to radiant (Level 7)
-    private sealed class ModifyAttackActionModifierDivineCrossbow : IModifyAttackActionModifier
+    private sealed class ModifyAttackActionModifierDivineCrossbowLevel7 : IModifyAttackActionModifier
     {
         public void OnAttackComputeModifier(
             RulesetCharacter myself,
@@ -420,6 +425,13 @@ public sealed class OathOfDemonHunter : AbstractSubclass
                 return;
             }
 
+            // Only apply at level 7+
+            var levels = myself.GetSubclassLevel(CharacterClassDefinitions.Paladin, Name);
+            if (levels < 7)
+            {
+                return;
+            }
+
             // Convert damage type to Radiant
             var damage = attackMode.EffectDescription?.FindFirstDamageForm();
             if (damage != null)
@@ -430,23 +442,6 @@ public sealed class OathOfDemonHunter : AbstractSubclass
     }
 
     // Extend crossbow range (Level 15)
-    private sealed class ModifyCrossbowAttackModeDivineCrossbow : IModifyWeaponAttackMode
-    {
-        public void ModifyWeaponAttackMode(
-            RulesetCharacter character,
-            RulesetAttackMode attackMode,
-            RulesetItem weapon,
-            bool canAddAbilityDamageBonus)
-        {
-            if (!IsOathOfDemonHunterWeapon(attackMode, null, character))
-            {
-                return;
-            }
-
-            attackMode.maxRange += 6;
-        }
-    }
-
     private sealed class ValidateDieRollModifierDemonSlayerDamageTypeRadiant : IValidateDieRollModifier
     {
         internal static readonly ValidateDieRollModifierDemonSlayerDamageTypeRadiant Marker = new();
@@ -520,7 +515,7 @@ public sealed class OathOfDemonHunter : AbstractSubclass
                 return;
             }
 
-            if (!defender.RulesetActor.HasConditionOfType(conditionTrialMark))
+            if (!defender.RulesetActor.HasConditionOfType(conditionTrialMark.Name))
             {
                 return;
             }
@@ -570,7 +565,7 @@ public sealed class OathOfDemonHunter : AbstractSubclass
             var rulesetDefender = defender.RulesetActor;
 
             if (rulesetDefender is not { IsDeadOrDyingOrUnconscious: false } ||
-                rulesetDefender.HasConditionOfType(conditionTrialMark))
+                rulesetDefender.HasConditionOfType(conditionTrialMark.Name))
             {
                 yield break;
             }
@@ -634,7 +629,7 @@ public sealed class OathOfDemonHunter : AbstractSubclass
     // Demon Hunter - Reveal Monster Knowledge and Ignore Resistances
     private sealed class PhysicalAttackFinishedByMeDemonHunter(
         ConditionDefinition conditionTrialMark,
-        ConditionDefinition conditionHunterStepUsed)
+        ConditionDefinition conditionHunterStepReady)
         : IPhysicalAttackFinishedByMe
     {
         public IEnumerator OnPhysicalAttackFinishedByMe(
@@ -664,20 +659,20 @@ public sealed class OathOfDemonHunter : AbstractSubclass
                     monster.MonsterDefinition, GetDefinition<KnowledgeLevelDefinition>("Mastered4"));
             }
 
-            // Grant Hunter Step usage if available and not used this round
+            // Grant Hunter Step ready condition (once per round)
             if (!rulesetAttacker.HasConditionOfCategoryAndType(
-                    AttributeDefinitions.TagEffect, conditionHunterStepUsed.Name))
+                    AttributeDefinitions.TagEffect, conditionHunterStepReady.Name))
             {
                 rulesetAttacker.InflictCondition(
-                    conditionHunterStepUsed.Name,
+                    conditionHunterStepReady.Name,
                     DurationType.Round,
-                    1,
+                    0,
                     TurnOccurenceType.EndOfTurn,
                     AttributeDefinitions.TagEffect,
                     rulesetAttacker.Guid,
                     rulesetAttacker.CurrentFaction.Name,
                     1,
-                    conditionHunterStepUsed.Name,
+                    conditionHunterStepReady.Name,
                     0,
                     0,
                     0);
@@ -706,40 +701,6 @@ public sealed class OathOfDemonHunter : AbstractSubclass
             // Remove all radiant resistance features
             features.RemoveAll(f => f is FeatureDefinitionDamageAffinity damageAffinity && 
                                     damageAffinity == FeatureDefinitionDamageAffinitys.DamageAffinityRadiantResistance);
-        }
-    }
-
-    // Hunter Step - Validate Power Use
-    private sealed class ValidatePowerUseHunterStep(ConditionDefinition conditionHunterStepUsed)
-        : IPowerOrSpellFinishedByMe
-    {
-        public IEnumerator OnPowerOrSpellFinishedByMe(CharacterActionMagicEffect action, BaseDefinition baseDefinition)
-        {
-            // Mark that Hunter Step was used this round
-            if (!action.Countered && !action.ExecutionFailed)
-            {
-                var character = action.ActingCharacter.RulesetCharacter;
-                
-                if (!character.HasConditionOfCategoryAndType(
-                        AttributeDefinitions.TagEffect, conditionHunterStepUsed.Name))
-                {
-                    character.InflictCondition(
-                        conditionHunterStepUsed.Name,
-                        DurationType.Round,
-                        1,
-                        TurnOccurenceType.EndOfTurn,
-                        AttributeDefinitions.TagEffect,
-                        character.Guid,
-                        character.CurrentFaction.Name,
-                        1,
-                        conditionHunterStepUsed.Name,
-                        0,
-                        0,
-                        0);
-                }
-            }
-
-            yield break;
         }
     }
 
@@ -802,6 +763,74 @@ public sealed class OathOfDemonHunter : AbstractSubclass
             }
 
             tags.Remove(TagsDefinitions.WeaponTagLoading);
+        }
+    }
+
+    // Restore 1 Light Energy Crossbow Bolt use by spending Channel Divinity
+    private sealed class RestoreLightEnergyCrossbowBoltUses(FeatureDefinitionPower powerToRestore)
+        : IPowerOrSpellFinishedByMe
+    {
+        public IEnumerator OnPowerOrSpellFinishedByMe(CharacterActionMagicEffect action, BaseDefinition baseDefinition)
+        {
+            var character = action.ActingCharacter.RulesetCharacter;
+            
+            if (!action.Countered && !action.ExecutionFailed)
+            {
+                var usablePower = PowerProvider.Get(powerToRestore, character);
+                var currentUses = character.GetRemainingUsesOfPower(usablePower);
+                var maxUses = character.GetMaxUsesForPool(usablePower.PowerDefinition);
+                
+                // Only restore 1 use, and only if not already at max
+                if (currentUses < maxUses)
+                {
+                    character.UpdateUsageForPowerPool(-1, usablePower);
+                }
+            }
+
+            yield break;
+        }
+    }
+
+    // Remove ranged attack in melee disadvantage (Level 7+)
+    private sealed class RemoveRangedAttackInMeleeDisadvantageLevel7(IsWeaponValidHandler isWeaponValid)
+        : RemoveRangedAttackInMeleeDisadvantage(isWeaponValid, HasLevel7)
+    {
+        private static bool HasLevel7(RulesetCharacter character)
+        {
+            return character.GetSubclassLevel(CharacterClassDefinitions.Paladin, Name) >= 7;
+        }
+    }
+
+    // Hunter's Sight - Add Charisma modifier to Perception checks
+    private sealed class ModifyAbilityCheckHunterSight : IModifyAbilityCheck
+    {
+        public void MinRoll(
+            RulesetCharacter character,
+            int baseBonus,
+            string abilityScoreName,
+            string proficiencyName,
+            List<TrendInfo> advantageTrends,
+            List<TrendInfo> modifierTrends,
+            ref int rollModifier,
+            ref int minRoll)
+        {
+            if (proficiencyName != SkillDefinitions.Perception)
+            {
+                return;
+            }
+
+            var charisma = character.TryGetAttributeValue(AttributeDefinitions.Charisma);
+            var chaMod = AttributeDefinitions.ComputeAbilityScoreModifier(charisma);
+
+            if (chaMod <= 0)
+            {
+                return;
+            }
+
+            rollModifier += chaMod;
+
+            modifierTrends.Add(new TrendInfo(chaMod, FeatureSourceType.CharacterFeature,
+                "FeatureSetOathOfDemonHunterHunterSight", null));
         }
     }
 }

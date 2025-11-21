@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using SolastaUnfinishedBusiness.Api.GameExtensions;
 using SolastaUnfinishedBusiness.Api.LanguageExtensions;
+using SolastaUnfinishedBusiness.Behaviors;
+using SolastaUnfinishedBusiness.Behaviors.Specific;
 using SolastaUnfinishedBusiness.Builders;
 using SolastaUnfinishedBusiness.Interfaces;
 using SolastaUnfinishedBusiness.Spells;
@@ -95,7 +97,7 @@ public static class SmiteSpells2024Context
         static void SwitchSmiteDamageOn(FeatureDefinitionAdditionalDamage damage)
         {
             damage.requiredProperty = RestrictedContextRequiredProperty.None;
-            
+
             damage.SetSubFeatureOfType<ValidateSmiteDamageForDemonHunter>(null);
         }
 
@@ -138,7 +140,8 @@ public static class SmiteSpells2024Context
             && weapon.WeaponDescription?.WeaponTypeDefinition?.WeaponProximity != AttackProximity.Melee)
         {
             //Demon Hunter can use Smite spells on crossbows
-            if (!OathOfDemonHunter.IsOathOfDemonHunterWeapon(attackMode, null, attacker.RulesetCharacter))
+            var isDemonHunterWeapon = OathOfDemonHunter.IsOathOfDemonHunterWeapon(attackMode, null, attacker.RulesetCharacter);
+            if (!isDemonHunterWeapon)
             {
                 yield break;
             }
@@ -482,9 +485,18 @@ internal sealed class ValidateSmiteDamageForDemonHunter : IValidateContextInstea
         RulesetAttackMode attackMode,
         RulesetEffect rulesetEffect)
     {
-        if (OathOfDemonHunter.IsOathOfDemonHunterWeapon(attackMode, itemDefinition, character))
+        if (OathOfDemonHunter.IsOathOfDemonHunterWeapon(attackMode, attackMode.sourceObject as RulesetItem, character))
         {
-            return (OperationType.Set, true);
+            // Check if Light Energy Crossbow Bolt condition is active
+            var conditionName = $"Condition{OathOfDemonHunter.Name}LightEnergyCrossbowBoltActive";
+            
+            if (character.HasConditionOfType(conditionName))
+            {
+                return (OperationType.Set, true);
+            }
+            
+            // Condition not active, don't allow Smite with crossbow
+            return (OperationType.Set, false);
         }
 
         return (OperationType.Ignore, false);

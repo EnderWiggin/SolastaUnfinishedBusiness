@@ -1014,6 +1014,17 @@ internal static class GLBM
                             {
                                 break;
                             }
+                            // Check Light Energy Crossbow Bolt condition is active for Demon Hunter
+                            else if (OathOfDemonHunter.IsOathOfDemonHunterWeapon(attackMode, null,
+                                         attacker.RulesetCharacter))
+                            {
+                                var conditionName = $"Condition{OathOfDemonHunter.Name}LightEnergyCrossbowBoltActive";
+                                
+                                if (!attacker.RulesetCharacter.HasConditionOfType(conditionName))
+                                {
+                                    break;
+                                }
+                            }
                         }
 
                         if (!criticalHit &&
@@ -1080,7 +1091,7 @@ internal static class GLBM
                                 selectedSpellRepertoire, provider.NotificationTag, reactionParams);
 
                             validTrigger = reactionParams.ReactionValidated;
-
+                            
                             /*
                              * ######################################
                              * [CE] EDIT START
