@@ -65,7 +65,7 @@ public sealed class InnovationWeapon : AbstractSubclass
             .Create("AutoPreparedSpellsInnovationWeapon")
             .SetGuiPresentation(Category.Feature)
             .SetSpellcastingClass(InventorClass.Class)
-            .SetAutoTag("Subclass/&InnovationWeaponTitle")
+            .SetAutoTag("InventorWeaponsmith")
             .AddPreparedSpellGroup(3, Heroism, Shield)
             .AddPreparedSpellGroup(5, BrandingSmite, SpiritualWeapon)
             .AddPreparedSpellGroup(9, RemoveCurse, BeaconOfHope)
