@@ -145,6 +145,12 @@ public static class SmiteSpells2024Context
             {
                 yield break;
             }
+            
+            var conditionName = $"Condition{OathOfDemonHunter.Name}LightEnergyCrossbowBoltActive";
+            if (!attacker.RulesetCharacter.HasConditionOfType(conditionName))
+            {
+                yield break;
+            }
         }
 
         var attackerCharacter = attacker.RulesetCharacter;

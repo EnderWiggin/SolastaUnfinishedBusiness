@@ -934,8 +934,12 @@ public static class CharacterActionAttackPatcher
             if (attackHasDamaged && (!rangeAttack || 
                 OathOfDemonHunter.IsOathOfDemonHunterWeapon(attackMode, null, rulesetCharacter)))
             {
-                rulesetCharacter.ProcessConditionsMatchingInterruption(
-                    (ConditionInterruption)ExtraConditionInterruption.AttacksWithMeleeAndDamages, damageReceived);
+                var conditionName = $"Condition{OathOfDemonHunter.Name}LightEnergyCrossbowBoltActive";
+                if (rulesetCharacter.HasConditionOfType(conditionName))
+                {
+                    rulesetCharacter.ProcessConditionsMatchingInterruption(
+                        (ConditionInterruption)ExtraConditionInterruption.AttacksWithMeleeAndDamages, damageReceived);
+                }
             }
 
             if (attackHasDamaged)

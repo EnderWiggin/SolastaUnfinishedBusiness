@@ -159,7 +159,6 @@ public sealed class OathOfDemonHunter : AbstractSubclass
             .SetOrUpdateGuiPresentation(Category.Condition)
             .SetConditionType(ConditionType.Detrimental)
             .SetPossessive()
-            .SetSpecialInterruptions(ConditionInterruption.Attacks)
             .SetFeatures(conditionAffinityTrialMarkInvisibilityImmunity)
             .AddToDB();
 
@@ -190,7 +189,7 @@ public sealed class OathOfDemonHunter : AbstractSubclass
             .SetEffectDescription(
                 EffectDescriptionBuilder
                     .Create()
-                    .SetDurationData(DurationType.Minute, 10, TurnOccurenceType.EndOfSourceTurn)
+                    .SetDurationData(DurationType.Minute, 1, TurnOccurenceType.EndOfSourceTurn)
                     .SetTargetingData(Side.Enemy, RangeType.Distance, 12, TargetType.IndividualsUnique)
                     .SetParticleEffectParameters(LightningBolt)
                     .SetEffectForms(
