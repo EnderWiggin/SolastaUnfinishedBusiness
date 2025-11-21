@@ -125,19 +125,14 @@ public static class SmiteSpells2024Context
         if (attackMode == null) { yield break; }
 
         var weapon = attackMode.SourceDefinition as ItemDefinition;
-
-        var divineSmiteOnly = false;
+        
         //Only attacks with melee weapons or unarmed are supported (can be thrown melee weapon)
         if (rangedAttack
             && weapon != null
             && weapon.WeaponDescription?.WeaponTypeDefinition?.WeaponProximity != AttackProximity.Melee)
         {
-            //Demon Hunter can use Divine Smite on crossbows, but not other Smite spells
-            if (OathOfDemonHunter.IsOathOfDemonHunterWeapon(attackMode, null, attacker.RulesetCharacter))
-            {
-                divineSmiteOnly = true;
-            }
-            else
+            //Demon Hunter can use Smite spells on crossbows
+            if (!OathOfDemonHunter.IsOathOfDemonHunterWeapon(attackMode, null, attacker.RulesetCharacter))
             {
                 yield break;
             }
@@ -174,7 +169,7 @@ public static class SmiteSpells2024Context
         var spellPoints = attackerCharacter.IsSpellPointsEnabled();
         var hasFreeUseDivineSmite = attackerCharacter.HasAnyFeature(Tabletop2024Context.DivineSmite2024AutoSpell);
         var freeUseDivineSmiteAvailable = !attackerCharacter.HasAnyConditionOfType(ConditionMarkUsedFreeSmite.Name);
-        var smites = GetSmiteOptions(attackerCharacter, divineSmiteOnly, spellPoints,
+        var smites = GetSmiteOptions(attackerCharacter, false, spellPoints,
             hasFreeUseDivineSmite && freeUseDivineSmiteAvailable);
 
         var availableSmites = smites.Where(x => x.Available).ToList();

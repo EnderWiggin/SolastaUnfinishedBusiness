@@ -282,7 +282,7 @@ public sealed class OathOfDemonHunter : AbstractSubclass
                     .SetEffectForms(
                         EffectFormBuilder
                             .Create()
-                            .SetMotionForm(MotionForm.MotionType.TeleportToDestination, 2)
+                            .SetMotionForm(MotionForm.MotionType.TeleportToDestination, 6)
                             .Build())
                     .SetParticleEffectParameters(SpellDefinitions.MistyStep)
                     .Build())
@@ -314,10 +314,16 @@ public sealed class OathOfDemonHunter : AbstractSubclass
             .AddCustomSubFeatures(ValidateDieRollModifierDemonSlayerDamageTypeRadiant.Marker)
             .AddToDB();
 
+        var featureRestoreChannelDivinity = FeatureDefinitionBuilder
+            .Create($"Feature{Name}DemonSlayerRestoreChannelDivinity")
+            .SetGuiPresentationNoContent(true)
+            .AddCustomSubFeatures(new OnReducedToZeroHpByMeOrAllyDemonSlayer(conditionTrialMark, powerTrialMark))
+            .AddToDB();
+
         var featureSetDemonSlayer = FeatureDefinitionFeatureSetBuilder
             .Create(DEMON_SLAYER_NAME)
             .SetGuiPresentation(Category.Feature)
-            .AddFeatureSet(dieRollModifierDemonSlayer)
+            .AddFeatureSet(dieRollModifierDemonSlayer, featureRestoreChannelDivinity)
             .AddToDB();
 
         Subclass = CharacterSubclassDefinitionBuilder
@@ -331,8 +337,8 @@ public sealed class OathOfDemonHunter : AbstractSubclass
                 featureSetDivineCrossbow,
                 featureSetHunterSight)
             .AddFeaturesAtLevel(15,
-                CommonBuilders.AttributeModifierThirdExtraAttack
-                ,featureSetDemonHunter)
+                CommonBuilders.AttributeModifierThirdExtraAttack,
+                featureSetDemonHunter)
             .AddFeaturesAtLevel(20,
                 featureSetDemonSlayer)
             .AddToDB();
@@ -734,6 +740,40 @@ public sealed class OathOfDemonHunter : AbstractSubclass
             }
 
             yield break;
+        }
+    }
+
+    // Demon Slayer - Restore Channel Divinity when marked enemy dies
+    private sealed class OnReducedToZeroHpByMeOrAllyDemonSlayer(
+        ConditionDefinition conditionTrialMark,
+        FeatureDefinitionPower powerTrialMark) : IOnReducedToZeroHpByMeOrAlly
+    {
+        public IEnumerator HandleReducedToZeroHpByMeOrAlly(
+            GameLocationCharacter attacker,
+            GameLocationCharacter downedCreature,
+            GameLocationCharacter ally,
+            RulesetAttackMode attackMode,
+            RulesetEffect activeEffect)
+        {
+            var rulesetAlly = ally.RulesetCharacter;
+            var rulesetDowned = downedCreature.RulesetCharacter;
+
+            // Check if ally has this feature (level 20 Oath of Demon Hunter)
+            if (rulesetAlly is not { IsDeadOrDyingOrUnconscious: false })
+            {
+                yield break;
+            }
+
+            // Check if downed creature had Trial Mark condition
+            if (!rulesetDowned.HasConditionOfCategoryAndType(
+                    AttributeDefinitions.TagEffect, conditionTrialMark.Name))
+            {
+                yield break;
+            }
+
+            // Restore one use of Channel Divinity (Trial Mark power)
+            var usablePower = PowerProvider.Get(powerTrialMark, rulesetAlly);
+            rulesetAlly.UpdateUsageForPowerPool(-1, usablePower);
         }
     }
 
