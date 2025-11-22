@@ -4,10 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using SolastaUnfinishedBusiness.Api.GameExtensions;
 using SolastaUnfinishedBusiness.Api.LanguageExtensions;
-using SolastaUnfinishedBusiness.Behaviors;
-using SolastaUnfinishedBusiness.Behaviors.Specific;
 using SolastaUnfinishedBusiness.Builders;
-using SolastaUnfinishedBusiness.Interfaces;
 using SolastaUnfinishedBusiness.Spells;
 using SolastaUnfinishedBusiness.Subclasses;
 using static ActionDefinitions;
@@ -104,7 +101,7 @@ public static class SmiteSpells2024Context
         static void SwitchSmiteDamageOff(FeatureDefinitionAdditionalDamage damage)
         {
             damage.requiredProperty = RestrictedContextRequiredProperty.MeleeWeapon;
-            
+
             // Add custom validator to allow Oath of Demon Hunter to use crossbows in non-2024 mode
             damage.SetSubFeatureOfType<OathOfDemonHunter.ValidateSmiteDamageForDemonHunter>(
                 new OathOfDemonHunter.ValidateSmiteDamageForDemonHunter());
@@ -134,14 +131,14 @@ public static class SmiteSpells2024Context
         if (attackMode == null) { yield break; }
 
         var weapon = attackMode.SourceDefinition as ItemDefinition;
-        
+
         //Only attacks with melee weapons or unarmed are supported (can be thrown melee weapon)
         if (rangedAttack
             && weapon != null
             && weapon.WeaponDescription?.WeaponTypeDefinition?.WeaponProximity != AttackProximity.Melee)
         {
             //Demon Hunter can use Smite spells on crossbows
-            if (!OathOfDemonHunter.IsEnergyCrossbowBoltActive(attacker.RulesetCharacter, 
+            if (!OathOfDemonHunter.IsEnergyCrossbowBoltActive(attacker.RulesetCharacter,
                     attackMode.sourceObject as RulesetItem,
                     attackMode))
             {
