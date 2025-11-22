@@ -168,6 +168,12 @@ public static class SmiteSpells2024Context
             yield break;
         }
 
+        //Can't smite if you are spending BA on this attack (slight conflict with `Nick` mastery)
+        if (attackMode.actionType == ActionType.Bonus)
+        {
+            yield break;
+        }
+
         var ruleService = ServiceRepository.GetService<IRulesetImplementationService>();
         var actionService = ServiceRepository.GetService<IGameLocationActionService>();
 
