@@ -305,6 +305,9 @@ paket-files/
 __pycache__/
 *.pyc
 
+# Environment files with sensitive data
+Scripts/.env
+
 # Cake - Uncomment if you are using it
 # tools/**
 # !tools/packages.config
