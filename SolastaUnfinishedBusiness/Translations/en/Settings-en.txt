@@ -200,6 +200,7 @@ ModUi/&EnablePaladinRestoringTouch2024=Enable <color=#D89555>Restoring Touch</co
 ModUi/&EnablePaladinSmite2024=Swap <color=#D89555>Divine Smite</color> with 5e 2024 version <i><color=#F0DAA0>[bonus action spell that triggers on hit]</color></i>
 ModUi/&EnableSmiteSpells2024=Swap Smite Spells with 5e 2024 version <i><color=#F0DAA0>[trigger on hit and not require concentration]</color></i>
 ModUi/&EnablePaladinSpellCastingAtLevel1=Enable <color=#D89555>spellcasting</color> at level 1 instead of 2
+ModUi/&EnablePaladinAnyFightingStyle2024=Enable <color=#D89555>Paladin</color> to choose any fighting style <i><color=#F0DAA0>[adds Archery and Two-Weapon Fighting]</color></i>
 ModUi/&EnablePcgRandom=Enable a better random generator algorithm <i><color=#F0DAA0>[https://www.pcg-random.org]</color></i>
 ModUi/&EnablePoisonsBonusAction2024=Enable applying <color=#D89555>Poisons</color> to weapons as a bonus action
 ModUi/&EnablePotionsBonusAction2024=Enable drinking <color=#D89555>Potions</color> as a bonus action
@@ -218,6 +219,7 @@ ModUi/&EnableRangerRelentlessHunter2024AsNoConcentration=<i>+ Remove concentrati
 ModUi/&EnableRangerRoving2024=Enable <color=#D89555>Roving</color> at level 6 <i><color=#F0DAA0>[get 10ft movement when not using Heavy Armor, and same climb speed]</color></i>
 ModUi/&EnableRangerSpellCastingAtLevel1=Enable <color=#D89555>spellcasting</color> at level 1 instead of 2
 ModUi/&EnableRangerTireless2024=Enable <color=#D89555>Tireless</color> to replace <color=#D89555>Hide in Plain Sight</color> at level 10 <i><color=#F0DAA0>[get temporary hit points]</color></i>
+ModUi/&EnableRangerAnyFightingStyle2024=Enable <color=#D89555>Ranger</color> to choose any fighting style <i><color=#F0DAA0>[adds Great Weapon Fighting and Protection]</color></i>
 ModUi/&EnableRelearnSpells=Enable selection of cantrips or spells already learned from other sources
 ModUi/&EnableRespecAction=Enable the <color=#D89555>RESPEC</color> after rest action <i><color=#F0DAA0>[don't use RESPEC during a multiplayer session]</color></i>
 ModUi/&EnableRitualOnAllCasters2024=Enable <color=#D89555>Ritual</color> casting on all casters

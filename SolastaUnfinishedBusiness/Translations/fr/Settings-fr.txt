@@ -204,8 +204,9 @@ ModUi/&EnablePaladinChannelDivinity2024=Échangez <color=#D89555>Channel Divinit
 ModUi/&EnablePaladinLayOnHands2024=Échangez <color=#D89555>Imposition des mains</color> avec la version 5e 2024 <i><color=#F0DAA0>[action bonus]</color></i>
 ModUi/&EnablePaladinRestoreLevel20Feature=Activez les pouvoirs de sous-classe de <color=#D89555>niveau 20</color> pour qu'ils se rechargent avec un emplacement de niveau 5
 ModUi/&EnablePaladinRestoringTouch2024=Activez <color=#D89555>Restauration du toucher</color> pour remplacer <color=#D89555>Nettoyage du toucher</color> au niveau 14
-ModUi/&EnablePaladinSmite2024=Échangez <color=#D89555>Divine Smite</color> avec la version 5e 2024 <i><color=#F0DAA0>[action bonus]</color></i>
-ModUi/&EnablePaladinSpellCastingAtLevel1=Activer le <color=#D89555>lancement de sorts</color> au niveau 1 au lieu de 2
+ModUi/&EnablePaladinSmite2024=Échanger <color=#D89555>Divine Smite</color> avec la version 5e 2024 <i><color=#F0DAA0>[action bonus]</color></i>
+ModUi/&EnablePaladinSpellCastingAtLevel1=Activer <color=#D89555>l'incantation</color> au niveau 1 au lieu de 2
+ModUi/&EnablePaladinAnyFightingStyle2024=Permettre au <color=#D89555>Paladin</color> de choisir n'importe quel style de combat <i><color=#F0DAA0>[ajoute Tir à l'arc et Combat à deux armes]</color></i>
 ModUi/&EnablePcgRandom=Activer un meilleur algorithme de générateur aléatoire <i><color=#F0DAA0>[https://www.pcg-random.org]</color></i>
 ModUi/&EnablePoisonsBonusAction2024=Activer l'application de <color=#D89555>Poisons</color> aux armes en tant qu'action bonus
 ModUi/&EnablePotionsBonusAction2024=Activer la consommation de <color=#D89555>potions</color> en tant qu'action bonus
@@ -224,6 +225,7 @@ ModUi/&EnableRangerRelentlessHunter2024AsNoConcentration=<i>+ Supprimez plutôt 
 ModUi/&EnableRangerRoving2024=Activez <color=#D89555>Roving</color> au niveau 6 <i><color=#F0DAA0>[obtenez un mouvement de 10 pieds lorsque vous n'utilisez pas d'armure lourde et la même vitesse de montée]</color></i>
 ModUi/&EnableRangerSpellCastingAtLevel1=Activer le <color=#D89555>lancement de sorts</color> au niveau 1 au lieu de 2
 ModUi/&EnableRangerTireless2024=Activez <color=#D89555>Tireless</color> pour remplacer <color=#D89555>Hide in Plain Sight</color> au niveau 10 <i><color=#F0DAA0>[obtenir des points de vie temporaires]</color></i>
+ModUi/&EnableRangerAnyFightingStyle2024=Permettre au <color=#D89555>Rôdeur</color> de choisir n'importe quel style de combat <i><color=#F0DAA0>[ajoute Combat à l'arme à deux mains et Protection]</color></i>
 ModUi/&EnableRelearnSpells=Activer la sélection de sorts ou de sorts déjà appris à partir d'autres sources
 ModUi/&EnableRespecAction=Activer l'action <color=#D89555>RESPEC</color> après le repos <i><color=#F0DAA0>[ne pas utiliser RESPEC pendant une session multijoueur]</color></i>
 ModUi/&EnableRitualOnAllCasters2024=Activer le lancement de <color=#D89555>rituel</color> sur tous les lanceurs de sorts

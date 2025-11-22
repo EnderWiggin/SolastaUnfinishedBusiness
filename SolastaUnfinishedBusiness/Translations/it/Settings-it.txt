@@ -206,6 +206,7 @@ ModUi/&EnablePaladinRestoreLevel20Feature=Abilita i poteri della sottoclasse di 
 ModUi/&EnablePaladinRestoringTouch2024=Abilita <color=#D89555>Ripristino del tocco</color> per sostituire <color=#D89555>Tocco purificatore</color> al livello 14
 ModUi/&EnablePaladinSmite2024=Sostituisci <color=#D89555>Colpo divino</color> con la versione 5e 2024 <i><color=#F0DAA0>[azione bonus]</color></i>
 ModUi/&EnablePaladinSpellCastingAtLevel1=Abilita <color=#D89555>lancio di incantesimi</color> al livello 1 invece che 2
+ModUi/&EnablePaladinAnyFightingStyle2024=Consenti al <color=#D89555>Paladino</color> di scegliere qualsiasi stile di combattimento <i><color=#F0DAA0>[aggiunge Tiro con l'arco e Combattimento a due armi]</color></i>
 ModUi/&EnablePcgRandom=Abilita un algoritmo di generazione casuale migliore <i><color=#F0DAA0>[https://www.pcg-random.org]</color></i>
 ModUi/&EnablePoisonsBonusAction2024=Abilita l'applicazione di <color=#D89555>veleni</color> alle armi come azione bonus
 ModUi/&EnablePotionsBonusAction2024=Abilita bere <color=#D89555>Pozioni</color> come azione bonus
@@ -224,6 +225,7 @@ ModUi/&EnableRangerRelentlessHunter2024AsNoConcentration=<i>+ Rimuovi invece i r
 ModUi/&EnableRangerRoving2024=Abilita <color=#D89555>Vagabondare</color> al livello 6 <i><color=#F0DAA0>[ottieni 10 piedi di movimento quando non usi un'armatura pesante e la stessa velocità di salita]</color></i>
 ModUi/&EnableRangerSpellCastingAtLevel1=Abilita <color=#D89555>lancio di incantesimi</color> al livello 1 invece che 2
 ModUi/&EnableRangerTireless2024=Abilita <color=#D89555>Instancabile</color> per sostituire <color=#D89555>Nasconditi in bella vista</color> al livello 10 <i><color=#F0DAA0>[ottieni punti ferita temporanei]</color></i>
+ModUi/&EnableRangerAnyFightingStyle2024=Consenti al <color=#D89555>Ranger</color> di scegliere qualsiasi stile di combattimento <i><color=#F0DAA0>[aggiunge Combattimento con Arma Grande e Protezione]</color></i>
 ModUi/&EnableRelearnSpells=Abilita la selezione di trucchetti o incantesimi già appresi da altre fonti
 ModUi/&EnableRespecAction=Abilita <color=#D89555>RESPEC</color> dopo l'azione di riposo <i><color=#F0DAA0>[non usare RESPEC durante una sessione multigiocatore]</color></i>
 ModUi/&EnableRitualOnAllCasters2024=Abilita il lancio di <color=#D89555>Rituale</color> su tutti gli incantatori
