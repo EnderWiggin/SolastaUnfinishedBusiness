@@ -23,7 +23,7 @@ namespace SolastaUnfinishedBusiness.Subclasses;
 [UsedImplicitly]
 public sealed class OathOfThunder : AbstractSubclass
 {
-    private const string Name = "OathOfThunder";
+    internal const string Name = "OathOfThunder";
 
     internal static readonly IsWeaponValidHandler IsOathOfThunderWeapon = (mode, item, character) =>
     {
