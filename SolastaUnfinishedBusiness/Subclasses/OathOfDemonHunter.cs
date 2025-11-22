@@ -10,8 +10,8 @@ using SolastaUnfinishedBusiness.Builders.Features;
 using SolastaUnfinishedBusiness.CustomUI;
 using SolastaUnfinishedBusiness.Interfaces;
 using SolastaUnfinishedBusiness.Models;
-using SolastaUnfinishedBusiness.Properties;
 using SolastaUnfinishedBusiness.Validators;
+using UnityEngine;
 using UnityEngine.AddressableAssets;
 using static RuleDefinitions;
 using static FeatureDefinitionAttributeModifier;
@@ -20,17 +20,29 @@ using static SolastaUnfinishedBusiness.Api.DatabaseHelper.SpellDefinitions;
 using static SolastaUnfinishedBusiness.Builders.Features.AutoPreparedSpellsGroupBuilder;
 using static SolastaUnfinishedBusiness.Api.DatabaseHelper.ConditionDefinitions;
 using static SolastaUnfinishedBusiness.Api.DatabaseHelper.WeaponTypeDefinitions;
+using Resources = SolastaUnfinishedBusiness.Properties.Resources;
 
 namespace SolastaUnfinishedBusiness.Subclasses;
 
 [UsedImplicitly]
 public sealed class OathOfDemonHunter : AbstractSubclass
 {
-    internal const string Name = "OathOfDemonHunter";
+    internal const string Name = "OathOfDemonHunterRemaster";
 
+    internal static int GetSubclassLevel(RulesetCharacter character)
+    {
+        // compatible with old subclass
+        var oldSubclassLevel = character.GetSubclassLevel(
+            CharacterClassDefinitions.Paladin, OathOfDemonHunterOld.Name);
+        var subClassLevel = character.GetSubclassLevel(
+            CharacterClassDefinitions.Paladin, Name);
+        
+        return Mathf.Max(oldSubclassLevel, subClassLevel);
+    }
+    
     internal static readonly IsWeaponValidHandler IsOathOfDemonHunterWeapon = (mode, item, character) =>
     {
-        var levels = character.GetSubclassLevel(CharacterClassDefinitions.Paladin, Name);
+        var levels = GetSubclassLevel(character);
 
         return levels switch
         {
@@ -82,11 +94,6 @@ public sealed class OathOfDemonHunter : AbstractSubclass
                     .Create($"Feature{Name}LightEnergyCrossbowBoltCharismaAttack")
                     .SetGuiPresentationNoContent(true)
                     .AddCustomSubFeatures(new CanUseAttribute(AttributeDefinitions.Charisma, IsOathOfDemonHunterWeapon))
-                    .AddToDB(),
-                FeatureDefinitionBuilder
-                    .Create($"Feature{Name}LightEnergyCrossbowBoltIgnoreLoading")
-                    .SetGuiPresentationNoContent(true)
-                    .AddCustomSubFeatures(new IgnoreCrossbowLoadingProperty())
                     .AddToDB(),
                 FeatureDefinitionBuilder
                     .Create($"Feature{Name}LightEnergyCrossbowBoltRemoveMeleeDisadvantage")
@@ -251,11 +258,9 @@ public sealed class OathOfDemonHunter : AbstractSubclass
 
         // Divine Crossbow - Display only feature to show level 7 unlocks
         // (Actual functionality is in Light Energy Crossbow Bolt condition)
-
-        const string DivineCrossbowName = $"FeatureSet{Name}DivineCrossbow";
-
+        
         var featureSetDivineCrossbow = FeatureDefinitionFeatureSetBuilder
-            .Create(DivineCrossbowName)
+            .Create($"FeatureSet{Name}DivineCrossbow")
             .SetGuiPresentation(Category.Feature)
             .AddToDB();
 
@@ -286,8 +291,6 @@ public sealed class OathOfDemonHunter : AbstractSubclass
         //
         
         // Demon Hunter
-        
-        const string DEMON_HUNTER_NAME = $"FeatureSet{Name}DemonHunter";
 
         // Power for Hunter Step teleportation
         var powerHunterStep = FeatureDefinitionPowerBuilder
@@ -350,7 +353,7 @@ public sealed class OathOfDemonHunter : AbstractSubclass
             .AddToDB();
 
         var featureSetDemonHunter = FeatureDefinitionFeatureSetBuilder
-            .Create(DEMON_HUNTER_NAME)
+            .Create($"FeatureSet{Name}DemonHunter")
             .SetGuiPresentation(Category.Feature)
             .AddFeatureSet(featureDemonHunterTrigger)
             .AddToDB();
@@ -360,8 +363,6 @@ public sealed class OathOfDemonHunter : AbstractSubclass
         //
         
         // Demon Slayer
-
-        const string DEMON_SLAYER_NAME = $"FeatureSet{Name}DemonSlayer";
 
         var dieRollModifierDemonSlayer = FeatureDefinitionDieRollModifierBuilder
             .Create($"Feature{Name}DemonSlayer")
@@ -378,7 +379,7 @@ public sealed class OathOfDemonHunter : AbstractSubclass
             .AddToDB();
 
         var featureSetDemonSlayer = FeatureDefinitionFeatureSetBuilder
-            .Create(DEMON_SLAYER_NAME)
+            .Create($"FeatureSet{Name}DemonSlayer")
             .SetGuiPresentation(Category.Feature)
             .AddFeatureSet(dieRollModifierDemonSlayer, featureRestoreChannelDivinity)
             .AddToDB();
@@ -399,29 +400,6 @@ public sealed class OathOfDemonHunter : AbstractSubclass
             .AddFeaturesAtLevel(20,
                 featureSetDemonSlayer)
             .AddToDB();
-
-        #region OldFeature
-
-        // Only for reference - removed features
-        _ = FeatureDefinitionBuilder
-            .Create($"Feature{Name}DemonHunter")
-            .SetGuiPresentationNoContent(true)
-            .AddToDB();
-
-        _ = FeatureDefinitionBuilder
-            .Create($"Feature{Name}LightEnergyCrossbowBolt")
-            .SetGuiPresentationNoContent(true)
-            .AddToDB();
-        
-        _ = FeatureDefinitionAttributeModifierBuilder
-            .Create($"AttributeModifier{Name}DivineCrossbow")
-            .SetGuiPresentationNoContent(true)
-            .SetModifier(AttributeModifierOperation.Additive,
-                AttributeDefinitions.CriticalThreshold, 0)
-            .AddToDB();
-        
-        #endregion
-        
     }
 
     internal override CharacterClassDefinition Klass => CharacterClassDefinitions.Paladin;
@@ -446,6 +424,14 @@ public sealed class OathOfDemonHunter : AbstractSubclass
         if (!isDemonHunterWeapon)
         {
             return false;
+        }
+        
+        var oldSubclassLevel = attacker.GetSubclassLevel(
+            CharacterClassDefinitions.Paladin, OathOfDemonHunterOld.Name);
+        if (oldSubclassLevel >= 3)
+        {
+            // Old subclass always has it active
+            return true;
         }
         
         if (!attacker.HasConditionOfType(ConditionLightEnergyCrossbowBoltActiveName))
@@ -473,7 +459,7 @@ public sealed class OathOfDemonHunter : AbstractSubclass
             }
 
             // Only apply at level 7+
-            var levels = myself.GetSubclassLevel(CharacterClassDefinitions.Paladin, Name);
+            var levels = GetSubclassLevel(myself);
             if (levels < 7)
             {
                 return;
@@ -567,7 +553,7 @@ public sealed class OathOfDemonHunter : AbstractSubclass
                 return;
             }
 
-            var levels = attacker.RulesetCharacter.GetSubclassLevel(CharacterClassDefinitions.Paladin, Name);
+            var levels = GetSubclassLevel(attacker.RulesetCharacter);
 
             // 3: 1d4, 6: 1d6, 10: 1d8, 14: 1d10, 18: 1d12
             damageForm.DieType = levels switch
@@ -796,7 +782,7 @@ public sealed class OathOfDemonHunter : AbstractSubclass
                 return;
             }
 
-            var levels = character.GetSubclassLevel(CharacterClassDefinitions.Paladin, Name);
+            var levels = GetSubclassLevel(character);
 
             if (levels < 3)
             {
@@ -845,7 +831,7 @@ public sealed class OathOfDemonHunter : AbstractSubclass
     {
         private static bool HasLevel7(RulesetCharacter character)
         {
-            return character.GetSubclassLevel(CharacterClassDefinitions.Paladin, Name) >= 7;
+            return GetSubclassLevel(character) >= 7;
         }
     }
 
@@ -893,17 +879,25 @@ public sealed class OathOfDemonHunter : AbstractSubclass
             RulesetAttackMode          attackMode,
             RulesetEffect              rulesetEffect)
         {
-            if (OathOfDemonHunter.IsOathOfDemonHunterWeapon(attackMode, attackMode.sourceObject as RulesetItem, character))
+            if (IsOathOfDemonHunterWeapon(attackMode, attackMode.sourceObject as RulesetItem, character))
             {
+                var oldSubclassLevel = character.GetSubclassLevel(
+                    CharacterClassDefinitions.Paladin, OathOfDemonHunterOld.Name);
+                if (oldSubclassLevel >= 3)
+                {
+                    // Old subclass always allows to smite with crossbow
+                    return (OperationType.Set, true);
+                }
+                
                 // Check if Light Energy Crossbow Bolt condition is active
-                var conditionName = $"Condition{OathOfDemonHunter.Name}LightEnergyCrossbowBoltActive";
+                var conditionName = $"Condition{Name}LightEnergyCrossbowBoltActive";
             
                 if (character.HasConditionOfType(conditionName))
                 {
                     return (OperationType.Set, true);
                 }
             
-                // Condition not active, don't allow Smite with crossbow
+                // Condition not active, don't allow to smite with crossbow
                 return (OperationType.Set, false);
             }
 
