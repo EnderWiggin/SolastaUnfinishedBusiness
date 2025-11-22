@@ -204,8 +204,9 @@ ModUi/&EnablePaladinChannelDivinity2024=<color=#D89555>Channel Divinity</color> 
 ModUi/&EnablePaladinLayOnHands2024=<color=#D89555>Lay on Hands</color> を 5e 2024 バージョンの <i><color=#F0DAA0>[ボーナス アクション]</color></i> と入れ替えます
 ModUi/&EnablePaladinRestoreLevel20Feature=<color=#D89555>レベル20</color>サブクラスパワーをレベル5スロットで再充電できるようにする
 ModUi/&EnablePaladinRestoringTouch2024=レベル14で<color=#D89555>浄化のタッチ</color>の代わりに<color=#D89555>回復のタッチ</color>を有効にする
-ModUi/&EnablePaladinSmite2024=<color=#D89555>Divine Smite</color> を 5e 2024 バージョンの <i><color=#F0DAA0>[ボーナス アクション]</color></i> と入れ替えます
+ModUi/&EnablePaladinSmite2024=<color=#D89555>Divine Smite</color>を5e 2024バージョンと交換 <i><color=#F0DAA0>[ボーナス アクション]</color></i>
 ModUi/&EnablePaladinSpellCastingAtLevel1=<color=#D89555>呪文発動</color>をレベル2ではなくレベル1で有効にする
+ModUi/&EnablePaladinAnyFightingStyle2024=<color=#D89555>パラディン</color>が任意の戦闘スタイルを選択できるようにする <i><color=#F0DAA0>[アーチェリーと二刀流を追加]</color></i>
 ModUi/&EnablePcgRandom=より優れたランダム生成アルゴリズムを有効にする <i><color=#F0DAA0>[https://www.pcg-random.org]</color></i>
 ModUi/&EnablePoisonsBonusAction2024=ボーナスアクションとして武器に<color=#D89555>毒</color>を適用できるようにする
 ModUi/&EnablePotionsBonusAction2024=ボーナスアクションとして<color=#D89555>ポーション</color>を飲むことを可能にする
@@ -224,6 +225,7 @@ ModUi/&EnableRangerRelentlessHunter2024AsNoConcentration=<i>+ 代わりにハン
 ModUi/&EnableRangerRoving2024=レベル 6 で <color=#D89555>移動</color> を有効にする <i><color=#F0DAA0>[重装甲を使用していないときに 10 フィート移動し、同じ登攀速度を得る]</color></i>
 ModUi/&EnableRangerSpellCastingAtLevel1=<color=#D89555>呪文発動</color>をレベル2ではなくレベル1で有効にする
 ModUi/&EnableRangerTireless2024=レベル 10 で <color=#D89555>不屈の精神</color> を <color=#D89555>隠れた視界</color> と置き換えて有効にします <i><color=#F0DAA0>[一時的にヒット ポイントを獲得]</color></i>
+ModUi/&EnableRangerAnyFightingStyle2024=<color=#D89555>レンジャー</color>が任意の戦闘スタイルを選択できるようにする <i><color=#F0DAA0>[大型武器戦闘と防護を追加]</color></i>
 ModUi/&EnableRelearnSpells=他のソースからすでに学習したキャントリップや呪文を選択できるようにする
 ModUi/&EnableRespecAction=休憩アクション後に <color=#D89555>RESPEC</color> を有効にします <i><color=#F0DAA0>[マルチプレイヤーセッション中は RESPEC を使用しないでください]</color></i>
 ModUi/&EnableRitualOnAllCasters2024=すべてのキャスターに<color=#D89555>儀式</color>の詠唱を有効にする

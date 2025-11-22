@@ -374,6 +374,7 @@ public class Settings : UnityModManager.ModSettings
     [Tag(Type = TagType.T2024)] public bool EnablePaladinRestoringTouch2024 { get; set; }
     [Tag(Type = TagType.T2024)] public bool EnablePaladinSmite2024 { get; set; }
     [Tag(Type = TagType.T2024)] public bool EnablePaladinSpellCastingAtLevel1 { get; set; }
+    [Tag(Type = TagType.T2024)] public bool EnablePaladinAnyFightingStyle2024 { get; set; }
     public bool ShowChannelDivinityOnPortrait { get; set; }
     public bool AddHumanoidFavoredEnemyToRanger { get; set; }
     [Tag(Type = TagType.T2024)] public bool EnableRangerDeftExplorer2024 { get; set; }
@@ -386,6 +387,7 @@ public class Settings : UnityModManager.ModSettings
     [Tag(Type = TagType.T2024)] public bool EnableRangerRoving2024 { get; set; }
     [Tag(Type = TagType.T2024)] public bool EnableRangerSpellCastingAtLevel1 { get; set; }
     [Tag(Type = TagType.T2024)] public bool EnableRangerTireless2024 { get; set; }
+    [Tag(Type = TagType.T2024)] public bool EnableRangerAnyFightingStyle2024 { get; set; }
     [Tag(Type = TagType.T2024)] public bool RemoveRangerPrimevalAwareness2024 { get; set; }
     [Tag(Type = TagType.T2024)] public bool EnableRangerFeralSenses2024 { get; set; }
     [Tag(Type = TagType.T2024)] public bool EnableRangerFoeSlayers2024 { get; set; }
