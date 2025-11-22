@@ -2,8 +2,6 @@
 This script provides automated batch translation for game localization files using an LLM-backed translation pipeline.  
 It significantly improves translation quality, preserves formatting codes, and supports translating either an entire language folder or a single file.
 
-Spilt from #73
-
 ## Features
 - Batch translation using an OpenAI-compatible API
 - Automatic preservation of formatting codes (`{0}`, `{1}`, `\n`, etc.)
