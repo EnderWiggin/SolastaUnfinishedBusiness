@@ -1009,8 +1009,9 @@ internal static class GLBM
                                 }
                             }
                             //Skip non-thrown ranged attacks if not Demon Hunter weapon attack
-                            else if (!OathOfDemonHunter.IsOathOfDemonHunterWeapon(attackMode, null,
-                                         attacker.RulesetCharacter))
+                            else if (!OathOfDemonHunter.IsEnergyCrossbowBoltActive(attacker.RulesetCharacter,
+                                         attackMode.sourceObject as RulesetItem,
+                                         attackMode))
                             {
                                 break;
                             }

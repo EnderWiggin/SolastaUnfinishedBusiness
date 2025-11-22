@@ -37,6 +37,9 @@ public static class Sprites
     internal static AssetReferenceSprite SorceryPointsResourceIcon =>
         GetSprite("SorceryPointsResourceIcon", Resources.SorceryPoints, 64);
 
+    internal static AssetReferenceSprite LightEnergyCrossbowBolt =>
+        GetSprite("LightEnergyCrossbowBolt", Resources.LightEnergyCrossbowBolt, 64);
+    
     #endregion
 
     #region UI
