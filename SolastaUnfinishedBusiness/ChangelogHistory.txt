@@ -2,9 +2,9 @@
 - fixed tags for Battle Smiths extra spells
 - fixed tooltip for `Momentum` from `Weapon Master` subclass in action-switching
 - fixed Smites 2024 getting triggered on Bonus Action attacks
-- fixed `Oath of the Demon Hunter` getting extra smite dice instead of `Oath of Thunder`
+- fixed `Oath of the Demon Hunter` getting extra smite dice on level 20 instead of `Oath of Thunder`
 - merged PR with remaster of `Oath of the Demon Hunter` - old version is still present, but will be removed at later date
-- Add 2024 Fighting Style settings for Ranger and paladin
+- merged PR with added 2024 Fighting Style settings for Ranger and Paladin
 
 1.5.97.105:
 - merged PR with updated zh-CN localization from MagicSkySword
