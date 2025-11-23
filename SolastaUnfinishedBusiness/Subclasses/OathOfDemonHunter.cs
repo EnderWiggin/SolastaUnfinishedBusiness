@@ -25,9 +25,9 @@ namespace SolastaUnfinishedBusiness.Subclasses;
 [UsedImplicitly]
 public sealed class OathOfDemonHunter : AbstractSubclass
 {
-    internal const string Name = "OathOfDemonHunterRemaster";
+    private const string Name = "OathOfDemonHunterRemaster";
 
-    internal static int GetSubclassLevel(RulesetCharacter character)
+    private static int GetSubclassLevel(RulesetCharacter character)
     {
         // compatible with old subclass
         var oldSubclassLevel = character.GetSubclassLevel(
@@ -51,9 +51,9 @@ public sealed class OathOfDemonHunter : AbstractSubclass
         };
     };
 
-    internal static FeatureDefinitionPower PowerLightEnergyCrossbowBolt { get; private set; }
+    private static FeatureDefinitionPower PowerLightEnergyCrossbowBolt { get; set; }
 
-    internal const string ConditionLightEnergyCrossbowBoltActiveName =
+    private const string ConditionLightEnergyCrossbowBoltActiveName =
         $"Condition{Name}LightEnergyCrossbowBoltActive";
 
     public OathOfDemonHunter()
@@ -111,18 +111,11 @@ public sealed class OathOfDemonHunter : AbstractSubclass
             .SetGuiPresentation(LightEnergyCrossbowBoltName, Category.Feature,
                 Sprites.GetSprite("PowerLightEnergyCrossbowBolt", Resources.PowerTrialMark, 256, 128))
             .SetUsesFixed(ActivationTime.BonusAction, RechargeRate.LongRest, 1, 0)
-            .SetEffectDescription(
-                EffectDescriptionBuilder
-                    .Create()
-                    .SetDurationData(DurationType.Minute, 1)
-                    .SetTargetingData(Side.Ally, RangeType.Self, 0, TargetType.Self)
-                    .SetEffectForms(
-                        EffectFormBuilder
-                            .Create()
-                            .SetConditionForm(conditionLightEnergyCrossbowBoltActive,
-                                ConditionForm.ConditionOperation.Add)
-                            .Build())
-                    .Build())
+            .SetEffectDescription(EffectDescriptionBuilder.Create()
+                .SetDurationData(DurationType.Minute, 1)
+                .SetTargetingData(Side.Ally, RangeType.Self, 0, TargetType.Self)
+                .SetEffectForms(EffectFormBuilder.AddConditionForm(conditionLightEnergyCrossbowBoltActive))
+                .Build())
             .AddToDB();
 
         PowerLightEnergyCrossbowBolt.AddCustomSubFeatures(
@@ -195,18 +188,12 @@ public sealed class OathOfDemonHunter : AbstractSubclass
             .SetGuiPresentationNoContent(hidden: true)
             .SetUsesFixed(ActivationTime.NoCost, RechargeRate.ChannelDivinity)
             .SetShowCasting(false)
-            .SetEffectDescription(
-                EffectDescriptionBuilder
-                    .Create()
-                    .SetDurationData(DurationType.Minute, 1, TurnOccurenceType.EndOfSourceTurn)
-                    .SetTargetingData(Side.Enemy, RangeType.Distance, 12, TargetType.IndividualsUnique)
-                    .SetParticleEffectParameters(LightningBolt)
-                    .SetEffectForms(
-                        EffectFormBuilder
-                            .Create()
-                            .SetConditionForm(conditionTrialMark, ConditionForm.ConditionOperation.Add)
-                            .Build())
-                    .Build())
+            .SetEffectDescription(EffectDescriptionBuilder.Create()
+                .SetDurationData(DurationType.Minute, 1, TurnOccurenceType.EndOfSourceTurn)
+                .SetTargetingData(Side.Enemy, RangeType.Distance, 12, TargetType.IndividualsUnique)
+                .SetParticleEffectParameters(LightningBolt)
+                .SetEffectForms(EffectFormBuilder.AddConditionForm(conditionTrialMark))
+                .Build())
             .AddToDB();
 
         var powerTrialMarkToggle = FeatureDefinitionPowerBuilder
@@ -296,19 +283,13 @@ public sealed class OathOfDemonHunter : AbstractSubclass
             .Create($"Power{Name}HunterStep")
             .SetGuiPresentation(Category.Feature, MistyStep)
             .SetUsesFixed(ActivationTime.NoCost, RechargeRate.TurnStart)
-            .SetEffectDescription(
-                EffectDescriptionBuilder
-                    .Create()
-                    .SetTargetingData(Side.Ally, RangeType.Distance, 6, TargetType.Position)
-                    .SetDurationData(DurationType.Round, 0, TurnOccurenceType.StartOfTurn)
-                    .SetEffectForms(
-                        EffectFormBuilder
-                            .Create()
-                            .SetMotionForm(MotionForm.MotionType.TeleportToDestination)
-                            .Build())
-                    .UseQuickAnimations()
-                    .SetParticleEffectParameters(MistyStep)
-                    .Build())
+            .SetEffectDescription(EffectDescriptionBuilder.Create()
+                .SetTargetingData(Side.Ally, RangeType.Distance, 6, TargetType.Position)
+                .SetDurationData(DurationType.Round, 0, TurnOccurenceType.StartOfTurn)
+                .SetEffectForms(EffectFormBuilder.MotionForm(MotionForm.MotionType.TeleportToDestination))
+                .UseQuickAnimations()
+                .SetParticleEffectParameters(MistyStep)
+                .Build())
             .DelegatedToAction()
             .AddToDB();
 
