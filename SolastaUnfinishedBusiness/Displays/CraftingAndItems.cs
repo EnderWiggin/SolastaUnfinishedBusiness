@@ -341,6 +341,21 @@ internal static class CraftingAndItems
             Main.Settings.AddNewWeaponsAndRecipesToShops = toggle;
         }
 
+        if (Main.Settings.AddNewWeaponsAndRecipesToShops)
+        {
+            toggle = Main.Settings.NewWeaponsAndRecipesBaseInsteadOfPrimed;
+            if (UI.Toggle(Gui.Localize("ModUi/&NewWeaponsAndRecipesBaseInsteadOfPrimed"), ref toggle, UI.AutoWidth()))
+            {
+                Main.Settings.NewWeaponsAndRecipesBaseInsteadOfPrimed = toggle;
+            }
+
+            toggle = Main.Settings.NewWeaponsAndRecipesSimplified;
+            if (UI.Toggle(Gui.Localize("ModUi/&NewWeaponsAndRecipesSimplified"), ref toggle, UI.AutoWidth()))
+            {
+                Main.Settings.NewWeaponsAndRecipesSimplified = toggle;
+            }
+        }
+
         toggle = CraftingContext.RecipeBooks.Keys.Count == Main.Settings.CraftingInStore.Count;
         if (UI.Toggle(Gui.Localize("ModUi/&AddAllToStore"), ref toggle, UI.Width(125f)))
         {

@@ -11,6 +11,28 @@ namespace SolastaUnfinishedBusiness.ItemCrafting;
 
 internal static class ItemRecipeGenerationHelper
 {
+
+    internal static Dictionary<ItemDefinition, ItemDefinition> enchantedToIngredient = new Dictionary<ItemDefinition, ItemDefinition>
+    {
+        { Ingredient_Enchant_MithralStone, _300_GP_Opal },
+        { Ingredient_Enchant_Crystal_Of_Winter, _100_GP_Pearl },
+        { Ingredient_Enchant_Blood_Gem, _500_GP_Ruby },
+        { Ingredient_Enchant_Soul_Gem, _1000_GP_Diamond },
+        { Ingredient_Enchant_Slavestone, _100_GP_Emerald },
+        { Ingredient_Enchant_Cloud_Diamond, _1000_GP_Diamond },
+        { Ingredient_Enchant_Stardust, _100_GP_Pearl },
+        { Ingredient_Enchant_Doom_Gem, _50_GP_Sapphire },
+        { Ingredient_Enchant_Shard_Of_Fire, _500_GP_Ruby },
+        { Ingredient_Enchant_Shard_Of_Ice, _50_GP_Sapphire },
+        { Ingredient_Enchant_LifeStone, _1000_GP_Diamond },
+        { Ingredient_Enchant_Diamond_Of_Elai, _100_GP_Emerald },
+        { Ingredient_PrimordialLavaStones, _20_GP_Amethyst },
+        { Ingredient_Enchant_Blood_Of_Solasta, Ingredient_Acid },
+        { Ingredient_Enchant_Medusa_Coral, _300_GP_Opal },
+        { Ingredient_Enchant_PurpleAmber, _50_GP_Sapphire },
+        { Ingredient_Enchant_Heartstone, _300_GP_Opal },
+        { Ingredient_Enchant_SpiderQueen_Venom, Ingredient_BadlandsSpiderVenomGland }
+    };
     internal static void AddRecipesFromItemCollection(ItemCollection itemCollection, bool isArmor = false)
     {
         var baseToPrimed = new Dictionary<ItemDefinition, ItemDefinition>
@@ -73,6 +95,13 @@ internal static class ItemRecipeGenerationHelper
                     : ItemBuilder.BuildNewMagicWeapon(baseItem, presentation, itemData.Name, itemData.Item);
                 newItem.GuiPresentation.spriteReference = presentation.GuiPresentation.SpriteReference;
                 var primedItem = baseToPrimed.TryGetValue(baseItem, out var value) ? value : baseItem;
+                
+                if (Main.Settings.AddNewWeaponsAndRecipesToShops
+                     && (Main.Settings.NewWeaponsAndRecipesBaseInsteadOfPrimed || Main.Settings.NewWeaponsAndRecipesSimplified))
+                {
+                    primedItem = baseItem;
+                }
+
                 var ingredients = new List<ItemDefinition> { primedItem };
 
                 if (itemCollection.CustomSubFeatures != null)
@@ -80,9 +109,14 @@ internal static class ItemRecipeGenerationHelper
                     newItem.AddCustomSubFeatures([.. itemCollection.CustomSubFeatures]);
                 }
 
-                ingredients.AddRange(itemData.Recipe.Ingredients
-                    .Where(ingredient => !ingredient.ItemDefinition.IsArmor && !ingredient.ItemDefinition.IsWeapon)
-                    .Select(x => x.ItemDefinition));
+                foreach (var ingredient in itemData.Recipe.Ingredients)
+                {
+                    if (!ingredient.ItemDefinition.IsArmor && !ingredient.ItemDefinition.IsWeapon)
+                    {
+                        if (Main.Settings.NewWeaponsAndRecipesSimplified && enchantedToIngredient.ContainsKey(ingredient.ItemDefinition)) ingredients.Add(enchantedToIngredient[ingredient.ItemDefinition]);
+                        else ingredients.Add(ingredient.ItemDefinition);
+                    }
+                }
 
                 var craftingManual = RecipeHelper.BuildRecipeManual(newItem, itemData.Recipe.CraftingHours,
                     itemData.Recipe.CraftingDC, [.. ingredients]);
@@ -107,28 +141,6 @@ internal static class ItemRecipeGenerationHelper
 
     internal static void AddIngredientEnchanting()
     {
-        var enchantedToIngredient = new Dictionary<ItemDefinition, ItemDefinition>
-        {
-            { Ingredient_Enchant_MithralStone, _300_GP_Opal },
-            { Ingredient_Enchant_Crystal_Of_Winter, _100_GP_Pearl },
-            { Ingredient_Enchant_Blood_Gem, _500_GP_Ruby },
-            { Ingredient_Enchant_Soul_Gem, _1000_GP_Diamond },
-            { Ingredient_Enchant_Slavestone, _100_GP_Emerald },
-            { Ingredient_Enchant_Cloud_Diamond, _1000_GP_Diamond },
-            { Ingredient_Enchant_Stardust, _100_GP_Pearl },
-            { Ingredient_Enchant_Doom_Gem, _50_GP_Sapphire },
-            { Ingredient_Enchant_Shard_Of_Fire, _500_GP_Ruby },
-            { Ingredient_Enchant_Shard_Of_Ice, _50_GP_Sapphire },
-            { Ingredient_Enchant_LifeStone, _1000_GP_Diamond },
-            { Ingredient_Enchant_Diamond_Of_Elai, _100_GP_Emerald },
-            { Ingredient_PrimordialLavaStones, _20_GP_Amethyst },
-            { Ingredient_Enchant_Blood_Of_Solasta, Ingredient_Acid },
-            { Ingredient_Enchant_Medusa_Coral, _300_GP_Opal },
-            { Ingredient_Enchant_PurpleAmber, _50_GP_Sapphire },
-            { Ingredient_Enchant_Heartstone, _300_GP_Opal },
-            { Ingredient_Enchant_SpiderQueen_Venom, Ingredient_BadlandsSpiderVenomGland }
-        };
-
         var recipes = enchantedToIngredient.Keys
             .Select(
                 item => RecipeDefinitionBuilder

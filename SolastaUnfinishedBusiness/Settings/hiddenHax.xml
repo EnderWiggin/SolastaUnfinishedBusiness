@@ -626,6 +626,8 @@
     <RecipeCost>200</RecipeCost>
     <TotalCraftingTimeModifier>0</TotalCraftingTimeModifier>
     <AddNewWeaponsAndRecipesToShops>false</AddNewWeaponsAndRecipesToShops>
+    <NewWeaponsAndRecipesBaseInsteadOfPrimed>false</NewWeaponsAndRecipesBaseInsteadOfPrimed>
+    <NewWeaponsAndRecipesSimplified>false</NewWeaponsAndRecipesSimplified>  
     <CraftingInStore/>
     <EnableLoggingInvalidReferencesInUserCampaigns>false</EnableLoggingInvalidReferencesInUserCampaigns>
     <EnableSortingDungeonMakerAssets>false</EnableSortingDungeonMakerAssets>

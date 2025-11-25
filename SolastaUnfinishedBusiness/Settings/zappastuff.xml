@@ -633,7 +633,9 @@
     <RecipeCost>200</RecipeCost>
     <TotalCraftingTimeModifier>0</TotalCraftingTimeModifier>
     <AddNewWeaponsAndRecipesToShops>true</AddNewWeaponsAndRecipesToShops>
-    <CraftingInStore>
+    <NewWeaponsAndRecipesBaseInsteadOfPrimed>false</NewWeaponsAndRecipesBaseInsteadOfPrimed>
+    <NewWeaponsAndRecipesSimplified>false</NewWeaponsAndRecipesSimplified>
+  <CraftingInStore>
         <string>PrimedItems</string>
         <string>EnchantingIngredients</string>
         <string>RelicForgeries</string>
