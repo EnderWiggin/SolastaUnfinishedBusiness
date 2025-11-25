@@ -34,14 +34,16 @@ public static class RulesetItemDevicePatcher
         }
     }
 
-    [HarmonyPatch(typeof(RulesetItemDevice), nameof(RulesetItemDevice.PostLoad))]
+    [HarmonyPatch(typeof(RulesetItemDevice), nameof(RulesetItemDevice.SerializeElements))]
     [UsedImplicitly]
-    public static class PostLoad_Patch
+    public static class SerializeElements_Patch
     {
         [UsedImplicitly]
-        public static void Prefix(RulesetItemDevice __instance)
+        public static void Postfix(RulesetItemDevice __instance,  IElementsSerializer serializer)
         {
-            //PATCH: update availability ofm extra bonus action functions if 2024 item use rules are enabled
+            if(serializer.Mode != Serializer.SerializationMode.Read) { return; }
+            
+            //PATCH: update availability of extra bonus action functions if 2024 item use rules are enabled
             Tabletop2024Context.UpdateDeviceBonusActions(__instance, GameConstants.TagPotion);
             Tabletop2024Context.UpdateDeviceBonusActions(__instance, GameConstants.TagPoison);
         }
