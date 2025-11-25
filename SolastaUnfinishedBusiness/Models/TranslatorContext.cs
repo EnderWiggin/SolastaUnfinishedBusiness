@@ -685,13 +685,14 @@ internal static class TranslatorContext
                     {
                         yield return Update();
 
+                        var validatorType = outcome.validatorDescription.type;
                         outcome.DescriptionText = Translate(outcome.DescriptionText, languageCode);
 
-                        if (outcome.validatorDescription.type is not (QuestDefinitions.QuestValidatorType.EnterLocation
-                            or
-                            QuestDefinitions.QuestValidatorType.EnterCampaignMap or
-                            QuestDefinitions.QuestValidatorType.LeaveLocation or
-                            QuestDefinitions.QuestValidatorType.LeaveCampaignMap))
+                        if (!HasDbReference(validatorType) && validatorType is not (
+                                QuestDefinitions.QuestValidatorType.EnterLocation or
+                                QuestDefinitions.QuestValidatorType.EnterCampaignMap or
+                                QuestDefinitions.QuestValidatorType.LeaveLocation or
+                                QuestDefinitions.QuestValidatorType.LeaveCampaignMap))
                         {
                             outcome.validatorDescription.StringParameter =
                                 Translate(outcome.validatorDescription.StringParameter, languageCode);
@@ -802,6 +803,31 @@ internal static class TranslatorContext
             internal Coroutine Coroutine;
             internal string LanguageCode;
             internal float PercentageComplete;
+        }
+
+        private static bool HasDbReference(QuestDefinitions.QuestValidatorType type)
+        {
+            return type switch
+            {
+                QuestDefinitions.QuestValidatorType.KillCreatures =>
+                    UserParameterDefinitions.IsDatabaseReference(UserParameterDefinitions.Type.MonsterOrNpc)
+                    || UserParameterDefinitions.IsDatabaseReference(UserParameterDefinitions.Type.MonsterQuantity),
+                QuestDefinitions.QuestValidatorType.OwnItems =>
+                    UserParameterDefinitions.IsDatabaseReference(UserParameterDefinitions.Type.Item)
+                    || UserParameterDefinitions.IsDatabaseReference(UserParameterDefinitions.Type.ItemQuantity),
+                QuestDefinitions.QuestValidatorType.EnterLocation or QuestDefinitions.QuestValidatorType.LeaveLocation
+                    => UserParameterDefinitions.IsDatabaseReference(UserParameterDefinitions.Type.Location),
+                QuestDefinitions.QuestValidatorType.ItemEquiped or QuestDefinitions.QuestValidatorType.ItemUsed =>
+                    UserParameterDefinitions.IsDatabaseReference(UserParameterDefinitions.Type.Item),
+                QuestDefinitions.QuestValidatorType.RestCompleted => UserParameterDefinitions.IsDatabaseReference(
+                    UserParameterDefinitions.Type.RestType),
+                QuestDefinitions.QuestValidatorType.SpellCast =>
+                    UserParameterDefinitions.IsDatabaseReference(UserParameterDefinitions.Type.SpellName)
+                    || UserParameterDefinitions.IsDatabaseReference(UserParameterDefinitions.Type.FromDevice),
+                QuestDefinitions.QuestValidatorType.AutomaticCompletion => UserParameterDefinitions.IsDatabaseReference(
+                    UserParameterDefinitions.Type.CompletionDelay),
+                _ => false
+            };
         }
     }
 }
