@@ -1,3 +1,8 @@
+1.5.97.108:
+- tweaked description of `Oath of the Demon Hunter` to include ability to cast Smite spells through crossbow attacks
+- fixed crash when trying to start campaign with character that as created when `Bonus Action Potions/Poisons` enabled when this option is disabled
+- fixed crashes in auto-translated campaigns caused by translated monster id and other DB-related parameters - does not fix already broken campaigns
+
 1.5.97.107:
 - fixed potential crash when switching weapon config to 'Lighting' with empty main hand and usable device in off-hand with no torch equipped
 
