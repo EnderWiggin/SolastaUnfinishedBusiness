@@ -1,3 +1,8 @@
+1.5.97.109:
+- merged Andragor's PR with simplified crafting settings (Crafting & Items > Crafting, under "Add new weapons and recipes to shops")
+- fixed 2024 Smites not triggering if you don't have Bonus Action spell available to cast
+- fixed 2024 Paladin's `Restoring Touch` triggering before level 14
+
 1.5.97.108:
 - tweaked description of `Oath of the Demon Hunter` to include ability to cast Smite spells through crossbow attacks
 - fixed crash when trying to start campaign with character that as created when `Bonus Action Potions/Poisons` enabled when this option is disabled
