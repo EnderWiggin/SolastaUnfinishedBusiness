@@ -162,8 +162,8 @@ public static class SmiteSpells2024Context
             yield break;
         }
 
-        //Check for available BA cast spell
-        if (attacker.GetActionStatus(Id.CastBonus, ActionScope.Battle) != ActionStatus.Available)
+        //Can we cast BA smite spell? (doesn't check if we have spell prepared - GetSmiteOptions is used for that)
+        if (GetSmiteStatus(attacker) != ActionStatus.Available)
         {
             yield break;
         }
@@ -299,6 +299,70 @@ public static class SmiteSpells2024Context
                            : repertoire.CanCastSpellOfLevel(spell.SpellLevel)));
         }
     }
+    
+    private static ActionStatus GetSmiteStatus(GameLocationCharacter caster)
+  {
+    var actionId = Id.CastBonus;
+    var scope = ActionScope.Battle;
+      
+    var actionDefinition =
+      ServiceRepository.GetService<IGameLocationActionService>().AllActionDefinitions[actionId];
+    var actionType = actionDefinition.ActionType;
+    
+    
+    var actionTypeStatus = caster.GetActionTypeStatus(actionDefinition.ActionType, scope);
+    if (actionTypeStatus == ActionStatus.Unavailable
+        || actionDefinition.ActionScope != ActionScope.All && actionDefinition.ActionScope != scope)
+    {
+        return ActionStatus.Unavailable;
+    }
+
+    if (actionDefinition.UsesPerTurn > 0 
+        && caster.UsedSpecialFeatures.TryGetValue(actionDefinition.Name, out var value) 
+        && value >= actionDefinition.UsesPerTurn)
+    {
+        return ActionStatus.Unavailable;
+    }
+    
+
+    if (!caster.RulesetCharacter.CanCastSpells())
+    {
+        return ActionStatus.Unavailable;
+    }
+
+    var index = caster.currentActionRankByType[actionType];
+    if (actionDefinition.RequiresAuthorization)
+    {
+      if (index >= caster.actionPerformancesByType[actionType].Count
+          || !caster.actionPerformancesByType[actionType][index].AuthorizedActions.Contains(actionId))
+      {
+          return ActionStatus.Unavailable;
+      }
+    }
+    else if (index >= caster.actionPerformancesByType[actionType].Count)
+    {
+        return ActionStatus.Unavailable;
+    }
+
+
+    if (index >= caster.actionPerformancesByType[actionType].Count)
+    {
+        Trace.LogAssertion("Not enough ranks for action type" + actionType);
+        return ActionStatus.Unavailable;
+    }
+
+    if (!caster.actionPerformancesByType[actionType][index].CanPerformAction(actionId))
+    {
+        return ActionStatus.Unavailable;
+    }
+
+    return actionTypeStatus switch
+    {
+        ActionStatus.CannotPerform when !caster.IsSpecialAction(actionId) => ActionStatus.CannotPerform,
+        ActionStatus.Spent when !caster.IsSpecialAction(actionId) => ActionStatus.Spent,
+        _ => caster.CanOnlyUseCantrips ? ActionStatus.Unavailable : ActionStatus.Available
+    };
+  }
 
     internal static bool HasSmites(this RulesetCharacter character)
     {
