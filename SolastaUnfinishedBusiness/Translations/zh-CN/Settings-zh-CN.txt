@@ -419,6 +419,18 @@ ModUi/&TotalFeatsGrantedFirstLevel=<color=white>第一级授予的<color=#D89555
 ModUi/&Translate=翻译
 ModUi/&TranslateCancel=于 {1} 取消 {0}
 ModUi/&Translations=<color=#F0DAA0>翻译：</color>
+ModUi/&TranslationService=翻译服务
+ModUi/&OpenAISettings=<color=#F0DAA0>OpenAI 设置：</color>
+ModUi/&OpenAIAdvancedSettings=<color=#F0DAA0>高级设置：</color>
+ModUi/&OpenAIEndpoint=API 端点地址
+ModUi/&OpenAIApiKey=API 密钥
+ModUi/&OpenAIModel=模型
+ModUi/&OpenAITemperature=温度
+ModUi/&OpenAITopP=Top P
+ModUi/&OpenAITopK=Top K
+ModUi/&OpenAISystemPrompt=系统提示词
+ModUi/&OpenAISystemPromptHelp=<i><color=#F0DAA0>[使用 {targetLanguage} 作为目标语言名称的占位符]</color></i>
+ModUi/&Reset=重置
 ModUi/&UnityExplorer=<b><color=#D89555>Unity 资源管理器用户界面</color></b>
 ModUi/&UnleashEnemyAsNpc=允许在 NPC 小工具上选择怪物
 ModUi/&UnleashNpcAsEnemy=解锁怪物选择

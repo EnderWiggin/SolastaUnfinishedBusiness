@@ -250,6 +250,10 @@
       <HintPath>$(SolastaInstallDir)/Solasta_Data/Managed/Cinemachine.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="System.Net.Http">
+      <HintPath>$(SolastaInstallDir)/Solasta_Data/Managed/System.Net.Http.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
   </ItemGroup>
 
   <Target Name="ZipTranslations" BeforeTargets="PreBuildEvent" Condition="('$(Configuration)' == 'Release' Or '$(Configuration)' == 'Release Install' Or '$(Configuration)' == 'Release Workflow')">

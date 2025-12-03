@@ -3,11 +3,17 @@ using System.Linq;
 using SolastaUnfinishedBusiness.Api.LanguageExtensions;
 using SolastaUnfinishedBusiness.Api.ModKit;
 using SolastaUnfinishedBusiness.Models;
+using SolastaUnfinishedBusiness.Models.TranslationServices;
+using UnityEngine;
 
 namespace SolastaUnfinishedBusiness.Displays;
 
 internal static class DungeonMakerDisplay
 {
+    private static bool _showOpenAISettings;
+    private static bool _showOpenAIAdvancedSettings;
+    private static string _openAIApiKeyInput = string.Empty;
+    private static bool _apiKeyInitialized;
     internal static void DisplayDungeonMaker()
     {
         const float DOC_BUTTON_WIDTH = 147f;
@@ -125,6 +131,29 @@ internal static class DungeonMakerDisplay
 
         using (UI.HorizontalScope())
         {
+            UI.Label(Gui.Localize("ModUi/&TranslationService"), UI.Width(150f));
+
+            var serviceIndex = (int)Main.Settings.SelectedTranslationService;
+
+            if (UI.SelectionGrid(
+                    ref serviceIndex,
+                    TranslationServiceFactory.ServiceNames,
+                    TranslationServiceFactory.ServiceNames.Length,
+                    TranslationServiceFactory.ServiceNames.Length, UI.Width(300f)))
+            {
+                Main.Settings.SelectedTranslationService = (TranslationServiceType)serviceIndex;
+            }
+        }
+
+        UI.Label();
+
+        if (Main.Settings.SelectedTranslationService == TranslationServiceType.OpenAI)
+        {
+            DisplayOpenAISettings();
+        }
+
+        using (UI.HorizontalScope())
+        {
             UI.Label(Gui.Localize("ModUi/&TargetLanguage"), UI.Width(150f));
 
             var intValue = Array.IndexOf(TranslatorContext.AvailableLanguages, Main.Settings.SelectedLanguageCode);
@@ -184,6 +213,155 @@ internal static class DungeonMakerDisplay
                     UI.Width(200f));
             }
         }
+
+        UI.Label();
+    }
+
+    private static void DisplayOpenAISettings()
+    {
+        const float LabelWidth = 150f;
+        const float InputWidth = 400f;
+        const float ResetButtonWidth = 60f;
+
+        if (!_apiKeyInitialized)
+        {
+            _openAIApiKeyInput = OpenAITranslationService.GetApiKey();
+            _apiKeyInitialized = true;
+        }
+
+        if (UI.DisclosureToggle(Gui.Localize("ModUi/&OpenAISettings"), ref _showOpenAISettings, 200))
+        {
+            // Toggle state changed
+        }
+
+        if (!_showOpenAISettings)
+        {
+            return;
+        }
+
+        UI.Label();
+
+        // Endpoint URL
+        using (UI.HorizontalScope())
+        {
+            UI.Label(Gui.Localize("ModUi/&OpenAIEndpoint"), UI.Width(LabelWidth));
+
+            var endpoint = Main.Settings.OpenAIEndpoint;
+            UI.TextField(ref endpoint, null, UI.Width(InputWidth));
+
+            if (endpoint != Main.Settings.OpenAIEndpoint)
+            {
+                Main.Settings.OpenAIEndpoint = endpoint;
+            }
+
+            UI.ActionButton(Gui.Localize("ModUi/&Reset"),
+                () => Main.Settings.OpenAIEndpoint = OpenAITranslationService.DefaultEndpoint,
+                UI.Width(ResetButtonWidth));
+        }
+
+        // API Key (stored in PlayerPrefs)
+        using (UI.HorizontalScope())
+        {
+            UI.Label(Gui.Localize("ModUi/&OpenAIApiKey"), UI.Width(LabelWidth));
+
+            UI.TextField(ref _openAIApiKeyInput, null, UI.Width(InputWidth));
+
+            var currentApiKey = OpenAITranslationService.GetApiKey();
+
+            if (_openAIApiKeyInput != currentApiKey)
+            {
+                OpenAITranslationService.SetApiKey(_openAIApiKeyInput);
+            }
+
+            UI.ActionButton(Gui.Localize("ModUi/&Reset"), () =>
+            {
+                _openAIApiKeyInput = string.Empty;
+                OpenAITranslationService.ClearApiKey();
+            }, UI.Width(ResetButtonWidth));
+        }
+
+        // Model
+        using (UI.HorizontalScope())
+        {
+            UI.Label(Gui.Localize("ModUi/&OpenAIModel"), UI.Width(LabelWidth));
+
+            var model = Main.Settings.OpenAIModel;
+            UI.TextField(ref model, null, UI.Width(InputWidth));
+
+            if (model != Main.Settings.OpenAIModel)
+            {
+                Main.Settings.OpenAIModel = model;
+            }
+
+            UI.ActionButton(Gui.Localize("ModUi/&Reset"),
+                () => Main.Settings.OpenAIModel = OpenAITranslationService.DefaultModel,
+                UI.Width(ResetButtonWidth));
+        }
+
+        UI.Label();
+
+        // Advanced Settings
+        if (UI.DisclosureToggle(Gui.Localize("ModUi/&OpenAIAdvancedSettings"), ref _showOpenAIAdvancedSettings, 200))
+        {
+            // Toggle state changed
+        }
+
+        if (!_showOpenAIAdvancedSettings)
+        {
+            UI.Label();
+            return;
+        }
+
+        UI.Label();
+
+        // Temperature
+        var temperature = Main.Settings.OpenAITemperature;
+
+        if (UI.Slider(Gui.Localize("ModUi/&OpenAITemperature"), ref temperature, 0f, 2f,
+                OpenAITranslationService.DefaultTemperature, 2))
+        {
+            Main.Settings.OpenAITemperature = temperature;
+        }
+
+        // Top P
+        var topP = Main.Settings.OpenAITopP;
+
+        if (UI.Slider(Gui.Localize("ModUi/&OpenAITopP"), ref topP, 0f, 1f,
+                OpenAITranslationService.DefaultTopP, 2))
+        {
+            Main.Settings.OpenAITopP = topP;
+        }
+
+        // Top K
+        var topK = Main.Settings.OpenAITopK;
+
+        if (UI.Slider(Gui.Localize("ModUi/&OpenAITopK"), ref topK, 0, 100,
+                OpenAITranslationService.DefaultTopK))
+        {
+            Main.Settings.OpenAITopK = topK;
+        }
+
+        // System Prompt
+        UI.Label();
+        using (UI.HorizontalScope())
+        {
+            UI.Label(Gui.Localize("ModUi/&OpenAISystemPrompt"), UI.Width(LabelWidth));
+
+            UI.ActionButton(Gui.Localize("ModUi/&Reset"),
+                () => Main.Settings.OpenAISystemPrompt = OpenAITranslationService.DefaultSystemPrompt,
+                UI.Width(ResetButtonWidth));
+        }
+
+        var systemPrompt = Main.Settings.OpenAISystemPrompt;
+        systemPrompt = GUILayout.TextArea(systemPrompt, UI.Height(100f), UI.Width(600f));
+
+        if (systemPrompt != Main.Settings.OpenAISystemPrompt)
+        {
+            Main.Settings.OpenAISystemPrompt = systemPrompt;
+        }
+
+        UI.Label();
+        UI.Label(Gui.Localize("ModUi/&OpenAISystemPromptHelp"));
 
         UI.Label();
     }

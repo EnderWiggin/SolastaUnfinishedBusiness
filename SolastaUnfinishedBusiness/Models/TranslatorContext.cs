@@ -317,7 +317,8 @@ internal static class TranslatorContext
             return cachedTranslation;
         }
 
-        var translation = TranslateGoogle(sourceText.Replace("_", " "), targetCode);
+        var service = TranslationServices.TranslationServiceFactory.GetCurrentService();
+        var translation = service.TranslateAsync(sourceText.Replace("_", " "), targetCode).GetAwaiter().GetResult();
 
         TranslationsCache.Add(md5, translation);
 
