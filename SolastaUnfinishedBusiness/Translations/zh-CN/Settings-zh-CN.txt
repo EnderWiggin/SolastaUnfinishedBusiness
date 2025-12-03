@@ -431,6 +431,17 @@ ModUi/&OpenAITopK=Top K
 ModUi/&OpenAISystemPrompt=系统提示词
 ModUi/&OpenAISystemPromptHelp=<i><color=#F0DAA0>[使用 {targetLanguage} 作为目标语言名称的占位符]</color></i>
 ModUi/&Reset=重置
+ModUi/&Pause=暂停
+ModUi/&Resume=继续
+ModUi/&Cancel=取消
+ModUi/&RetryFailed=重试失败项
+ModUi/&TranslationProgress=进度
+ModUi/&TranslationPaused=已暂停
+ModUi/&TranslationCompleted=已完成
+ModUi/&TranslationCompletedWithErrors=已完成（有错误）
+ModUi/&TranslationCancelled=已取消
+ModUi/&TranslationFailed=失败
+ModUi/&ShowCategoryProgress=显示分类进度
 ModUi/&UnityExplorer=<b><color=#D89555>Unity 资源管理器用户界面</color></b>
 ModUi/&UnleashEnemyAsNpc=允许在 NPC 小工具上选择怪物
 ModUi/&UnleashNpcAsEnemy=解锁怪物选择

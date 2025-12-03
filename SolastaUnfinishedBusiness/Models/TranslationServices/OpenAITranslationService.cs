@@ -1,6 +1,7 @@
 using System;
 using System.Net.Http;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -15,8 +16,8 @@ internal sealed class OpenAITranslationService : ITranslationService
 {
     private const string PlayerPrefsApiKeyKey = "UB_OpenAI_ApiKey";
 
-    // Default values
-    internal const string DefaultEndpoint = "https://api.openai.com/v1/chat/completions";
+    // Default values - endpoint should be base URL up to /v1, we append /chat/completions automatically
+    internal const string DefaultEndpoint = "https://api.openai.com/v1";
     internal const string DefaultModel = "gpt-4o-mini";
     internal const float DefaultTemperature = 0.3f;
     internal const float DefaultTopP = 1.0f;
@@ -31,7 +32,8 @@ internal sealed class OpenAITranslationService : ITranslationService
 
     public string Name => "OpenAI";
 
-    public async Task<string> TranslateAsync(string sourceText, string targetLanguageCode)
+    public async Task<string> TranslateAsync(string sourceText, string targetLanguageCode,
+        CancellationToken cancellationToken = default)
     {
         if (string.IsNullOrEmpty(sourceText))
         {
@@ -41,7 +43,8 @@ internal sealed class OpenAITranslationService : ITranslationService
         try
         {
             var apiKey = GetApiKey();
-            var endpoint = Main.Settings.OpenAIEndpoint;
+            var baseEndpoint = Main.Settings.OpenAIEndpoint.TrimEnd('/');
+            var endpoint = $"{baseEndpoint}/chat/completions";
             var model = Main.Settings.OpenAIModel;
             var temperature = Main.Settings.OpenAITemperature;
             var topP = Main.Settings.OpenAITopP;
@@ -68,7 +71,7 @@ internal sealed class OpenAITranslationService : ITranslationService
             request.Content = content;
             request.Headers.Add("Authorization", $"Bearer {apiKey}");
 
-            var response = await HttpClient.SendAsync(request);
+            var response = await HttpClient.SendAsync(request, cancellationToken);
             var responseContent = await response.Content.ReadAsStringAsync();
 
             if (!response.IsSuccessStatusCode)
@@ -81,6 +84,10 @@ internal sealed class OpenAITranslationService : ITranslationService
             var translatedText = responseJson["choices"]?[0]?["message"]?["content"]?.ToString();
 
             return string.IsNullOrEmpty(translatedText) ? sourceText : translatedText.Trim();
+        }
+        catch (OperationCanceledException)
+        {
+            throw; // Re-throw cancellation
         }
         catch (Exception ex)
         {

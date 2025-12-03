@@ -12,8 +12,10 @@ internal static class DungeonMakerDisplay
 {
     private static bool _showOpenAISettings;
     private static bool _showOpenAIAdvancedSettings;
+    private static bool _showCategoryProgress;
     private static string _openAIApiKeyInput = string.Empty;
     private static bool _apiKeyInitialized;
+
     internal static void DisplayDungeonMaker()
     {
         const float DOC_BUTTON_WIDTH = 147f;
@@ -173,48 +175,138 @@ internal static class DungeonMakerDisplay
         var userCampaignPoolService = ServiceRepository.GetService<IUserCampaignPoolService>();
 
         foreach (var userCampaign in userCampaignPoolService.AllCampaigns
-                     .Where(x => !x.TechnicalInfo.StartsWith(TranslatorContext.TranslatorBehaviour.UbTranslationTag))
+                     .Where(x =>
+                         !x.TechnicalInfo.StartsWith(CampaignTranslationExecutor.UbTranslationTag))
                      .OrderBy(x => x.Author)
                      .ThenBy(x => x.Title))
         {
-            var exportName = userCampaign.Title;
+            var campaignTitle = userCampaign.Title;
+            var task = CampaignTranslationExecutor.GetTask(campaignTitle);
 
             using (UI.HorizontalScope())
             {
-                string buttonLabel;
-
                 UI.Label(
                     userCampaign.Author.Substring(0, Math.Min(20, userCampaign.Author.Length)).Bold().Orange(),
                     UI.Width(150f));
-                UI.Label(userCampaign.Title.Bold().Italic(), UI.Width(400f));
+                UI.Label(userCampaign.Title.Bold().Italic(), UI.Width(300f));
 
-                if (TranslatorContext.TranslatorBehaviour.CurrentExports.TryGetValue(exportName, out var status))
+                if (task != null)
                 {
-                    buttonLabel = Gui.Format("ModUi/&TranslateCancel", status.LanguageCode.ToUpper(),
-                        $"{status.PercentageComplete:00.0%}").Bold().Khaki();
+                    // Show progress and controls for active task
+                    DisplayTranslationTaskControls(task, userCampaign);
                 }
                 else
                 {
-                    buttonLabel = Gui.Localize("ModUi/&Translate");
+                    // Show translate button
+                    UI.ActionButton(Gui.Localize("ModUi/&Translate"), () =>
+                        {
+                            CampaignTranslationExecutor.StartTranslation(
+                                Main.Settings.SelectedLanguageCode, campaignTitle, userCampaign);
+                        },
+                        UI.Width(100f));
                 }
+            }
 
-                UI.ActionButton(buttonLabel, () =>
-                    {
-                        if (status == null)
-                        {
-                            TranslatorContext.TranslatorBehaviour.TranslateUserCampaign(
-                                Main.Settings.SelectedLanguageCode, userCampaign.Title, userCampaign);
-                        }
-                        else
-                        {
-                            TranslatorContext.TranslatorBehaviour.Cancel(userCampaign.Title);
-                        }
-                    },
-                    UI.Width(200f));
+            if (task != null)
+            {
+                DisplayTranslationProgress(task);
             }
         }
 
         UI.Label();
+    }
+
+    private static void DisplayTranslationTaskControls(CampaignTranslationTask task, UserCampaign userCampaign)
+    {
+        var statusText = task.Status switch
+        {
+            CampaignTranslationStatus.Running => $"{task.PercentageComplete:P0}".Bold().Khaki(),
+            CampaignTranslationStatus.Paused => Gui.Localize("ModUi/&TranslationPaused").Bold().Yellow(),
+            CampaignTranslationStatus.Completed => task.FailedItems > 0
+                ? Gui.Localize("ModUi/&TranslationCompletedWithErrors").Bold().Orange()
+                : Gui.Localize("ModUi/&TranslationCompleted").Bold().Green(),
+            CampaignTranslationStatus.Cancelled => Gui.Localize("ModUi/&TranslationCancelled").Bold().Red(),
+            CampaignTranslationStatus.Failed => Gui.Localize("ModUi/&TranslationFailed").Bold().Red(),
+            _ => string.Empty
+        };
+
+        UI.Label(statusText, UI.Width(100f));
+
+        switch (task.Status)
+        {
+            case CampaignTranslationStatus.Running:
+                UI.ActionButton(Gui.Localize("ModUi/&Pause"), () => task.Pause(), UI.Width(60f));
+                UI.ActionButton(Gui.Localize("ModUi/&Cancel"), () => CampaignTranslationExecutor.CancelTask(task.CampaignTitle),
+                    UI.Width(60f));
+                break;
+
+            case CampaignTranslationStatus.Paused:
+                UI.ActionButton(Gui.Localize("ModUi/&Resume"), () => task.Resume(), UI.Width(60f));
+                UI.ActionButton(Gui.Localize("ModUi/&Cancel"), () => CampaignTranslationExecutor.CancelTask(task.CampaignTitle),
+                    UI.Width(60f));
+                break;
+
+            case CampaignTranslationStatus.Completed when task.FailedItems > 0:
+                UI.ActionButton(Gui.Localize("ModUi/&RetryFailed"),
+                    () => CampaignTranslationExecutor.RetryFailedItems(task.CampaignTitle, userCampaign), UI.Width(80f));
+                break;
+        }
+    }
+
+    private static void DisplayTranslationProgress(CampaignTranslationTask task)
+    {
+        if (task.Status is not (CampaignTranslationStatus.Running or CampaignTranslationStatus.Paused))
+        {
+            return;
+        }
+
+        using (UI.HorizontalScope())
+        {
+            UI.Space(150f);
+
+            using (UI.VerticalScope())
+            {
+                // Overall progress bar
+                var overallProgress = task.PercentageComplete;
+                UI.Label(
+                    $"{Gui.Localize("ModUi/&TranslationProgress")}: {task.CompletedItems}/{task.TotalItems} ({overallProgress:P0})"
+                        .Italic(),
+                    UI.Width(300f));
+
+                // Current item being translated
+                if (task.CurrentItem != null)
+                {
+                    var currentText = task.CurrentItem.SourceText.Length > 50
+                        ? task.CurrentItem.SourceText.Substring(0, 47) + "..."
+                        : task.CurrentItem.SourceText;
+                    UI.Label($"[{task.CurrentItem.Category}] {currentText}".Grey().Italic(), UI.Width(500f));
+                }
+
+                // Category progress
+                if (UI.DisclosureToggle(Gui.Localize("ModUi/&ShowCategoryProgress"), ref _showCategoryProgress, 200))
+                {
+                }
+
+                if (_showCategoryProgress)
+                {
+                    foreach (var kvp in task.CategoryProgress)
+                    {
+                        var category = kvp.Key;
+                        var progress = kvp.Value;
+                        using (UI.HorizontalScope())
+                        {
+                            UI.Label($"  {category}:", UI.Width(100f));
+                            UI.Label($"{progress.CompletedItems}/{progress.TotalItems}", UI.Width(80f));
+
+                            if (progress.FailedItems > 0)
+                            {
+                                UI.Label($"({progress.FailedItems} failed)".Red(), UI.Width(80f));
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 
     private static void DisplayOpenAISettings()

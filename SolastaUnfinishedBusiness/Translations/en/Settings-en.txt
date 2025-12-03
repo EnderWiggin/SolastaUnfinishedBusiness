@@ -427,6 +427,17 @@ ModUi/&OpenAITopK=Top K
 ModUi/&OpenAISystemPrompt=System Prompt
 ModUi/&OpenAISystemPromptHelp=<i><color=#F0DAA0>[Use {targetLanguage} as placeholder for the target language name]</color></i>
 ModUi/&Reset=Reset
+ModUi/&Pause=Pause
+ModUi/&Resume=Resume
+ModUi/&Cancel=Cancel
+ModUi/&RetryFailed=Retry Failed
+ModUi/&TranslationProgress=Progress
+ModUi/&TranslationPaused=Paused
+ModUi/&TranslationCompleted=Completed
+ModUi/&TranslationCompletedWithErrors=Completed (with errors)
+ModUi/&TranslationCancelled=Cancelled
+ModUi/&TranslationFailed=Failed
+ModUi/&ShowCategoryProgress=Show Category Progress
 ModUi/&UnityExplorer=<b><color=#D89555>Unity Explorer UI</color></b>
 ModUi/&UnleashEnemyAsNpc=Allow monsters to be selected on NPC gadgets
 ModUi/&UnleashNpcAsEnemy=Unlock monsters selection
