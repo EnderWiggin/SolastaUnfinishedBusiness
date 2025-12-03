@@ -48,6 +48,7 @@ ModUi/&BestowCurseNoConcentrationRequiredForSlotLevel5OrAbove=<color=#D89555>Ver
 ModUi/&BlindedConditionDontAllowAttackOfOpportunity=Verhindern Sie Chancenangriffe, wenn das Ziel nicht wahrgenommen wird
 ModUi/&Blueprints=Blaupausen
 ModUi/&Campaigns=Kampagnen
+ModUi/&Cancel=Abbrechen
 ModUi/&Category=Kategorie
 ModUi/&ChangeDragonbornElementalBreathUsages=Ändere die Verwendung des Elementaratems von <color=#D89555>Dragonborn</color> in einen CON-Modifikator pro kurzer Pause.
 ModUi/&ChangeSleetStormToCube=Ändern Sie <color=#D89555>Schneeregen</color>, um einen Würfel statt eines Zylinders zu verwenden.
@@ -200,19 +201,20 @@ ModUi/&EnableOneDndSpiderClimbSpell=Aktiviere <color=#D89555>Spider Climb</color
 ModUi/&EnableOneDndStoneSkinSpell=Aktiviere <color=#D89555>Steinhaut</color> 5e 2024 Zauberversion <i><color=#F0DAA0>[bietet auch Widerstand gegen magisches B/P/S]</color></i>
 ModUi/&EnableOneDndTrueStrikeCantrip=Aktiviere <color=#D89555>True Strike</color> 5e 2024 Cantrip-Version <b><i><color=#C04040E0>[Neustart erforderlich]</color></i></b>\n<i><color=#F0DAA0>[Angriff nutzt deine Zauberfähigkeit für den Angriffswurf und Schadensbonus sowie zusätzlichen Strahlungsschaden ab Level 5]</color></i>
 ModUi/&EnablePaladinAbjureFoes2024=Aktiviere <color=#D89555>Feinde abschwören</color> auf Level 9.
+ModUi/&EnablePaladinAnyFightingStyle2024=Erlaube <color=#D89555>Paladin</color> jeden Kampfstil zu wählen <i><color=#F0DAA0>[fügt Bogenschießen und Kampf mit zwei Waffen hinzu]</color></i>
 ModUi/&EnablePaladinChannelDivinity2024=Tauschen Sie <color=#D89555>Channel Divinity</color> gegen die 5e 2024-Version aus <i><color=#F0DAA0>[verschiedene Verwendungen]</color></i>
 ModUi/&EnablePaladinLayOnHands2024=Tauschen Sie <color=#D89555>Handauflegen</color> gegen die 5e 2024-Version <i><color=#F0DAA0>[Bonusaktion]</color></i>
 ModUi/&EnablePaladinRestoreLevel20Feature=Aktiviere <color=#D89555>Level 20</color>-Subklassenkräfte, um sie mit einem Level 5-Slot wieder aufzuladen.
 ModUi/&EnablePaladinRestoringTouch2024=Aktiviere <color=#D89555>Restoring Touch</color>, um <color=#D89555>Cleansing Touch</color> auf Level 14 zu ersetzen.
 ModUi/&EnablePaladinSmite2024=Tauschen Sie <color=#D89555>Divine Smite</color> gegen die 5e 2024-Version aus <i><color=#F0DAA0>[Bonusaktion]</color></i>
 ModUi/&EnablePaladinSpellCastingAtLevel1=Aktiviere <color=#D89555>Zauberwirken</color> auf Stufe 1 statt 2.
-ModUi/&EnablePaladinAnyFightingStyle2024=Erlaube <color=#D89555>Paladin</color> jeden Kampfstil zu wählen <i><color=#F0DAA0>[fügt Bogenschießen und Kampf mit zwei Waffen hinzu]</color></i>
 ModUi/&EnablePcgRandom=Aktivieren Sie einen besseren Zufallsgenerator-Algorithmus <i><color=#F0DAA0>[https://www.pcg-random.org]</color></i>
 ModUi/&EnablePoisonsBonusAction2024=Aktivieren Sie das Auftragen von <color=#D89555>Giften</color> auf Waffen als Bonusaktion.
 ModUi/&EnablePotionsBonusAction2024=Aktivieren Sie das Trinken von <color=#D89555>Tränken</color> als Bonusaktion
 ModUi/&EnablePreparedSpellsTables2024=Ermöglichen Sie allen <color=#D89555>Zauberern</color> die Verwendung neuer vorbereiteter Zaubertabellen <i><color=#F0DAA0>[Barde, Kleriker, Druide, Paladin, Waldläufer, Zauberer, Magier]</color></i>
 ModUi/&EnableProneAction=Aktivieren Sie die Aktion <color=#D89555>In die Hocke gehen</color> <i><color=#F0DAA0>[Sie können kostenlos in die Hocke gehen]</color></i>
 ModUi/&EnablePullPushOnVerticalDirection=Aktivieren Sie Push- und Pull-Bewegungseffekte, damit diese auch auf der Auf-/Ab-Achse funktionieren
+ModUi/&EnableRangerAnyFightingStyle2024=Erlaube <color=#D89555>Waldläufer</color> jeden Kampfstil zu wählen <i><color=#F0DAA0>[fügt Kampf mit großen Waffen und Schutz hinzu]</color></i>
 ModUi/&EnableRangerDeftExplorer2024=Aktiviere <color=#D89555>Geschickter Entdecker</color> auf Level 2 <i><color=#F0DAA0>[erwerbe eine Expertise in Ranger-Fähigkeiten und lerne 2 Sprachen]</color></i>
 ModUi/&EnableRangerExpertise2024=Aktiviere <color=#D89555>Expertise</color> auf Level 9 <i><color=#F0DAA0>[erhalte zwei Expertisen für Ranger-Fertigkeiten]</color></i>
 ModUi/&EnableRangerFavoredEnemy2024=Tauschen Sie <color=#D89555>Bevorzugter Feind</color> und <color=#D89555>Bevorzugtes Gelände</color> mit <color=#D89555>Bevorzugter Feind</color> 5e 2024-Version aus
@@ -225,7 +227,6 @@ ModUi/&EnableRangerRelentlessHunter2024AsNoConcentration=<i>+ Entfernen Sie stat
 ModUi/&EnableRangerRoving2024=Aktivieren Sie <color=#D89555>Umherziehen</color> auf Stufe 6 <i><color=#F0DAA0>[erhalten Sie 10 Fuß Bewegung, wenn Sie keine schwere Rüstung verwenden, und dieselbe Klettergeschwindigkeit]</color></i>
 ModUi/&EnableRangerSpellCastingAtLevel1=Aktiviere <color=#D89555>Zauberwirken</color> auf Stufe 1 statt 2.
 ModUi/&EnableRangerTireless2024=Aktiviere <color=#D89555>Tireless</color>, um <color=#D89555>Hide in Plain Sight</color> auf Level 10 zu ersetzen <i><color=#F0DAA0>[temporäre Trefferpunkte erhalten]</color></i>
-ModUi/&EnableRangerAnyFightingStyle2024=Erlaube <color=#D89555>Waldläufer</color> jeden Kampfstil zu wählen <i><color=#F0DAA0>[fügt Kampf mit großen Waffen und Schutz hinzu]</color></i>
 ModUi/&EnableRelearnSpells=Aktivieren Sie die Auswahl von Zaubersprüchen oder Zaubersprüchen, die Sie bereits aus anderen Quellen gelernt haben.
 ModUi/&EnableRespecAction=Aktivieren Sie <color=#D89555>RESPEC</color> nach der Rest-Aktion <i><color=#F0DAA0>[RESPEC nicht während einer Multiplayer-Sitzung verwenden]</color></i>
 ModUi/&EnableRitualOnAllCasters2024=Aktivieren Sie das Wirken von <color=#D89555>Ritualen</color> für alle Zauberer.
@@ -329,6 +330,8 @@ ModUi/&MulticlassKeyHelp=Ein <color=#1E81B0>SHIFT</color>-Klick auf einen Zauber
 ModUi/&Multiplayer=<color=#F0DAA0>Mehrspieler:</color>
 ModUi/&MultiplyTheExperienceGainedBy=<color=white>Multipliziere die gewonnene Erfahrung um</color> <color=#C04040E0>[%]</color>
 ModUi/&NeverMoveCameraOnEnemyTurn=<i>+ Die Kamera bewegt sich nie während der Züge des Gegners</i>
+ModUi/&NewWeaponsAndRecipesBaseInsteadOfPrimed=<i>+ Basiswaffen und -rüstung statt Primed-Versionen als Zutaten verwenden</i> <b><i><color=#C04040E0>[Neustart erforderlich]</color></i></b>
+ModUi/&NewWeaponsAndRecipesSimplified=<i>+ Verwende einfache All-in-One-Rezepte <color=#F0DAA0>[nur Basiszutaten, betrifft keine benutzerdefinierten Gegenstände aus Kampagnen]</color></i> <b><i><color=#C04040E0>[Neustart erforderlich]</color></i></b>
 ModUi/&NoExperienceOnLevelUp=Für den Levelaufstieg ist keine Erfahrung erforderlich
 ModUi/&OfficialObscurementRulesCancelAdvDisPairs=<i>+ Aufheben von <color=#D89555>Vorteil / Nachteil</color> geblendeten, unsichtbaren und wahrgenommenen Paaren <color=#F0DAA0>[nützlich in Verbindung mit offiziellen <color=#D89555>Vorteil / Nachteil</color>-Regeln]</color></i>
 ModUi/&OfficialObscurementRulesHeavilyObscuredAsProjectileBlocker=<i>+ <color=#D89555>stark verdeckte</color> Bereiche in Projektilblocker ändern <color=#F0DAA0>[<color=#D89555>Cloud Kill</color>, <color=#D89555>Nebelwolke</color>, <color=#D89555>Brandwolke</color>, <color=#D89555>Blütenblattsturm</color>, <color=#D89555>Schneeregensturm</color>, <color=#D89555>Stinkende Wolke</color>]</color></i>
@@ -338,11 +341,22 @@ ModUi/&OfficialObscurementRulesTweakMonsters=<i>+ Füge Monstern und NPCs bei Be
 ModUi/&OfficialObscurementRulesTweakMonstersHelp=<i><color=#F0DAA0>[Einstellungssammlungen <b>Monster, die über Dunkelsicht verfügen sollten</b>, <b>Monster, die über echte Sicht verfügen sollten</b>, <b>Monster, die über blinde Sicht verfügen sollten</b>]</color></i>
 ModUi/&OneDnd=<color=#F0DAA0>Tischplatte <i>[5e 2024]</i>:</color>
 ModUi/&OnlyShowMostPowerfulUpcastConjuredElementalOrFey=<i>+ Nur die mächtigsten Kreaturen in der Beschwörungsliste anzeigen</i>
+ModUi/&OpenAIAdvancedSettings=<color=#F0DAA0>Erweiterte Einstellungen:</color>
+ModUi/&OpenAIApiKey=API-Schlüssel
+ModUi/&OpenAIEndpoint=Endpunkt-URL
+ModUi/&OpenAIModel=Modell
+ModUi/&OpenAISettings=<color=#F0DAA0>OpenAI-Einstellungen:</color>
+ModUi/&OpenAISystemPrompt=System-Prompt
+ModUi/&OpenAISystemPromptHelp=<i><color=#F0DAA0>[Verwenden Sie {targetLanguage} als Platzhalter für den Namen der Zielsprache]</color></i>
+ModUi/&OpenAITemperature=Temperatur
+ModUi/&OpenAITopK=Top K
+ModUi/&OpenAITopP=Top P
 ModUi/&OutlineGridWidthModifier=<color=white>Multiplizieren Sie die Breite des Umrissgitters mit</color> <color=#C04040E0>[%]</color>
 ModUi/&OutlineGridWidthSpeed=<color=white>Multiplizieren Sie die Geschwindigkeit der Umrissgitteranimation mit</color> <color=#C04040E0>[%]</color>
 ModUi/&OverrideMinMaxLevel=Überschreiben Sie die erforderlichen Mindest- und Höchststufen, wenn Sie neue Abenteuer beginnen
 ModUi/&OverridePartySize=<color=white>Gruppengröße überschreiben</color>
 ModUi/&Patches=<color=#F0DAA0>Patches:</color>
+ModUi/&Pause=Pause
 ModUi/&PortraitsOpenFolder=Ordner „Portraits“ öffnen
 ModUi/&PrimedItems=Grundierte Gegenstände
 ModUi/&QuickCastLightCantripOnWornItemsFirst=Aktivieren Sie den Schnellzauber <color=#D89555>Light Cantrip</color>, um zuerst am Kopf, Hals oder Rumpf getragene Gegenstände zu verwenden.
@@ -360,11 +374,14 @@ ModUi/&RemoveRecurringEffectOnEntangle=Wende den <color=#D89555>Verstricken</col
 ModUi/&RemoveRogueBlindSense2024=Entferne <color=#D89555>Blind Sense</color> auf Level 14
 ModUi/&RemoveSchoolRestrictionsFromShadowCaster=Schulbeschränkungen von <b>Shadowcaster</b> entfernen
 ModUi/&RemoveSchoolRestrictionsFromSpellBlade=Schulbeschränkungen von <b>Spellblade</b> entfernen
+ModUi/&Reset=Zurücksetzen
 ModUi/&RestockAntiquarians=Antiquariatslager auffüllen <i><color=#F0DAA0>[Halman Summer]</color></i>
 ModUi/&RestockArcaneum=Arkaneum auffüllen <i><color=#F0DAA0>[Heddlon Surespell]</color></i>
 ModUi/&RestockCircleOfDanantar=Kreis von Danantar auffüllen <i><color=#F0DAA0>[Joriel Foxeye]</color></i>
 ModUi/&RestockHelp=• Überschreiben Sie die Standardeinstellungen, um zu erzwingen, dass der gesamte Lagerbestand des Händlers im Laufe der Zeit wieder aufgefüllt wird <i><color=#F0DAA0>[ausgenommen Handbücher und Folianten]</color></i>\n• Beachten Sie, dass es bei manchen Artikeln bis zu 7 Spieltage dauern kann, bis der Lagerbestand wieder aufgefüllt wird.
 ModUi/&RestockTowerOfKnowledge=Turm des Wissens auffüllen <i><color=#F0DAA0>[Maddy Greenisle]</color></i>
+ModUi/&Resume=Fortsetzen
+ModUi/&RetryFailed=Fehlgeschlagenen Versuch wiederholen
 ModUi/&Rollback=<b><color=#D89555>Zurücksetzen</color></b>
 ModUi/&Rules=Regeln
 ModUi/&ScaleMerchantPricesCorrectly=Händlerpreise richtig/genau skalieren <i><color=#F0DAA0>[keine Rundungsfehler mehr beim Umrechnen von Münzwerten]</color></i>
@@ -382,11 +399,13 @@ ModUi/&SettingsOpenFolder=Exportierten Einstellungsordner öffnen
 ModUi/&SettingsRefresh=Aktualisieren
 ModUi/&SettingsRemove=Entfernen
 ModUi/&ShowButtonWithControlledMonsterInfo=Schaltfläche anzeigen, die Informationen über kontrollierte Monster öffnet <i><color=#F0DAA0>[wild geformte Druiden, Beschwörungen, NPC-Anhänger usw.]</color></i>
+ModUi/&ShowCategoryProgress=Fortschritt der Kategorie anzeigen
 ModUi/&ShowChannelDivinityOnPortrait=Zeigt an, wie viele <color=#D89555>Channel Divinity</color>-Anwendungen ein Held auf seinem Portrait hat, ähnlich wie Zauberpunkte.
 ModUi/&ShowCraftedItemOnRecipeIcon=Symbol für hergestellte Gegenstände neben Rezeptgegenständen im Shop und Inventar anzeigen <i><color=#F0DAA0>[Wenn Sie mit der Maus darüber fahren, wird ein Tooltip für hergestellte Gegenstände angezeigt]</color></i>
 ModUi/&ShowCraftingRecipeInDetailedTooltips=Herstellungsrezept in ausführlichen Tooltips anzeigen
 ModUi/&ShowDescriptions=Beschreibungen anzeigen
 ModUi/&ShowMotionFormPreview=Vorschau der <b>Push</b>- und <b>Pull</b>-Effekte anzeigen
+ModUi/&ShowTranslationPreview=Letzte Übersetzungen anzeigen
 ModUi/&SpeechScale=<color=white>Erzählgeschwindigkeitsmodifikator</color> <i><color=#F0DAA0>[niedriger ist schneller]</color></i>
 ModUi/&SpeechVolume=<color=white>Erzählvolumen</color>
 ModUi/&SpellLevelFilter=<b><i><color=white>Zauberstufenfilter</color> <color=#F0DAA0>[-1 zeigt alle an]</color></i></b>
@@ -420,6 +439,15 @@ ModUi/&TotalCraftingTimeModifier=<color=white>Reduzieren Sie die Herstellungszei
 ModUi/&TotalFeatsGrantedFirstLevel=<color=white>Insgesamt die auf der ersten Stufe verliehenen <color=#D89555>Talente</color></color>
 ModUi/&Translate=Übersetzen
 ModUi/&TranslateCancel=Stornieren Sie {0} bei {1}
+ModUi/&TranslatingConcurrent=Übersetze
+ModUi/&TranslationCancelled=Abgebrochen
+ModUi/&TranslationCompleted=Abgeschlossen
+ModUi/&TranslationCompletedWithErrors=Abgeschlossen (mit Fehlern)
+ModUi/&TranslationConcurrency=Parallelität
+ModUi/&TranslationFailed=Fehlgeschlagen
+ModUi/&TranslationPaused=Pausiert
+ModUi/&TranslationProgress=Fortschritt
+ModUi/&TranslationService=Übersetzungsdienst
 ModUi/&Translations=<color=#F0DAA0>Übersetzungen:</color>
 ModUi/&UnityExplorer=<b><color=#D89555>Unity Explorer-Benutzeroberfläche</color></b>
 ModUi/&UnleashEnemyAsNpc=Erlaube die Auswahl von Monstern auf NPC-Geräten
