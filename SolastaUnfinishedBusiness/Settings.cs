@@ -331,6 +331,11 @@ public class Settings : UnityModManager.ModSettings
     public string OpenAISystemPrompt { get; set; } =
         OpenAITranslationService.DefaultSystemPrompt;
 
+    /// <summary>
+    ///     Number of concurrent translation tasks (1-10).
+    /// </summary>
+    public int TranslationConcurrency { get; set; } = 1;
+
     //
     // Characters - Classes
     //

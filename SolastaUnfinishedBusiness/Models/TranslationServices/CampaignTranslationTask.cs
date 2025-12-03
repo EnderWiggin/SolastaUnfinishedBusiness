@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 
 namespace SolastaUnfinishedBusiness.Models.TranslationServices;
@@ -95,13 +96,28 @@ internal sealed class CategoryProgress
 }
 
 /// <summary>
+///     Represents a recently translated item for preview.
+/// </summary>
+internal sealed class TranslationPreviewItem
+{
+    internal string SourceText { get; set; }
+    internal string TranslatedText { get; set; }
+    internal string Category { get; set; }
+    internal DateTime CompletedAt { get; set; }
+}
+
+/// <summary>
 ///     Manages the translation of an entire user campaign.
 /// </summary>
 internal sealed class CampaignTranslationTask
 {
+    private const int MaxPreviewItems = 5;
+
     private readonly List<TranslationItem> _allItems = [];
     private readonly Dictionary<string, CategoryProgress> _categoryProgress = new();
     private readonly object _lock = new();
+    private readonly Queue<TranslationPreviewItem> _recentTranslations = new();
+    private readonly HashSet<TranslationItem> _inProgressItems = new();
 
     internal CampaignTranslationTask(string campaignTitle, string targetLanguageCode)
     {
@@ -117,6 +133,28 @@ internal sealed class CampaignTranslationTask
     internal CampaignTranslationStatus Status { get; set; }
     internal CancellationTokenSource CancellationTokenSource { get; private set; }
     internal ManualResetEventSlim PauseEvent { get; }
+
+    internal IReadOnlyCollection<TranslationItem> InProgressItems
+    {
+        get
+        {
+            lock (_lock)
+            {
+                return _inProgressItems.ToArray();
+            }
+        }
+    }
+
+    internal IReadOnlyList<TranslationPreviewItem> RecentTranslations
+    {
+        get
+        {
+            lock (_lock)
+            {
+                return _recentTranslations.ToArray();
+            }
+        }
+    }
 
     /// <summary>
     ///     Recreates the cancellation token source for retry operations.
@@ -155,16 +193,49 @@ internal sealed class CampaignTranslationTask
         }
     }
 
+    internal void MarkItemInProgress(TranslationItem item)
+    {
+        lock (_lock)
+        {
+            item.Status = TranslationItemStatus.InProgress;
+            _inProgressItems.Add(item);
+        }
+    }
+
+    internal void RemoveFromInProgress(TranslationItem item)
+    {
+        lock (_lock)
+        {
+            _inProgressItems.Remove(item);
+        }
+    }
+
     internal void MarkItemCompleted(TranslationItem item)
     {
         lock (_lock)
         {
             item.Status = TranslationItemStatus.Completed;
             CompletedItems++;
+            _inProgressItems.Remove(item);
 
             if (_categoryProgress.TryGetValue(item.Category, out var progress))
             {
                 progress.CompletedItems++;
+            }
+
+            // Add to recent translations preview
+            _recentTranslations.Enqueue(new TranslationPreviewItem
+            {
+                SourceText = item.SourceText,
+                TranslatedText = item.TranslatedText,
+                Category = item.Category,
+                CompletedAt = DateTime.Now
+            });
+
+            // Keep only the most recent items
+            while (_recentTranslations.Count > MaxPreviewItems)
+            {
+                _recentTranslations.Dequeue();
             }
         }
     }
@@ -176,6 +247,7 @@ internal sealed class CampaignTranslationTask
             item.Status = TranslationItemStatus.Failed;
             item.ErrorMessage = errorMessage;
             FailedItems++;
+            _inProgressItems.Remove(item);
 
             if (_categoryProgress.TryGetValue(item.Category, out var progress))
             {

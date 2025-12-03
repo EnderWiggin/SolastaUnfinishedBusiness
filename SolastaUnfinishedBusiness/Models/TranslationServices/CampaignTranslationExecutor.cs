@@ -17,6 +17,8 @@ internal sealed class CampaignTranslationExecutor : MonoBehaviour
 {
     internal const string UbTranslationTag = "UB auto translation\n";
 
+    internal const int MaxTranslationConcurrency = 40;
+
     private static CampaignTranslationExecutor _instance;
     private static readonly ConcurrentDictionary<string, string> TranslationsCache = new();
     private static readonly ConcurrentDictionary<string, CampaignTranslationTask> ActiveTasks = new();
@@ -582,76 +584,51 @@ internal sealed class CampaignTranslationExecutor : MonoBehaviour
         var translationService = TranslationServiceFactory.GetCurrentService();
         var cancellationToken = task.CancellationTokenSource.Token;
 
+        var concurrency = Math.Max(1, Math.Min(MaxTranslationConcurrency, Main.Settings.TranslationConcurrency));
+        using var semaphore = new SemaphoreSlim(concurrency, concurrency);
+
         try
         {
             var itemsToProcess = retryFailedOnly
                 ? task.GetFailedItems().ToList()
                 : task.AllItems.Where(i => i.Status == TranslationItemStatus.Pending).ToList();
 
+            // Create tasks for concurrent execution
+            var translationTasks = new List<Task>();
+
             foreach (var item in itemsToProcess)
             {
-                // Check for cancellation
                 if (cancellationToken.IsCancellationRequested)
                 {
-                    task.Status = CampaignTranslationStatus.Cancelled;
-                    return;
+                    break;
                 }
 
-                // Wait if paused
-                task.PauseEvent.Wait(cancellationToken);
-
-                task.CurrentItem = item;
-                task.CurrentIndex = task.AllItems.ToList().IndexOf(item);
-                item.Status = TranslationItemStatus.InProgress;
-
-                try
+                while (!task.PauseEvent.IsSet && !cancellationToken.IsCancellationRequested)
                 {
-                    // Check cache first
-                    var cacheKey = GetCacheKey(item.SourceText);
-                    if (TranslationsCache.TryGetValue(cacheKey, out var cachedTranslation))
-                    {
-                        item.TranslatedText = cachedTranslation;
-                    }
-                    else
-                    {
-                        // Perform translation
-                        var translated =
-                            await translationService.TranslateAsync(item.SourceText, task.TargetLanguageCode,
-                                cancellationToken);
-                        item.TranslatedText = translated;
-
-                        // Cache the result
-                        TranslationsCache.TryAdd(cacheKey, translated);
-                    }
-
-                    // Apply translation on main thread
-                    Instance._mainThreadActions.Enqueue(() =>
-                    {
-                        try
-                        {
-                            item.ApplyTranslation(item.TranslatedText);
-                        }
-                        catch (Exception ex)
-                        {
-                            Main.Error($"Failed to apply translation: {ex.Message}");
-                        }
-                    });
-
-                    task.MarkItemCompleted(item);
+                    await Task.Delay(100, cancellationToken);
                 }
-                catch (OperationCanceledException)
+
+                if (cancellationToken.IsCancellationRequested)
                 {
-                    item.Status = TranslationItemStatus.Pending;
-                    throw;
-                }
-                catch (Exception ex)
-                {
-                    task.MarkItemFailed(item, ex.Message);
+                    break;
                 }
 
-                // Small delay to prevent rate limiting
-                await Task.Delay(100, cancellationToken);
+                // Wait for semaphore slot
+                await semaphore.WaitAsync(cancellationToken);
+
+                // Start translation task
+                var translationTask = TranslateItemAsync(
+                    task,
+                    item,
+                    translationService,
+                    semaphore,
+                    cancellationToken);
+
+                translationTasks.Add(translationTask);
             }
+
+            // Wait for all ongoing translations to complete
+            await Task.WhenAll(translationTasks);
 
             // All items processed
             if (task.FailedItems > 0)
@@ -689,6 +666,75 @@ internal sealed class CampaignTranslationExecutor : MonoBehaviour
             task.Status = CampaignTranslationStatus.Failed;
             task.ErrorMessage = ex.Message;
             Main.Error($"Campaign translation failed: {ex.Message}");
+        }
+    }
+
+    /// <summary>
+    ///     Translates a single item with semaphore control.
+    /// </summary>
+    private static async Task TranslateItemAsync(
+        CampaignTranslationTask task,
+        TranslationItem item,
+        ITranslationService translationService,
+        SemaphoreSlim semaphore,
+        CancellationToken cancellationToken)
+    {
+        try
+        {
+            // Mark as in progress
+            task.MarkItemInProgress(item);
+            task.CurrentItem = item;
+
+            // Check cache first
+            var cacheKey = GetCacheKey(item.SourceText);
+            if (TranslationsCache.TryGetValue(cacheKey, out var cachedTranslation))
+            {
+                item.TranslatedText = cachedTranslation;
+            }
+            else
+            {
+                // Perform translation
+                var translated =
+                    await translationService.TranslateAsync(item.SourceText, task.TargetLanguageCode,
+                        cancellationToken);
+                item.TranslatedText = translated;
+
+                // Cache the result
+                TranslationsCache.TryAdd(cacheKey, translated);
+            }
+
+            // Apply translation on main thread
+            Instance._mainThreadActions.Enqueue(() =>
+            {
+                try
+                {
+                    item.ApplyTranslation(item.TranslatedText);
+                }
+                catch (Exception ex)
+                {
+                    Main.Error($"Failed to apply translation: {ex.Message}");
+                }
+            });
+
+            task.MarkItemCompleted(item);
+
+            // Small delay to prevent rate limiting
+            await Task.Delay(50, cancellationToken);
+        }
+        catch (OperationCanceledException)
+        {
+            // On cancellation, mark item as pending so it can be retried
+            item.Status = TranslationItemStatus.Pending;
+            task.RemoveFromInProgress(item);
+        }
+        catch (Exception ex)
+        {
+            task.MarkItemFailed(item, ex.Message);
+        }
+        finally
+        {
+            // Always release semaphore
+            semaphore.Release();
         }
     }
 

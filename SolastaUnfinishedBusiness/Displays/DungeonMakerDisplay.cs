@@ -147,6 +147,19 @@ internal static class DungeonMakerDisplay
             }
         }
 
+        using (UI.HorizontalScope())
+        {
+            UI.Label(Gui.Localize("ModUi/&TranslationConcurrency"), UI.Width(150f));
+
+            var concurrency = Main.Settings.TranslationConcurrency;
+            if (UI.Slider(ref concurrency, 1, CampaignTranslationExecutor.MaxTranslationConcurrency, 1, string.Empty, UI.Width(200f)))
+            {
+                Main.Settings.TranslationConcurrency = concurrency;
+            }
+
+            UI.Label($"{concurrency}".Cyan(), UI.Width(30f));
+        }
+
         UI.Label();
 
         if (Main.Settings.SelectedTranslationService == TranslationServiceType.OpenAI)
@@ -253,6 +266,8 @@ internal static class DungeonMakerDisplay
         }
     }
 
+    private static bool _showTranslationPreview;
+
     private static void DisplayTranslationProgress(CampaignTranslationTask task)
     {
         if (task.Status is not (CampaignTranslationStatus.Running or CampaignTranslationStatus.Paused))
@@ -266,23 +281,43 @@ internal static class DungeonMakerDisplay
 
             using (UI.VerticalScope())
             {
-                // Overall progress bar
                 var overallProgress = task.PercentageComplete;
                 UI.Label(
                     $"{Gui.Localize("ModUi/&TranslationProgress")}: {task.CompletedItems}/{task.TotalItems} ({overallProgress:P0})"
                         .Italic(),
                     UI.Width(300f));
 
-                // Current item being translated
-                if (task.CurrentItem != null)
+                var inProgressItems = task.InProgressItems;
+                UI.Label($"{Gui.Localize("ModUi/&TranslatingConcurrent")}: {inProgressItems.Count}".Yellow().Italic(),
+                    UI.Width(200f));
+
+                var itemsList = inProgressItems.Take(3).ToList();
+                for (var i = 0; i < 3; i++)
                 {
-                    var currentText = task.CurrentItem.SourceText.Length > 50
-                        ? task.CurrentItem.SourceText.Substring(0, 47) + "..."
-                        : task.CurrentItem.SourceText;
-                    UI.Label($"[{task.CurrentItem.Category}] {currentText}".Grey().Italic(), UI.Width(500f));
+                    if (i < itemsList.Count)
+                    {
+                        var item = itemsList[i];
+                        var currentText = item.SourceText.Length > 40
+                            ? item.SourceText.Substring(0, 37) + "..."
+                            : item.SourceText;
+                        UI.Label($"  [{item.Category}] {currentText}".Grey().Italic(), UI.Width(500f));
+                    }
+                    else
+                    {
+                        UI.Label(" ", UI.Width(500f));
+                    }
                 }
 
-                // Category progress
+                if (inProgressItems.Count > 3)
+                {
+                    UI.Label($"  ... +{inProgressItems.Count - 3} more".Grey().Italic(), UI.Width(200f));
+                }
+                else
+                {
+                    // Placeholder when no extra items
+                    UI.Label(" ", UI.Width(200f));
+                }
+
                 if (UI.DisclosureToggle(Gui.Localize("ModUi/&ShowCategoryProgress"), ref _showCategoryProgress, 200))
                 {
                 }
@@ -304,6 +339,45 @@ internal static class DungeonMakerDisplay
                             }
                         }
                     }
+                }
+
+                // Translation preview
+                if (UI.DisclosureToggle(Gui.Localize("ModUi/&ShowTranslationPreview"), ref _showTranslationPreview, 200))
+                {
+                }
+
+                if (_showTranslationPreview)
+                {
+                    var recentTranslations = task.RecentTranslations;
+                    
+                    var boxStyle = GUI.skin.box;
+                    GUILayout.BeginVertical(boxStyle, GUILayout.Width(550f), GUILayout.Height(150f));
+                    
+                    if (recentTranslations.Count > 0)
+                    {
+                        // Show newest first (reverse order)
+                        foreach (var preview in recentTranslations.Reverse())
+                        {
+                            var sourceText = preview.SourceText.Length > 70
+                                ? preview.SourceText.Substring(0, 67) + "..."
+                                : preview.SourceText;
+                            var translatedText = preview.TranslatedText.Length > 70
+                                ? preview.TranslatedText.Substring(0, 67) + "..."
+                                : preview.TranslatedText;
+
+                            // [Category] Source text in grey italic
+                            GUILayout.Label($"[{preview.Category}] {sourceText}".Grey().Italic());
+                            // Translated text
+                            GUILayout.Label(translatedText);
+                            GUILayout.Space(4f);
+                        }
+                    }
+                    else
+                    {
+                        GUILayout.Label("(No translations yet)".Grey().Italic());
+                    }
+                    
+                    GUILayout.EndVertical();
                 }
             }
         }

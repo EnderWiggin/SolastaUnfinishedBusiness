@@ -442,6 +442,9 @@ ModUi/&TranslationCompletedWithErrors=已完成（有错误）
 ModUi/&TranslationCancelled=已取消
 ModUi/&TranslationFailed=失败
 ModUi/&ShowCategoryProgress=显示分类进度
+ModUi/&ShowTranslationPreview=显示最近翻译
+ModUi/&TranslatingConcurrent=正在翻译
+ModUi/&TranslationConcurrency=并发数
 ModUi/&UnityExplorer=<b><color=#D89555>Unity 资源管理器用户界面</color></b>
 ModUi/&UnleashEnemyAsNpc=允许在 NPC 小工具上选择怪物
 ModUi/&UnleashNpcAsEnemy=解锁怪物选择

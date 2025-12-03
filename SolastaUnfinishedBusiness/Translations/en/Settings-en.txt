@@ -438,6 +438,9 @@ ModUi/&TranslationCompletedWithErrors=Completed (with errors)
 ModUi/&TranslationCancelled=Cancelled
 ModUi/&TranslationFailed=Failed
 ModUi/&ShowCategoryProgress=Show Category Progress
+ModUi/&ShowTranslationPreview=Show Recent Translations
+ModUi/&TranslatingConcurrent=Translating
+ModUi/&TranslationConcurrency=Concurrency
 ModUi/&UnityExplorer=<b><color=#D89555>Unity Explorer UI</color></b>
 ModUi/&UnleashEnemyAsNpc=Allow monsters to be selected on NPC gadgets
 ModUi/&UnleashNpcAsEnemy=Unlock monsters selection
