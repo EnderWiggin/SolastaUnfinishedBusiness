@@ -1173,6 +1173,9 @@ public static class RulesetCharacterPatcher
         {
             var current = attribute.CurrentValue;
 
+            //target was a gadget, skip
+            if (target is null) { return current; }
+
             me.GetSubFeaturesByType<IModifyAttackCriticalThreshold>().ForEach(m =>
                 current = m.GetCriticalThreshold(current, me, target, attackMethod));
 
