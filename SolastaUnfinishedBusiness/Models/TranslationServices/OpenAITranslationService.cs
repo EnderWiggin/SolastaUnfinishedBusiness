@@ -1,4 +1,5 @@
 using System;
+using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading;
@@ -28,7 +29,42 @@ internal sealed class OpenAITranslationService : ITranslationService
         "Keep the original formatting, preserve any special characters or markup. " +
         "Only output the translated text, nothing else.";
 
-    private static readonly HttpClient HttpClient = new();
+    private static readonly HttpClient HttpClient;
+    private static bool _servicePointConfigured;
+
+    static OpenAITranslationService()
+    {
+        HttpClient = new HttpClient
+        {
+            Timeout = TimeSpan.FromMinutes(10) // LLM requests can take a long time
+        };
+    }
+
+    /// <summary>
+    ///     Configures ServicePoint for high concurrency. Call before making requests.
+    /// </summary>
+    private static void EnsureServicePointConfigured(string endpoint)
+    {
+        if (_servicePointConfigured)
+        {
+            return;
+        }
+
+        try
+        {
+            ServicePointManager.DefaultConnectionLimit = int.MaxValue;
+            
+            var uri = new Uri(endpoint);
+            var servicePoint = ServicePointManager.FindServicePoint(uri);
+            servicePoint.ConnectionLimit = int.MaxValue;
+            
+            _servicePointConfigured = true;
+        }
+        catch (Exception ex)
+        {
+            Main.Error($"Failed to configure ServicePoint: {ex.Message}");
+        }
+    }
 
     public string Name => "OpenAI";
 
@@ -45,6 +81,9 @@ internal sealed class OpenAITranslationService : ITranslationService
             var apiKey = GetApiKey();
             var baseEndpoint = Main.Settings.OpenAIEndpoint.TrimEnd('/');
             var endpoint = $"{baseEndpoint}/chat/completions";
+            
+            EnsureServicePointConfigured(baseEndpoint);
+            
             var model = Main.Settings.OpenAIModel;
             var temperature = Main.Settings.OpenAITemperature;
             var topP = Main.Settings.OpenAITopP;

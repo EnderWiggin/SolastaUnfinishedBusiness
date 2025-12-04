@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading;
@@ -17,7 +18,27 @@ internal sealed class GoogleTranslationService : ITranslationService
 {
     private const string BaseUrl = "https://translate.googleapis.com/translate_a/single";
 
-    private static readonly HttpClient HttpClient = new();
+    private static readonly HttpClient HttpClient;
+
+    static GoogleTranslationService()
+    {
+        ServicePointManager.DefaultConnectionLimit = int.MaxValue;
+        
+        HttpClient = new HttpClient
+        {
+            Timeout = TimeSpan.FromMinutes(2)
+        };
+        
+        try
+        {
+            var servicePoint = ServicePointManager.FindServicePoint(new Uri(BaseUrl));
+            servicePoint.ConnectionLimit = int.MaxValue;
+        }
+        catch (Exception ex)
+        {
+            Main.Error($"Failed to configure ServicePoint: {ex.Message}");
+        }
+    }
 
     public string Name => "Google Translate";
 
