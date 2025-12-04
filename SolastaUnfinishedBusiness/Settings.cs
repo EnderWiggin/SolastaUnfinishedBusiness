@@ -4,6 +4,7 @@ using System.Xml.Serialization;
 using SolastaUnfinishedBusiness.Api.Infrastructure;
 using SolastaUnfinishedBusiness.Displays;
 using SolastaUnfinishedBusiness.Models;
+using SolastaUnfinishedBusiness.Models.TranslationServices;
 using UnityModManagerNet;
 
 namespace SolastaUnfinishedBusiness;
@@ -314,6 +315,26 @@ public class Settings : UnityModManager.ModSettings
     public bool EnableVariablePlaceholdersOnTexts { get; set; }
     public bool EnableDungeonMakerModdedContent { get; set; }
     public string SelectedLanguageCode { get; set; } = TranslatorContext.English;
+
+    //
+    // Translation Service Settings
+    //
+    public TranslationServiceType SelectedTranslationService { get; set; } =
+        TranslationServiceType.Google;
+
+    public string OpenAIEndpoint { get; set; } = OpenAITranslationService.DefaultEndpoint;
+    public string OpenAIModel { get; set; } = OpenAITranslationService.DefaultModel;
+    public float OpenAITemperature { get; set; } = OpenAITranslationService.DefaultTemperature;
+    public float OpenAITopP { get; set; } = OpenAITranslationService.DefaultTopP;
+    public int OpenAITopK { get; set; } = OpenAITranslationService.DefaultTopK;
+
+    public string OpenAISystemPrompt { get; set; } =
+        OpenAITranslationService.DefaultSystemPrompt;
+
+    /// <summary>
+    ///     Number of concurrent translation tasks (1-10).
+    /// </summary>
+    public int TranslationConcurrency { get; set; } = 1;
 
     //
     // Characters - Classes

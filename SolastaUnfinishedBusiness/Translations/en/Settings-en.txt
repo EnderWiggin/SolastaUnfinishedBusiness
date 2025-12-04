@@ -415,6 +415,32 @@ ModUi/&TotalFeatsGrantedFirstLevel=<color=white>Total <color=#D89555>feats</colo
 ModUi/&Translate=Translate
 ModUi/&TranslateCancel=Cancel {0} at {1}
 ModUi/&Translations=<color=#F0DAA0>Translations:</color>
+ModUi/&TranslationService=Translation Service
+ModUi/&OpenAISettings=<color=#F0DAA0>OpenAI Settings:</color>
+ModUi/&OpenAIAdvancedSettings=<color=#F0DAA0>Advanced Settings:</color>
+ModUi/&OpenAIEndpoint=Endpoint URL
+ModUi/&OpenAIApiKey=API Key
+ModUi/&OpenAIModel=Model
+ModUi/&OpenAITemperature=Temperature
+ModUi/&OpenAITopP=Top P
+ModUi/&OpenAITopK=Top K
+ModUi/&OpenAISystemPrompt=System Prompt
+ModUi/&OpenAISystemPromptHelp=<i><color=#F0DAA0>[Use {targetLanguage} as placeholder for the target language name]</color></i>
+ModUi/&Reset=Reset
+ModUi/&Pause=Pause
+ModUi/&Resume=Resume
+ModUi/&Cancel=Cancel
+ModUi/&RetryFailed=Retry Failed
+ModUi/&TranslationProgress=Progress
+ModUi/&TranslationPaused=Paused
+ModUi/&TranslationCompleted=Completed
+ModUi/&TranslationCompletedWithErrors=Completed (with errors)
+ModUi/&TranslationCancelled=Cancelled
+ModUi/&TranslationFailed=Failed
+ModUi/&ShowCategoryProgress=Show Category Progress
+ModUi/&ShowTranslationPreview=Show Recent Translations
+ModUi/&TranslatingConcurrent=Translating
+ModUi/&TranslationConcurrency=Concurrency
 ModUi/&UnityExplorer=<b><color=#D89555>Unity Explorer UI</color></b>
 ModUi/&UnleashEnemyAsNpc=Allow monsters to be selected on NPC gadgets
 ModUi/&UnleashNpcAsEnemy=Unlock monsters selection
