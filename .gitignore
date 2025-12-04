@@ -305,8 +305,8 @@ paket-files/
 __pycache__/
 *.pyc
 
-# Environment files with sensitive data
-Scripts/.env
+# Linux direnv  files
+.envrc
 
 # Cake - Uncomment if you are using it
 # tools/**
