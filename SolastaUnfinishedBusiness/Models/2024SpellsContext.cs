@@ -157,6 +157,23 @@ public static partial class Tabletop2024Context
             ConditionBarkskin.GuiPresentation.description = "Rules/&ConditionBarkskinDescription";
         }
     }
+
+    internal static void SwitchOneDndCantripChillTouch()
+    {
+        var effectDescription = ChillTouch.EffectDescription;
+        if (Main.Settings.EnableOneDndChillTouchCantrip)
+        {
+            effectDescription.FindFirstDamageForm().dieType = DieType.D10;
+            effectDescription.rangeType = RangeType.MeleeHit;
+            effectDescription.rangeParameter = 1;
+        }
+        else
+        {
+            effectDescription.FindFirstDamageForm().dieType = DieType.D8;
+            effectDescription.rangeType = RangeType.RangeHit;
+            effectDescription.rangeParameter = 24;
+        }
+    }
     
     internal static void SwitchOneDndCantripBladeWard()
     {
@@ -433,6 +450,13 @@ public static partial class Tabletop2024Context
             .SetParticleEffectParameters(SacredFlame)
             .SetImpactEffectParameters(new AssetReference())
             .Build();
+    }
+
+    internal static void SwitchOneDndSpellWitchBolt()
+    {
+        SpellBuilders.WitchBoltPower.activationTime = Main.Settings.EnableOneDndWitchBoltSpell
+            ? ActivationTime.BonusAction
+            : ActivationTime.Action;
     }
 
     internal static void SwitchOneDndHealingSpellsUpgrade()

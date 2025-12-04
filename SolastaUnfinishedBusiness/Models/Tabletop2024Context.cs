@@ -132,6 +132,7 @@ public static partial class Tabletop2024Context
         SwitchOneDndHealingSpellsUpgrade();
         SwitchOneDndPreparedSpellsTables();
         SwitchOneDndSpellBarkskin();
+        SwitchOneDndCantripChillTouch();
         SwitchOneDndCantripBladeWard();
         SwitchOneDndSpellDivineFavor();
         SwitchOneDndSpellGuidance();
@@ -144,6 +145,7 @@ public static partial class Tabletop2024Context
         SwitchOneDndSpellSpareTheDying();
         SwitchOneDndSpellSpiderClimb();
         SwitchOneDndSpellStoneSkin();
+        SwitchOneDndSpellWitchBolt();
         SwitchPaladinAbjureFoes();
         SwitchPaladinChannelDivinity();
         SwitchPaladinLayOnHand();

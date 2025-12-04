@@ -81,6 +81,12 @@ internal static class SubclassesDisplay
             WizardEvocation.SwapEvocationPotentCantripAndSculptSpell();
         }
 
+        toggle = Main.Settings.EvocationSculptSpellNoPerception;
+        if (UI.Toggle(Gui.Localize("ModUi/&EvocationSculptSpellNoPerception"), ref toggle, UI.AutoWidth()))
+        {
+            Main.Settings.EvocationSculptSpellNoPerception = toggle;
+        }
+
         toggle = Main.Settings.EnableMartialChampion2024;
         if (UI.Toggle(Gui.Localize("ModUi/&SwapMartialChampion"), ref toggle, UI.AutoWidth()))
         {

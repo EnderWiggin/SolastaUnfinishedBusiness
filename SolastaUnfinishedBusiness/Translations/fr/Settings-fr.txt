@@ -187,6 +187,7 @@ ModUi/&EnableMonkUncannyMetabolism2024=Activer <color=#D89555>Métabolisme étra
 ModUi/&EnableMulticlass=Activer <color=#D89555>multiclasse</color> <b><i><color=#C04040E0>[Nécessite un redémarrage]</color></i></b>
 ModUi/&EnableOneDndBarkskinSpell=Activer <color=#D89555>Écorce</color> 5e 2024 version du sort <i><color=#F0DAA0>[action bonus, pas de concentration, CA fixée à 17]</color></i>
 ModUi/&EnableOneDndBladeWardCantrip=Activer <Color = # D89555> Blade Ward </ Color> Cantrip 5E 2024 Version <i> <Color = # F0DAA0> [Concentration de 1 minute, les attaquants soustraient 1d4 des rouleaux d'attaque] </imor> </i>
+ModUi/&EnableOneDndChillTouchCantrip=Activer <color=#D89555>Chill Touch</color> version cantrip 5e 2024 <i><color=#F0DAA0>[dégâts D10 au lieu de D8, coup en mêlée au lieu de 24 portée]</color></i>
 ModUi/&EnableOneDndDamagingSpellsUpgrade=Activez les sorts <color=#D89555>Épée arcanique</color>, <color=#D89555>Cercle de la mort</color>, <color=#D89555>Frappe de flammes</color>, <color=#D89555>Tempête de glace</color>, <color=#D89555>Vaporisation prismatique</color> et <color=#D89555>Moquerie vicieuse</color> 5e version 2024 <i><color=#F0DAA0>[meilleurs dégâts]</color></i>
 ModUi/&EnableOneDndDivineFavorSpell=Activer <color=#D89555>Faveur divine</color> 5e 2024 version du sort <i><color=#F0DAA0>[aucune concentration]</color></i>
 ModUi/&EnableOneDndGuidanceSpell=Activer <color=#D89555>Guidage</color> 5e version du sort 2024 <i><color=#F0DAA0>[Choisissez une compétence au lancement et obtenez un bonus jusqu'à 1 minute.]</color></i>
@@ -200,6 +201,7 @@ ModUi/&EnableOneDndSpareTheDyingSpell=Activer <color=#D89555>Épargner les moura
 ModUi/&EnableOneDndSpiderClimbSpell=Activer <color=#D89555>Spider Climb</color> 5e 2024 version du sort <i><color=#F0DAA0>[+1 cible par upcast]</color></i>
 ModUi/&EnableOneDndStoneSkinSpell=Activer la version du sort <color=#D89555>Stone Skin</color> 5e 2024 <i><color=#F0DAA0>[offre également une résistance aux B/P/S magiques]</color></i>
 ModUi/&EnableOneDndTrueStrikeCantrip=Activer <color=#D89555>True Strike</color> 5e 2024 version du tour de passe-passe <b><i><color=#C04040E0>[Nécessite un redémarrage]</color></i></b>\n<i><color=#F0DAA0>[L'attaque utilise votre capacité de lancement de sorts pour le jet d'attaque et le bonus de dégâts, ainsi que des dégâts radiants supplémentaires à partir du niveau 5]</color></i>
+ModUi/&EnableOneDndWitchBoltSpell=Activer <color=#D89555>Witch Bolt</color> version 5e 2024 du sort <i><color=#F0DAA0>[Action bonus pour réappliquer les dégâts]</color></i>
 ModUi/&EnablePaladinAbjureFoes2024=Activez <color=#D89555>Abjurer les ennemis</color> au niveau 9
 ModUi/&EnablePaladinAnyFightingStyle2024=Permettre au <color=#D89555>Paladin</color> de choisir n'importe quel style de combat <i><color=#F0DAA0>[ajoute Tir à l'arc et Combat à deux armes]</color></i>
 ModUi/&EnablePaladinChannelDivinity2024=Échangez <color=#D89555>Channel Divinity</color> avec la version 5e 2024 <i><color=#F0DAA0>[différentes utilisations]</color></i>
@@ -275,6 +277,7 @@ ModUi/&EnablesAsiAndFeat=Activer à la fois l'augmentation des scores d'attribut
 ModUi/&EncounterPercentageChance=<color=white>Définir des pourcentages de chances de rencontres aléatoires</color>
 ModUi/&Encounters=Rencontres
 ModUi/&EnemiesAlwaysRollInitiative=<i>+ Les ennemis lancent toujours l'initiative au lieu d'une valeur forcée <color=#F0DAA0>[par exemple : Sorak Assassin]</color></i>
+ModUi/&EvocationSculptSpellNoPerception=Faire en sorte que <b>Evoker</b> <color=#D89555>Sorts de sculpture</color> ne nécessitent pas la perception d'alliés
 ModUi/&ExpandAll=Développer tout
 ModUi/&FactionHelp=<color=#C04040E0>Chargez une campagne officielle pour modifier les relations entre factions...</color>
 ModUi/&FactionRelations=<color=#F0DAA0>Factions :</color>

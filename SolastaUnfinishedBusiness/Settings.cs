@@ -502,6 +502,7 @@ public class Settings : UnityModManager.ModSettings
     [Tag(Type = TagType.T2014)] public bool FixEldritchBlastRange { get; set; }
     public bool ModifyGravitySlam { get; set; }
     [Tag(Type = TagType.T2024)] public bool EnableOneDndBarkskinSpell { get; set; }
+    [Tag(Type = TagType.T2024)] public bool EnableOneDndChillTouchCantrip { get; set; }
     [Tag(Type = TagType.T2024)] public bool EnableOneDndBladeWardCantrip { get; set; }
     [Tag(Type = TagType.T2024)] public bool EnableOneDndDamagingSpellsUpgrade { get; set; }
     [Tag(Type = TagType.T2024)] public bool EnableOneDndHealingSpellsUpgrade { get; set; }
@@ -516,6 +517,7 @@ public class Settings : UnityModManager.ModSettings
     [Tag(Type = TagType.T2024)] public bool EnableOneDndSpiderClimbSpell { get; set; }
     [Tag(Type = TagType.T2024)] public bool EnableOneDndStoneSkinSpell { get; set; }
     [Tag(Type = TagType.T2024)] public bool EnableOneDndTrueStrikeCantrip { get; set; }
+    [Tag(Type = TagType.T2024)] public bool EnableOneDndWitchBoltSpell { get; set; }
     public bool SwapShineCantrip { get; set; }
     public bool AllowHasteCasting { get; set; }
     public bool AllowStackedMaterialComponent { get; set; }
@@ -540,6 +542,7 @@ public class Settings : UnityModManager.ModSettings
     [Tag(Type = TagType.T2024)] public bool SwapAbjurationSavant { get; set; }
     [Tag(Type = TagType.T2024)] public bool SwapEvocationSavant { get; set; }
     [Tag(Type = TagType.T2024)] public bool SwapEvocationPotentCantripAndSculptSpell { get; set; }
+    public bool EvocationSculptSpellNoPerception { get; set; }
     [Tag(Type = TagType.T2024)] public bool EnableMartialChampion2024 { get; set; }
     public SerializableDictionary<string, int> KlassListSliderPosition { get; set; } = [];
     public SerializableDictionary<string, List<string>> KlassListSubclassEnabled { get; set; } = [];
