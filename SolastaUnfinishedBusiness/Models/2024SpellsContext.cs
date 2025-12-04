@@ -452,6 +452,13 @@ public static partial class Tabletop2024Context
             .Build();
     }
 
+    internal static void SwitchOneDndSpellWitchBolt()
+    {
+        SpellBuilders.WitchBoltPower.activationTime = Main.Settings.EnableOneDndWitchBoltSpell
+            ? ActivationTime.BonusAction
+            : ActivationTime.Action;
+    }
+
     internal static void SwitchOneDndHealingSpellsUpgrade()
     {
         var dice = Main.Settings.EnableOneDndHealingSpellsUpgrade ? 2 : 1;

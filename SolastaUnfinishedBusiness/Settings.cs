@@ -517,6 +517,7 @@ public class Settings : UnityModManager.ModSettings
     [Tag(Type = TagType.T2024)] public bool EnableOneDndSpiderClimbSpell { get; set; }
     [Tag(Type = TagType.T2024)] public bool EnableOneDndStoneSkinSpell { get; set; }
     [Tag(Type = TagType.T2024)] public bool EnableOneDndTrueStrikeCantrip { get; set; }
+    [Tag(Type = TagType.T2024)] public bool EnableOneDndWitchBoltSpell { get; set; }
     public bool SwapShineCantrip { get; set; }
     public bool AllowHasteCasting { get; set; }
     public bool AllowStackedMaterialComponent { get; set; }

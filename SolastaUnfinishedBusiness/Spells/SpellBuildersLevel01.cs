@@ -2933,6 +2933,8 @@ internal static partial class SpellBuilders
 
     #region Witch Bolt
 
+    internal static FeatureDefinitionPower WitchBoltPower;
+    
     internal static SpellDefinition BuildWitchBolt()
     {
         const string NAME = "WitchBolt";
@@ -2945,25 +2947,23 @@ internal static partial class SpellBuilders
             .SetConditionParticleReference(PowerTraditionShockArcanistArcaneFury)
             .AddToDB();
 
-        var powerWitchBolt = FeatureDefinitionPowerBuilder
+        WitchBoltPower = FeatureDefinitionPowerBuilder
             .Create($"Power{NAME}")
             .SetGuiPresentation(NAME, Category.Spell, LightningBolt)
             .SetUsesFixed(ActivationTime.Action)
-            .SetEffectDescription(
-                EffectDescriptionBuilder
-                    .Create()
-                    .SetTargetingData(Side.Enemy, RangeType.Distance, 6, TargetType.IndividualsUnique)
-                    .SetEffectForms(EffectFormBuilder.DamageForm(DamageTypeLightning, 1, DieType.D12))
-                    .SetParticleEffectParameters(ChainLightning)
-                    .SetImpactEffectParameters(LightningBolt)
-                    .Build())
+            .SetEffectDescription(EffectDescriptionBuilder.Create()
+                .SetTargetingData(Side.Enemy, RangeType.Distance, 6, TargetType.IndividualsUnique)
+                .SetEffectForms(EffectFormBuilder.DamageForm(DamageTypeLightning, 1, DieType.D12))
+                .SetParticleEffectParameters(ChainLightning)
+                .SetImpactEffectParameters(LightningBolt)
+                .Build())
             .AddToDB();
 
         var conditionWitchBoltSelf = ConditionDefinitionBuilder
             .Create($"Condition{NAME}Self")
             .SetGuiPresentationNoContent(true)
             .SetSilent(Silent.WhenAddedOrRemoved)
-            .SetFeatures(powerWitchBolt)
+            .SetFeatures(WitchBoltPower)
             .AddToDB();
 
         var spell = SpellDefinitionBuilder
@@ -2977,35 +2977,41 @@ internal static partial class SpellBuilders
             .SetVerboseComponent(true)
             .SetVocalSpellSameType(VocalSpellSemeType.Attack)
             .SetRequiresConcentration(true)
-            .SetEffectDescription(
-                EffectDescriptionBuilder
-                    .Create()
-                    .SetDurationData(DurationType.Minute, 1)
-                    .SetTargetingData(Side.Enemy, RangeType.RangeHit, 6, TargetType.IndividualsUnique)
-                    .SetEffectAdvancement(EffectIncrementMethod.PerAdditionalSlotLevel, additionalDicePerIncrement: 1)
-                    .SetEffectForms(
-                        EffectFormBuilder
-                            .Create()
-                            .SetDamageForm(DamageTypeLightning, 1, DieType.D12)
-                            .Build(),
-                        EffectFormBuilder.ConditionForm(conditionWitchBolt),
-                        EffectFormBuilder.ConditionForm(
-                            conditionWitchBoltSelf,
-                            ConditionForm.ConditionOperation.Add, true))
-                    .SetParticleEffectParameters(ChainLightning)
-                    .SetImpactEffectParameters(LightningBolt)
-                    .Build())
+            .SetEffectDescription(EffectDescriptionBuilder.Create()
+                .SetDurationData(DurationType.Minute, 1)
+                .SetTargetingData(Side.Enemy, RangeType.RangeHit, 6, TargetType.IndividualsUnique)
+                .SetEffectAdvancement(EffectIncrementMethod.PerAdditionalSlotLevel, additionalDicePerIncrement: 1)
+                .SetEffectForms(
+                    EffectFormBuilder.DamageForm(DamageTypeLightning, 1, DieType.D12),
+                    EffectFormBuilder.AddConditionForm(conditionWitchBolt),
+                    EffectFormBuilder.AddConditionForm(conditionWitchBoltSelf, true))
+                .SetParticleEffectParameters(ChainLightning)
+                .SetImpactEffectParameters(LightningBolt)
+                .Build())
             .AddToDB();
 
-        powerWitchBolt.AddCustomSubFeatures(
-            new CustomBehaviorWitchBolt(spell, powerWitchBolt, conditionWitchBolt));
+        var witchBoltDuration = ComputeRoundsDuration(DurationType.Minute, 1);
+        WitchBoltPower.AddCustomSubFeatures(
+            new CustomBehaviorWitchBolt(spell, WitchBoltPower, conditionWitchBolt),
+            new ModifyPowerVisibility((character, power, _) =>
+            {
+                if (power.activationTime == ActivationTime.Action) { return true; }
+
+                if (character.TryGetConditionOfCategoryAndType(AttributeDefinitions.TagEffect,
+                        conditionWitchBoltSelf.Name, out var condition))
+                {
+                    return condition.RemainingRounds < witchBoltDuration;
+                }
+
+                return true;
+            }));
 
         conditionWitchBolt.AddCustomSubFeatures(
             new ActionFinishedByMeWitchBoltEnemy(spell, conditionWitchBolt));
 
         conditionWitchBoltSelf.AddCustomSubFeatures(
             AddUsablePowersFromCondition.Marker,
-            new ActionFinishedByMeWitchBolt(spell, powerWitchBolt, conditionWitchBolt));
+            new ActionFinishedByMeWitchBolt(spell, WitchBoltPower, conditionWitchBolt));
 
         return spell;
     }

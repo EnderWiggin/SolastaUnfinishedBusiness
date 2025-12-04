@@ -273,6 +273,13 @@ internal static class SpellsDisplay
             Tabletop2024Context.SwitchOneDndSpellStoneSkin();
         }
 
+        toggle = Main.Settings.EnableOneDndWitchBoltSpell;
+        if (UI.Toggle(Gui.Localize("ModUi/&EnableOneDndWitchBoltSpell"), ref toggle, UI.AutoWidth()))
+        {
+            Main.Settings.EnableOneDndWitchBoltSpell = toggle;
+            Tabletop2024Context.SwitchOneDndSpellWitchBolt();
+        }
+
         toggle = Main.Settings.EnableOneDndTrueStrikeCantrip;
         if (UI.Toggle(Gui.Localize("ModUi/&EnableOneDndTrueStrikeCantrip"), ref toggle, UI.AutoWidth()))
         {
