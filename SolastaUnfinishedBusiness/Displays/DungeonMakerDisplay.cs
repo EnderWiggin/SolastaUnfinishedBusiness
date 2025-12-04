@@ -318,9 +318,7 @@ internal static class DungeonMakerDisplay
                     UI.Label(" ", UI.Width(200f));
                 }
 
-                if (UI.DisclosureToggle(Gui.Localize("ModUi/&ShowCategoryProgress"), ref _showCategoryProgress, 200))
-                {
-                }
+                UI.DisclosureToggle(Gui.Localize("ModUi/&ShowCategoryProgress"), ref _showCategoryProgress, 200);
 
                 if (_showCategoryProgress)
                 {
@@ -342,9 +340,7 @@ internal static class DungeonMakerDisplay
                 }
 
                 // Translation preview
-                if (UI.DisclosureToggle(Gui.Localize("ModUi/&ShowTranslationPreview"), ref _showTranslationPreview, 200))
-                {
-                }
+                UI.DisclosureToggle(Gui.Localize("ModUi/&ShowTranslationPreview"), ref _showTranslationPreview, 200);
 
                 if (_showTranslationPreview)
                 {
@@ -395,10 +391,7 @@ internal static class DungeonMakerDisplay
             _apiKeyInitialized = true;
         }
 
-        if (UI.DisclosureToggle(Gui.Localize("ModUi/&OpenAISettings"), ref _showOpenAISettings, 200))
-        {
-            // Toggle state changed
-        }
+        UI.DisclosureToggle(Gui.Localize("ModUi/&OpenAISettings"), ref _showOpenAISettings, 200);
 
         if (!_showOpenAISettings)
         {
@@ -467,10 +460,7 @@ internal static class DungeonMakerDisplay
         UI.Label();
 
         // Advanced Settings
-        if (UI.DisclosureToggle(Gui.Localize("ModUi/&OpenAIAdvancedSettings"), ref _showOpenAIAdvancedSettings, 200))
-        {
-            // Toggle state changed
-        }
+        UI.DisclosureToggle(Gui.Localize("ModUi/&OpenAIAdvancedSettings"), ref _showOpenAIAdvancedSettings, 200);
 
         if (!_showOpenAIAdvancedSettings)
         {
