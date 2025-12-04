@@ -25,7 +25,7 @@ internal static class SpellsDisplay
         }
 
         UI.Label();
-        
+
         toggle = Main.Settings.AllowBladeCantripsToUseReach;
         if (UI.Toggle(Gui.Localize("ModUi/&AllowBladeCantripsToUseReach"), ref toggle, UI.AutoWidth()))
         {
@@ -157,12 +157,19 @@ internal static class SpellsDisplay
             Main.Settings.EnableOneDndBarkskinSpell = toggle;
             Tabletop2024Context.SwitchOneDndSpellBarkskin();
         }
-        
+
         toggle = Main.Settings.EnableOneDndBladeWardCantrip;
         if (UI.Toggle(Gui.Localize("ModUi/&EnableOneDndBladeWardCantrip"), ref toggle, UI.AutoWidth()))
         {
             Main.Settings.EnableOneDndBladeWardCantrip = toggle;
             Tabletop2024Context.SwitchOneDndCantripBladeWard();
+        }
+
+        toggle = Main.Settings.EnableOneDndChillTouchCantrip;
+        if (UI.Toggle(Gui.Localize("ModUi/&EnableOneDndChillTouchCantrip"), ref toggle, UI.AutoWidth()))
+        {
+            Main.Settings.EnableOneDndChillTouchCantrip = toggle;
+            Tabletop2024Context.SwitchOneDndCantripChillTouch();
         }
 
         toggle = Main.Settings.EnableOneDndDamagingSpellsUpgrade;
@@ -185,7 +192,7 @@ internal static class SpellsDisplay
             Main.Settings.EnableOneDndDivineFavorSpell = toggle;
             Tabletop2024Context.SwitchOneDndSpellDivineFavor();
         }
-        
+
         toggle = Main.Settings.EnableSmiteSpells2024;
         if (UI.Toggle(Gui.Localize("ModUi/&EnableSmiteSpells2024"), ref toggle, UI.AutoWidth()))
         {

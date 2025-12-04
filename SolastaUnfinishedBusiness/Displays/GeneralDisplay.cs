@@ -755,7 +755,7 @@ internal static class ToolsDisplay
             Main.Settings.EnablePaladinAnyFightingStyle2024 = toggle;
             Tabletop2024Context.SwitchPaladinAnyFightingStyle();
         }
-        
+
         toggle = Main.Settings.EnablePaladinChannelDivinity2024;
         if (UI.Toggle(Gui.Localize("ModUi/&EnablePaladinChannelDivinity2024"), ref toggle, UI.AutoWidth()))
         {
@@ -773,7 +773,7 @@ internal static class ToolsDisplay
         if (Main.Settings.EnablePaladinSmite2024)
         {
             toggle = Main.Settings.EnableSmiteSpells2024;
-            if (UI.Toggle(" + "+Gui.Localize("ModUi/&EnableSmiteSpells2024"), ref toggle, UI.AutoWidth()))
+            if (UI.Toggle(" + " + Gui.Localize("ModUi/&EnableSmiteSpells2024"), ref toggle, UI.AutoWidth()))
             {
                 Main.Settings.EnableSmiteSpells2024 = toggle;
                 SmiteSpells2024Context.SwitchSmiteSpells();
@@ -861,7 +861,7 @@ internal static class ToolsDisplay
             Main.Settings.EnableRangerTireless2024 = toggle;
             Tabletop2024Context.SwitchRangerTireless();
         }
-        
+
         toggle = Main.Settings.EnableRangerAnyFightingStyle2024;
         if (UI.Toggle(Gui.Localize("ModUi/&EnableRangerAnyFightingStyle2024"), ref toggle, UI.AutoWidth()))
         {
@@ -1073,6 +1073,13 @@ internal static class ToolsDisplay
             Tabletop2024Context.SwitchOneDndCantripBladeWard();
         }
 
+        toggle = Main.Settings.EnableOneDndChillTouchCantrip;
+        if (UI.Toggle(Gui.Localize("ModUi/&EnableOneDndChillTouchCantrip"), ref toggle, UI.AutoWidth()))
+        {
+            Main.Settings.EnableOneDndChillTouchCantrip = toggle;
+            Tabletop2024Context.SwitchOneDndCantripChillTouch();
+        }
+
         toggle = Main.Settings.EnableOneDndDamagingSpellsUpgrade;
         if (UI.Toggle(Gui.Localize("ModUi/&EnableOneDndDamagingSpellsUpgrade"), ref toggle, UI.AutoWidth()))
         {
@@ -1093,7 +1100,7 @@ internal static class ToolsDisplay
             Main.Settings.EnableOneDndDivineFavorSpell = toggle;
             Tabletop2024Context.SwitchOneDndSpellDivineFavor();
         }
-        
+
         toggle = Main.Settings.EnableSmiteSpells2024;
         if (UI.Toggle(Gui.Localize("ModUi/&EnableSmiteSpells2024"), ref toggle, UI.AutoWidth()))
         {

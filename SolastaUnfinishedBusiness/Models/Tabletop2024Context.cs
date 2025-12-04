@@ -132,6 +132,7 @@ public static partial class Tabletop2024Context
         SwitchOneDndHealingSpellsUpgrade();
         SwitchOneDndPreparedSpellsTables();
         SwitchOneDndSpellBarkskin();
+        SwitchOneDndCantripChillTouch();
         SwitchOneDndCantripBladeWard();
         SwitchOneDndSpellDivineFavor();
         SwitchOneDndSpellGuidance();
