@@ -187,6 +187,7 @@ ModUi/&EnableMonkUncannyMetabolism2024=Habilita <color=#D89555>Metabolismo sobre
 ModUi/&EnableMulticlass=Habilitar <color=#D89555>multiclase</color> <b><i><color=#C04040E0>[Requiere reinicio]</color></i></b>
 ModUi/&EnableOneDndBarkskinSpell=Habilitar la versión del hechizo <color=#D89555>Corteza</color> 5e 2024 <i><color=#F0DAA0>[acción adicional, sin concentración, CA establecida en 17]</color></i>
 ModUi/&EnableOneDndBladeWardCantrip=Enable <color =#d895555> blade ward </ color> cantrip 5e 2024 versión <i> <color =#f0daa0> [concentración de 1 minuto, los atacantes restan 1d4 de los rollos de ataque] </color> </i>
+ModUi/&EnableOneDndChillTouchCantrip=Habilite <color=#D89555>Chill Touch</color> versión del truco 5e 2024 <i><color=#F0DAA0>[daño dado D10 en lugar de D8, golpe cuerpo a cuerpo en lugar de 24 de alcance]</color></i>
 ModUi/&EnableOneDndDamagingSpellsUpgrade=Habilita los hechizos <color=#D89555>Espada arcana</color>, <color=#D89555>Círculo de la muerte</color>, <color=#D89555>Golpe de llamas</color>, <color=#D89555>Tormenta de hielo</color>, <color=#D89555>Rociado prismático</color> y <color=#D89555>Burla cruel</color> versión 5e 2024 <i><color=#F0DAA0>[mejor daño]</color></i>
 ModUi/&EnableOneDndDivineFavorSpell=Habilitar <color=#D89555>Favor divino</color> versión del hechizo 5e 2024 <i><color=#F0DAA0>[sin concentración]</color></i>
 ModUi/&EnableOneDndGuidanceSpell=Habilitar <color=#D89555>Orientación</color> versión del hechizo 5e 2024 <i><color=#F0DAA0>[Elige una habilidad al lanzar y obtén una bonificación por hasta 1 minuto.]</color></i>
@@ -200,6 +201,7 @@ ModUi/&EnableOneDndSpareTheDyingSpell=Habilitar la versión del hechizo <color=#
 ModUi/&EnableOneDndSpiderClimbSpell=Habilitar la versión del hechizo <color=#D89555>Spider Climb</color> 5e 2024 <i><color=#F0DAA0>[+1 objetivo por mejora]</color></i>
 ModUi/&EnableOneDndStoneSkinSpell=Habilitar <color=#D89555>Piel de piedra</color> versión del hechizo 5e 2024 <i><color=#F0DAA0>[también proporciona resistencia a B/P/S mágicos]</color></i>
 ModUi/&EnableOneDndTrueStrikeCantrip=Habilitar <color=#D89555>Golpe verdadero</color> versión 5e 2024 del truco <b><i><color=#C04040E0>[Requiere reinicio]</color></i></b>\n<i><color=#F0DAA0>[el ataque usa tu capacidad de lanzamiento de conjuros para la tirada de ataque y la bonificación de daño, y daño radiante adicional a partir del nivel 5]</color></i>
+ModUi/&EnableOneDndWitchBoltSpell=Habilitar <color=#D89555>Witch Bolt</color> 5e 2024 versión del hechizo <i><color=#F0DAA0>[Acción adicional para volver a aplicar daño]</color></i>
 ModUi/&EnablePaladinAbjureFoes2024=Habilita <color=#D89555>Abjurar enemigos</color> en el nivel 9
 ModUi/&EnablePaladinAnyFightingStyle2024=Permitir que <color=#D89555>Paladín</color> elija cualquier estilo de lucha <i><color=#F0DAA0>[añade Tiro con arco y Lucha con dos armas]</color></i>
 ModUi/&EnablePaladinChannelDivinity2024=Intercambia <color=#D89555>Divinidad canalizada</color> con la versión 5e 2024 <i><color=#F0DAA0>[usos diferentes]</color></i>
@@ -275,6 +277,7 @@ ModUi/&EnablesAsiAndFeat=Habilitar el aumento de las puntuaciones de atributos y
 ModUi/&EncounterPercentageChance=<color=white>Establecer porcentajes de posibilidades de encuentros aleatorios</color>
 ModUi/&Encounters=Encuentros
 ModUi/&EnemiesAlwaysRollInitiative=<i>+ Los enemigos siempre tiran iniciativa en lugar de un valor forzado <color=#F0DAA0>[es decir: Asesino Sorak]</color></i>
+ModUi/&EvocationSculptSpellNoPerception=Hacer que <b>Evocador</b> <color=#D89555>Esculpir hechizos</color> no requiera percibir aliados.
 ModUi/&ExpandAll=Expandir todo
 ModUi/&FactionHelp=<color=#C04040E0>Cargue un juego de campaña oficial para modificar las relaciones entre facciones...</color>
 ModUi/&FactionRelations=<color=#F0DAA0>Facciones:</color>
