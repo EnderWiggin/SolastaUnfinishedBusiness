@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using SolastaUnfinishedBusiness.Api;
@@ -1089,9 +1089,8 @@ internal static class GLBM
 
                             //TODO: convert this to a proper interface to change number of smite dice
                             if (validTrigger && isDivineSmite &&
-                                hero.GetSubclassLevel(
-                                    DatabaseHelper.CharacterClassDefinitions.Paladin,
-                                    OathOfDemonHunter.Name) == 20)
+                                hero.GetSubclassLevel(DatabaseHelper.CharacterClassDefinitions.Paladin,
+                                    OathOfThunder.Name) == 20)
                             {
                                 reactionParams.intParameter++;
                             }
