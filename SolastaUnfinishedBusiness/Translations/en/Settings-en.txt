@@ -271,6 +271,7 @@ ModUi/&EnablesAsiAndFeat=Enable both attribute scores increase and <color=#D8955
 ModUi/&EncounterPercentageChance=<color=white>Set random encounters percentage chances</color>
 ModUi/&Encounters=Encounters
 ModUi/&EnemiesAlwaysRollInitiative=<i>+ Enemies always roll initiative instead of a forced value <color=#F0DAA0>[i.e: Sorak Assassin]</color></i>
+ModUi/&EvocationSculptSpellNoPerception=Make <b>Evoker</b> <color=#D89555>Sculpt Spells</color> not require perceiving allies
 ModUi/&ExpandAll=Expand All
 ModUi/&FactionHelp=<color=#C04040E0>Load an official campaign game to modify faction relations...</color>
 ModUi/&FactionRelations=<color=#F0DAA0>Factions:</color>

@@ -1219,6 +1219,12 @@ internal static class ToolsDisplay
             WizardEvocation.SwapEvocationPotentCantripAndSculptSpell();
         }
 
+        toggle = Main.Settings.EvocationSculptSpellNoPerception;
+        if (UI.Toggle(Gui.Localize("ModUi/&EvocationSculptSpellNoPerception"), ref toggle, UI.AutoWidth()))
+        {
+            Main.Settings.EvocationSculptSpellNoPerception = toggle;
+        }
+
         toggle = Main.Settings.EnableMartialChampion2024;
         // ReSharper disable once InvertIf
         if (UI.Toggle(Gui.Localize("ModUi/&SwapMartialChampion"), ref toggle, UI.AutoWidth()))

@@ -542,6 +542,7 @@ public class Settings : UnityModManager.ModSettings
     [Tag(Type = TagType.T2024)] public bool SwapAbjurationSavant { get; set; }
     [Tag(Type = TagType.T2024)] public bool SwapEvocationSavant { get; set; }
     [Tag(Type = TagType.T2024)] public bool SwapEvocationPotentCantripAndSculptSpell { get; set; }
+    public bool EvocationSculptSpellNoPerception { get; set; }
     [Tag(Type = TagType.T2024)] public bool EnableMartialChampion2024 { get; set; }
     public SerializableDictionary<string, int> KlassListSliderPosition { get; set; } = [];
     public SerializableDictionary<string, List<string>> KlassListSubclassEnabled { get; set; } = [];
