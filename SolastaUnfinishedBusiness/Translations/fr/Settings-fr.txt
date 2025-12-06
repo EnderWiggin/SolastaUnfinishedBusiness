@@ -346,6 +346,7 @@ ModUi/&OneDnd=<color=#F0DAA0>Jeux de société <i>[5e 2024]</i> :</color>
 ModUi/&OnlyShowMostPowerfulUpcastConjuredElementalOrFey=<i>+ Afficher uniquement les créatures les plus puissantes dans la liste de conjuration</i>
 ModUi/&OpenAIAdvancedSettings=<color=#F0DAA0>Paramètres avancés :</color>
 ModUi/&OpenAIApiKey=Clé API
+ModUi/&OpenAIDefaultSystemPrompt=Vous êtes un traducteur professionnel. Traduisez le texte suivant en {targetLanguage}. Conservez la mise en forme originale, préservez tous les caractères spéciaux ou balisage. Ne produisez que le texte traduit, rien d'autre.
 ModUi/&OpenAIEndpoint=URL du point de terminaison
 ModUi/&OpenAIModel=Modèle
 ModUi/&OpenAISettings=<color=#F0DAA0>Paramètres OpenAI :</color>

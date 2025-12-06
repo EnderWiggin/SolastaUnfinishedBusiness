@@ -346,6 +346,7 @@ ModUi/&OneDnd=<color=#F0DAA0>Tischplatte <i>[5e 2024]</i>:</color>
 ModUi/&OnlyShowMostPowerfulUpcastConjuredElementalOrFey=<i>+ Nur die mächtigsten Kreaturen in der Beschwörungsliste anzeigen</i>
 ModUi/&OpenAIAdvancedSettings=<color=#F0DAA0>Erweiterte Einstellungen:</color>
 ModUi/&OpenAIApiKey=API-Schlüssel
+ModUi/&OpenAIDefaultSystemPrompt=Du bist ein professioneller Übersetzer. Übersetze den folgenden Text ins {targetLanguage}. Behalte die ursprüngliche Formatierung bei, bewahre alle Sonderzeichen oder Markups. Gib nur den übersetzten Text aus, sonst nichts.
 ModUi/&OpenAIEndpoint=Endpunkt-URL
 ModUi/&OpenAIModel=Modell
 ModUi/&OpenAISettings=<color=#F0DAA0>OpenAI-Einstellungen:</color>

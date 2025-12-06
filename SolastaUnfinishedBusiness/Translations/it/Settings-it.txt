@@ -346,6 +346,7 @@ ModUi/&OneDnd=<color=#F0DAA0>Tavolo <i>[5e 2024]</i>:</color>
 ModUi/&OnlyShowMostPowerfulUpcastConjuredElementalOrFey=<i>+ Mostra solo le creature più potenti nell'elenco delle evocazioni</i>
 ModUi/&OpenAIAdvancedSettings=<color=#F0DAA0>Impostazioni Avanzate:</color>
 ModUi/&OpenAIApiKey=Chiave API
+ModUi/&OpenAIDefaultSystemPrompt=Sei un traduttore professionista. Traduci il seguente testo in {targetLanguage}. Mantieni la formattazione originale, preserva eventuali caratteri speciali o markup. Restituisci solo il testo tradotto, nient'altro.
 ModUi/&OpenAIEndpoint=URL Endpoint
 ModUi/&OpenAIModel=Modello
 ModUi/&OpenAISettings=<color=#F0DAA0>Impostazioni OpenAI:</color>

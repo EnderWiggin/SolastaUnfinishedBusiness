@@ -162,10 +162,6 @@ internal static class DungeonMakerDisplay
 
         UI.Label();
 
-        if (Main.Settings.SelectedTranslationService == TranslationServiceType.OpenAI)
-        {
-            DisplayOpenAISettings();
-        }
 
         using (UI.HorizontalScope())
         {
@@ -181,6 +177,11 @@ internal static class DungeonMakerDisplay
             {
                 Main.Settings.SelectedLanguageCode = TranslatorContext.AvailableLanguages[intValue];
             }
+        }
+
+        if (Main.Settings.SelectedTranslationService == TranslationServiceType.OpenAI)
+        {
+            DisplayOpenAISettings();
         }
 
         UI.Label();
@@ -504,7 +505,7 @@ internal static class DungeonMakerDisplay
             UI.Label(Gui.Localize("ModUi/&OpenAISystemPrompt"), UI.Width(LabelWidth));
 
             UI.ActionButton(Gui.Localize("ModUi/&Reset"),
-                () => Main.Settings.OpenAISystemPrompt = OpenAITranslationService.DefaultSystemPrompt,
+                () => Main.Settings.OpenAISystemPrompt = OpenAITranslationService.GetLocalizedDefaultPrompt(),
                 UI.Width(ResetButtonWidth));
         }
 

@@ -351,6 +351,7 @@ ModUi/&OpenAIModel=模型
 ModUi/&OpenAISettings=<color=#F0DAA0>OpenAI 设置：</color>
 ModUi/&OpenAISystemPrompt=系统提示词
 ModUi/&OpenAISystemPromptHelp=<i><color=#F0DAA0>[使用 {targetLanguage} 作为目标语言名称的占位符]</color></i>
+ModUi/&OpenAIDefaultSystemPrompt=你是一位专业翻译。请将以下文本翻译成{targetLanguage}。保持原有格式，保留所有特殊字符和标记。只输出翻译后的文本，不要输出其他任何内容。
 ModUi/&OpenAITemperature=温度
 ModUi/&OpenAITopK=Top K
 ModUi/&OpenAITopP=Top P

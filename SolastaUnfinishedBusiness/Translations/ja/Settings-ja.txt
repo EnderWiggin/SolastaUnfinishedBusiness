@@ -346,6 +346,7 @@ ModUi/&OneDnd=<color=#F0DAA0>テーブルトップ <i>[5e 2024]</i>:</color>
 ModUi/&OnlyShowMostPowerfulUpcastConjuredElementalOrFey=<i>+ 召喚リストに最も強力なクリーチャーのみを表示する</i>
 ModUi/&OpenAIAdvancedSettings=<color=#F0DAA0>詳細設定:</color>
 ModUi/&OpenAIApiKey=APIキー
+ModUi/&OpenAIDefaultSystemPrompt=あなたはプロの翻訳者です。以下のテキストを{targetLanguage}に翻訳してください。元の書式を保持し、特殊文字やマークアップはそのまま残してください。翻訳されたテキストのみを出力し、他には何も含めないでください。
 ModUi/&OpenAIEndpoint=エンドポイントURL
 ModUi/&OpenAIModel=モデル
 ModUi/&OpenAISettings=<color=#F0DAA0>OpenAI設定:</color>

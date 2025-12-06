@@ -24,7 +24,15 @@ internal sealed class OpenAITranslationService : ITranslationService
     internal const float DefaultTopP = 1.0f;
     internal const int DefaultTopK = 0;
 
-    internal const string DefaultSystemPrompt =
+    /// <summary>
+    ///     Localization key for the default system prompt.
+    /// </summary>
+    internal const string DefaultSystemPromptKey = "ModUi/&OpenAIDefaultSystemPrompt";
+
+    /// <summary>
+    ///     Fallback system prompt when localization is not available.
+    /// </summary>
+    internal const string FallbackSystemPrompt =
         "You are a professional translator. Translate the following text to {targetLanguage}. " +
         "Keep the original formatting, preserve any special characters or markup. " +
         "Only output the translated text, nothing else.";
@@ -180,5 +188,22 @@ internal sealed class OpenAITranslationService : ITranslationService
             "zh-CN" => "Simplified Chinese",
             _ => languageCode
         };
+    }
+
+    /// <summary>
+    ///     Gets the localized default system prompt for the current UI language.
+    /// </summary>
+    /// <returns>The localized system prompt, or the fallback if not available.</returns>
+    internal static string GetLocalizedDefaultPrompt()
+    {
+        var localizedPrompt = Gui.Localize(DefaultSystemPromptKey);
+        
+        // If localization returns the key itself or is empty, use fallback
+        if (string.IsNullOrEmpty(localizedPrompt) || localizedPrompt == DefaultSystemPromptKey)
+        {
+            return FallbackSystemPrompt;
+        }
+
+        return localizedPrompt;
     }
 }

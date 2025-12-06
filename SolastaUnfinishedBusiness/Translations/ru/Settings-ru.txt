@@ -346,6 +346,7 @@ ModUi/&OneDnd=<color=#F0DAA0>Настольные правила <i>[5e 2024]</i
 ModUi/&OnlyShowMostPowerfulUpcastConjuredElementalOrFey=<i>+ Показывать только самых мощных существ в списке призыва</i>
 ModUi/&OpenAIAdvancedSettings=<color=#F0DAA0>Расширенные настройки:</color>
 ModUi/&OpenAIApiKey=API-ключ
+ModUi/&OpenAIDefaultSystemPrompt=Вы профессиональный переводчик. Переведите следующий текст на {targetLanguage}. Сохраните исходное форматирование, не изменяйте специальные символы или разметку. Выведите только переведённый текст, больше ничего.
 ModUi/&OpenAIEndpoint=URL конечной точки
 ModUi/&OpenAIModel=Модель
 ModUi/&OpenAISettings=<color=#F0DAA0>Настройки OpenAI:</color>
