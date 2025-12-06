@@ -293,6 +293,7 @@ public class Settings : UnityModManager.ModSettings
     public bool ShowCraftingRecipeInDetailedTooltips { get; set; }
     public bool ShowCraftedItemOnRecipeIcon { get; set; }
     public bool SwapCraftedItemAndRecipeIcons { get; set; }
+    public bool LearnAllScrollRecipes { get; set; }
     public int RecipeCost { get; set; } = 200;
     public int TotalCraftingTimeModifier { get; set; }
     public bool AddNewWeaponsAndRecipesToShops { get; set; }

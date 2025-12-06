@@ -101,6 +101,25 @@ public static class GameLocationManagerPatcher
                 gameLoreService.LearnRecipe(RecipeBasic_Bolts);
             }
 
+            if (Main.Settings.LearnAllScrollRecipes)
+            {
+                foreach (var item in DatabaseRepository.GetDatabase<ItemDefinition>())
+                {
+                    if (item != null)
+                    {
+                        var recipe = item.DocumentDescription?.RecipeDefinition;
+                        if (recipe && recipe.SpellDefinition)
+                        {
+                            if (!gameLoreService.KnownRecipes.Contains(recipe))
+                            {
+                                if (recipe.Name != "RecipeScroll_L8_AnimalShapes"
+                                    && recipe.Name != "RecipeScroll_L2_OfMirrorImage") gameLoreService.LearnRecipe(recipe);
+                            }
+                        }
+                    }
+                }
+            }
+
             //PATCH: remove carefully tracked dynamic item properties that have effect guid, but effect is removed
             //fixes Inventor's Infusions sometimes breaking and lingering forever without ability to remove them
             TrackItemsCarefully.FixDynamicPropertiesWithoutEffect();

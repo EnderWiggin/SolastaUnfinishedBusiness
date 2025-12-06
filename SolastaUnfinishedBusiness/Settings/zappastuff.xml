@@ -630,6 +630,7 @@
     <ShowCraftingRecipeInDetailedTooltips>true</ShowCraftingRecipeInDetailedTooltips>
     <ShowCraftedItemOnRecipeIcon>true</ShowCraftedItemOnRecipeIcon>
     <SwapCraftedItemAndRecipeIcons>true</SwapCraftedItemAndRecipeIcons>
+    <LearnAllScrollRecipes>false</LearnAllScrollRecipes>
     <RecipeCost>200</RecipeCost>
     <TotalCraftingTimeModifier>0</TotalCraftingTimeModifier>
     <AddNewWeaponsAndRecipesToShops>true</AddNewWeaponsAndRecipesToShops>
