@@ -1,3 +1,8 @@
+1.5.97.111:
+- fixed crash if `SourceRageStop` condition interruption is triggered during travel
+- Added option to learn all scroll crafting recipes (PR by andragor)
+- Reworked User Campaign translation tool (PR by magicskysword)
+
 1.5.97.110:
 - merged nickabbey's PR with `Swashbuckler` Rougue subclass
 - added option for 2024 `Chill Touch` cantrip
