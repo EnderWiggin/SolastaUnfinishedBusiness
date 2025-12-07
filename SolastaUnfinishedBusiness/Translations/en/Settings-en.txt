@@ -430,6 +430,7 @@ ModUi/&OpenAITopP=Top P
 ModUi/&OpenAITopK=Top K
 ModUi/&OpenAISystemPrompt=System Prompt
 ModUi/&OpenAISystemPromptHelp=<i><color=#F0DAA0>[Use {targetLanguage} as placeholder for the target language name]</color></i>
+ModUi/&OpenAIDefaultSystemPrompt=You are a professional translator. Translate the following text to {targetLanguage}. Keep the original formatting, preserve any special characters or markup. Only output the translated text, nothing else.
 ModUi/&Reset=Reset
 ModUi/&Pause=Pause
 ModUi/&Resume=Resume

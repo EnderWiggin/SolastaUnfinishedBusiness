@@ -330,7 +330,7 @@ public class Settings : UnityModManager.ModSettings
     public int OpenAITopK { get; set; } = OpenAITranslationService.DefaultTopK;
 
     public string OpenAISystemPrompt { get; set; } =
-        OpenAITranslationService.DefaultSystemPrompt;
+        OpenAITranslationService.FallbackSystemPrompt;
 
     /// <summary>
     ///     Number of concurrent translation tasks (1-10).

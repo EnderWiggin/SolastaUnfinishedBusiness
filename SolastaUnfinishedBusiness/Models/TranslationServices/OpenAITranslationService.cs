@@ -1,4 +1,5 @@
 using System;
+using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading;
@@ -23,12 +24,55 @@ internal sealed class OpenAITranslationService : ITranslationService
     internal const float DefaultTopP = 1.0f;
     internal const int DefaultTopK = 0;
 
-    internal const string DefaultSystemPrompt =
+    /// <summary>
+    ///     Localization key for the default system prompt.
+    /// </summary>
+    internal const string DefaultSystemPromptKey = "ModUi/&OpenAIDefaultSystemPrompt";
+
+    /// <summary>
+    ///     Fallback system prompt when localization is not available.
+    /// </summary>
+    internal const string FallbackSystemPrompt =
         "You are a professional translator. Translate the following text to {targetLanguage}. " +
         "Keep the original formatting, preserve any special characters or markup. " +
         "Only output the translated text, nothing else.";
 
-    private static readonly HttpClient HttpClient = new();
+    private static readonly HttpClient HttpClient;
+    private static bool _servicePointConfigured;
+
+    static OpenAITranslationService()
+    {
+        HttpClient = new HttpClient
+        {
+            Timeout = TimeSpan.FromMinutes(10) // LLM requests can take a long time
+        };
+    }
+
+    /// <summary>
+    ///     Configures ServicePoint for high concurrency. Call before making requests.
+    /// </summary>
+    private static void EnsureServicePointConfigured(string endpoint)
+    {
+        if (_servicePointConfigured)
+        {
+            return;
+        }
+
+        try
+        {
+            ServicePointManager.DefaultConnectionLimit = int.MaxValue;
+            
+            var uri = new Uri(endpoint);
+            var servicePoint = ServicePointManager.FindServicePoint(uri);
+            servicePoint.ConnectionLimit = int.MaxValue;
+            
+            _servicePointConfigured = true;
+        }
+        catch (Exception ex)
+        {
+            Main.Error($"Failed to configure ServicePoint: {ex.Message}");
+        }
+    }
 
     public string Name => "OpenAI";
 
@@ -45,6 +89,9 @@ internal sealed class OpenAITranslationService : ITranslationService
             var apiKey = GetApiKey();
             var baseEndpoint = Main.Settings.OpenAIEndpoint.TrimEnd('/');
             var endpoint = $"{baseEndpoint}/chat/completions";
+            
+            EnsureServicePointConfigured(baseEndpoint);
+            
             var model = Main.Settings.OpenAIModel;
             var temperature = Main.Settings.OpenAITemperature;
             var topP = Main.Settings.OpenAITopP;
@@ -141,5 +188,22 @@ internal sealed class OpenAITranslationService : ITranslationService
             "zh-CN" => "Simplified Chinese",
             _ => languageCode
         };
+    }
+
+    /// <summary>
+    ///     Gets the localized default system prompt for the current UI language.
+    /// </summary>
+    /// <returns>The localized system prompt, or the fallback if not available.</returns>
+    internal static string GetLocalizedDefaultPrompt()
+    {
+        var localizedPrompt = Gui.Localize(DefaultSystemPromptKey);
+        
+        // If localization returns the key itself or is empty, use fallback
+        if (string.IsNullOrEmpty(localizedPrompt) || localizedPrompt == DefaultSystemPromptKey)
+        {
+            return FallbackSystemPrompt;
+        }
+
+        return localizedPrompt;
     }
 }

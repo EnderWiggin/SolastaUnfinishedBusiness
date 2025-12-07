@@ -346,6 +346,7 @@ ModUi/&OneDnd=<color=#F0DAA0>테이블탑<i>[5e 2024]</i>:</color>
 ModUi/&OnlyShowMostPowerfulUpcastConjuredElementalOrFey=<i>+ 소환 목록에서 가장 강력한 생물만 표시합니다.</i>
 ModUi/&OpenAIAdvancedSettings=<color=#F0DAA0>고급 설정:</color>
 ModUi/&OpenAIApiKey=API 키
+ModUi/&OpenAIDefaultSystemPrompt=당신은 전문 번역가입니다. 다음 텍스트를 {targetLanguage}로 번역하세요. 원본 서식을 유지하고, 특수 문자나 마크업을 보존하세요. 번역된 텍스트만 출력하고, 그 외에는 아무것도 출력하지 마세요.
 ModUi/&OpenAIEndpoint=엔드포인트 URL
 ModUi/&OpenAIModel=모델
 ModUi/&OpenAISettings=<color=#F0DAA0>OpenAI 설정:</color>

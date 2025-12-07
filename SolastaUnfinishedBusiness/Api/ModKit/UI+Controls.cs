@@ -514,7 +514,7 @@ internal static partial class UI
             using (VerticalScope(AutoWidth()))
             {
                 Space((float)(SliderTop - 0).Point());
-                ActionButton("Reset", () => { newValue = defaultValue; }, AutoWidth());
+                ActionButton(Gui.Localize("ModUi/&Reset"), () => { newValue = defaultValue; }, AutoWidth());
                 Space((float)SliderBottom.Point());
             }
         }

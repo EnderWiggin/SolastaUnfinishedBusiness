@@ -346,6 +346,7 @@ ModUi/&OneDnd=<color=#F0DAA0>Mesa <i>[5e 2024]</i>:</color>
 ModUi/&OnlyShowMostPowerfulUpcastConjuredElementalOrFey=<i>+ Mostrar apenas as criaturas mais poderosas na lista de conjuração</i>
 ModUi/&OpenAIAdvancedSettings=<color=#F0DAA0>Configurações Avançadas:</color>
 ModUi/&OpenAIApiKey=Chave da API
+ModUi/&OpenAIDefaultSystemPrompt=Você é um tradutor profissional. Traduza o texto a seguir para {targetLanguage}. Mantenha a formatação original, preserve quaisquer caracteres especiais ou marcações. Forneça apenas o texto traduzido, nada mais.
 ModUi/&OpenAIEndpoint=URL do Endpoint
 ModUi/&OpenAIModel=Modelo
 ModUi/&OpenAISettings=<color=#F0DAA0>Configurações da OpenAI:</color>
