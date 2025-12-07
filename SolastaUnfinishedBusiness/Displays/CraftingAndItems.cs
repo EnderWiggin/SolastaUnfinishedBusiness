@@ -318,6 +318,12 @@ internal static class CraftingAndItems
             }
         }
 
+        toggle = Main.Settings.LearnAllScrollRecipes;
+        if (UI.Toggle(Gui.Localize("ModUi/&LearnAllScrollRecipes"), ref toggle, UI.AutoWidth()))
+        {
+            Main.Settings.LearnAllScrollRecipes = toggle;
+        }
+
         UI.Label();
 
         var intValue = Main.Settings.RecipeCost;
