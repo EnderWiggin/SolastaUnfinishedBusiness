@@ -511,10 +511,26 @@ public static class RulesetCharacterPatcher
 
             var characterService = ServiceRepository.GetService<IGameLocationCharacterService>();
 
-            foreach (var targetRulesetCharacter in characterService.AllValidEntities
-                         .Select(x => x.RulesetActor)
-                         .OfType<RulesetCharacter>()
-                         .ToArray())
+            List<RulesetCharacter> allCharacters = [];
+            if (characterService != null)
+            {
+                allCharacters.AddRange(characterService.AllValidEntities
+                    .Select(x => x.RulesetActor)
+                    .OfType<RulesetCharacter>());
+            }
+            else
+            {
+                var party = ServiceRepository.GetService<IGameService>().Game.GameCampaign.Party;
+
+                allCharacters.AddRange(party.CharactersList
+                    .Select(x => x.RulesetCharacter));
+
+                //Not sure if we need to check guests - most likely these things are hero-only
+                allCharacters.AddRange(party.GuestCharactersList
+                    .Select(x => x.RulesetCharacter));
+            }
+
+            foreach (var targetRulesetCharacter in allCharacters)
             {
                 // need ToArray to avoid enumerator issues with RemoveCondition
                 foreach (var rulesetCondition in targetRulesetCharacter.ConditionsByCategory
