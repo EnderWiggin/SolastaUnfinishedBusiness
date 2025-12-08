@@ -1,20 +1,14 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
-using System.Net;
-using System.Security.Cryptography;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Web;
 using I2.Loc;
 using JetBrains.Annotations;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using SolastaUnfinishedBusiness.Api.LanguageExtensions;
 using TMPro;
 using UnityEngine;
 
@@ -33,8 +27,6 @@ internal static class TranslatorContext
     private const string UnofficialLanguagesFolderPrefix = "UnofficialTranslations/";
 
     internal const string English = "en";
-
-    private static readonly Dictionary<string, string> TranslationsCache = new();
 
     internal static readonly string[] AvailableLanguages =
     [
@@ -245,84 +237,6 @@ internal static class TranslatorContext
 
             Main.Info($"Font asset {fontName} loaded.");
         }
-    }
-
-    [NotNull]
-    private static string GetPayload([NotNull] string url)
-    {
-        using var wc = new WebClient();
-
-        wc.Headers.Add("user-agent",
-            "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36");
-        wc.Encoding = Encoding.UTF8;
-
-        return wc.DownloadString(url);
-    }
-
-    [NotNull]
-    private static string GetMd5Hash([NotNull] string input)
-    {
-        var builder = new StringBuilder();
-        var md5Hash = MD5.Create();
-        var payload = md5Hash.ComputeHash(Encoding.UTF8.GetBytes(input));
-
-        foreach (var item in payload)
-        {
-            builder.Append(item.ToString("x2"));
-        }
-
-        return builder.ToString();
-    }
-
-    private static string TranslateGoogle(string sourceText, string targetCode)
-    {
-        const string BASE = "https://translate.googleapis.com/translate_a/single";
-
-        try
-        {
-            var encoded = HttpUtility.UrlEncode(sourceText);
-            var url = $"{BASE}?client=gtx&sl=auto&tl={targetCode}&dt=t&q={encoded}";
-            var payload = GetPayload(url);
-            var json = JsonConvert.DeserializeObject(payload);
-            var result = string.Empty;
-
-            if (json is not JArray outerArray)
-            {
-                return sourceText;
-            }
-
-            return outerArray.First() is not JArray terms
-                ? sourceText
-                : terms.Aggregate(result, (current, term) => current + term.First());
-        }
-        catch
-        {
-            Main.Error("Failed translating: " + sourceText);
-
-            return sourceText;
-        }
-    }
-
-    private static string Translate([NotNull] string sourceText, string targetCode)
-    {
-        if (sourceText == string.Empty)
-        {
-            return string.Empty;
-        }
-
-        var md5 = GetMd5Hash(sourceText);
-
-        if (TranslationsCache.TryGetValue(md5, out var cachedTranslation))
-        {
-            return cachedTranslation;
-        }
-
-        var service = TranslationServices.TranslationServiceFactory.GetCurrentService();
-        var translation = service.TranslateAsync(sourceText.Replace("_", " "), targetCode).GetAwaiter().GetResult();
-
-        TranslationsCache.Add(md5, translation);
-
-        return translation;
     }
 
     private static bool IsModTerm(string fullName, string languageCode)
