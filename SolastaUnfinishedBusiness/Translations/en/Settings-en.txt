@@ -420,6 +420,7 @@ ModUi/&Translate=Translate
 ModUi/&TranslateCancel=Cancel {0} at {1}
 ModUi/&Translations=<color=#F0DAA0>Translations:</color>
 ModUi/&TranslationService=Translation Service
+ModUi/&TranslationServiceNotConfigured={0} is not configured!
 ModUi/&OpenAISettings=<color=#F0DAA0>OpenAI Settings:</color>
 ModUi/&OpenAIAdvancedSettings=<color=#F0DAA0>Advanced Settings:</color>
 ModUi/&OpenAIEndpoint=Endpoint URL

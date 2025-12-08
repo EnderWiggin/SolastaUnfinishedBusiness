@@ -89,9 +89,9 @@ internal sealed class OpenAITranslationService : ITranslationService
             var apiKey = GetApiKey();
             var baseEndpoint = Main.Settings.OpenAIEndpoint.TrimEnd('/');
             var endpoint = $"{baseEndpoint}/chat/completions";
-            
+
             EnsureServicePointConfigured(baseEndpoint);
-            
+
             var model = Main.Settings.OpenAIModel;
             var temperature = Main.Settings.OpenAITemperature;
             var topP = Main.Settings.OpenAITopP;
@@ -124,7 +124,7 @@ internal sealed class OpenAITranslationService : ITranslationService
             if (!response.IsSuccessStatusCode)
             {
                 Main.Error($"OpenAI API error: {response.StatusCode} - {responseContent}");
-                return sourceText;
+                throw new AccessViolationException($"OpenAI API error: {response.StatusCode} - {responseContent}");
             }
 
             var responseJson = JObject.Parse(responseContent);
@@ -136,10 +136,14 @@ internal sealed class OpenAITranslationService : ITranslationService
         {
             throw; // Re-throw cancellation
         }
+        catch (AccessViolationException)
+        {
+            throw;
+        }
         catch (Exception ex)
         {
             Main.Error($"OpenAI translation failed: {ex.Message}");
-            return sourceText;
+            throw;
         }
     }
 

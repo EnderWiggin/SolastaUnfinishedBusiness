@@ -130,7 +130,20 @@ internal static class DungeonMakerDisplay
         UI.Label();
         UI.Label(Gui.Format("ModUi/&Translations"));
         UI.Label();
+        
+        using (UI.HorizontalScope())
+        {
+            UI.Label(Gui.Localize("ModUi/&TranslationConcurrency"), UI.Width(150f));
 
+            var concurrency = Main.Settings.TranslationConcurrency;
+            if (UI.Slider(ref concurrency, 1, CampaignTranslationExecutor.MaxTranslationConcurrency, 1, string.Empty, UI.Width(200f)))
+            {
+                Main.Settings.TranslationConcurrency = concurrency;
+            }
+
+            UI.Label($"{concurrency}".Cyan(), UI.Width(30f));
+        }
+        
         using (UI.HorizontalScope())
         {
             UI.Label(Gui.Localize("ModUi/&TranslationService"), UI.Width(150f));
@@ -147,17 +160,18 @@ internal static class DungeonMakerDisplay
             }
         }
 
-        using (UI.HorizontalScope())
+        if (Main.Settings.SelectedTranslationService == TranslationServiceType.OpenAI)
         {
-            UI.Label(Gui.Localize("ModUi/&TranslationConcurrency"), UI.Width(150f));
+            DisplayOpenAISettings();
+        }
 
-            var concurrency = Main.Settings.TranslationConcurrency;
-            if (UI.Slider(ref concurrency, 1, CampaignTranslationExecutor.MaxTranslationConcurrency, 1, string.Empty, UI.Width(200f)))
-            {
-                Main.Settings.TranslationConcurrency = concurrency;
-            }
-
-            UI.Label($"{concurrency}".Cyan(), UI.Width(30f));
+        var translationService = TranslationServiceFactory.GetCurrentService();
+        if (!translationService.IsConfigured())
+        {
+            //Show error that translation service is not configured
+            UI.Label(Gui.Format("ModUi/&TranslationServiceNotConfigured", translationService.Name).Bold().Red());
+            UI.Label();
+            return;
         }
 
         UI.Label();
@@ -177,11 +191,6 @@ internal static class DungeonMakerDisplay
             {
                 Main.Settings.SelectedLanguageCode = TranslatorContext.AvailableLanguages[intValue];
             }
-        }
-
-        if (Main.Settings.SelectedTranslationService == TranslationServiceType.OpenAI)
-        {
-            DisplayOpenAISettings();
         }
 
         UI.Label();
@@ -249,20 +258,25 @@ internal static class DungeonMakerDisplay
         switch (task.Status)
         {
             case CampaignTranslationStatus.Running:
-                UI.ActionButton(Gui.Localize("ModUi/&Pause"), () => task.Pause(), UI.Width(60f));
+                UI.ActionButton(Gui.Localize("ModUi/&Pause"), () => task.Pause(), UI.Width(75f));
                 UI.ActionButton(Gui.Localize("ModUi/&Cancel"), () => CampaignTranslationExecutor.CancelTask(task.CampaignTitle),
-                    UI.Width(60f));
+                    UI.Width(75f));
                 break;
 
             case CampaignTranslationStatus.Paused:
-                UI.ActionButton(Gui.Localize("ModUi/&Resume"), () => task.Resume(), UI.Width(60f));
+                UI.ActionButton(Gui.Localize("ModUi/&Resume"), () => task.Resume(), UI.Width(75f));
                 UI.ActionButton(Gui.Localize("ModUi/&Cancel"), () => CampaignTranslationExecutor.CancelTask(task.CampaignTitle),
-                    UI.Width(60f));
+                    UI.Width(75f));
                 break;
 
             case CampaignTranslationStatus.Completed when task.FailedItems > 0:
                 UI.ActionButton(Gui.Localize("ModUi/&RetryFailed"),
-                    () => CampaignTranslationExecutor.RetryFailedItems(task.CampaignTitle, userCampaign), UI.Width(80f));
+                    () => CampaignTranslationExecutor.RetryFailedItems(task.CampaignTitle, userCampaign), UI.Width(100f));
+                break;
+            
+            case CampaignTranslationStatus.Failed:
+                UI.ActionButton(Gui.Localize("ModUi/&RetryFailed"),
+                    () => CampaignTranslationExecutor.CancelTask(task.CampaignTitle), UI.Width(100f));
                 break;
         }
     }

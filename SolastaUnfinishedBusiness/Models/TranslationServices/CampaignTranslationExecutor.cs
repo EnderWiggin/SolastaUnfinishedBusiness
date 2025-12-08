@@ -17,7 +17,7 @@ internal sealed class CampaignTranslationExecutor : MonoBehaviour
 {
     internal const string UbTranslationTag = "UB auto translation\n";
 
-    internal const int MaxTranslationConcurrency = 40;
+    internal const int MaxTranslationConcurrency = 10;
 
     private static CampaignTranslationExecutor _instance;
     private static readonly ConcurrentDictionary<string, string> TranslationsCache = new();
@@ -582,6 +582,14 @@ internal sealed class CampaignTranslationExecutor : MonoBehaviour
     {
         task.Status = CampaignTranslationStatus.Running;
         var translationService = TranslationServiceFactory.GetCurrentService();
+
+        if (!translationService.IsConfigured())
+        {
+            task.Status = CampaignTranslationStatus.Failed;
+            task.ErrorMessage = "Translation service is not configured.";
+            return;
+        }
+
         var cancellationToken = task.CancellationTokenSource.Token;
 
         var concurrency = Math.Max(1, Math.Min(MaxTranslationConcurrency, Main.Settings.TranslationConcurrency));
@@ -661,6 +669,12 @@ internal sealed class CampaignTranslationExecutor : MonoBehaviour
             task.Status = CampaignTranslationStatus.Cancelled;
             Main.Info($"Campaign '{task.CampaignTitle}' translation cancelled.");
         }
+        catch (AccessViolationException ex)
+        {
+            Main.Error($"Error while translating campaign '{task.CampaignTitle}': {ex.Message}");
+            task.Status = CampaignTranslationStatus.Failed;
+            task.ErrorMessage = ex.Message;
+        }
         catch (Exception ex)
         {
             task.Status = CampaignTranslationStatus.Failed;
@@ -713,6 +727,7 @@ internal sealed class CampaignTranslationExecutor : MonoBehaviour
                 catch (Exception ex)
                 {
                     Main.Error($"Failed to apply translation: {ex.Message}");
+                    throw;
                 }
             });
 
@@ -727,8 +742,14 @@ internal sealed class CampaignTranslationExecutor : MonoBehaviour
             item.Status = TranslationItemStatus.Pending;
             task.RemoveFromInProgress(item);
         }
+        catch (AccessViolationException ex)
+        {
+            Main.Error($"Access Exception when translating '{item.Key}': {ex.Message}");
+            throw;
+        }
         catch (Exception ex)
         {
+            Main.Error($"Failed to translate item '{item.Key}': {ex.Message}");
             task.MarkItemFailed(item, ex.Message);
         }
         finally
