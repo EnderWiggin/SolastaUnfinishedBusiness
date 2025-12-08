@@ -319,6 +319,7 @@ ModUi/&Items=<color=#F0DAA0>Oggetti:</color>
 ModUi/&ItemsHelp1=<color=#C04040E0>Apri la schermata di ispezione del personaggio per aggiungere oggetti agli eroi...</color>
 ModUi/&ItemsHelp2=<b>Premi + per aggiungere elementi al contenitore di terra</b>
 ModUi/&KeepInvisibilityWhenUsingItems=Abilita l'utilizzo degli oggetti senza interrompere <color=#D89555>Invisibilità</color>
+ModUi/&LearnAllScrollRecipes=Impara tutte le ricette per creare pergamene nel gioco base <i><color=#F0DAA0>[per creare sono ancora necessarie la competenza nel kit pergamene e la conoscenza dell'incantesimo]</color></i>
 ModUi/&LegendaryTweaksDetails=Qui puoi cambiare il tipo di armi di armi leggendarie. Per la sicurezza, fallo mentre l'arma non è attrezzata.
 ModUi/&LegendaryTweaksTitle=<color =#f0daa0> modifiche leggendarie: </ color>
 ModUi/&MakeAllMagicStaveArcaneFoci=Rendi tutti i bastoni magici dei fuochi arcani <i><color=#F0DAA0>[tranne <color=#D89555>Bastone della Guarigione</color> che è Universale]</color></i>
@@ -452,6 +453,7 @@ ModUi/&TranslationFailed=Fallito
 ModUi/&TranslationPaused=In Pausa
 ModUi/&TranslationProgress=Avanzamento
 ModUi/&TranslationService=Servizio di Traduzione
+ModUi/&TranslationServiceNotConfigured={0} non è configurato!
 ModUi/&Translations=<color=#F0DAA0>Traduzioni:</color>
 ModUi/&UnityExplorer=<b><color=#D89555>Interfaccia utente di Unity Explorer</color></b>
 ModUi/&UnleashEnemyAsNpc=Consenti la selezione dei mostri sui gadget NPC

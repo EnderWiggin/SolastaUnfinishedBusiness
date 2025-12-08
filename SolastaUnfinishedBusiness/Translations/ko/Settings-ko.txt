@@ -319,6 +319,7 @@ ModUi/&Items=<color=#F0DAA0>아이템:</color>
 ModUi/&ItemsHelp1=<color=#C04040E0>영웅에게 아이템을 추가하려면 캐릭터 검사 화면을 여세요...</color>
 ModUi/&ItemsHelp2=<b>지상 컨테이너에 아이템을 추가하려면 +를 누르세요.</b>
 ModUi/&KeepInvisibilityWhenUsingItems=아이템 사용을 활성화해도 <color=#D89555>투명성</color>이 깨지지 않습니다.
+ModUi/&LearnAllScrollRecipes=모든 기본 게임 스크롤 제작 레시피를 배우세요 <i><color=#F0DAA0>[스크롤 키트 숙련도 및 주문을 아는 것이 제작에 여전히 필요함]</color></i>
 ModUi/&LegendaryTweaksDetails=여기서 전설적인 무기의 무기 유형을 변경할 수 있습니다. 안전을 위해 무기는 장비가없는 동안이 작업을 수행하십시오.
 ModUi/&LegendaryTweaksTitle=<color =#f0daa0> 전설 조정 : </color>
 ModUi/&MakeAllMagicStaveArcaneFoci=모든 마법 지팡이를 비전 초점으로 만듭니다. <i><color=#F0DAA0>[일반적인 <color=#D89555>치유의 지팡이</color>는 제외]</color></i>
@@ -452,6 +453,7 @@ ModUi/&TranslationFailed=실패함
 ModUi/&TranslationPaused=일시 정지됨
 ModUi/&TranslationProgress=진행률
 ModUi/&TranslationService=번역 서비스
+ModUi/&TranslationServiceNotConfigured={0}이(가) 구성되지 않았습니다!
 ModUi/&Translations=<color=#F0DAA0>번역:</color>
 ModUi/&UnityExplorer=<b><color=#D89555>유니티 익스플로러 UI</color></b>
 ModUi/&UnleashEnemyAsNpc=NPC 가젯에서 몬스터 선택 허용

@@ -319,6 +319,7 @@ ModUi/&Items=<color=#F0DAA0>Artikel:</color>
 ModUi/&ItemsHelp1=<color=#C04040E0>Öffnen Sie den Charakterüberprüfungsbildschirm, um Helden Gegenstände hinzuzufügen...</color>
 ModUi/&ItemsHelp2=<b>Drücken Sie +, um Elemente zum Bodencontainer hinzuzufügen</b>
 ModUi/&KeepInvisibilityWhenUsingItems=Aktivieren Sie die Verwendung von Elementen, ohne die <color=#D89555>Unsichtbarkeit</color> zu beeinträchtigen.
+ModUi/&LearnAllScrollRecipes=Erfahren Sie alle Rezepte für die Herstellung von Schriftrollen im Basisspiel <i><color=#F0DAA0>[Zum Herstellen sind weiterhin Kenntnisse im Schriftrollen-Kit und die Kenntnis des Zaubers erforderlich]</color></i>
 ModUi/&LegendaryTweaksDetails=Hier können Sie legendäre Waffenwaffenwaffen wechseln. Für die Sicherheit tun Sie dies, während die Waffe ungleichmäßig ist.
 ModUi/&LegendaryTweaksTitle=<color =#f0daa0> legendäre Tweaks: </color>
 ModUi/&MakeAllMagicStaveArcaneFoci=Machen Sie alle Zauberstäbe zu arkanen Fokussen <i><color=#F0DAA0>[außer dem <color=#D89555>Stab der Heilung</color>, der universell ist]</color></i>
@@ -452,6 +453,7 @@ ModUi/&TranslationFailed=Fehlgeschlagen
 ModUi/&TranslationPaused=Pausiert
 ModUi/&TranslationProgress=Fortschritt
 ModUi/&TranslationService=Übersetzungsdienst
+ModUi/&TranslationServiceNotConfigured={0} ist nicht konfiguriert!
 ModUi/&Translations=<color=#F0DAA0>Übersetzungen:</color>
 ModUi/&UnityExplorer=<b><color=#D89555>Unity Explorer-Benutzeroberfläche</color></b>
 ModUi/&UnleashEnemyAsNpc=Erlaube die Auswahl von Monstern auf NPC-Geräten

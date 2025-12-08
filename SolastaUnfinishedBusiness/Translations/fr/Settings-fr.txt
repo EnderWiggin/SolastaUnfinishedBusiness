@@ -319,6 +319,7 @@ ModUi/&Items=<color=#F0DAA0>Articles :</color>
 ModUi/&ItemsHelp1=<color=#C04040E0>Ouvrez l'écran d'inspection des personnages pour ajouter des objets aux héros...</color>
 ModUi/&ItemsHelp2=<b>Appuyez sur + pour ajouter des éléments au conteneur au sol</b>
 ModUi/&KeepInvisibilityWhenUsingItems=Activer l'utilisation des objets sans rompre l'<color=#D89555>invisibilité</color>
+ModUi/&LearnAllScrollRecipes=Apprenez toutes les recettes de fabrication de parchemins du jeu de base <i><color=#F0DAA0>[la maîtrise du kit de parchemins et la connaissance du sort sont toujours nécessaires pour la fabrication]</color></i>
 ModUi/&LegendaryTweaksDetails=Ici, vous pouvez changer les armes légendaires de type d'armes. Pour la sécurité, faites cela pendant que l'arme n'est pas équipée.
 ModUi/&LegendaryTweaksTitle=<color = # f0daa0> ajustements légendaires: </pol>
 ModUi/&MakeAllMagicStaveArcaneFoci=Faites de tous les bâtons magiques des foyers arcaniques <i><color=#F0DAA0>[sauf pour <color=#D89555>Bâton de guérison</color> qui est universel]</color></i>
@@ -452,6 +453,7 @@ ModUi/&TranslationFailed=Échec
 ModUi/&TranslationPaused=En pause
 ModUi/&TranslationProgress=Progression
 ModUi/&TranslationService=Service de traduction
+ModUi/&TranslationServiceNotConfigured={0} n'est pas configuré !
 ModUi/&Translations=<color=#F0DAA0>Traductions :</color>
 ModUi/&UnityExplorer=<b><color=#D89555>Interface utilisateur d'Unity Explorer</color></b>
 ModUi/&UnleashEnemyAsNpc=Autoriser la sélection des monstres sur les gadgets PNJ

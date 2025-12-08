@@ -319,6 +319,7 @@ ModUi/&Items=<color=#F0DAA0>商品:</color>
 ModUi/&ItemsHelp1=<color=#C04040E0>打开角色检查屏幕为英雄添加物品...</color>
 ModUi/&ItemsHelp2=<b>按 + 将物品添加到地面容器</b>
 ModUi/&KeepInvisibilityWhenUsingItems=启用物品使用不会破坏<color=#D89555>隐形</color>
+ModUi/&LearnAllScrollRecipes=了解所有基础游戏卷轴制作配方<i><color=#F0DAA0>[卷轴套件熟练度和了解咒语仍需要制作]</color></i>
 ModUi/&LegendaryTweaksDetails=在这里，您可以更改武器类型的传奇武器。为了安全起见，武器没有装备时。
 ModUi/&LegendaryTweaksTitle=<color =＃f0daa0>传奇调整：</color>
 ModUi/&MakeAllMagicStaveArcaneFoci=让所有魔法杖都成为奥术焦点<i><color=#F0DAA0>[除了<color=#D89555>治疗法杖</color>是通用的]</color></i>
@@ -346,12 +347,12 @@ ModUi/&OneDnd=<color=#F0DAA0>桌面<i>[5e 2024]</i>:</color>
 ModUi/&OnlyShowMostPowerfulUpcastConjuredElementalOrFey=<i>+ 仅显示召唤列表中最强大的生物</i>
 ModUi/&OpenAIAdvancedSettings=<color=#F0DAA0>高级设置：</color>
 ModUi/&OpenAIApiKey=API 密钥
+ModUi/&OpenAIDefaultSystemPrompt=你是一位专业翻译。请将以下文本翻译成{targetLanguage}。保持原有格式，保留所有特殊字符和标记。只输出翻译后的文本，不要输出其他任何内容。
 ModUi/&OpenAIEndpoint=API 端点地址
 ModUi/&OpenAIModel=模型
 ModUi/&OpenAISettings=<color=#F0DAA0>OpenAI 设置：</color>
 ModUi/&OpenAISystemPrompt=系统提示词
 ModUi/&OpenAISystemPromptHelp=<i><color=#F0DAA0>[使用 {targetLanguage} 作为目标语言名称的占位符]</color></i>
-ModUi/&OpenAIDefaultSystemPrompt=你是一位专业翻译。请将以下文本翻译成{targetLanguage}。保持原有格式，保留所有特殊字符和标记。只输出翻译后的文本，不要输出其他任何内容。
 ModUi/&OpenAITemperature=温度
 ModUi/&OpenAITopK=Top K
 ModUi/&OpenAITopP=Top P
@@ -452,6 +453,7 @@ ModUi/&TranslationFailed=失败
 ModUi/&TranslationPaused=已暂停
 ModUi/&TranslationProgress=进度
 ModUi/&TranslationService=翻译服务
+ModUi/&TranslationServiceNotConfigured={0} 未配置！
 ModUi/&Translations=<color=#F0DAA0>翻译：</color>
 ModUi/&UnityExplorer=<b><color=#D89555>Unity 资源管理器用户界面</color></b>
 ModUi/&UnleashEnemyAsNpc=允许在 NPC 小工具上选择怪物

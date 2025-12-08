@@ -319,6 +319,7 @@ ModUi/&Items=<color=#F0DAA0>Предметы:</color>
 ModUi/&ItemsHelp1=<color=#C04040E0>Откройте экран персонажа, чтобы добавить предметы героям...</color>
 ModUi/&ItemsHelp2=<b>Нажмите + для добавления предметов в хранилище на земле</b>
 ModUi/&KeepInvisibilityWhenUsingItems=Включить возможность использования предметов без прекращения <color=#D89555>Невидимости</color>
+ModUi/&LearnAllScrollRecipes=Изучите все рецепты изготовления свитков из базовой игры <i><color=#F0DAA0>[для изготовления по-прежнему необходимы знание набора свитков и знание заклинания]</color></i>
 ModUi/&LegendaryTweaksDetails=Здесь вы можете изменить тип оружия легендарного оружия. Для безопасности делайте это, пока оружие не экипировано.
 ModUi/&LegendaryTweaksTitle=<color =#f0daa0> Легендарные настройки: </color>
 ModUi/&MakeAllMagicStaveArcaneFoci=Сделать все волшебные посохи подходящими для магической фокусировки <i><color=#F0DAA0>[кроме <color=#D89555>Посоха лечения</color>, который является универсальным]</color></i>
@@ -452,6 +453,7 @@ ModUi/&TranslationFailed=Не удалось
 ModUi/&TranslationPaused=Приостановлено
 ModUi/&TranslationProgress=Прогресс
 ModUi/&TranslationService=Сервис перевода
+ModUi/&TranslationServiceNotConfigured={0} не настроен!
 ModUi/&Translations=<color=#F0DAA0>Переводы:</color>
 ModUi/&UnityExplorer=<b><color=#D89555>Интерфейс Unity Explorer</color></b>
 ModUi/&UnleashEnemyAsNpc=Позволить выбирать монстров в качестве НИП-предметов

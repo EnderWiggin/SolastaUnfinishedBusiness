@@ -319,6 +319,7 @@ ModUi/&Items=<color=#F0DAA0>Artículos:</color>
 ModUi/&ItemsHelp1=<color=#C04040E0>Abre la pantalla de inspección de personajes para agregar elementos a los héroes...</color>
 ModUi/&ItemsHelp2=<b>Presione + para agregar elementos al contenedor de tierra</b>
 ModUi/&KeepInvisibilityWhenUsingItems=Habilitar el uso de elementos que no alteren la <color=#D89555>invisibilidad</color>
+ModUi/&LearnAllScrollRecipes=Aprende todas las recetas de elaboración de pergaminos del juego base <i><color=#F0DAA0>[el dominio del kit de pergaminos y el conocimiento del hechizo aún son necesarios para crear]</color></i>
 ModUi/&LegendaryTweaksDetails=Aquí puedes cambiar el tipo de armas de armas legendarias. Por seguridad haz esto mientras que el arma no está equipado.
 ModUi/&LegendaryTweaksTitle=<color =#f0daa0> Tweaks legendarios: </ color>
 ModUi/&MakeAllMagicStaveArcaneFoci=Convierte todos los bastones mágicos en focos arcanos. <i><color=#F0DAA0>[excepto el <color=#D89555>Bastón de sanación</color>, que es universal]</color></i>
@@ -452,6 +453,7 @@ ModUi/&TranslationFailed=Fallido
 ModUi/&TranslationPaused=Pausado
 ModUi/&TranslationProgress=Progreso
 ModUi/&TranslationService=Servicio de Traducción
+ModUi/&TranslationServiceNotConfigured=¡{0} no está configurado!
 ModUi/&Translations=<color=#F0DAA0>Traducciones:</color>
 ModUi/&UnityExplorer=<b><color=#D89555>Interfaz de usuario de Unity Explorer</color></b>
 ModUi/&UnleashEnemyAsNpc=Permitir que se seleccionen monstruos en los dispositivos NPC
