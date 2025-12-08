@@ -289,6 +289,7 @@
     <OverridePartySize>2</OverridePartySize>
     <AllowAllPlayersOnNarrativeSequences>true</AllowAllPlayersOnNarrativeSequences>
     <AddPickPocketableLoot>false</AddPickPocketableLoot>
+    <EnemySpellcastersDropScribedSpellbooks>false</EnemySpellcastersDropScribedSpellbooks>
     <AltOnlyHighlightItemsInPartyFieldOfView>false</AltOnlyHighlightItemsInPartyFieldOfView>
     <EnableAdditionalIconsOnLevelMap>false</EnableAdditionalIconsOnLevelMap>
     <HideExitsAndTeleportersGizmosIfNotDiscovered>false</HideExitsAndTeleportersGizmosIfNotDiscovered>

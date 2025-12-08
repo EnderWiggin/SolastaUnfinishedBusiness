@@ -180,6 +180,7 @@ public class Settings : UnityModManager.ModSettings
     public int OverridePartySize { get; set; } = ToolsContext.GamePartySize;
     public bool AllowAllPlayersOnNarrativeSequences { get; set; }
     public bool AddPickPocketableLoot { get; set; }
+    public bool EnemySpellcastersDropScribedSpellbooks { get; set; }
     public bool AltOnlyHighlightItemsInPartyFieldOfView { get; set; }
     [Tag(Type = TagType.QoL)] public bool EnableAdditionalIconsOnLevelMap { get; set; }
     public bool HideExitsAndTeleportersGizmosIfNotDiscovered { get; set; }
