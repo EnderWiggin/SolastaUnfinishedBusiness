@@ -853,6 +853,8 @@ public static class RulesetCharacterHeroPatcher
 
             //PATCH: remove invalid attacks to prevent hand crossbows use with no free hand
             __instance.AttackModes.RemoveAll(mode => CustomItemsContext.IsAttackModeInvalid(__instance, mode));
+            //PATCH: remove attacks with Off-Hand weapon after Nick was used
+            __instance.AttackModes.RemoveAll(mode => Tabletop2024Context.IsInvalidAttackAfterNick(__instance, mode));
 
             //refresh character if needed after postfix
             if (_callRefresh && __instance.CharacterRefreshed != null)
