@@ -922,15 +922,9 @@ public static partial class Tabletop2024Context
         {
             var attacker = action.ActingCharacter;
 
-            if (action is not CharacterActionAttack { ActionId: Id.AttackMain })
-            {
-                yield break;
-            }
+            if (action is not CharacterActionAttack { ActionId: Id.AttackMain }) { yield break; }
 
-            if (action.ActionType != ActionType.Main)
-            {
-                yield break;
-            }
+            if (action.ActionType != ActionType.Main) { yield break; }
 
             if (attacker.GetSpecialFeatureUses(WeaponMasteryNick) == 1) { yield break; }
 
