@@ -1,3 +1,13 @@
+1.5.97.112:
+- Improvements to Campaign Translator tool:
+ - Limited max concurrency to 10
+ - do not allow translation if service is not configured
+ - display error message when translation fails (still need to wait for whole process to finish)
+- added icon to the `Bloody` infusion
+- Dual Flurry: compare actual items and not item definitions - fixes edge case when dual-wielding same type of weapon and having BA attack with main hand from somewhere
+- Customized attack button name for Monk's `Flurry of Blows` and `One with the Blade` from `Way of B
+- reworked `Nick` mastery to auto-attack with off-hand when attacking with main hand instead of granting extra Bonus Action for attack
+
 1.5.97.111:
 - fixed crash if `SourceRageStop` condition interruption is triggered during travel
 - Added option to learn all scroll crafting recipes (PR by andragor)
