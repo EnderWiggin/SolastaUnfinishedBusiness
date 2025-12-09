@@ -2375,6 +2375,39 @@ public static class RulesetCharacterPatcher
         }
     }
 
+    [HarmonyPatch(typeof(RulesetCharacter), nameof(RulesetCharacter.TerminateAllSpellsAndEffects))]
+    [SuppressMessage("Minor Code Smell", "S101:Types should be named in PascalCase", Justification = "Patch")]
+    [UsedImplicitly]
+    public static class TerminateAllSpellsAndEffects_Patch
+    {
+        [UsedImplicitly]
+        public static bool Prefix(RulesetCharacter __instance)
+        {
+            //PATCH: fixed possibility of collection being modified while iterated upon
+            TerminateAllSpellsAndEffects(__instance);
+            return false;
+        }
+
+        private static void TerminateAllSpellsAndEffects(RulesetCharacter character)
+        {
+            var spellsTopTerminate = character.SpellsCastByMe.ToList();
+            character.spellsCastByMe.Clear();
+
+            var powersToTerminate = character.powersUsedByMe.ToList();
+            character.powersUsedByMe.Clear();
+
+            foreach (var activeSpell in spellsTopTerminate)
+            {
+                character.TerminateSpell(activeSpell, false);
+            }
+
+            foreach (var activePower in powersToTerminate)
+            {
+                character.TerminatePower(activePower, false);
+            }
+        }
+    }
+
     //PATCH: implement IPreventRemoveConcentrationOnPowerUse
     [HarmonyPatch(typeof(RulesetCharacter), nameof(RulesetCharacter.TerminatePower))]
     [SuppressMessage("Minor Code Smell", "S101:Types should be named in PascalCase", Justification = "Patch")]
