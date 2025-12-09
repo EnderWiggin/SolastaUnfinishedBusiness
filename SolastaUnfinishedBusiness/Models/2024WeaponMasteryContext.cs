@@ -928,6 +928,9 @@ public static partial class Tabletop2024Context
 
             if (attacker.GetSpecialFeatureUses(WeaponMasteryNick) == 1) { yield break; }
 
+            var target = action.ActionParams.TargetCharacters[0];
+            if (target.RulesetActor.IsDead) { yield break; }
+
             var rulesetAttacker = attacker.RulesetCharacter;
 
             var attackMode = action.ActionParams.AttackMode;
@@ -950,8 +953,6 @@ public static partial class Tabletop2024Context
             {
                 yield break;
             }
-
-            var target = action.ActionParams.TargetCharacters[0];
 
             var nickAttack = rulesetAttacker.AttackModes.FirstOrDefault(m =>
                 m.ActionType == ActionType.Bonus && m.SourceObject == weapon);
