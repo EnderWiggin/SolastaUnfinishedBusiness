@@ -1,3 +1,7 @@
+1.5.97.113:
+- fixed several crashes related to `Eldritch Surge` warlock patron
+- updated description of Nick mastery
+
 1.5.97.112:
 - Improvements to Campaign Translator tool:
   - Limited max concurrency to 10
