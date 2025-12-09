@@ -56,25 +56,25 @@ internal abstract class RulesetConditionCustom<T> : RulesetCondition, IForceCond
 
     protected abstract void ClearCustomStates();
 
-    protected static T GetFromPoolAndCopyOriginalRulesetCondition(RulesetCondition rulesetCondition)
+    protected T GetFromPoolAndCopyOriginalRulesetCondition(RulesetCondition rulesetCondition)
     {
-        var customCondition = MyObjectPool.Get();
-
-        customCondition.ResetGuid();
-        customCondition.Clear();
-        customCondition.ClearCustomStates();
-
         if (rulesetCondition is T)
         {
-            Main.Error($"Please do not instantiate {nameof(T)} and add to character!");
+            Main.Error($"Please do not instantiate {nameof(T)} and add to character!", true);
             return null;
         }
 
         if (BindingDefinition is null || string.IsNullOrEmpty(Category) || Marker is null)
         {
-            Main.Error($"Custom RulesetCondition {nameof(T)} compulsory fields unset!");
+            Main.Error($"Custom RulesetCondition {nameof(T)} compulsory fields unset!", true);
             return null;
         }
+        
+        var customCondition = MyObjectPool.Get();
+
+        customCondition.ResetGuid();
+        customCondition.Clear();
+        customCondition.ClearCustomStates();
 
         customCondition.targetGuid = rulesetCondition.targetGuid;
         customCondition.conditionDefinition = rulesetCondition.conditionDefinition;
