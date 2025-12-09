@@ -189,7 +189,7 @@ internal static class InventorInfusions
         BuildInfuseItemPowerInvocation(6, name, sprite, IsWeapon,
             FeatureDefinitionAdditionalDamageBuilder
                 .Create($"AdditionalDamage{name}")
-                .SetGuiPresentation(name, Category.Feature)
+                .SetGuiPresentation(name, Category.Feature, ConditionDefinitions.ConditionBleeding)
                 .AddCustomSubFeatures(MagicalDamage)
                 .SetNotificationTag(name)
                 .SetDamageDice(DieType.D6, 2)
