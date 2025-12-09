@@ -12,6 +12,7 @@ using SolastaUnfinishedBusiness.Behaviors;
 using SolastaUnfinishedBusiness.Behaviors.Specific;
 using SolastaUnfinishedBusiness.CustomUI;
 using SolastaUnfinishedBusiness.Models;
+using SolastaUnfinishedBusiness.Subclasses;
 using UnityEngine;
 using UnityEngine.UI;
 using static RuleDefinitions;
@@ -51,6 +52,39 @@ public static class CharacterActionPanelPatcher
         {
             //PATCH: allow cast Quickened and Bonus spell to be small if both present
             CustomActionIdContext.UpdateCastActionForm(guiCharacterAction, __instance.filteredActions);
+        }
+
+        [UsedImplicitly]
+        public static void Postfix(CharacterActionPanel __instance, GuiCharacterAction guiCharacterAction,
+            int itemIndex)
+        {
+            //PATCH: Customize name on the Attack button
+            if (__instance.actionItems.Count <= itemIndex) { return; }
+
+            if (guiCharacterAction.actionId is not ActionDefinitions.Id.AttackOff) { return; }
+
+            var component = __instance.actionItems[itemIndex];
+
+            component.currentItemForm.captionLabel.Text = GetName(guiCharacterAction.ForcedAttackMode?.AttackTags)
+                                                          ?? component.currentItemForm.captionLabel.Text;
+        }
+
+        private static string GetName([CanBeNull] List<string> tags)
+        {
+            if (tags is null || tags.Empty()) { return null; }
+
+            foreach (var tag in tags)
+            {
+                switch (tag)
+                {
+                    case TagsDefinitions.FlurryOfBlows:
+                        return "Action/&FlurryOfBlowsTitle";
+                    case WayOfBlade.OneWithTheBlade:
+                        return "Feature/&AttributeModifierWayOfBladeOneWithTheBladeTitle";
+                }
+            }
+
+            return null;
         }
     }
 
