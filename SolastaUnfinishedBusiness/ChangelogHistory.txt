@@ -1,8 +1,8 @@
 1.5.97.112:
 - Improvements to Campaign Translator tool:
- - Limited max concurrency to 10
- - do not allow translation if service is not configured
- - display error message when translation fails (still need to wait for whole process to finish)
+  - Limited max concurrency to 10
+  - do not allow translation if service is not configured
+  - display error message when translation fails (still need to wait for whole process to finish)
 - added icon to the `Bloody` infusion
 - Dual Flurry: compare actual items and not item definitions - fixes edge case when dual-wielding same type of weapon and having BA attack with main hand from somewhere
 - Customized attack button name for Monk's `Flurry of Blows` and `One with the Blade` from `Way of B
@@ -14,7 +14,7 @@
 - Reworked User Campaign translation tool (PR by magicskysword)
 
 1.5.97.110:
-- merged nickabbey's PR with `Swashbuckler` Rougue subclass
+- merged nickabbey's PR with `Swashbuckler` Rogue subclass
 - added option for 2024 `Chill Touch` cantrip
 - added option for 2024 `Witch Bolt` spell
 - added option to disable requirement to perceive allies for `Sculpt Spells`
