@@ -1,10 +1,10 @@
 # Solasta Unfinished Business
 
-This is a [collection of work](https://github.com/SolastaMods/SolastaUnfinishedBusiness/wiki) from the Solasta modding community. It includes multiclass, feats, classes, subclasses, items, crafting recipes, gameplay options, UI improvements, and more. The general philosophy is everything is optional to enable, so you can install the mod and then enable the pieces you want. There are some minor bug fixes that are enabled by default.
+This is a [collection of work](https://github.com/EnderWiggin/SolastaUnfinishedBusiness/wiki) from the Solasta modding community. It includes multiclass, feats, classes, subclasses, items, crafting recipes, gameplay options, UI improvements, and more. The general philosophy is everything is optional to enable, so you can install the mod and then enable the pieces you want. There are some minor bug fixes that are enabled by default.
 
 # How to install
 
-Download the first ZIP file from [releases](https://github.com/SolastaMods/SolastaUnfinishedBusiness/releases) and follow the [installation guide](https://github.com/SolastaMods/SolastaUnfinishedBusiness/wiki/Install).
+Download the first ZIP file from [releases](https://github.com/EnderWiggin/SolastaUnfinishedBusiness/releases) and follow the [installation guide](https://github.com/EnderWiggin/SolastaUnfinishedBusiness/wiki/Install).
 
 # How to report issues
 
