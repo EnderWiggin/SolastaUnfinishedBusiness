@@ -1082,6 +1082,10 @@ public static partial class Tabletop2024Context
         {
             nickAttack.actionType = ActionType.None; //hopefully this hides this attack from the action panel
             nickAttack.AddAttackTagAsNeeded(WeaponMasteryNick);
+            if (Main.Settings.UseWeaponMasterySystemNickDualFlurry)
+            {
+                nickAttack.AddAttackTagAsNeeded(TwoWeaponCombatFeats.DualFlurryTriggerMark);
+            }
         }
     }
 

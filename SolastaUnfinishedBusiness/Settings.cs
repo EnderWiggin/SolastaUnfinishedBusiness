@@ -114,6 +114,7 @@ public class Settings : UnityModManager.ModSettings
     public bool UseWeaponMasterySystemAddCleaveDamage { get; set; }
     public bool UseWeaponMasterySystemFlurryTriggersMastery { get; set; }
     public bool UseWeaponMasterySystemNickExtraAttackTriggersMastery { get; set; }
+    public bool UseWeaponMasterySystemNickDualFlurry { get; set; }
     public bool UseWeaponMasterySystemPushSave { get; set; }
     public bool WeaponMasterySystemCustomizeToggle { get; set; }
     public SerializableDictionary<string, Tabletop2024Context.MasteryProperty> WeaponMasteryCustom { get; set; } = [];

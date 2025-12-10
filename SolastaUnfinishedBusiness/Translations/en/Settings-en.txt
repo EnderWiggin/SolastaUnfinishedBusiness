@@ -471,10 +471,11 @@ ModUi/&UseWeaponMasterySystemAddCleaveDamage=<i>+ Cleave mastery add attribute s
 ModUi/&UseWeaponMasterySystemAddWeaponTag=<i>+ Add mastery tag to all game weapons</i>
 ModUi/&UseWeaponMasterySystemFlurryTriggersMastery=<i>+ Dual Flurry extra attack can trigger another mastery</i>
 ModUi/&UseWeaponMasterySystemNickExtraAttackTriggersMastery=<i>+ Nick mastery extra attack can trigger another mastery</i>
+ModUi/&UseWeaponMasterySystemNickDualFlurry=<i>+ Nick mastery extra attack can trigger Dual Flurry</i>
 ModUi/&UseWeaponMasterySystemPushSave=<i>+ Push mastery requires the creature to make a Strength saving throw (DC 8 + attack roll ability modifier + Proficiency Bonus)</i>
 ModUi/&UseWeaponMasterySystemAlternateProperties=<i>+ Alternate weapon properties to represent real-life properties from a little research. "Vex" on shortbow makes no sense <b><i><color=#C04040E0>[Requires Restart]</color></i></b></i>
 ModUi/&WildSurgeDieRollThreshold=<color=white>Set <color=#D89555>Sorcerer Wild Magic</color> chance die threshold:</color>\n<i><color=#F0DAA0>[wild surge triggers if rolls less or equal threshold]</color></i>
-ModUI/&ModifyJumpRulesForArmorAndEncumberance=Apply encumberance and armor penalties to jump range
+ModUI/&ModifyJumpRulesForArmorAndEncumberance=Apply encumbrance and armor penalties to jump range
 ModUI/&ModifyThrowingRulesForStrength=Apply throwing penalties to range for lack of strength
 ModUI/&ModVersionControl=-Unfinished Business MOD Version Settings-
 ModUI/&RoleplaySettings=Roleplay

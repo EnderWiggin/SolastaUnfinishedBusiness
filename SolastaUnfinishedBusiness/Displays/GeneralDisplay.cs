@@ -364,6 +364,13 @@ internal static class ToolsDisplay
                 Main.Settings.UseWeaponMasterySystemNickExtraAttackTriggersMastery = toggle;
             }
 
+            toggle = Main.Settings.UseWeaponMasterySystemNickDualFlurry;
+            if (UI.Toggle(Gui.Localize("ModUi/&UseWeaponMasterySystemNickDualFlurry"), ref toggle,
+                    UI.AutoWidth()))
+            {
+                Main.Settings.UseWeaponMasterySystemNickDualFlurry = toggle;
+            }
+
             toggle = Main.Settings.UseWeaponMasterySystemPushSave;
             if (UI.Toggle(Gui.Localize("ModUi/&UseWeaponMasterySystemPushSave"), ref toggle, UI.AutoWidth()))
             {
