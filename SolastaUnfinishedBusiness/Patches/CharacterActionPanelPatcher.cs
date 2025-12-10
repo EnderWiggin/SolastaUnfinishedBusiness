@@ -15,6 +15,7 @@ using SolastaUnfinishedBusiness.Models;
 using SolastaUnfinishedBusiness.Subclasses;
 using UnityEngine;
 using UnityEngine.UI;
+using static ActionDefinitions;
 using static RuleDefinitions;
 using Object = UnityEngine.Object;
 
@@ -25,8 +26,8 @@ public static class CharacterActionPanelPatcher
 {
     private static bool HasShapeChangeForm(RulesetEffectSpell rulesetEffectSpell)
     {
-        return rulesetEffectSpell.SpellDefinition.EffectDescription.EffectForms.Any(
-            x => x.FormType == EffectForm.EffectFormType.ShapeChange);
+        return rulesetEffectSpell.SpellDefinition.EffectDescription.EffectForms.Any(x =>
+            x.FormType == EffectForm.EffectFormType.ShapeChange);
     }
 
     [HarmonyPatch(typeof(CharacterActionPanel), nameof(CharacterActionPanel.ReadyActionEngaged))]
@@ -35,7 +36,7 @@ public static class CharacterActionPanelPatcher
     public static class ReadyActionEngaged_Patch
     {
         [UsedImplicitly]
-        public static void Prefix(CharacterActionPanel __instance, ActionDefinitions.ReadyActionType readyActionType)
+        public static void Prefix(CharacterActionPanel __instance, ReadyActionType readyActionType)
         {
             //PATCH: used for `force preferred cantrip` option
             CustomReactionsContext.SaveReadyActionPreferredCantrip(__instance.actionParams, readyActionType);
@@ -61,7 +62,7 @@ public static class CharacterActionPanelPatcher
             //PATCH: Customize name on the Attack button
             if (__instance.actionItems.Count <= itemIndex) { return; }
 
-            if (guiCharacterAction.actionId is not ActionDefinitions.Id.AttackOff) { return; }
+            if (guiCharacterAction.actionId is not Id.AttackOff) { return; }
 
             var component = __instance.actionItems[itemIndex];
 
@@ -94,11 +95,16 @@ public static class CharacterActionPanelPatcher
     public static class ComputeMultipleGuiCharacterActions_Patch
     {
         [UsedImplicitly]
-        public static void Postfix(CharacterActionPanel __instance, ref int __result, ActionDefinitions.Id actionId)
+        public static void Postfix(CharacterActionPanel __instance, ref int __result, Id actionId)
         {
             //PATCH: Support for ExtraAttacksOnActionPanel
             //Allows multiple actions on panel for off-hand attacks and main attacks for non-guests
             __result = ExtraAttacksOnActionPanel.ComputeMultipleGuiCharacterActions(__instance, actionId, __result);
+
+            if(__instance.guiActionById.TryGetValue((Id)ExtraActionId.NickMasteryAttack, out var guiAction))
+            {
+                guiAction.ForcedAttackMode = __instance.GuiCharacter.RulesetCharacter.FindNickAttackMode();
+            }
         }
     }
 
@@ -112,7 +118,7 @@ public static class CharacterActionPanelPatcher
         {
             //PATCH: hide power button on action panel if no valid powers to use or see
             var method = new Func<
-                List<ActionDefinitions.Id>,
+                List<Id>,
                 CharacterActionPanel,
                 int
             >(FilterActions).Method;
@@ -125,7 +131,7 @@ public static class CharacterActionPanelPatcher
                 new CodeInstruction(OpCodes.Call, method));
         }
 
-        private static int FilterActions(List<ActionDefinitions.Id> actions, CharacterActionPanel panel)
+        private static int FilterActions(List<Id> actions, CharacterActionPanel panel)
         {
             var character = panel.GuiCharacter.RulesetCharacter;
             var inBattle = Gui.Battle != null;
@@ -139,16 +145,13 @@ public static class CharacterActionPanelPatcher
             return actions.Count;
         }
 
-        private static bool ActionIsInvalid(ActionDefinitions.Id id, RulesetCharacter character, bool battle)
+        private static bool ActionIsInvalid(Id id, RulesetCharacter character, bool battle)
         {
             return id switch
             {
-                ActionDefinitions.Id.PowerMain => !character.CanSeeAndUseAtLeastOnePower(
-                    ActionDefinitions.ActionType.Main, battle),
-                ActionDefinitions.Id.PowerBonus => !character.CanSeeAndUseAtLeastOnePower(
-                    ActionDefinitions.ActionType.Bonus, battle),
-                ActionDefinitions.Id.PowerNoCost => !character.CanSeeAndUseAtLeastOnePower(
-                    ActionDefinitions.ActionType.NoCost, battle),
+                Id.PowerMain => !character.CanSeeAndUseAtLeastOnePower(ActionType.Main, battle),
+                Id.PowerBonus => !character.CanSeeAndUseAtLeastOnePower(ActionType.Bonus, battle),
+                Id.PowerNoCost => !character.CanSeeAndUseAtLeastOnePower(ActionType.NoCost, battle),
                 _ => false
             };
         }
@@ -167,38 +170,352 @@ public static class CharacterActionPanelPatcher
             if (__instance.cursorCaptionScreen != null && __instance.cursorCaptionScreen.Visible)
             {
                 //PATCH: fixes action callback triggering on wrong character when Disengage used by movement, not Confirm button
-                __instance.SetDisengageModeInCursor(ActionDefinitions.Id.NoAction);
-                __instance.actionId = ActionDefinitions.Id.NoAction;
+                __instance.SetDisengageModeInCursor(Id.NoAction);
+                __instance.actionId = Id.NoAction;
             }
         }
     }
 
     [HarmonyPatch(typeof(CharacterActionPanel), nameof(CharacterActionPanel.OnActivateAction))]
-    [HarmonyPatch([typeof(ActionDefinitions.Id), typeof(GuiCharacterAction)])]
+    [HarmonyPatch([typeof(Id), typeof(GuiCharacterAction)])]
     [SuppressMessage("Minor Code Smell", "S101:Types should be named in PascalCase", Justification = "Patch")]
     [UsedImplicitly]
     public static class OnActivateAction_Patch
     {
         [UsedImplicitly]
-        public static IEnumerable<CodeInstruction> Transpiler([NotNull] IEnumerable<CodeInstruction> instructions)
+        public static bool Prefix(CharacterActionPanel __instance,
+            Id actionId, GuiCharacterAction guiCharacterAction)
         {
-            //PATCH: Support for ExtraAttacksOnActionPanel
-            //replaces calls to FindExtraActionAttackModes to custom method which supports forced attack modes for offhand attacks
-            var findAttacks = typeof(GameLocationCharacter).GetMethod("FindActionAttackMode");
-            var method = new Func<
-                GameLocationCharacter,
-                ActionDefinitions.Id,
-                bool,
-                bool,
-                bool,
-                ActionDefinitions.ReadyActionType,
-                GuiCharacterAction,
-                RulesetAttackMode
-            >(ExtraAttacksOnActionPanel.FindExtraActionAttackModesFromGuiAction).Method;
+            OnActivateAction(__instance, actionId, guiCharacterAction);
+            return false;
+        }
 
-            return instructions.ReplaceCalls(findAttacks, "CharacterActionPanel.OnActivateAction",
-                new CodeInstruction(OpCodes.Ldarg_2),
-                new CodeInstruction(OpCodes.Call, method));
+        private static void OnActivateAction(CharacterActionPanel panel, Id actionId,
+            GuiCharacterAction guiCharacterAction)
+        {
+            panel.ClearActionParams();
+            panel.actionId = actionId;
+            var actingCharacter = panel.GuiCharacter.GameLocationCharacter;
+            panel.actionParams = new CharacterActionParams(actingCharacter, panel.actionId);
+            var actionDefinition = panel.actionParams.ActionDefinition;
+            var service1 = ServiceRepository.GetService<ICursorService>();
+            var service2 = ServiceRepository.GetService<ICommandService>();
+            if (panel.SpellSelectionPanel.Visible
+                && (actionDefinition.Parameter != ActionParameter.SelectSpell
+                    || panel.SpellSelectionPanel.ActionType != ActionType.None
+                    && panel.SpellSelectionPanel.ActionType != actionDefinition.ActionType))
+            {
+                panel.SpellSelectionPanel.Hide(true);
+            }
+
+            if (panel.RitualSelectionPanel != null
+                && panel.RitualSelectionPanel.Visible
+                && actionDefinition.Parameter != ActionParameter.SelectRitual)
+            {
+                panel.RitualSelectionPanel.Hide(true);
+            }
+
+            if (panel.PowerSelectionPanel.Visible
+                && (actionDefinition.Parameter != ActionParameter.SelectPower
+                    || panel.SpellSelectionPanel.ActionType != ActionType.None
+                    && panel.PowerSelectionPanel.ActionType != actionDefinition.ActionType))
+            {
+                panel.PowerSelectionPanel.Hide(true);
+            }
+
+            if (panel.DeviceSelectionPanel.Visible
+                && (actionDefinition.Parameter != ActionParameter.SelectDeviceFunction
+                    || panel.SpellSelectionPanel.ActionType != ActionType.None
+                    && panel.DeviceSelectionPanel.ActionType != actionDefinition.ActionType))
+            {
+                panel.DeviceSelectionPanel.Hide(true);
+            }
+
+            if (panel.ReadyActionSelectionPanel != null
+                && panel.ReadyActionSelectionPanel.Visible && actionDefinition.Parameter
+                != ActionParameter.SelectActionToReady)
+            {
+                panel.ReadyActionSelectionPanel.Hide(true);
+            }
+
+            if (panel.ShoveModeSelectionPanel != null
+                && panel.ShoveModeSelectionPanel.Visible
+                && actionDefinition.Parameter != ActionParameter.Shove)
+            {
+                panel.ShoveModeSelectionPanel.Hide(true);
+            }
+
+            if (panel.BreakFreeModeSelectionPanel != null
+                && panel.BreakFreeModeSelectionPanel.Visible
+                && actionDefinition.Parameter != ActionParameter.BreakFreeMode)
+            {
+                panel.BreakFreeModeSelectionPanel.Hide(true);
+            }
+
+            if (panel.DashModeSelectionPanel != null
+                && panel.DashModeSelectionPanel.Visible
+                && actionDefinition.Parameter != ActionParameter.DashConfirmation)
+            {
+                panel.DisableDashMode();
+            }
+
+            if (panel.MetamagicSelectionPanel != null
+                && panel.MetamagicSelectionPanel.Visible)
+            {
+                panel.MetamagicSelectionPanel.Hide(true);
+            }
+
+            if (panel.ShapeSelectionPanel != null
+                && panel.ShapeSelectionPanel.Visible && actionDefinition.Id != Id.WildShape)
+            {
+                panel.ShapeSelectionPanel.Hide(true);
+            }
+
+            if (panel.FlurryOfBlowsModeSelectionPanel != null
+                && panel.FlurryOfBlowsModeSelectionPanel.Visible && actionDefinition.Parameter
+                != ActionParameter.OpenHandTechnique)
+            {
+                panel.FlurryOfBlowsModeSelectionPanel.Hide(true);
+            }
+
+            if (panel.InvocationSelectionPanel != null
+                && panel.InvocationSelectionPanel.Visible
+                && actionDefinition.Parameter != ActionParameter.SelectInvocation)
+            {
+                panel.InvocationSelectionPanel.Hide(true);
+            }
+
+            if (panel.cursorCaptionScreen.Visible)
+            {
+                CursorLocation.CaptionLineDismissed();
+                panel.SetDisengageModeInCursor(Id.NoAction);
+            }
+
+            switch (actionDefinition.Parameter)
+            {
+                case ActionParameter.None:
+                    if (Gui.Battle != null && panel.DefaultCursorType == typeof(CursorLocationBattleFriendlyTurn))
+                    {
+                        var cursor = service1.GetCursor<CursorLocationBattleActionExecuting>();
+                        service1.ActivateCursor<CursorLocationBattleActionExecuting>();
+                        service2.ExecuteAction(panel.actionParams.Clone(), cursor.ActionExecuted, false);
+                        break;
+                    }
+
+                    service2.ExecuteAction(panel.actionParams.Clone(), panel.ActionExecuted, false);
+                    panel.RestoreDefaultCursor();
+                    break;
+                case ActionParameter.Destination:
+                    panel.ToggleConstrainedMoveMode();
+                    break;
+                case ActionParameter.Target:
+                    if (service1.CurrentCursor is CursorLocationSelectTarget)
+                    {
+                        panel.RestoreDefaultCursor();
+                        panel.actionId = Id.NoAction;
+                        panel.actionParams = null;
+                        break;
+                    }
+
+                    if (panel.actionId is Id.AttackMain or Id.AttackOff)
+                    {
+                        //PATCH: Support for ExtraAttacksOnActionPanel - try using ForcedAttackMode for off-hand attacks too
+                        panel.actionParams.AttackMode =  guiCharacterAction.ForcedAttackMode
+                              ?? actingCharacter.FindActionAttackMode(panel.actionId);
+                    }
+                    //PATCH: support for Nick weapon mastery
+                    else if (panel.actionId is (Id)ExtraActionId.NickMasteryAttack)
+                    {
+                        panel.actionParams.AttackMode = guiCharacterAction.ForcedAttackMode
+                                                        ?? actingCharacter.FindNickAttackMode();
+                    }
+                    else if (panel.actionId is Id.AssignTargetMain or Id.AssignTargetBonus)
+                    {
+                        panel.actionParams.RulesetEffect =
+                            panel.GuiCharacter.RulesetCharacter.FindFirstRetargetableEffect();
+                    }
+
+                    service1.ActivateCursor<CursorLocationSelectTarget>(panel.actionParams);
+                    break;
+                case ActionParameter.SelectSpell:
+                    panel.SpellSelectionPanel.ActionType =
+                        panel.ActionScope != ActionScope.Exploration
+                            ? actionDefinition.ActionType
+                            : ActionType.None;
+                    panel.SelectSpell();
+                    break;
+                case ActionParameter.SelectPower:
+                    panel.PowerSelectionPanel.ActionType =
+                        panel.ActionScope != ActionScope.Exploration
+                            ? actionDefinition.ActionType
+                            : ActionType.None;
+                    panel.SelectPower();
+                    break;
+                case ActionParameter.Shove:
+                    panel.SelectShoveMode();
+                    break;
+                case ActionParameter.Levitate:
+                    service1.ActivateCursor<CursorLocationLevitate>(panel.actionParams);
+                    break;
+                case ActionParameter.InstantSingleAction:
+                    service2.ExecuteInstantSingleAction(panel.actionParams.Clone());
+                    panel.RestoreDefaultCursor();
+                    break;
+                case ActionParameter.SelectDeviceFunction:
+                    panel.SelectDeviceFunction();
+                    break;
+                case ActionParameter.SelectActionToReady:
+                    panel.SelectActionToReady();
+                    break;
+                case ActionParameter.SelectRitual:
+                    panel.SelectRitual();
+                    break;
+                case ActionParameter.ActivatePower:
+                    if (!(panel.actionParams.ActionDefinition.ActivatedPower != null))
+                    {
+                        break;
+                    }
+
+                    var service3 =
+                        ServiceRepository.GetService<IRulesetImplementationService>();
+                    var usablePower =
+                        panel.GuiCharacter.RulesetCharacter.GetPowerFromDefinition(panel.actionParams.ActionDefinition
+                            .ActivatedPower);
+                    if (usablePower == null)
+                    {
+                        usablePower = new RulesetUsablePower(panel.actionParams.ActionDefinition.ActivatedPower,
+                            null, null);
+                        if (panel.actionParams.ActingCharacter is { RulesetCharacter: not null })
+                        {
+                            var rulesetCharacter = panel.actionParams.ActingCharacter.RulesetCharacter;
+                            var effectDescription =
+                                panel.actionParams.ActionDefinition.ActivatedPower.EffectDescription;
+                            if (effectDescription.DifficultyClassComputation
+                                == EffectDifficultyClassComputation.SpellCastingFeature)
+                            {
+                                RulesetSpellRepertoire rulesetSpellRepertoire = null;
+                                foreach (var spellRepertoire in rulesetCharacter.SpellRepertoires)
+                                {
+                                    if (spellRepertoire.SpellCastingClass != null)
+                                    {
+                                        rulesetSpellRepertoire = spellRepertoire;
+                                        break;
+                                    }
+
+                                    if (spellRepertoire.SpellCastingSubclass != null)
+                                    {
+                                        rulesetSpellRepertoire = spellRepertoire;
+                                        break;
+                                    }
+                                }
+
+                                if (rulesetSpellRepertoire != null)
+                                {
+                                    usablePower.SaveDC = rulesetSpellRepertoire.SaveDC;
+                                }
+                            }
+                            else if (effectDescription.DifficultyClassComputation == EffectDifficultyClassComputation.AbilityScoreAndProficiency)
+                            {
+                                usablePower.SaveDC = ComputeAbilityScoreBasedDC(
+                                    rulesetCharacter.TryGetAttributeValue(
+                                        effectDescription.SavingThrowDifficultyAbility),
+                                    rulesetCharacter.TryGetAttributeValue("ProficiencyBonus"));
+                            }
+                            else if (effectDescription.DifficultyClassComputation
+                                     == EffectDifficultyClassComputation.FixedValue)
+                            {
+                                usablePower.SaveDC = effectDescription.FixedSavingThrowDifficultyClass;
+                            }
+                            else if (effectDescription.DifficultyClassComputation
+                                     == EffectDifficultyClassComputation.Ki)
+                            {
+                                usablePower.SaveDC = ComputeAbilityScoreBasedDC(
+                                    rulesetCharacter.TryGetAttributeValue("Wisdom"),
+                                    rulesetCharacter.TryGetAttributeValue("ProficiencyBonus"));
+                            }
+                            else if (effectDescription.DifficultyClassComputation
+                                     == EffectDifficultyClassComputation.BreathWeapon)
+                            {
+                                usablePower.SaveDC = ComputeAbilityScoreBasedDC(
+                                    rulesetCharacter.TryGetAttributeValue("Constitution"),
+                                    rulesetCharacter.TryGetAttributeValue("ProficiencyBonus"));
+                            }
+                        }
+                    }
+
+                    panel.actionParams.RulesetEffect =
+                        service3.InstantiateEffectPower(panel.GuiCharacter.RulesetCharacter, usablePower,
+                            true);
+                    panel.actionId = Id.PowerNoCost;
+                    if (panel.actionParams.ActionDefinition.ActivatedPower.EffectDescription.HasShapeChangeForm())
+                    {
+                        panel.SelectShape(panel.actionParams.RulesetEffect);
+                        break;
+                    }
+
+                    panel.ExecuteEffectOfAction();
+                    break;
+                case ActionParameter.DashConfirmation:
+                    panel.ToggleDashMode();
+                    break;
+                case ActionParameter.DodgeConfirmation:
+                    panel.ToggleDodgeMode();
+                    break;
+                case ActionParameter.DisengageConfirmation:
+                    panel.ToggleDisengageMode();
+                    break;
+                case ActionParameter.BreakFreeMode:
+                    panel.SelectBreakFreeMode();
+                    break;
+                case ActionParameter.AreaForTargets:
+                    switch (actionDefinition.TargetType)
+                    {
+                        case TargetType.Line:
+                        case TargetType.Cone:
+                        case TargetType.Cube:
+                        case TargetType.Sphere:
+                        case TargetType.PerceivingWithinDistance:
+                        case TargetType.Cylinder:
+                        case TargetType.WallLine:
+                        case TargetType.WallRing:
+                        case TargetType.CubeWithOffset:
+                        case TargetType.CylinderWithDiameter:
+                            service1.ActivateCursor<CursorLocationGeometricShape>(panel.actionParams);
+                            return;
+                        default:
+                            panel.HandleInput(InputCommands.Id.Cancel);
+                            return;
+                    }
+                case ActionParameter.InstantSingleActionSelectionAsTargets:
+                    panel.actionParams.TargetCharacters.AddRange(ServiceRepository
+                        .GetService<IGameLocationSelectionService>().SelectedCharacters);
+                    service2.ExecuteInstantSingleAction(panel.actionParams.Clone());
+                    panel.RestoreDefaultCursor();
+                    break;
+                case ActionParameter.SelectInvocation:
+                    panel.SelectInvocation();
+                    break;
+                case ActionParameter.OpenHandTechnique:
+                    panel.SelectFlurryOfBlowsMode();
+                    break;
+                case ActionParameter.TogglePower:
+                    if (!(panel.actionParams.ActionDefinition.ActivatedPower != null))
+                    {
+                        break;
+                    }
+
+                    panel.actionParams.RulesetEffect = ServiceRepository
+                        .GetService<IRulesetImplementationService>().InstantiateEffectPower(
+                            panel.GuiCharacter.RulesetCharacter,
+                            panel.GuiCharacter.RulesetCharacter.GetPowerFromDefinition(panel.actionParams.ActionDefinition
+                                .ActivatedPower)
+                            ?? new RulesetUsablePower(panel.actionParams.ActionDefinition.ActivatedPower,
+                                null, null), true);
+                    panel.actionId = Id.PowerNoCost;
+                    panel.RestoreDefaultCursor();
+                    service2.ExecuteAction(panel.actionParams.Clone(), panel.ActionExecuted, false);
+                    break;
+            }
         }
     }
 
@@ -216,17 +533,17 @@ public static class CharacterActionPanelPatcher
                 .GetGetMethod();
             var method = new Func<
                 CharacterActionPanel,
-                ActionDefinitions.ActionType
+                ActionType
             >(GetActionType).Method;
 
             return instructions.ReplaceCalls(getActionType, "CharacterActionPanel.SelectSpell",
                 new CodeInstruction(OpCodes.Call, method));
         }
 
-        private static ActionDefinitions.ActionType GetActionType(CharacterActionPanel panel)
+        private static ActionType GetActionType(CharacterActionPanel panel)
         {
-            return panel.actionId == (ActionDefinitions.Id)ExtraActionId.CastQuickened
-                ? ActionDefinitions.ActionType.Main
+            return panel.actionId == (Id)ExtraActionId.CastQuickened
+                ? ActionType.Main
                 : panel.ActionType;
         }
     }
@@ -240,12 +557,12 @@ public static class CharacterActionPanelPatcher
         public static bool Prefix(CharacterActionPanel __instance)
         {
             //PATCH: Support for Quickened Spell action
-            if (__instance.actionId != (ActionDefinitions.Id)ExtraActionId.CastQuickened)
+            if (__instance.actionId != (Id)ExtraActionId.CastQuickened)
             {
                 return true;
             }
 
-            __instance.actionId = ActionDefinitions.Id.CastBonus;
+            __instance.actionId = Id.CastBonus;
             __instance.MetamagicSelected(
                 __instance.GuiCharacter.GameLocationCharacter,
                 (RulesetEffectSpell)__instance.actionParams.activeEffect,
@@ -293,7 +610,7 @@ public static class CharacterActionPanelPatcher
 
             if (definition.GrantedSpell)
             {
-                if (__instance.actionId == ActionDefinitions.Id.CastInvocation)
+                if (__instance.actionId == Id.CastInvocation)
                 {
                     return true;
                 }
@@ -354,7 +671,7 @@ public static class CharacterActionPanelPatcher
                 return true;
             }
 
-            __instance.actionParams.BreakFreeMode = ActionDefinitions.BreakFreeMode.Athletics;
+            __instance.actionParams.BreakFreeMode = BreakFreeMode.Athletics;
 
             ServiceRepository.GetService<IGameLocationActionService>()
                 .ExecuteAction(__instance.actionParams.Clone(), __instance.ActionExecuted, false);
@@ -540,7 +857,7 @@ public static class CharacterActionPanelPatcher
             if (metamagicOption.Type == MetamagicType.QuickenedSpell)
             {
                 __instance.actionParams.ActionDefinition = ServiceRepository.GetService<IGameLocationActionService>()
-                    .AllActionDefinitions[ActionDefinitions.Id.CastBonus];
+                    .AllActionDefinitions[Id.CastBonus];
             }
             // END VANILLA CODE
 

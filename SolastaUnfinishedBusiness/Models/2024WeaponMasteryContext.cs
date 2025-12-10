@@ -34,7 +34,7 @@ public static partial class Tabletop2024Context
     private const int StageLearned = 1;
 
     private const string WeaponMasteryCleave = "WeaponMasteryCleave";
-    private const string WeaponMasteryNick = "WeaponMasteryNick";
+    internal const string WeaponMasteryNick = "WeaponMasteryNick";
     private const string WeaponMasteryTopple = "WeaponMasteryTopple";
     private static readonly Dictionary<MasteryProperty, FeatureDefinition> MasteryFeatures = [];
 
@@ -696,9 +696,9 @@ public static partial class Tabletop2024Context
 
             // ReSharper disable once ConvertIfStatementToReturnStatement
             if (!Main.Settings.UseWeaponMasterySystemNickExtraAttackTriggersMastery &&
-                attackMode.ActionType == ActionType.Bonus &&
+                attackMode.AttackTags.Contains(WeaponMasteryNick) &&
                 ValidatorsWeapon.IsMelee(attackMode) &&
-                attacker.GetSpecialFeatureUses(WeaponMasteryNick) == 1)
+                attacker.GetSpecialFeatureUses(WeaponMasteryNick) >= 1)
             {
                 return false;
             }
@@ -922,46 +922,52 @@ public static partial class Tabletop2024Context
         {
             var attacker = action.ActingCharacter;
 
-            if (action is not CharacterActionAttack { ActionId: Id.AttackMain }) { yield break; }
+            if (action is not CharacterActionAttack) { yield break; }
 
-            if (action.ActionType != ActionType.Main) { yield break; }
-
-            if (attacker.GetSpecialFeatureUses(WeaponMasteryNick) == 1) { yield break; }
-
-            var target = action.ActionParams.TargetCharacters[0];
-            if (target.RulesetActor.IsDead) { yield break; }
-
-            var rulesetAttacker = attacker.RulesetCharacter;
-
-            var attackMode = action.ActionParams.AttackMode;
-            var mastery = (MasteryProperty)attacker.GetSpecialFeatureUses(FeatureSetFighterTacticalMaster.Name);
-
-            if (mastery == MasteryProperty.None)
+            if (action.ActionId == Id.AttackMain)
             {
-                mastery = rulesetAttacker.GetMastery(attackMode);
+
+                if (action.ActionType != ActionType.Main) { yield break; }
+
+                if (attacker.GetSpecialFeatureUses(WeaponMasteryNick) >= 1) { yield break; }
+                
+                var rulesetAttacker = attacker.RulesetCharacter;
+                if (rulesetAttacker.ExecutedBonusAttacks != 0) { yield break; }
+
+
+                var attackMode = action.ActionParams.AttackMode;
+                var mastery = (MasteryProperty)attacker.GetSpecialFeatureUses(FeatureSetFighterTacticalMaster.Name);
+
+                if (mastery == MasteryProperty.None)
+                {
+                    mastery = rulesetAttacker.GetMastery(attackMode);
+                }
+
+                var weapon = rulesetAttacker.GetOffhandWeapon();
+                if (weapon == null) { yield break; }
+
+                if (!ValidatorsCharacter.HasMeleeWeaponInMainAndOffhand(rulesetAttacker)) { yield break; }
+
+                if (mastery != MasteryProperty.Nick && rulesetAttacker.GetMastery(weapon) != MasteryProperty.Nick)
+                {
+                    yield break;
+                }
+
+                var nickAttack = rulesetAttacker.AttackModes.FirstOrDefault(m =>
+                    m.ActionType == ActionType.Bonus && m.SourceObject == weapon);
+
+                if (nickAttack == null) { yield break; }
+
+                rulesetAttacker.LogCharacterUsedFeature(MasteryFeatures[MasteryProperty.Nick]);
+                attacker.SetSpecialFeatureUses(WeaponMasteryNick, 1);
             }
-
-
-            if (rulesetAttacker.ExecutedBonusAttacks != 0) { yield break; }
-
-            var weapon = rulesetAttacker.GetOffhandWeapon();
-            if (weapon == null) { yield break; }
-
-            if (!ValidatorsCharacter.HasMeleeWeaponInMainAndOffhand(rulesetAttacker)) { yield break; }
-
-            if (mastery != MasteryProperty.Nick && rulesetAttacker.GetMastery(weapon) != MasteryProperty.Nick)
+            else if (action.ActionId == (Id)ExtraActionId.NickMasteryAttack)
             {
-                yield break;
+                if (attacker.GetSpecialFeatureUses(WeaponMasteryNick) == 1)
+                {
+                    attacker.SetSpecialFeatureUses(WeaponMasteryNick, 2);
+                }
             }
-
-            var nickAttack = rulesetAttacker.AttackModes.FirstOrDefault(m =>
-                m.ActionType == ActionType.Bonus && m.SourceObject == weapon);
-
-            if (nickAttack == null) { yield break; }
-
-            rulesetAttacker.LogCharacterUsedFeature(MasteryFeatures[MasteryProperty.Nick]);
-            attacker.SetSpecialFeatureUses(WeaponMasteryNick, 1);
-            attacker.MyExecuteActionAttack(Id.AttackFree, target, nickAttack, new ActionModifier());
         }
     }
 
@@ -1062,20 +1068,34 @@ public static partial class Tabletop2024Context
     //
 
     /**Returns true for attacks that should be removed after Nick was used*/
-    internal static bool IsInvalidAttackAfterNick(RulesetCharacterHero hero, RulesetAttackMode mode)
+    internal static void ModifyNickOffHandAttack(RulesetCharacterHero hero, List<RulesetAttackMode> modes)
     {
-        if (GameLocationCharacter.GetFromActor(hero)?.GetSpecialFeatureUses(WeaponMasteryNick) != 1) { return false; }
-
-        if (mode.actionType != ActionType.Bonus) { return false; }
+        var locationCharacter = GameLocationCharacter.GetFromActor(hero);
+        if (locationCharacter == null || locationCharacter.GetSpecialFeatureUses(WeaponMasteryNick) < 1) { return; }
 
         var offHand = hero.GetOffhandWeapon();
+        var nickAttack = offHand != null
+            ? modes.FirstOrDefault(m => m.ActionType == ActionType.Bonus && m.SourceObject == offHand)
+            : null;
 
-        //Remove attacks with the off-hand weapon, unless it is an unarmed attack from a monk
-        if (mode.SourceDefinition != ItemDefinitions.UnarmedStrikeBase) { return mode.SourceObject == offHand; }
-
-        //TODO: find a way to get only Monk unarmed attacks
-        return false;
+        if (nickAttack != null)
+        {
+            nickAttack.actionType = ActionType.None; //hopefully this hides this attack from the action panel
+            nickAttack.AddAttackTagAsNeeded(WeaponMasteryNick);
+        }
     }
+
+    internal static RulesetAttackMode FindNickAttackMode(this GameLocationCharacter character)
+    {
+        return character.RulesetCharacter.FindNickAttackMode();
+    }
+    
+    internal static RulesetAttackMode FindNickAttackMode(this RulesetCharacter character)
+    {
+        return character.AttackModes
+            .FirstOrDefault(mode => mode.AttackTags.Contains(WeaponMasteryNick));
+    }
+
 
     //
     // Push

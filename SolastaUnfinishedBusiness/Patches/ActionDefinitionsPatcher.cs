@@ -24,6 +24,22 @@ public static class ActionDefinitionsPatcher
             }
         }
     }
+    
+    [HarmonyPatch(typeof(ActionDefinitions), nameof(ActionDefinitions.IsAttackAction))]
+    [SuppressMessage("Minor Code Smell", "S101:Types should be named in PascalCase", Justification = "Patch")]
+    [UsedImplicitly]
+    public static class IsAttackAction_Patch
+    {
+        [UsedImplicitly]
+        public static void Postfix(ref bool __result, ActionDefinitions.Id actionId)
+        {
+            //PATCH: support for Nick weapon mastery
+            if (actionId == (ActionDefinitions.Id)ExtraActionId.NickMasteryAttack)
+            {
+                __result = true;
+            }
+        }
+    }
 
     [HarmonyPatch(typeof(ActionDefinitions), nameof(ActionDefinitions.IsProxyAction))]
     [SuppressMessage("Minor Code Smell", "S101:Types should be named in PascalCase", Justification = "Patch")]

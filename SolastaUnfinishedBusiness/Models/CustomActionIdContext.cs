@@ -106,6 +106,20 @@ public static class CustomActionIdContext
         BuildFarStepAction();
         BuildPrioritizeAction();
         BuildProxyActions();
+        BuildNickAction();
+    }
+
+    private static void BuildNickAction()
+    {
+        ActionDefinitionBuilder.Create(AttackFree, "ActionNickMasteryAttack")
+            .SetGuiPresentation("Feature/&FeatureWeaponMasteryNickTitle", AttackFree.GuiPresentation.Description,
+                AttackFree.GuiPresentation.spriteReference)
+            .SetActionId(ExtraActionId.NickMasteryAttack)
+            .SetFormType(ActionFormType.Large)
+            .SetActionType(ActionType.NoCost)
+            .RequiresAuthorization(false)
+            .SetSortOrder(0)
+            .AddToDB();
     }
 
     private static void BuildProxyActions()
@@ -262,14 +276,17 @@ public static class CustomActionIdContext
     {
         var powerNdx = actions.FindIndex(x => x == Id.Cautious);
 
-        if (powerNdx < 0)
+        if (powerNdx >= 0)
         {
-            return;
+            foreach (var id in ExtraActionIdToggles.Where(actions.Contains))
+            {
+                DoReorder(id);
+            }
         }
 
-        foreach (var id in ExtraActionIdToggles.Where(actions.Contains))
+        if (actions.Contains((Id)ExtraActionId.NickMasteryAttack))
         {
-            DoReorder(id);
+            DoReorder((Id)ExtraActionId.NickMasteryAttack, 0);
         }
 
         return;
@@ -567,6 +584,15 @@ public static class CustomActionIdContext
         // ReSharper disable once SwitchStatementMissingSomeEnumCasesNoDefault
         switch (actionId)
         {
+            case (Id)ExtraActionId.NickMasteryAttack:
+            {
+                result = locationCharacter.GetSpecialFeatureUses(Tabletop2024Context.WeaponMasteryNick) == 1
+                         && locationCharacter.FindNickAttackMode() != null
+                    ? ActionStatus.Available
+                    : ActionStatus.Unavailable;
+
+                return;
+            }
             case (Id)ExtraActionId.CombatWildShape:
             {
                 var power = character.GetPowerFromDefinition(action.ActivatedPower);
@@ -796,7 +822,7 @@ public static class CustomActionIdContext
     {
         return ExtraActionIdToggles.Contains(id);
     }
-    
+
     internal static bool IsReverseToggleId(Id id)
     {
         return ExtraActionIdReverseToggles.Contains(id);
