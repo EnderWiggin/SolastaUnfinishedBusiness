@@ -479,6 +479,7 @@ ModUi/&UseWeaponMasterySystemAddCleaveDamage=<i>+ 斬撃マスタリーは 2 回
 ModUi/&UseWeaponMasterySystemAddWeaponTag=<i>+ ゲームのすべての武器にマスタリータグを追加</i>
 ModUi/&UseWeaponMasterySystemAlternateProperties=<i>+小さな研究の実生活の特性を表すための代替兵器特性。ショートボーの「vex」は意味がありません<b> <i> <色=＃c04040e0> [再起動が必要] </color> </i> </b> </i>
 ModUi/&UseWeaponMasterySystemFlurryTriggersMastery=<i>+ デュアル フラリーの追加攻撃で別のマスタリーを発動できる</i>
+ModUi/&UseWeaponMasterySystemNickDualFlurry=<i>+ ニックマスタリー追加攻撃でデュアルフルーリーをトリガー可能</i>
 ModUi/&UseWeaponMasterySystemNickExtraAttackTriggersMastery=<i>+ ニック マスタリーの追加攻撃で別のマスタリーを発動できる</i>
 ModUi/&UseWeaponMasterySystemPushSave=<i>+ プッシュ マスタリーでは、クリーチャーは筋力セーヴィング スロー (DC 8 + 攻撃ロール能力修正値 + 熟練度ボーナス) を実行する必要があります</i>
 ModUi/&WeaponMasterySystemCustomizeResetAll=すべてをリセットします

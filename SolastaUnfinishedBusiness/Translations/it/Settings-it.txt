@@ -479,6 +479,7 @@ ModUi/&UseWeaponMasterySystemAddCleaveDamage=<i>+ La maestria di Cleave aggiunge
 ModUi/&UseWeaponMasterySystemAddWeaponTag=<i>+ Aggiungi tag di maestria a tutte le armi del gioco</i>
 ModUi/&UseWeaponMasterySystemAlternateProperties=<i>+ Proprietà dell'arma alternative per rappresentare le proprietà della vita reale da una piccola ricerca. "Vex" su corta non ha senso <b> <i> <color =#c04040e0> [richiede riavvio] </ color> </i> </b> </i>
 ModUi/&UseWeaponMasterySystemFlurryTriggersMastery=<i>+ L'attacco extra Dual Flurry può innescare un'altra maestria</i>
+ModUi/&UseWeaponMasterySystemNickDualFlurry=<i>+ L'attacco extra della maestria di Nick può attivare la Doppia Raffica</i>
 ModUi/&UseWeaponMasterySystemNickExtraAttackTriggersMastery=<i>+ L'attacco extra di Nick Mastery può innescare un'altra maestria</i>
 ModUi/&UseWeaponMasterySystemPushSave=<i>+ La padronanza della spinta richiede che la creatura effettui un tiro salvezza su Forza (CD 8 + modificatore di caratteristica del tiro per colpire + bonus di competenza)</i>
 ModUi/&WeaponMasterySystemCustomizeResetAll=Ripristina tutto

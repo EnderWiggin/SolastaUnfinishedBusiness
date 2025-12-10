@@ -479,6 +479,7 @@ ModUi/&UseWeaponMasterySystemAddCleaveDamage=<i>+ 顺劈斩精通为第二次攻
 ModUi/&UseWeaponMasterySystemAddWeaponTag=<i>+ 为所有游戏武器添加精通标签</i>
 ModUi/&UseWeaponMasterySystemAlternateProperties=<i>+替代武器属性，以代表一些研究的现实生活。短弓上的“ vex”没有意义<b> <i> <color =＃c04040e0> [需要重新启动] </color> </i> </i> </b> </i>
 ModUi/&UseWeaponMasterySystemFlurryTriggersMastery=<i>+ 双重乱舞额外攻击可以触发另一项精通</i>
+ModUi/&UseWeaponMasterySystemNickDualFlurry=<i>+尼克掌握额外攻击可以触发双乱舞</i>
 ModUi/&UseWeaponMasterySystemNickExtraAttackTriggersMastery=<i>+ 尼克精通额外攻击可以触发另一项精通</i>
 ModUi/&UseWeaponMasterySystemPushSave=<i>+ 推击精通要求生物进行力量豁免检定（DC 8 + 攻击检定能力修正值 + 熟练加值）</i>
 ModUi/&WeaponMasterySystemCustomizeResetAll=重置全部

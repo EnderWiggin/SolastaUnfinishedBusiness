@@ -479,6 +479,7 @@ ModUi/&UseWeaponMasterySystemAddCleaveDamage=<i>+ Maestría en hendidura: añade
 ModUi/&UseWeaponMasterySystemAddWeaponTag=<i>+ Añadir etiqueta de maestría a todas las armas del juego</i>
 ModUi/&UseWeaponMasterySystemAlternateProperties=<i>+ propiedades de arma alternativa para representar propiedades de la vida real a partir de un poco de investigación. "Vex" en Shortbow no tiene sentido <b> <i> <color =#C04040E0> [Requiere reiniciar] </ color> </i> </b> </i>
 ModUi/&UseWeaponMasterySystemFlurryTriggersMastery=<i>+ El ataque adicional de Doble Ráfaga puede activar otra maestría</i>
+ModUi/&UseWeaponMasterySystemNickDualFlurry=<i>+ El ataque adicional de dominio de Nick puede activar Dual Flurry</i>
 ModUi/&UseWeaponMasterySystemNickExtraAttackTriggersMastery=<i>+ El ataque adicional de maestría de Nick puede activar otra maestría</i>
 ModUi/&UseWeaponMasterySystemPushSave=<i>+ La maestría de empuje requiere que la criatura realice una tirada de salvación de Fuerza (CD 8 + modificador de característica de tirada de ataque + Bonificación por Competencia)</i>
 ModUi/&WeaponMasterySystemCustomizeResetAll=Restablecer todo

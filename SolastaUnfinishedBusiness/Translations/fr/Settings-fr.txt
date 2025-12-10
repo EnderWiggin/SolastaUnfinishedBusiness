@@ -479,6 +479,7 @@ ModUi/&UseWeaponMasterySystemAddCleaveDamage=<i>+ La maîtrise de Cleave ajoute 
 ModUi/&UseWeaponMasterySystemAddWeaponTag=<i>+ Ajouter une balise de maîtrise à toutes les armes du jeu</i>
 ModUi/&UseWeaponMasterySystemAlternateProperties=<i> + Propriétés des armes alternatives pour représenter les propriétés réelles à partir d'un peu de recherche. "Vex" sur Shortbow n'a aucun sens <b> <i> <color = # c04040e0> [nécessite un redémarrage] </ color> </i> </b> </i>
 ModUi/&UseWeaponMasterySystemFlurryTriggersMastery=<i>+ L'attaque supplémentaire Dual Flurry peut déclencher une autre maîtrise</i>
+ModUi/&UseWeaponMasterySystemNickDualFlurry=<i>+ L'attaque supplémentaire de maîtrise de Nick peut déclencher Dual Flurry</i>
 ModUi/&UseWeaponMasterySystemNickExtraAttackTriggersMastery=<i>+ L'attaque supplémentaire de maîtrise de Nick peut déclencher une autre maîtrise</i>
 ModUi/&UseWeaponMasterySystemPushSave=<i>+ La maîtrise de la poussée nécessite que la créature effectue un jet de sauvegarde de Force (DD 8 + modificateur de caractéristique du jet d'attaque + bonus de maîtrise)</i>
 ModUi/&WeaponMasterySystemCustomizeResetAll=Réinitialisez tout

@@ -479,6 +479,7 @@ ModUi/&UseWeaponMasterySystemAddCleaveDamage=<i>+ Domínio de Fenda adiciona mod
 ModUi/&UseWeaponMasterySystemAddWeaponTag=<i>+ Adicionar tag de maestria a todas as armas do jogo</i>
 ModUi/&UseWeaponMasterySystemAlternateProperties=<i>+ Propriedades alternativas da arma para representar propriedades da vida real de uma pequena pesquisa. "VEX" em Shortbow não faz sentido <b> <i> <color =#c04040e0> [requer reinicialização] </color> </i> </b> </i>
 ModUi/&UseWeaponMasterySystemFlurryTriggersMastery=<i>+ Ataque extra de Dual Flurry pode desencadear outra maestria</i>
+ModUi/&UseWeaponMasterySystemNickDualFlurry=<i>+ Ataque extra de maestria de Nick pode desencadear Dual Flurry</i>
 ModUi/&UseWeaponMasterySystemNickExtraAttackTriggersMastery=<i>+ Ataque extra de maestria de Nick pode desencadear outra maestria</i>
 ModUi/&UseWeaponMasterySystemPushSave=<i>+ A maestria em empurrar requer que a criatura faça um teste de resistência de Força (CD 8 + modificador de habilidade de ataque + Bônus de Proficiência)</i>
 ModUi/&WeaponMasterySystemCustomizeResetAll=Redefinir tudo

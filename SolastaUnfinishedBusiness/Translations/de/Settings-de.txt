@@ -479,6 +479,7 @@ ModUi/&UseWeaponMasterySystemAddCleaveDamage=<i>+ Cleave-Meisterung fügt Attrib
 ModUi/&UseWeaponMasterySystemAddWeaponTag=<i>+ Meisterschafts-Tag zu allen Spielwaffen hinzufügen</i>
 ModUi/&UseWeaponMasterySystemAlternateProperties=<i>+ alternative Waffeneigenschaften zur Darstellung realer Eigenschaften aus einer kleinen Forschung. "Vex" auf Shortbow macht keinen Sinn <b> <i> <color =#C04040E0> [erfordert neu starten] </color> </i> </b> </i>
 ModUi/&UseWeaponMasterySystemFlurryTriggersMastery=<i>+ Dual Flurry-Zusatzangriff kann eine weitere Meisterung auslösen</i>
+ModUi/&UseWeaponMasterySystemNickDualFlurry=<i>+ Nick-Meisterungs-Zusatzangriff kann Dual Flurry auslösen</i>
 ModUi/&UseWeaponMasterySystemNickExtraAttackTriggersMastery=<i>+ Nick-Meisterung – zusätzlicher Angriff kann eine weitere Meisterung auslösen</i>
 ModUi/&UseWeaponMasterySystemPushSave=<i>+ Push-Meisterung erfordert, dass die Kreatur einen Stärkerettungswurf macht (DC 8 + Angriffswurf-Fähigkeitsmodifikator + Proficiency-Bonus)</i>
 ModUi/&WeaponMasterySystemCustomizeResetAll=Alle zurücksetzen
