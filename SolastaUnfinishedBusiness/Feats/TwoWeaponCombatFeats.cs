@@ -111,6 +111,7 @@ internal static class TwoWeaponCombatFeats
 
             attackModeCopy.Copy(attackMode);
             attackModeCopy.AddAttackTagAsNeeded(DualFlurryAttackMark);
+            attackModeCopy.AttackTags.RemoveAll(t => t == DualFlurryTriggerMark);
             rulesetAttacker.LogCharacterUsedFeature(feature);
             attacker.MyExecuteActionAttack(
                 Id.AttackFree,
