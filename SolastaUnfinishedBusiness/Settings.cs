@@ -183,6 +183,7 @@ public class Settings : UnityModManager.ModSettings
     public bool AltOnlyHighlightItemsInPartyFieldOfView { get; set; }
     [Tag(Type = TagType.QoL)] public bool EnableAdditionalIconsOnLevelMap { get; set; }
     public bool HideExitsAndTeleportersGizmosIfNotDiscovered { get; set; }
+    public bool EnableOutOfCombatTargetingSightLines { get; set; }
     public bool EnableLogDialoguesToConsole { get; set; }
     public bool EnableSpeech { get; set; }
     public bool EnableSpeechOnNpcs { get; set; }

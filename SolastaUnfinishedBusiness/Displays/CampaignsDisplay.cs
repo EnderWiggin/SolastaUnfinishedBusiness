@@ -119,6 +119,12 @@ internal static class CampaignsDisplay
             Main.Settings.HideExitsAndTeleportersGizmosIfNotDiscovered = toggle;
         }
 
+        toggle = Main.Settings.EnableOutOfCombatTargetingSightLines;
+        if (UI.Toggle(Gui.Localize("ModUi/&EnableOutOfCombatTargetingSightLines"), ref toggle, UI.AutoWidth()))
+        {
+            Main.Settings.EnableOutOfCombatTargetingSightLines = toggle;
+        }
+
         UI.Label();
 
         toggle = Main.Settings.EnableLogDialoguesToConsole;
