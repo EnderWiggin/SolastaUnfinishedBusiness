@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Concurrent;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -6,6 +7,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
+using JetBrains.Annotations;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -19,16 +21,17 @@ internal sealed class GoogleTranslationService : ITranslationService
     private const string BaseUrl = "https://translate.googleapis.com/translate_a/single";
 
     private static readonly HttpClient HttpClient;
+    private static readonly ConcurrentBag<WebClient> WebClients = [];
 
     static GoogleTranslationService()
     {
         ServicePointManager.DefaultConnectionLimit = int.MaxValue;
-        
+
         HttpClient = new HttpClient
         {
             Timeout = TimeSpan.FromMinutes(2)
         };
-        
+
         try
         {
             var servicePoint = ServicePointManager.FindServicePoint(new Uri(BaseUrl));
@@ -55,12 +58,7 @@ internal sealed class GoogleTranslationService : ITranslationService
             var encoded = HttpUtility.UrlEncode(sourceText.Replace("_", " "));
             var url = $"{BaseUrl}?client=gtx&sl=auto&tl={targetLanguageCode}&dt=t&q={encoded}";
 
-            using var request = new HttpRequestMessage(HttpMethod.Get, url);
-            request.Headers.Add("User-Agent",
-                "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36");
-
-            var response = await HttpClient.SendAsync(request, cancellationToken);
-            var payload = await response.Content.ReadAsStringAsync();
+            var payload = await GetPayload(url, cancellationToken);
 
             var json = JsonConvert.DeserializeObject(payload);
 
@@ -83,9 +81,61 @@ internal sealed class GoogleTranslationService : ITranslationService
         }
         catch (Exception ex)
         {
-            Main.Error($"Google Translate failed: {ex.Message}");
+            Main.Error($"Google Translate failed: {ex}");
             return sourceText;
         }
+    }
+
+    [NotNull]
+    private static async Task<string> GetPayload([NotNull] string url, CancellationToken cancellationToken)
+    {
+        if (Main.Settings.GoogleLegacyMode)
+        {
+            return await GetPayloadWebClient(url);
+        }
+
+        return await GetPayloadHttpClient(url, cancellationToken);
+    }
+
+    [NotNull]
+    private static async Task<string> GetPayloadWebClient([NotNull] string url)
+    {
+        var client = GetWebClient();
+        var payload = await client.DownloadStringTaskAsync(new Uri(url));
+        ReturnWebClient(client);
+
+        return payload;
+    }
+
+    private static WebClient GetWebClient()
+    {
+        if (WebClients.TryTake(out var client))
+        {
+            return client;
+        }
+
+        client = new WebClient();
+
+        client.Headers.Add("user-agent",
+            "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36");
+        client.Encoding = Encoding.UTF8;
+
+        return client;
+    }
+
+    private static void ReturnWebClient(WebClient client)
+    {
+        WebClients.Add(client);
+    }
+
+    private static async Task<string> GetPayloadHttpClient(string url, CancellationToken cancellationToken)
+    {
+        using var request = new HttpRequestMessage(HttpMethod.Get, url);
+        request.Headers.Add("User-Agent",
+            "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36");
+
+        var response = await HttpClient.SendAsync(request, cancellationToken);
+        return await response.Content.ReadAsStringAsync();
     }
 
     public bool IsConfigured()

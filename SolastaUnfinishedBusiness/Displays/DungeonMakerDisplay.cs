@@ -10,7 +10,7 @@ namespace SolastaUnfinishedBusiness.Displays;
 
 internal static class DungeonMakerDisplay
 {
-    private static bool _showOpenAISettings;
+    private static bool _showTranslateServiceSettings;
     private static bool _showOpenAIAdvancedSettings;
     private static bool _showCategoryProgress;
     private static string _openAIApiKeyInput = string.Empty;
@@ -160,9 +160,14 @@ internal static class DungeonMakerDisplay
             }
         }
 
-        if (Main.Settings.SelectedTranslationService == TranslationServiceType.OpenAI)
+        switch (Main.Settings.SelectedTranslationService)
         {
-            DisplayOpenAISettings();
+            case TranslationServiceType.Google:
+                DisplayGoogleSettings();
+                break;
+            case TranslationServiceType.OpenAI:
+                DisplayOpenAISettings();
+                break;
         }
 
         var translationService = TranslationServiceFactory.GetCurrentService();
@@ -394,6 +399,19 @@ internal static class DungeonMakerDisplay
         }
     }
 
+    private static void DisplayGoogleSettings()
+    {
+        UI.DisclosureToggle(Gui.Localize("ModUi/&TranslationGoogleSettings"), ref _showTranslateServiceSettings, 200);
+
+        if (!_showTranslateServiceSettings) { return; }
+
+        var toggle = Main.Settings.GoogleLegacyMode;
+        if (UI.Toggle(Gui.Localize("ModUi/&TranslationGoogleLegacyMode"), ref toggle, UI.AutoWidth()))
+        {
+            Main.Settings.GoogleLegacyMode = toggle;
+        }
+    }
+
     private static void DisplayOpenAISettings()
     {
         const float LabelWidth = 150f;
@@ -406,9 +424,9 @@ internal static class DungeonMakerDisplay
             _apiKeyInitialized = true;
         }
 
-        UI.DisclosureToggle(Gui.Localize("ModUi/&OpenAISettings"), ref _showOpenAISettings, 200);
+        UI.DisclosureToggle(Gui.Localize("ModUi/&OpenAISettings"), ref _showTranslateServiceSettings, 200);
 
-        if (!_showOpenAISettings)
+        if (!_showTranslateServiceSettings)
         {
             return;
         }

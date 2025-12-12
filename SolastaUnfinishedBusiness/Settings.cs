@@ -325,6 +325,8 @@ public class Settings : UnityModManager.ModSettings
     public TranslationServiceType SelectedTranslationService { get; set; } =
         TranslationServiceType.Google;
 
+    public bool GoogleLegacyMode { get; set; }
+
     public string OpenAIEndpoint { get; set; } = OpenAITranslationService.DefaultEndpoint;
     public string OpenAIModel { get; set; } = OpenAITranslationService.DefaultModel;
     public float OpenAITemperature { get; set; } = OpenAITranslationService.DefaultTemperature;
