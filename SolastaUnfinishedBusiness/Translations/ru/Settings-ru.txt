@@ -450,6 +450,8 @@ ModUi/&TranslationCompleted=Завершено
 ModUi/&TranslationCompletedWithErrors=Завершено (с ошибками)
 ModUi/&TranslationConcurrency=Параллельность
 ModUi/&TranslationFailed=Не удалось
+ModUi/&TranslationGoogleLegacyMode=Используйте устаревший режим для запроса переводов из API Google Translate.
+ModUi/&TranslationGoogleSettings=Настройки API Google
 ModUi/&TranslationPaused=Приостановлено
 ModUi/&TranslationProgress=Прогресс
 ModUi/&TranslationService=Сервис перевода
@@ -474,6 +476,7 @@ ModUi/&UseOfficialObscurementRules=Включить правила <color=#D8955
 ModUi/&UseOfficialObscurementRulesHelp=<i><color=#F0DAA0>[преимущество для атакующего, который видит цель, которая не видит его, и помеха для атакующего, который не видит цель, которая видит его\n сильно заслонённая местность накладывает состояние слепоты, при которой броски атаки по существу совершаются с преимуществом, а броски атаки существа совершаются с помехой\n дистанционные заклинания, целями которых являются существа, не могут быть наложены, если атакующий не видит цель, кроме тех, для которых не указано специально, что необходима видимость]</color></i>
 ModUi/&UseOfficialSmallRacesDisWithHeavyWeapons=Включить помеху <color=#D89555>расам маленького размера</color> при использовании тяжёлого оружия
 ModUi/&UseOldOfficialFlankingRules=<i> + Старое правило фланкирования было просто +2 для атаки. Выше правило модификатора выше, превышает приоритет </i>
+ModUi/&UseWeaponMasteryMonkWayOfBlade=<i>+ Дайте 2 выбора мастерства владения оружием подклассу монаха Пути Клинка</i>
 ModUi/&UseWeaponMasterySystem=Включить правила <color=#D89555>Оружейного мастерства</color>
 ModUi/&UseWeaponMasterySystemAddCleaveDamage=<i>+ Мастерство рассекающего удара добавляет модификатор характеристики к урону второй атаки</i>
 ModUi/&UseWeaponMasterySystemAddWeaponTag=<i>+ Добавить метку мастерства ко всему оружию в игре</i>

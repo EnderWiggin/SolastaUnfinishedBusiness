@@ -450,6 +450,8 @@ ModUi/&TranslationCompleted=완료됨
 ModUi/&TranslationCompletedWithErrors=완료됨 (오류 있음)
 ModUi/&TranslationConcurrency=동시 실행
 ModUi/&TranslationFailed=실패함
+ModUi/&TranslationGoogleLegacyMode=레거시 모드를 사용하여 Google Translate API에서 번역을 요청하세요.
+ModUi/&TranslationGoogleSettings=구글 API 설정
 ModUi/&TranslationPaused=일시 정지됨
 ModUi/&TranslationProgress=진행률
 ModUi/&TranslationService=번역 서비스
@@ -474,6 +476,7 @@ ModUi/&UseOfficialObscurementRules=<color=#D89555>조명, 흐릿함, 시야</col
 ModUi/&UseOfficialObscurementRulesHelp=<i><color=#F0DAA0>[공격자가 감지할 수 없는 방어자를 감지하면 ADV를 얻고, 공격자가 감지할 수 있는 방어자를 감지하지 못하면 DIS를 얻습니다.\n 매우 어두운 지역은 실명 상태를 유발하고, 생물에 대한 공격 굴림은 ADV를 얻고 생물의 공격 굴림은 DIS를 얻습니다.\n 공격자가 시력이 없으면 개인을 대상으로 하는 모든 원거리 주문을 시전할 수 없습니다. 다만 시력이 필요하다는 것이 명확히 명시되지 않은 주문은 예외입니다.]</color></i>
 ModUi/&UseOfficialSmallRacesDisWithHeavyWeapons=<color=#D89555>작은 종족</color>이 무거운 무기를 사용할 때 불리한 점을 갖도록 합니다.
 ModUi/&UseOldOfficialFlankingRules=<i> + 오래된 측면 규칙은 롤을 공격하기 위해 +2에 불과했습니다. 위의 측면 플러스 플러스 수정 자 규칙은 우선 순위 </i>를 취합니다
+ModUi/&UseWeaponMasteryMonkWayOfBlade=<i>+ Way of Blade Monk 하위 클래스에 2개의 무기 마스터리 선택 부여</i>
 ModUi/&UseWeaponMasterySystem=<color=#D89555>무기 마스터리</color> 규칙 활성화
 ModUi/&UseWeaponMasterySystemAddCleaveDamage=<i>+ 클리브 마스터리 2차 공격 데미지에 속성 점수 수정치 추가</i>
 ModUi/&UseWeaponMasterySystemAddWeaponTag=<i>+ 모든 게임 무기에 마스터리 태그 추가</i>

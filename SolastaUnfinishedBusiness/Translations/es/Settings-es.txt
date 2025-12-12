@@ -450,6 +450,8 @@ ModUi/&TranslationCompleted=Completado
 ModUi/&TranslationCompletedWithErrors=Completado (con errores)
 ModUi/&TranslationConcurrency=Concurrencia
 ModUi/&TranslationFailed=Fallido
+ModUi/&TranslationGoogleLegacyMode=Utilice el modo heredado para solicitar traducciones desde la API de Google Translate
+ModUi/&TranslationGoogleSettings=Configuración de API de Google
 ModUi/&TranslationPaused=Pausado
 ModUi/&TranslationProgress=Progreso
 ModUi/&TranslationService=Servicio de Traducción
@@ -474,6 +476,7 @@ ModUi/&UseOfficialObscurementRules=Habilitar las reglas de combate de <color=#D8
 ModUi/&UseOfficialObscurementRulesHelp=<i><color=#F0DAA0>[el atacante que percibe al defensor que no puede percibirlo obtiene ADV, y el atacante que no percibe al defensor que puede percibirlo obtiene DIS\n las áreas muy oscurecidas infligen condición de ceguera, donde las tiradas de ataque contra la criatura tienen ADV, y las tiradas de ataque de la criatura tienen DIS\n todos los hechizos de distancia dirigidos a individuos no se pueden lanzar si el atacante no tiene vista, excepto los que claramente no indican que se requiere vista]</color></i>
 ModUi/&UseOfficialSmallRacesDisWithHeavyWeapons=Permitir que las <color=#D89555>razas pequeñas</color> tengan desventaja al manejar armas pesadas
 ModUi/&UseOldOfficialFlankingRules=<i> + La antigua regla de flanqueo fue solo +2 para atacar el rollo. Arriba de la regla modificador de flanqueo más tiene prioridad </i>
+ModUi/&UseWeaponMasteryMonkWayOfBlade=<i>+ Otorga 2 selecciones de dominio de armas a la subclase Way of Blade Monk</i>
 ModUi/&UseWeaponMasterySystem=Habilitar las reglas de <color=#D89555>Maestría en armas</color>
 ModUi/&UseWeaponMasterySystemAddCleaveDamage=<i>+ Maestría en hendidura: añade un modificador de puntuación de atributo al daño del segundo ataque</i>
 ModUi/&UseWeaponMasterySystemAddWeaponTag=<i>+ Añadir etiqueta de maestría a todas las armas del juego</i>

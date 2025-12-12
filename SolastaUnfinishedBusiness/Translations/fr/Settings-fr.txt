@@ -450,6 +450,8 @@ ModUi/&TranslationCompleted=Terminé
 ModUi/&TranslationCompletedWithErrors=Terminé (avec erreurs)
 ModUi/&TranslationConcurrency=Concurrence
 ModUi/&TranslationFailed=Échec
+ModUi/&TranslationGoogleLegacyMode=Utilisez le mode hérité pour demander des traductions à l'API Google Translate
+ModUi/&TranslationGoogleSettings=Paramètres de l'API Google
 ModUi/&TranslationPaused=En pause
 ModUi/&TranslationProgress=Progression
 ModUi/&TranslationService=Service de traduction
@@ -474,6 +476,7 @@ ModUi/&UseOfficialObscurementRules=Activer les règles de combat <color=#D89555>
 ModUi/&UseOfficialObscurementRulesHelp=<i><color=#F0DAA0>[l'attaquant qui perçoit le défenseur qui ne peut pas le percevoir obtient l'ADV, et l'attaquant qui ne perçoit pas le défenseur qui peut le percevoir obtient la DIS\n les zones fortement obscurcies infligent un état d'aveuglement, où les jets d'attaque contre la créature ont l'ADV, et les jets d'attaque de la créature ont la DIS\n tous les sorts de distance ciblant des individus ne peuvent pas être lancés si l'attaquant n'a pas la vue, à l'exception de ceux qui n'indiquent clairement pas que la vue est requise]</color></i>
 ModUi/&UseOfficialSmallRacesDisWithHeavyWeapons=Les <color=#D89555>petites races</color> ont un désavantage lorsqu'elles manient des armes lourdes
 ModUi/&UseOldOfficialFlankingRules=<i> + La vieille règle de flanquant était juste +2 pour attaquer le rouleau. Au-dessus de la règle de modificateur Flanking Plus de prendre priorité </i>
+ModUi/&UseWeaponMasteryMonkWayOfBlade=<i>+ Accordez 2 choix de maîtrise des armes à la sous-classe Way of Blade Monk</i>
 ModUi/&UseWeaponMasterySystem=Activer les règles de <color=#D89555>Maîtrise des armes</color>
 ModUi/&UseWeaponMasterySystemAddCleaveDamage=<i>+ La maîtrise de Cleave ajoute un modificateur de score d'attribut aux dégâts de la deuxième attaque</i>
 ModUi/&UseWeaponMasterySystemAddWeaponTag=<i>+ Ajouter une balise de maîtrise à toutes les armes du jeu</i>

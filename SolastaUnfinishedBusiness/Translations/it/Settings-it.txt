@@ -450,6 +450,8 @@ ModUi/&TranslationCompleted=Completato
 ModUi/&TranslationCompletedWithErrors=Completato (con errori)
 ModUi/&TranslationConcurrency=Concorrenza
 ModUi/&TranslationFailed=Fallito
+ModUi/&TranslationGoogleLegacyMode=Utilizza la modalità Legacy per richiedere traduzioni dall'API di Google Translate
+ModUi/&TranslationGoogleSettings=Impostazioni dell'API di Google
 ModUi/&TranslationPaused=In Pausa
 ModUi/&TranslationProgress=Avanzamento
 ModUi/&TranslationService=Servizio di Traduzione
@@ -474,6 +476,7 @@ ModUi/&UseOfficialObscurementRules=Abilita le regole di combattimento <color=#D8
 ModUi/&UseOfficialObscurementRulesHelp=<i><color=#F0DAA0>[l'attaccante che percepisce il difensore che non riesce a percepirlo ottiene ADV, e l'attaccante che non percepisce il difensore che riesce a percepirlo ottiene DIS\n le aree pesantemente oscurate infliggono la condizione di accecamento, dove i tiri per colpire contro la creatura hanno ADV, e i tiri per colpire della creatura hanno DIS\n tutti gli incantesimi a distanza che prendono di mira gli individui non possono essere lanciati se l'attaccante non ha vista, eccetto quelli che chiaramente non dichiarano che la vista è richiesta]</color></i>
 ModUi/&UseOfficialSmallRacesDisWithHeavyWeapons=Abilita le <color=#D89555>razze piccole</color> che hanno svantaggio quando impugnano armi pesanti
 ModUi/&UseOldOfficialFlankingRules=<i> + La vecchia regola del fianco era solo +2 per l'attacco. Sopra il fianco più la regola del modificatore ha la precedenza </i>
+ModUi/&UseWeaponMasteryMonkWayOfBlade=<i>+ Concede 2 scelte di maestria nelle armi alla sottoclasse del Monaco Via della Lama</i>
 ModUi/&UseWeaponMasterySystem=Abilita le regole <color=#D89555>Padronanza delle armi</color>
 ModUi/&UseWeaponMasterySystemAddCleaveDamage=<i>+ La maestria di Cleave aggiunge il modificatore del punteggio attributo al danno del secondo attacco</i>
 ModUi/&UseWeaponMasterySystemAddWeaponTag=<i>+ Aggiungi tag di maestria a tutte le armi del gioco</i>

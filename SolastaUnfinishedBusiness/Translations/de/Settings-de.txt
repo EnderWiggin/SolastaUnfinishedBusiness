@@ -450,6 +450,8 @@ ModUi/&TranslationCompleted=Abgeschlossen
 ModUi/&TranslationCompletedWithErrors=Abgeschlossen (mit Fehlern)
 ModUi/&TranslationConcurrency=Parallelität
 ModUi/&TranslationFailed=Fehlgeschlagen
+ModUi/&TranslationGoogleLegacyMode=Verwenden Sie den Legacy-Modus, um Übersetzungen von der Google Translate API anzufordern
+ModUi/&TranslationGoogleSettings=Google API-Einstellungen
 ModUi/&TranslationPaused=Pausiert
 ModUi/&TranslationProgress=Fortschritt
 ModUi/&TranslationService=Übersetzungsdienst
@@ -474,6 +476,7 @@ ModUi/&UseOfficialObscurementRules=Aktiviere die Kampfregeln <color=#D89555>Bele
 ModUi/&UseOfficialObscurementRulesHelp=<i><color=#F0DAA0>[Angreifer, der wahrnimmt, Verteidiger, der es nicht wahrnehmen kann, erhält ADV, und Angreifer, der es nicht wahrnimmt, Verteidiger, der es wahrnehmen kann, erhält DIS\n stark verdeckte Bereiche verursachen den Zustand der Erblindung, wobei Angriffswürfe gegen die Kreatur ADV haben und die Angriffswürfe der Kreatur DIS haben\n alle Distanzzauber, die auf Einzelpersonen zielen, können nicht gewirkt werden, wenn der Angreifer keine Sicht hat, außer denen, bei denen nicht klar angegeben ist, dass Sicht erforderlich ist]</color></i>
 ModUi/&UseOfficialSmallRacesDisWithHeavyWeapons=Aktivieren <color=#D89555>Kleine Rassen</color> haben einen Nachteil beim Tragen schwerer Waffen
 ModUi/&UseOldOfficialFlankingRules=<i> + Die alte flankierende Regel war nur +2, um die Rolle anzugreifen. Oben Flanking plus Modifikatorregel nehmen Sie Vorrang </i>
+ModUi/&UseWeaponMasteryMonkWayOfBlade=<i>+ Gewähre der Unterklasse „Way of Blade Monk“ 2 Waffenmeister-Picks</i>
 ModUi/&UseWeaponMasterySystem=Aktivieren Sie die Regeln für <color=#D89555>Waffenbeherrschung</color>
 ModUi/&UseWeaponMasterySystemAddCleaveDamage=<i>+ Cleave-Meisterung fügt Attributwertmodifikator zum Schaden des zweiten Angriffs hinzu</i>
 ModUi/&UseWeaponMasterySystemAddWeaponTag=<i>+ Meisterschafts-Tag zu allen Spielwaffen hinzufügen</i>
