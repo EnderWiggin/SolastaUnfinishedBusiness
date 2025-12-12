@@ -1,3 +1,8 @@
+1.5.97.115:
+- fixed `Panache` from `Swashbuckler` having missing text in level progression
+- added option to enable `Way of Blade` having Weapon Mastery selection
+- added option to enable older way of requesting translations from Google API
+
 1.5.97.114:
 - reworked `Nick` mastery to make off-hand attack a free action after main hand attack
 - added option to allow `Nick` weapon mastery to trigger extra attack from `Dual Flurry` feat
