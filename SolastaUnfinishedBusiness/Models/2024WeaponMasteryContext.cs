@@ -15,6 +15,7 @@ using SolastaUnfinishedBusiness.Builders.Features;
 using SolastaUnfinishedBusiness.CustomUI;
 using SolastaUnfinishedBusiness.Feats;
 using SolastaUnfinishedBusiness.Interfaces;
+using SolastaUnfinishedBusiness.Subclasses;
 using SolastaUnfinishedBusiness.Validators;
 using static ActionDefinitions;
 using static RuleDefinitions;
@@ -413,10 +414,7 @@ public static partial class Tabletop2024Context
 
         foreach (var klass in klasses)
         {
-            klass.FeatureUnlocks.RemoveAll(x =>
-                x.FeatureDefinition == FeatureSetWeaponMasteryLearn1 ||
-                x.FeatureDefinition == FeatureSetWeaponMasteryLearn2 ||
-                x.FeatureDefinition == FeatureSetWeaponMasteryLearn3);
+            RemoveWeaponMasteryUnlocks(klass.FeatureUnlocks);
         }
 
         if (!Main.Settings.UseWeaponMasterySystem)
@@ -443,6 +441,27 @@ public static partial class Tabletop2024Context
         Paladin.FeatureUnlocks.Sort(Sorting.CompareFeatureUnlock);
         Ranger.FeatureUnlocks.Sort(Sorting.CompareFeatureUnlock);
         Rogue.FeatureUnlocks.Sort(Sorting.CompareFeatureUnlock);
+
+        SwitchWayOfBladeWeaponMastery();
+    }
+
+    public static void SwitchWayOfBladeWeaponMastery()
+    {
+        var wayOfTheBlade = GetDefinition<CharacterSubclassDefinition>(WayOfBlade.Name);
+        RemoveWeaponMasteryUnlocks(wayOfTheBlade.FeatureUnlocks);
+
+        if (!Main.Settings.UseWeaponMasterySystem || !Main.Settings.UseWeaponMasteryMonkWayOfBlade) { return; }
+
+        wayOfTheBlade.FeatureUnlocks.Sort(Sorting.CompareFeatureUnlock);
+        wayOfTheBlade.FeatureUnlocks.Add(new FeatureUnlockByLevel(FeatureSetWeaponMasteryLearn2, 3));
+    }
+
+    private static void RemoveWeaponMasteryUnlocks(List<FeatureUnlockByLevel> unlocks)
+    {
+        unlocks.RemoveAll(x =>
+            x.FeatureDefinition == FeatureSetWeaponMasteryLearn1 ||
+            x.FeatureDefinition == FeatureSetWeaponMasteryLearn2 ||
+            x.FeatureDefinition == FeatureSetWeaponMasteryLearn3);
     }
 
     private static WeaponTypeDefinition[] WeaponTypesWithLearnedMastery(RulesetCharacter character)
@@ -926,11 +945,10 @@ public static partial class Tabletop2024Context
 
             if (action.ActionId == Id.AttackMain)
             {
-
                 if (action.ActionType != ActionType.Main) { yield break; }
 
                 if (attacker.GetSpecialFeatureUses(WeaponMasteryNick) >= 1) { yield break; }
-                
+
                 var rulesetAttacker = attacker.RulesetCharacter;
                 if (rulesetAttacker.ExecutedBonusAttacks != 0) { yield break; }
 
@@ -1093,7 +1111,7 @@ public static partial class Tabletop2024Context
     {
         return character.RulesetCharacter.FindNickAttackMode();
     }
-    
+
     internal static RulesetAttackMode FindNickAttackMode(this RulesetCharacter character)
     {
         return character.AttackModes

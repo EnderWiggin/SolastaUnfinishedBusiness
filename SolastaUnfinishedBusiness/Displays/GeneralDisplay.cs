@@ -338,6 +338,13 @@ internal static class ToolsDisplay
 
         if (Main.Settings.UseWeaponMasterySystem)
         {
+            toggle = Main.Settings.UseWeaponMasteryMonkWayOfBlade;
+            if (UI.Toggle(Gui.Localize("ModUi/&UseWeaponMasteryMonkWayOfBlade"), ref toggle, UI.AutoWidth()))
+            {
+                Main.Settings.UseWeaponMasteryMonkWayOfBlade = toggle;
+                Tabletop2024Context.SwitchWayOfBladeWeaponMastery();
+            }
+
             toggle = Main.Settings.UseWeaponMasterySystemAddWeaponTag;
             if (UI.Toggle(Gui.Localize("ModUi/&UseWeaponMasterySystemAddWeaponTag"), ref toggle, UI.AutoWidth()))
             {

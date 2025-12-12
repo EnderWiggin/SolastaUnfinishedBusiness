@@ -111,6 +111,7 @@ public class Settings : UnityModManager.ModSettings
     [Tag(Type = TagType.T2024)] public bool EnableSmiteSpells2024 { get; set; }
     [Tag(Type = TagType.T2024)] public bool UseWeaponMasterySystem { get; set; }
     [Tag(Type = TagType.T2024)] public bool UseWeaponMasterySystemAddWeaponTag { get; set; }
+    public bool UseWeaponMasteryMonkWayOfBlade { get; set; }
     public bool UseWeaponMasterySystemAddCleaveDamage { get; set; }
     public bool UseWeaponMasterySystemFlurryTriggersMastery { get; set; }
     public bool UseWeaponMasterySystemNickExtraAttackTriggersMastery { get; set; }

@@ -27,7 +27,7 @@ namespace SolastaUnfinishedBusiness.Subclasses;
 [UsedImplicitly]
 public sealed class WayOfBlade : AbstractSubclass
 {
-    private const string Name = "WayOfBlade";
+    internal const string Name = "WayOfBlade";
 
     internal const string OneWithTheBlade = "OneWithTheBlade";
 

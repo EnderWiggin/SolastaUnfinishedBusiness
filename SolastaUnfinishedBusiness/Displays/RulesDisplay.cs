@@ -183,6 +183,13 @@ internal static class RulesDisplay
 
         if (Main.Settings.UseWeaponMasterySystem)
         {
+            toggle = Main.Settings.UseWeaponMasteryMonkWayOfBlade;
+            if (UI.Toggle(Gui.Localize("ModUi/&UseWeaponMasteryMonkWayOfBlade"), ref toggle, UI.AutoWidth()))
+            {
+                Main.Settings.UseWeaponMasteryMonkWayOfBlade = toggle;
+                Tabletop2024Context.SwitchWayOfBladeWeaponMastery();
+            }
+
             toggle = Main.Settings.UseWeaponMasterySystemAddWeaponTag;
             if (UI.Toggle(Gui.Localize("ModUi/&UseWeaponMasterySystemAddWeaponTag"), ref toggle, UI.AutoWidth()))
             {
@@ -350,7 +357,7 @@ internal static class RulesDisplay
                 Main.Settings.OfficialObscurementRulesTweakMonsters = toggle;
                 LightingAndObscurementContext.SwitchMonstersOnObscurementRules();
             }
-            
+
             toggle = Main.Settings.EnableChanceToPerceiveCloseRange;
             if (UI.Toggle(Gui.Localize("ModUI/&EnableChanceToPerceiveCloseRange"), ref toggle, UI.AutoWidth()))
             {
@@ -582,6 +589,5 @@ internal static class RulesDisplay
         }
 
         UI.Label();
-
     }
 }
