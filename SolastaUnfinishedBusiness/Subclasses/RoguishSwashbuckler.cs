@@ -113,7 +113,7 @@ public sealed class RoguishSwashbuckler : AbstractSubclass
 
         var featureSetPanache = FeatureDefinitionFeatureSetBuilder
             .Create($"FeatureSet{Name}Panache")
-            .SetGuiPresentation(Category.Feature)
+            .SetGuiPresentation(powerPanache.GuiPresentation.Title, powerPanache.GuiPresentation.Description)
             .AddFeatureSet(powerPanache)
             .AddToDB();
 
