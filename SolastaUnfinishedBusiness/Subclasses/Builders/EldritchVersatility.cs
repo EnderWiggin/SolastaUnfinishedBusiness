@@ -842,6 +842,7 @@ internal static class EldritchVersatilityBuilders
                 yield break;
             }
 
+            bool success;
             // You yourself should pass a check again to copy it if not overload
             if (!supportCondition.IsOverload)
             {
@@ -889,20 +890,23 @@ internal static class EldritchVersatilityBuilders
                 castAction.AbilityCheckRollOutcome = abilityCheckData.AbilityCheckRollOutcome;
                 castAction.AbilityCheckSuccessDelta = abilityCheckData.AbilityCheckSuccessDelta;
 
-                // Fails check
-                if (castAction.AbilityCheckRollOutcome > RollOutcome.Success)
-                {
-                    yield break;
-                }
+                success = castAction.AbilityCheckRollOutcome is RollOutcome.Success or RollOutcome.CriticalSuccess;
+            }
+            else
+            {
+                success = true;
             }
 
             var console = Gui.Game.GameConsole;
-            var entry = new GameConsoleEntry(
-                "Feedback/BattlefieldShorthandCopySpellSuccess", console.consoleTableDefinition) { Indent = true };
+            var line = success
+                ? "Feedback/&BattlefieldShorthandCopySpellSuccess"
+                : "Feedback/&BattlefieldShorthandCopySpellFailure";
+            var entry = new GameConsoleEntry(line, console.consoleTableDefinition) { Indent = true };
 
             console.AddCharacterEntry(featureOwner, entry);
-            entry.AddParameter(
-                ConsoleStyleDuplet.ParameterType.Positive, selectedSpellDefinition.GuiPresentation.Title);
+            entry.AddParameter(ConsoleStyleDuplet.ParameterType.AttackSpellPower,
+                selectedSpellDefinition.GuiPresentation.Title, tooltipContent: selectedSpellDefinition.Name,
+                tooltipClass: GuiSpellDefinition.TooltipClassSpellDefinition);
             console.AddEntry(entry);
             supportCondition.CopiedSpells.Add(selectedSpellDefinition);
             warlockRepertoire.ExtraSpellsByTag["BattlefieldShorthand"].Add(selectedSpellDefinition);
@@ -1080,7 +1084,7 @@ internal static class EldritchVersatilityBuilders
 
             var console = Gui.Game.GameConsole;
             var entry =
-                new GameConsoleEntry("Feedback/EldritchAegisGiveACBonus", console.consoleTableDefinition)
+                new GameConsoleEntry("Feedback/&EldritchAegisGiveACBonus", console.consoleTableDefinition)
                 {
                     Indent = true
                 };
