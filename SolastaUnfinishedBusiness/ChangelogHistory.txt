@@ -1,3 +1,8 @@
+1.5.97.116:
+- added option to make enemy spellcasters drop scribed spellbooks (Gameplay -> Campaigns) (PR by andragor)
+- added option to show targeting sight lines out of combat (Gameplay -> Campaigns) (PR by andragor)
+- improved several tooltips and log messages for `Eldritch Surge` Warlock patron
+
 1.5.97.115:
 - fixed `Panache` from `Swashbuckler` having missing text in level progression
 - added option to enable `Way of Blade` having Weapon Mastery selection
