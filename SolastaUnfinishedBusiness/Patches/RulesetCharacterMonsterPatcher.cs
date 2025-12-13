@@ -222,4 +222,20 @@ public static class RulesetCharacterMonsterPatcher
             }
         }
     }
+
+    [HarmonyPatch(typeof(RulesetCharacterMonster), nameof(RulesetCharacterMonster.InitializeDroppedItemsIFN))]
+    [SuppressMessage("Minor Code Smell", "S101:Types should be named in PascalCase", Justification = "Patch")]
+    [UsedImplicitly]
+    public static class InitializeDroppedItemsIFN_Patch
+    {
+        [UsedImplicitly]
+        public static void Postfix(RulesetCharacterMonster __instance)
+        {
+            //PATCH: Add Scribed Spellbooks to Enemy Spellcasters
+            if (Main.Settings.EnemySpellcastersDropScribedSpellbooks)
+            {
+                SpellbookContext.AddSpellbookToDroppedLoot(__instance);
+            }
+        }
+    }
 }

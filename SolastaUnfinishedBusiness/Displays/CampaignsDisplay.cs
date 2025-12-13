@@ -85,6 +85,12 @@ internal static class CampaignsDisplay
             }
         }
 
+        toggle = Main.Settings.EnemySpellcastersDropScribedSpellbooks;
+        if (UI.Toggle(Gui.Localize("ModUi/&EnemySpellcastersDropScribedSpellbooks"), ref toggle, UI.AutoWidth()))
+        {
+            Main.Settings.EnemySpellcastersDropScribedSpellbooks = toggle;
+        }
+
         UI.Label();
 
         toggle = Main.Settings.AltOnlyHighlightItemsInPartyFieldOfView;

@@ -13,6 +13,7 @@ ModUi/&NewWeaponsAndRecipesBaseInsteadOfPrimed=<i>+ Use base weapons and armor a
 ModUi/&NewWeaponsAndRecipesSimplified=<i>+ Use simple all-in-one recipes <color=#F0DAA0>[base ingredients only, does not affect custom items from campaigns]</color></i> <b><i><color=#C04040E0>[Requires Restart]</color></i></b>
 ModUi/&AddPaladinSmiteToggle=Add a toggle to allow <color=#D89555>Divine Smite</color> to only trigger on critical hits <i><color=#F0DAA0>[minimizes reaction prompts, applies to smite spells if 2024 smite spells are enabled]</color></i>
 ModUi/&AddPickPocketableLoot=Add pickpocketable loot <i><color=#F0DAA0>[suggested if <color=#D89555>Pickpocket</color> feat is enabled]</color></i>
+ModUi/&EnemySpellcastersDropScribedSpellbooks=Enemy spellcasters drop scribed spellbooks <i><color=#F0DAA0>[contains their known spells from the wizard list]</color></i>
 ModUi/&AddToStore=Add {0} 
 ModUi/&Advanced=<color=#F0DAA0>Advanced:</color> <b><i><color=#C04040E0>[Requires Restart]</color></i></b>
 ModUi/&AdvancedHelp=• <b><color=#C04040E0>ATTENTION:</color></b> These settings will require the player to have this mod installed
