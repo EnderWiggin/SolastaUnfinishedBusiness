@@ -202,6 +202,7 @@ ModUi/&EnableOneDndSpiderClimbSpell=<color=#D89555>スパイダークライム</
 ModUi/&EnableOneDndStoneSkinSpell=<color=#D89555>ストーンスキン</color> 5e 2024 呪文バージョンを有効にする <i><color=#F0DAA0>[魔法の B/P/S に対する耐性も付与します]</color></i>
 ModUi/&EnableOneDndTrueStrikeCantrip=<color=#D89555>トゥルーストライク</color> 5e 2024 キャントリップ バージョンを有効にします <b><i><color=#C04040E0>[再起動が必要]</color></i></b>{99><i><color=#F0DAA0>[攻撃は、攻撃ロールとダメージ ボーナスに呪文発動能力を使用し、レベル 5 から追加の光ダメージを与えます]</color></i>
 ModUi/&EnableOneDndWitchBoltSpell=<color=#D89555>ウィッチ ボルト</color> 5e 2024 スペル バージョン <i><color=#F0DAA0>[ダメージを再適用するボーナス アクション]</color></i> を有効にする
+ModUi/&EnableOutOfCombatTargetingSightLines=非戦闘時にターゲットを設定するときに、目に見える敵への視線を有効にする
 ModUi/&EnablePaladinAbjureFoes2024=レベル 9 で <color=#D89555>敵の拒絶</color> を有効にする
 ModUi/&EnablePaladinAnyFightingStyle2024=<color=#D89555>パラディン</color>が任意の戦闘スタイルを選択できるようにする <i><color=#F0DAA0>[アーチェリーと二刀流を追加]</color></i>
 ModUi/&EnablePaladinChannelDivinity2024=<color=#D89555>Channel Divinity</color> を 5e 2024 バージョンの <i><color=#F0DAA0>[異なる使用法]</color></i> と入れ替えます
@@ -277,6 +278,7 @@ ModUi/&EnablesAsiAndFeat=属性スコアの増加と <color=#D89555>特技</colo
 ModUi/&EncounterPercentageChance=<color=white>ランダムエンカウントの確率を設定する</color>
 ModUi/&Encounters=出会い
 ModUi/&EnemiesAlwaysRollInitiative=<i>+ 敵は常に強制値ではなくイニシアチブをロールします <color=#F0DAA0>[例: Sorak Assassin]</color></i>
+ModUi/&EnemySpellcastersDropScribedSpellbooks=敵の呪文使いは、筆記された呪文の本<i><color=#F0DAA0>[ウィザードリストの既知の呪文を含む]</color></i>をドロップします。
 ModUi/&EvocationSculptSpellNoPerception=<b>エヴォーカー</b>の<color=#D89555>スカルプト スペル</color>に味方の認識を必要としないようにする
 ModUi/&ExpandAll=すべて展開
 ModUi/&FactionHelp=<color=#C04040E0>派閥関係を変更するには、公式キャンペーン ゲームをロードします...</color>

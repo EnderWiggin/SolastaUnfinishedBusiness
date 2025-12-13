@@ -202,6 +202,7 @@ ModUi/&EnableOneDndSpiderClimbSpell=Activer <color=#D89555>Spider Climb</color> 
 ModUi/&EnableOneDndStoneSkinSpell=Activer la version du sort <color=#D89555>Stone Skin</color> 5e 2024 <i><color=#F0DAA0>[offre également une résistance aux B/P/S magiques]</color></i>
 ModUi/&EnableOneDndTrueStrikeCantrip=Activer <color=#D89555>True Strike</color> 5e 2024 version du tour de passe-passe <b><i><color=#C04040E0>[Nécessite un redémarrage]</color></i></b>\n<i><color=#F0DAA0>[L'attaque utilise votre capacité de lancement de sorts pour le jet d'attaque et le bonus de dégâts, ainsi que des dégâts radiants supplémentaires à partir du niveau 5]</color></i>
 ModUi/&EnableOneDndWitchBoltSpell=Activer <color=#D89555>Witch Bolt</color> version 5e 2024 du sort <i><color=#F0DAA0>[Action bonus pour réappliquer les dégâts]</color></i>
+ModUi/&EnableOutOfCombatTargetingSightLines=Activer les lignes de vue vers les ennemis visibles lorsque vous ciblez hors combat
 ModUi/&EnablePaladinAbjureFoes2024=Activez <color=#D89555>Abjurer les ennemis</color> au niveau 9
 ModUi/&EnablePaladinAnyFightingStyle2024=Permettre au <color=#D89555>Paladin</color> de choisir n'importe quel style de combat <i><color=#F0DAA0>[ajoute Tir à l'arc et Combat à deux armes]</color></i>
 ModUi/&EnablePaladinChannelDivinity2024=Échangez <color=#D89555>Channel Divinity</color> avec la version 5e 2024 <i><color=#F0DAA0>[différentes utilisations]</color></i>
@@ -277,6 +278,7 @@ ModUi/&EnablesAsiAndFeat=Activer à la fois l'augmentation des scores d'attribut
 ModUi/&EncounterPercentageChance=<color=white>Définir des pourcentages de chances de rencontres aléatoires</color>
 ModUi/&Encounters=Rencontres
 ModUi/&EnemiesAlwaysRollInitiative=<i>+ Les ennemis lancent toujours l'initiative au lieu d'une valeur forcée <color=#F0DAA0>[par exemple : Sorak Assassin]</color></i>
+ModUi/&EnemySpellcastersDropScribedSpellbooks=Les lanceurs de sorts ennemis lâchent des grimoires écrits <i><color=#F0DAA0>[contient leurs sorts connus de la liste des sorciers]</color></i>
 ModUi/&EvocationSculptSpellNoPerception=Faire en sorte que <b>Evoker</b> <color=#D89555>Sorts de sculpture</color> ne nécessitent pas la perception d'alliés
 ModUi/&ExpandAll=Développer tout
 ModUi/&FactionHelp=<color=#C04040E0>Chargez une campagne officielle pour modifier les relations entre factions...</color>

@@ -202,6 +202,7 @@ ModUi/&EnableOneDndSpiderClimbSpell=Habilitar <color=#D89555>Escalada de Aranha<
 ModUi/&EnableOneDndStoneSkinSpell=Habilitar <color=#D89555>Stone Skin</color> versão de magia 5e 2024 <i><color=#F0DAA0>[fornece resistência a B/P/S mágicos também]</color></i>
 ModUi/&EnableOneDndTrueStrikeCantrip=Habilitar <color=#D89555>True Strike</color> versão 5e 2024 do truque <b><i><color=#C04040E0>[Requer reinicialização]</color></i></b>\n<i><color=#F0DAA0>[o ataque usa sua habilidade de conjuração para a jogada de ataque e bônus de dano, além de dano radiante adicional do nível 5]</color></i>
 ModUi/&EnableOneDndWitchBoltSpell=Ativar <color=#D89555>Witch Bolt</color> versão do feitiço 5e 2024 <i><color=#F0DAA0>[Ação bônus para reaplicar dano]</color></i>
+ModUi/&EnableOutOfCombatTargetingSightLines=Habilite linhas de visão em direção a inimigos visíveis ao mirar fora de combate
 ModUi/&EnablePaladinAbjureFoes2024=Habilitar <color=#D89555>Abjure Foes</color> no nível 9
 ModUi/&EnablePaladinAnyFightingStyle2024=Permitir que <color=#D89555>Paladino</color> escolha qualquer estilo de luta <i><color=#F0DAA0>[adiciona Arquearia e Luta com Duas Armas]</color></i>
 ModUi/&EnablePaladinChannelDivinity2024=Troque <color=#D89555>Channel Divinity</color> pela versão 5e 2024 <i><color=#F0DAA0>[usos diferentes]</color></i>
@@ -277,6 +278,7 @@ ModUi/&EnablesAsiAndFeat=Habilitar aumento de pontuação de atributos e seleç�
 ModUi/&EncounterPercentageChance=<color=white>Defina chances percentuais de encontros aleatórios</color>
 ModUi/&Encounters=Encontros
 ModUi/&EnemiesAlwaysRollInitiative=<i>+ Os inimigos sempre rolam a iniciativa em vez de um valor forçado <color=#F0DAA0>[por exemplo: Sorak Assassin]</color></i>
+ModUi/&EnemySpellcastersDropScribedSpellbooks=Conjuradores inimigos deixam cair livros de feitiços escritos <i><color=#F0DAA0>[contém seus feitiços conhecidos da lista de magos]</color></i>
 ModUi/&EvocationSculptSpellNoPerception=Faça com que <b>Evoker</b> <color=#D89555>Esculpir Feitiços</color> não exija a percepção de aliados
 ModUi/&ExpandAll=Expandir tudo
 ModUi/&FactionHelp=<color=#C04040E0>Carregue um jogo de campanha oficial para modificar as relações de facção...</color>

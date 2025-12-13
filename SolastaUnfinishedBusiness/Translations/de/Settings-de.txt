@@ -202,6 +202,7 @@ ModUi/&EnableOneDndSpiderClimbSpell=Aktiviere <color=#D89555>Spider Climb</color
 ModUi/&EnableOneDndStoneSkinSpell=Aktiviere <color=#D89555>Steinhaut</color> 5e 2024 Zauberversion <i><color=#F0DAA0>[bietet auch Widerstand gegen magisches B/P/S]</color></i>
 ModUi/&EnableOneDndTrueStrikeCantrip=Aktiviere <color=#D89555>True Strike</color> 5e 2024 Cantrip-Version <b><i><color=#C04040E0>[Neustart erforderlich]</color></i></b>\n<i><color=#F0DAA0>[Angriff nutzt deine Zauberfähigkeit für den Angriffswurf und Schadensbonus sowie zusätzlichen Strahlungsschaden ab Level 5]</color></i>
 ModUi/&EnableOneDndWitchBoltSpell=Aktiviere <color=#D89555>Hexenblitz</color> 5e 2024 Zauberversion <i><color=#F0DAA0>[Bonusaktion zum erneuten Anwenden von Schaden]</color></i>
+ModUi/&EnableOutOfCombatTargetingSightLines=Aktivieren Sie Sichtlinien zu sichtbaren Feinden, wenn Sie außerhalb des Kampfes zielen
 ModUi/&EnablePaladinAbjureFoes2024=Aktiviere <color=#D89555>Feinde abschwören</color> auf Level 9.
 ModUi/&EnablePaladinAnyFightingStyle2024=Erlaube <color=#D89555>Paladin</color> jeden Kampfstil zu wählen <i><color=#F0DAA0>[fügt Bogenschießen und Kampf mit zwei Waffen hinzu]</color></i>
 ModUi/&EnablePaladinChannelDivinity2024=Tauschen Sie <color=#D89555>Channel Divinity</color> gegen die 5e 2024-Version aus <i><color=#F0DAA0>[verschiedene Verwendungen]</color></i>
@@ -277,6 +278,7 @@ ModUi/&EnablesAsiAndFeat=Aktivieren Sie sowohl die Erhöhung der Attributwerte a
 ModUi/&EncounterPercentageChance=<color=white>Prozentuale Wahrscheinlichkeit für Zufallsbegegnungen festlegen</color>
 ModUi/&Encounters=Begegnungen
 ModUi/&EnemiesAlwaysRollInitiative=<i>+ Feinde würfeln immer die Initiative statt eines erzwungenen Wertes <color=#F0DAA0>[z. B.: Sorak-Assassine]</color></i>
+ModUi/&EnemySpellcastersDropScribedSpellbooks=Feindliche Zauberer lassen niedergeschriebene Zauberbücher fallen <i><color=#F0DAA0>[enthält ihre bekannten Zaubersprüche aus der Zaubererliste]</color></i>
 ModUi/&EvocationSculptSpellNoPerception=Sorgen Sie dafür, dass <b>Beschwörer</b> <color=#D89555>Skulpturzauber</color> keine wahrnehmenden Verbündeten erfordern
 ModUi/&ExpandAll=Alles erweitern
 ModUi/&FactionHelp=<color=#C04040E0>Laden Sie ein offizielles Kampagnenspiel, um die Fraktionsbeziehungen zu ändern …</color>

@@ -202,6 +202,7 @@ ModUi/&EnableOneDndSpiderClimbSpell=Включить версию заклина
 ModUi/&EnableOneDndStoneSkinSpell=Включить версию заклинания <color=#D89555>Каменная кожа</color> из 5e 2024 <i><color=#F0DAA0>[также даёт сопротивление магическому дробящему, рубящему и колющему урону]</color></i>
 ModUi/&EnableOneDndTrueStrikeCantrip=Включить версию заговора <color=#D89555>Меткий удар</color> из 5e 2024 <b><i><color=#C04040E0>[Необходим перезапуск]</color></i></b>\n<i><color=#F0DAA0>[для бросков атаки и урона используется ваша заклинательная характеристика, а также дополнительный урон излучением с 5-го уровня]</color></i>
 ModUi/&EnableOneDndWitchBoltSpell=Включить <color=#D89555>Witch Bolt</color> версию заклинания 5e 2024 <i><color=#F0DAA0>[Бонусное действие для повторного нанесения урона]</color></i>
+ModUi/&EnableOutOfCombatTargetingSightLines=Включить линии обзора в сторону видимых врагов при прицеливании вне боя.
 ModUi/&EnablePaladinAbjureFoes2024=Включить <color=#D89555>Отречение врагов</color> на уровне 9
 ModUi/&EnablePaladinAnyFightingStyle2024=Разрешить <color=#D89555>Паладину</color> выбирать любой боевой стиль <i><color=#F0DAA0>[добавляет Стрельба из лука и Бой двумя оружиями]</color></i>
 ModUi/&EnablePaladinChannelDivinity2024=Заменить <color=#D89555>Божественный канал</color> на версию из 5e 2024 <i><color=#F0DAA0>[различные варианты использования]</color></i>
@@ -277,6 +278,7 @@ ModUi/&EnablesAsiAndFeat=Включить возможность и повыша
 ModUi/&EncounterPercentageChance=<color=white>Вероятность случайных событий в процентах</color>
 ModUi/&Encounters=События
 ModUi/&EnemiesAlwaysRollInitiative=<i>+ Противники всегда совершают бросок инициативы вместо установки фиксированного значения <color=#F0DAA0>[например: Ассасин Сорр-Аккат]</color></i>
+ModUi/&EnemySpellcastersDropScribedSpellbooks=Вражеские заклинатели бросают записанные книги заклинаний <i><color=#F0DAA0>[содержит их известные заклинания из списка волшебников]</color></i>
 ModUi/&EvocationSculptSpellNoPerception=Сделать <b>Evoker</b> <color=#D89555>Sculpt Spells</color> не требующим восприятия союзников
 ModUi/&ExpandAll=Раскрыть все
 ModUi/&FactionHelp=<color=#C04040E0>Загрузите игру официальной кампании, чтобы изменить отношения фракций...</color>
