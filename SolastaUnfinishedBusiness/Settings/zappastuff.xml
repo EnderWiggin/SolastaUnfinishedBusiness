@@ -299,6 +299,7 @@
     <AltOnlyHighlightItemsInPartyFieldOfView>true</AltOnlyHighlightItemsInPartyFieldOfView>
     <EnableAdditionalIconsOnLevelMap>true</EnableAdditionalIconsOnLevelMap>
     <HideExitsAndTeleportersGizmosIfNotDiscovered>true</HideExitsAndTeleportersGizmosIfNotDiscovered>
+    <EnableOutOfCombatTargetingSightLines>true</EnableOutOfCombatTargetingSightLines>
     <EnableLogDialoguesToConsole>true</EnableLogDialoguesToConsole>
     <EnableSpeech>true</EnableSpeech>
     <EnableSpeechOnNpcs>true</EnableSpeechOnNpcs>
