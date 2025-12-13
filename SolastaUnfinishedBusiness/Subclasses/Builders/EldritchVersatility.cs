@@ -789,20 +789,23 @@ internal static class EldritchVersatilityBuilders
                 yield break;
             }
 
-            if (featureOwner != caster.RulesetCharacter)
+            //Do not process spells cast by self
+            if (featureOwner == caster.RulesetCharacter)
             {
-                // Nobody identified the spell
-                if (string.IsNullOrEmpty(castAction.ActiveSpell.IdentifiedBy))
-                {
-                    yield break;
-                }
+                yield break;
+            }
 
-                var owner = GameLocationCharacter.GetFromActor(featureOwner);
+            // Nobody identified the spell
+            if (string.IsNullOrEmpty(castAction.ActiveSpell.IdentifiedBy))
+            {
+                yield break;
+            }
 
-                if (owner != null && (!owner.IsWithinRange(caster, 12) || !caster.CanPerceiveTarget(owner)))
-                {
-                    yield break;
-                }
+            var owner = GameLocationCharacter.GetFromActor(featureOwner);
+
+            if (owner != null && (!owner.IsWithinRange(caster, 12) || !caster.CanPerceiveTarget(owner)))
+            {
+                yield break;
             }
 
             var warlockRepertoire = featureOwner.GetOriginalHero()!
@@ -855,44 +858,39 @@ internal static class EldritchVersatilityBuilders
 
                 var glc = GameLocationCharacter.GetFromActor(featureOwner);
 
-                if (glc != null)
+                if (glc == null) { yield break; }
+
+                var abilityCheckRoll = glc.RollAbilityCheckEx(
+                    AttributeDefinitions.Intelligence, SkillDefinitions.Arcana,
+                    14 + spellLevel + Math.Max(-6, spellLevel - supportCondition.CurrentPoints),
+                    AdvantageType.None,
+                    checkModifier,
+                    false,
+                    -1,
+                    out var rollOutcome,
+                    out var successDelta,
+                    out var rawRoll,
+                    true);
+
+                //PATCH: support for Bardic Inspiration roll off battle and ITryAlterOutcomeAttributeCheck
+                var abilityCheckData = new AbilityCheckData
                 {
-                    var abilityCheckRoll = glc.RollAbilityCheckEx(
-                        AttributeDefinitions.Intelligence, SkillDefinitions.Arcana,
-                        14 + spellLevel + Math.Max(-6, spellLevel - supportCondition.CurrentPoints),
-                        AdvantageType.None,
-                        checkModifier,
-                        false,
-                        -1,
-                        out var rollOutcome,
-                        out var successDelta,
-                        out var rawRoll,
-                        true);
+                    AbilityCheckRoll = abilityCheckRoll,
+                    AbilityCheckRollOutcome = rollOutcome,
+                    AbilityCheckSuccessDelta = successDelta,
+                    AbilityCheckActionModifier = checkModifier,
+                    Action = castAction
+                };
 
-                    //PATCH: support for Bardic Inspiration roll off battle and ITryAlterOutcomeAttributeCheck
-                    var abilityCheckData = new AbilityCheckData
-                    {
-                        AbilityCheckRoll = abilityCheckRoll,
-                        AbilityCheckRollOutcome = rollOutcome,
-                        AbilityCheckSuccessDelta = successDelta,
-                        AbilityCheckActionModifier = checkModifier,
-                        Action = castAction
-                    };
+                yield return TryAlterOutcomeAttributeCheck
+                    .HandleITryAlterOutcomeAttributeCheck(glc, abilityCheckData, rawRoll);
 
-                    yield return TryAlterOutcomeAttributeCheck
-                        .HandleITryAlterOutcomeAttributeCheck(glc, abilityCheckData, rawRoll);
+                castAction.AbilityCheckRoll = abilityCheckData.AbilityCheckRoll;
+                castAction.AbilityCheckRollOutcome = abilityCheckData.AbilityCheckRollOutcome;
+                castAction.AbilityCheckSuccessDelta = abilityCheckData.AbilityCheckSuccessDelta;
 
-                    castAction.AbilityCheckRoll = abilityCheckData.AbilityCheckRoll;
-                    castAction.AbilityCheckRollOutcome = abilityCheckData.AbilityCheckRollOutcome;
-                    castAction.AbilityCheckSuccessDelta = abilityCheckData.AbilityCheckSuccessDelta;
-
-                    // Fails check
-                    if (castAction.AbilityCheckRollOutcome > RollOutcome.Success)
-                    {
-                        yield break;
-                    }
-                }
-                else
+                // Fails check
+                if (castAction.AbilityCheckRollOutcome > RollOutcome.Success)
                 {
                     yield break;
                 }
