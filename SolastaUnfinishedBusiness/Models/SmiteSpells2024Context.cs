@@ -294,7 +294,7 @@ public static class SmiteSpells2024Context
         {
             return character.AreSpellComponentsValid(spell)
                    && ((canFreeUseDivineSmite && spell == Tabletop2024Context.DivineSmiteSpell)
-                       || (spellPoints
+                       || (spellPoints && repertoire.SpellCastingFeature?.UniqueLevelSlots != true
                            ? SpellPointsContext.CanCastSpellOfLevel(character, spell.SpellLevel)
                            : repertoire.CanCastSpellOfLevel(spell.SpellLevel)));
         }
