@@ -58,7 +58,7 @@ public static partial class Tabletop2024Context
         .AddCustomSubFeatures(new MagicEffectFinishedByMeRelearn())
         .AddToDB();
 
-    private static readonly FeatureDefinitionPower PowerWeaponMasteryRelearn = FeatureDefinitionPowerBuilder
+    internal static readonly FeatureDefinitionPower PowerWeaponMasteryRelearn = FeatureDefinitionPowerBuilder
         .Create("PowerWeaponMasteryRelearn")
         .SetGuiPresentation(Category.Feature,
             Sprites.GetSprite("PowerWeaponMasteryRelearn", Resources.PowerWeaponMasteryRelearn, 256, 128))
@@ -115,6 +115,13 @@ public static partial class Tabletop2024Context
                     .SetGuiPresentation("InvocationPoolWeaponMasteryLearn", Category.Feature)
                     .Setup(InvocationPoolTypeCustom.Pools.WeaponMasterySpecialization, 3)
                     .AddToDB())
+            .AddToDB();
+
+    internal static readonly FeatureDefinitionCustomInvocationPool FeatWeaponMasteryLearn1 =
+         CustomInvocationPoolDefinitionBuilder
+            .Create("InvocationPoolFeatWeaponMasteryLearn1")
+            .SetGuiPresentation("InvocationPoolWeaponMasteryLearn", Category.Feature)
+            .Setup(InvocationPoolTypeCustom.Pools.WeaponMasterySpecialization, 1)
             .AddToDB();
 
     private static readonly ConditionDefinition ConditionWeaponMasteryCleave =

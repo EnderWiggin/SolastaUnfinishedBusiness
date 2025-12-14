@@ -47,9 +47,6 @@ internal static class OtherFeats
 
     internal static void CreateFeats([NotNull] List<FeatDefinition> feats)
     {
-        // kept for backward compatibility
-        BuildWeaponMastery();
-
         var featAcrobat = BuildAcrobat();
         var featArcaneArcherAdept = BuildArcaneArcherAdept();
         var featBrawler = BuildBrawler();
@@ -82,6 +79,7 @@ internal static class OtherFeats
         var elementalMasterGroup = BuildElementalMaster(feats);
         var giftOfTheGemDragonGroup = BuildGiftOfTheGemDragon(feats);
         var weaponMasterGroup = BuildWeaponMaster(feats);
+        var weaponMasteryGroup = BuildWeaponMastery(feats);
 
         var featMerciless = BuildMerciless();
         var featPolearmExpert = BuildPolearmExpert();
@@ -166,7 +164,8 @@ internal static class OtherFeats
             featRopeIpUp,
             featSentinel,
             giftOfTheGemDragonGroup,
-            weaponMasterGroup);
+            weaponMasterGroup,
+            weaponMasteryGroup);
 
         GroupFeats.FeatGroupUnarmoredCombat.AddFeats(
             FeatPoisonousSkin);
@@ -188,7 +187,8 @@ internal static class OtherFeats
             featMartialAdept,
             featMetamagicAdept,
             featMonkInitiate,
-            featVersatilityAdept);
+            featVersatilityAdept,
+            weaponMasteryGroup);
     }
 
     #region Arcane Archer Adept
@@ -547,19 +547,34 @@ internal static class OtherFeats
 
     #region Weapon Mastery
 
-    private static void BuildWeaponMastery()
+    private static FeatDefinition BuildWeaponMastery(List<FeatDefinition> feats)
     {
         const string Name = "FeatWeaponMastery";
 
-        _ = FeatDefinitionBuilder
+        var weaponMasterStr = FeatDefinitionBuilder
             .Create($"{Name}Str")
-            .SetGuiPresentation(Category.Feat, hidden: true)
+            .SetGuiPresentation(Category.Feat)
+            .SetFeatures(AttributeModifierCreed_Of_Einar,
+                Tabletop2024Context.PowerWeaponMasteryRelearnPool,
+                Tabletop2024Context.PowerWeaponMasteryRelearn,
+                Tabletop2024Context.FeatWeaponMasteryLearn1)
+            .SetFeatFamily(Name)
             .AddToDB();
 
-        _ = FeatDefinitionBuilder
+        var weaponMasterDex = FeatDefinitionBuilder
             .Create($"{Name}Dex")
-            .SetGuiPresentation(Category.Feat, hidden: true)
+            .SetGuiPresentation(Category.Feat)
+            .SetFeatures(AttributeModifierCreed_Of_Misaye,
+                Tabletop2024Context.PowerWeaponMasteryRelearnPool,
+                Tabletop2024Context.PowerWeaponMasteryRelearn,
+                Tabletop2024Context.FeatWeaponMasteryLearn1)
+            .SetFeatFamily(Name)
             .AddToDB();
+
+        feats.AddRange(weaponMasterStr, weaponMasterDex);
+
+        return GroupFeats.MakeGroup(
+            "FeatGroupWeaponMastery", Name, weaponMasterStr, weaponMasterDex);
     }
 
     #endregion
@@ -1104,7 +1119,6 @@ internal static class OtherFeats
         if (rulesetHero == null ||
             !rulesetHero.TrainedFeats.Contains(FeatStealthy))
         {
-
             return;
         }
 
@@ -1653,7 +1667,7 @@ internal static class OtherFeats
                 false, -1,
                 out var rollOutcome,
                 out var successDelta,
-                out var rawRoll, 
+                out var rawRoll,
                 true);
 
             //PATCH: support for Bardic Inspiration roll off battle and ITryAlterOutcomeAttributeCheck
@@ -2550,7 +2564,7 @@ internal static class OtherFeats
 
                 var dieRoll = rulesetHelper.RollDie(DieType.D20, RollContext.None, false, AdvantageType.None, out _,
                     out _);
-                
+
                 if (dieRoll <= rawRoll)
                 {
                     rulesetHelper.LogCharacterActivatesAbility(
