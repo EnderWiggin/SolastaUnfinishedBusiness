@@ -90,7 +90,7 @@ internal static class ProximityLootModalPatcher
 
         private static bool OnlyLightIngredients(ItemDefinition item)
         {
-            return item.ItemTags.Contains(TagsDefinitions.ItemTagIngredient) && item.weight <= 0;
+            return item.ItemTags.Contains(TagsDefinitions.ItemTagIngredient) && item.weight <= 1;
         }
 
         private static bool OnlyScrolls(ItemDefinition item)
