@@ -26,16 +26,16 @@ internal static class ProximityLootModalPatcher
         {
             var parent = modal.lootAllButton.transform.parent;
 
-            if (parent.Find("LootMoneyButton") != null) { return; }
-
-            var prefab = modal.lootAllButton.gameObject;
-
             parent.GetComponent<HorizontalLayoutGroup>().spacing = 10;
 
             foreach (var element in parent.Find("CloseButton").GetComponents<LayoutElement>())
             {
                 if (element.minWidth > 100) { element.minWidth = 100; }
             }
+
+            if (parent.Find("LootMoneyButton") != null) { return; }
+
+            var prefab = modal.lootAllButton.gameObject;
 
             //Loot all money
             var asset = Object.Instantiate(prefab, parent, false);
@@ -120,7 +120,6 @@ internal static class ProximityLootModalPatcher
                 modal.itemsToLootCache.Add(item);
                 if (!modal.TryToLootSlotBox(modal.slotsTable.GetChild(index).GetComponent<InventorySlotBox>()))
                 {
-                    Main.Log2($"couldn't loot '{definition.FormatTitle()}':{item.guid} ");
                     fullSuccess = false;
                 }
                 else if (!hasLooted)
