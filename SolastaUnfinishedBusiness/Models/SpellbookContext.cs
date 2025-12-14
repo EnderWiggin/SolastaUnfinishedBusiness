@@ -1,32 +1,32 @@
-﻿using System;
-using System.Collections.Generic;
-using SolastaUnfinishedBusiness.Api;
+﻿using System.Collections.Generic;
+using System.Linq;
 using static SolastaUnfinishedBusiness.Api.DatabaseHelper;
 
 namespace SolastaUnfinishedBusiness.Models;
+
 internal static class SpellbookContext
 {
-    private static Dictionary<string, SpellDefinition> wizardSubspellParent = new Dictionary<string, SpellDefinition>();
-    private static Dictionary<string, List<SpellDefinition>> monsterSpellCache = new Dictionary<string, List<SpellDefinition>>();
+    private static readonly Dictionary<string, SpellDefinition> WizardSubspellParent = [];
 
-    private static ItemDefinition _spellbookDefinition = DatabaseHelper.GetDefinition<ItemDefinition>("Spellbook");
+    private static readonly Dictionary<string, List<SpellDefinition>> MonsterSpellCache = [];
 
-    private static void initializeWizardSubspellParents()
+    private static readonly ItemDefinition SpellbookDefinition = GetDefinition<ItemDefinition>("Spellbook");
+
+    private static void InitializeWizardSubspellParents()
     {
-        if (wizardSubspellParent.Count == 0)
+        if (WizardSubspellParent.Count != 0) { return; }
+
+        foreach (var duplet in SpellListDefinitions.SpellListWizard.SpellsByLevel)
         {
-            foreach (var duplet in SpellListDefinitions.SpellListWizard.SpellsByLevel)
+            var spells = duplet.spells;
+            foreach (var spell in spells)
             {
-                var spells = duplet.spells;
-                foreach (var spell in spells)
+                if (!WizardSubspellParent.ContainsKey(spell.Name))
                 {
-                    if (!wizardSubspellParent.ContainsKey(spell.Name))
+                    WizardSubspellParent[spell.Name] = spell;
+                    foreach (var subspell in spell.SubspellsList)
                     {
-                        wizardSubspellParent[spell.Name] = spell;
-                        foreach (var subspell in spell.SubspellsList)
-                        {
-                            wizardSubspellParent[subspell.Name] = spell;
-                        }
+                        WizardSubspellParent[subspell.Name] = spell;
                     }
                 }
             }
@@ -35,10 +35,9 @@ internal static class SpellbookContext
 
     internal static SpellDefinition GetSpellRoot(SpellDefinition spell)
     {
-        initializeWizardSubspellParents();
+        InitializeWizardSubspellParents();
 
-        if (wizardSubspellParent.ContainsKey(spell.Name)) return wizardSubspellParent[spell.Name];
-        else return spell;
+        return WizardSubspellParent.TryGetValue(spell.Name, out var root) ? root : spell;
     }
 
     internal static List<SpellDefinition> GetWizardSpells(MonsterDefinition monsterDef)
@@ -46,7 +45,7 @@ internal static class SpellbookContext
         var result = new List<SpellDefinition>();
 
         if (monsterDef == null || monsterDef.Name == null) return result;
-        if (monsterSpellCache.ContainsKey(monsterDef.Name)) return monsterSpellCache[monsterDef.Name];
+        if (MonsterSpellCache.TryGetValue(monsterDef.Name, out var spells)) { return spells; }
 
         if (monsterDef.features != null)
         {
@@ -64,9 +63,9 @@ internal static class SpellbookContext
                                 if (level > 0)
                                 {
                                     var s = GetSpellRoot(spell);
-                                    if (!result.Contains(s) && SpellListDefinitions.SpellListWizard.ContainsSpell(s)) result.Add(s);
+                                    if (!result.Contains(s) && SpellListDefinitions.SpellListWizard.ContainsSpell(s))
+                                        result.Add(s);
                                 }
-
                             }
                         }
                     }
@@ -74,15 +73,15 @@ internal static class SpellbookContext
             }
         }
 
-        monsterSpellCache[monsterDef.Name] = result;
+        MonsterSpellCache[monsterDef.Name] = result;
 
         return result;
     }
 
-    internal static RulesetItemSpellbook MakeBlankSpellbook()
+    private static RulesetItemSpellbook MakeBlankSpellbook()
     {
-        IRulesetItemFactoryService service = ServiceRepository.GetService<IRulesetItemFactoryService>();
-        RulesetItem item = service.CreateStandardItem(_spellbookDefinition);
+        var service = ServiceRepository.GetService<IRulesetItemFactoryService>();
+        var item = service.CreateStandardItem(SpellbookDefinition);
         if (item is RulesetItemSpellbook result) return result;
 
         return null;
@@ -90,30 +89,31 @@ internal static class SpellbookContext
 
     internal static void AddSpellbookToDroppedLoot(RulesetCharacterMonster monster)
     {
-        if (monster == null || monster.Name == null || monster.MonsterDefinition == null || monster.droppedItems == null) return;
+        if (monster?.Name == null || monster.MonsterDefinition == null || monster.droppedItems == null) { return; }
 
         var spellList = GetWizardSpells(monster.MonsterDefinition);
-        if (spellList.Count > 0)
+        if (spellList.Count <= 0) { return; }
+
+        //Skip if monster already drops spellbook 
+        if (monster.droppedItems.Any(i => i is RulesetItemSpellbook spellbook && spellbook.ScribedSpells.Count > 0))
         {
-            foreach (var droppedItem in monster.droppedItems)
-            {
-                if (droppedItem is RulesetItemSpellbook droppedSpellbook)
-                {
-                    if (droppedSpellbook.ScribedSpells.Count > 0)
-                    {
-                        return;
-                    }
-                }
-            }
-
-            var spellbook = MakeBlankSpellbook();
-            if (spellbook != null)
-            {
-                spellbook.ScribedSpells = spellList;
-                spellbook.OwnerName = monster.Name;
-
-                monster.droppedItems.Add(spellbook);
-            }
+            return;
         }
+
+        var spellbook = MakeBlankSpellbook();
+        if (spellbook == null) { return; }
+
+        spellbook.ScribedSpells = spellList;
+        spellbook.ScribedSpells.Sort(spellbook);
+        spellbook.OwnerName = monster.Name;
+
+        var pages = spellbook.GetAttribute(AttributeDefinitions.ItemSpellbookPages);
+        if (pages != null)
+        {
+            pages.BaseValue -= spellList.Sum(s => s.SpellLevel);
+            pages.Refresh();
+        }
+
+        monster.droppedItems.Add(spellbook);
     }
 }
