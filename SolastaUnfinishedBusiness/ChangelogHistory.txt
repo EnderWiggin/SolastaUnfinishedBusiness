@@ -1,3 +1,10 @@
+1.5.97.117:
+- made `One with Blade` attack visible only during battle
+- fixed not being able to cast 2024 Smites for warlocks when Spell Points are enabled
+- re-added `Weapon Mastery` feat
+- `Enemy Spellcasters Drop Scribed Spellbooks` - now they have used pages and drop decided not on monster load, but on monster death
+- added buttons to loot gold, ingredients and scrolls to loot popup
+
 1.5.97.116:
 - added option to make enemy spellcasters drop scribed spellbooks (Gameplay -> Campaigns) (PR by andragor)
 - added option to show targeting sight lines out of combat (Gameplay -> Campaigns) (PR by andragor)
