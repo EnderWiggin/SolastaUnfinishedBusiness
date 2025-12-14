@@ -291,6 +291,8 @@ public sealed class WayOfBlade : AbstractSubclass
 
         protected override List<RulesetAttackMode> GetAttackModes([NotNull] RulesetCharacter character)
         {
+            if (Gui.Battle == null) { return null; }
+
             if (character is not RulesetCharacterHero hero ||
                 !ValidatorsCharacter.IsMonkMeleeWeapon(hero) ||
                 GameLocationCharacter.GetFromActor(hero)?.GetSpecialFeatureUses(OneWithTheBlade) > 0)
