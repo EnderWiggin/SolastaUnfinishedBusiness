@@ -9,6 +9,12 @@ UI/&DistanceFormat=Distance: {0}
 UI/&Experimental Preview:=Aperçu expérimental <i><color=Jaune>[sauvegarde avant utilisation]</color></i>:
 UI/&Expert=Expert
 UI/&From=Depuis
+UI/&LootAllGoldTitle=Or
+UI/&LootAllGoldTooltip=Récupère tout l’or de ce conteneur.
+UI/&LootAllIngredientsTitle=Ingrédients
+UI/&LootAllIngredientsTooltip=Récupère tous les ingrédients en apesanteur de ce conteneur.
+UI/&LootAllScrollsTitle=Parchemins
+UI/&LootAllScrollsTooltip=Récupère tous les parchemins de sorts de ce conteneur.
 UI/&PartyEditor=Rédacteur en chef du parti
 UI/&PartyEditorMessage=Cet éditeur de groupe simple vous permet de modifier des personnages dans une session de jeu chargée. Veuillez cliquer sur les éléments suivants pour signaler des problèmes :
 UI/&PartyEditorUnavailable=****** Éditeur de groupe indisponible : veuillez charger une sauvegarde ******

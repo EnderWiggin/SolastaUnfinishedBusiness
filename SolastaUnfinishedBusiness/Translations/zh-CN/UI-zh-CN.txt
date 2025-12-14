@@ -9,6 +9,12 @@ UI/&DistanceFormat=距离: {0}
 UI/&Experimental Preview:=实验预览<i><color=Yellow>[使用前备份存档]</color></i>：
 UI/&Expert=专家
 UI/&From=从
+UI/&LootAllGoldTitle=金子
+UI/&LootAllGoldTooltip=掠夺该容器中的所有黄金。
+UI/&LootAllIngredientsTitle=原料
+UI/&LootAllIngredientsTooltip=从这个容器中掠夺所有失重的成分。
+UI/&LootAllScrollsTitle=卷轴
+UI/&LootAllScrollsTooltip=从此容器中掠夺所有法术卷轴。
 UI/&PartyEditor=队伍编辑
 UI/&PartyEditorMessage=这个简单的队伍编辑器可让你在加载的游戏会话中编辑角色。请点击以下报告问题：
 UI/&PartyEditorUnavailable=****** 队伍编辑器不可用：请加载游戏存档 ******

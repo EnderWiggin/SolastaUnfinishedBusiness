@@ -9,6 +9,12 @@ UI/&DistanceFormat=距離: {0}
 UI/&Experimental Preview:=実験的プレビュー <i><color=Yellow>[使用前にバックアップ保存]</color></i>:
 UI/&Expert=専門家
 UI/&From=から
+UI/&LootAllGoldTitle=金
+UI/&LootAllGoldTooltip=このコンテナからすべてのゴールドを略奪します。
+UI/&LootAllIngredientsTitle=材料
+UI/&LootAllIngredientsTooltip=このコンテナから無重力の材料をすべて略奪します。
+UI/&LootAllScrollsTitle=巻物
+UI/&LootAllScrollsTooltip=このコンテナからすべての呪文の巻物を略奪します。
 UI/&PartyEditor=パーティーエディター
 UI/&PartyEditorMessage=このシンプルなパーティー エディターを使用すると、ロードされたゲーム セッションでキャラクターを編集できます。問題を報告するには、次をクリックしてください。
 UI/&PartyEditorUnavailable=****** パーティー エディターは使用できません: セーブ ゲームをロードしてください ******

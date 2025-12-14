@@ -9,6 +9,12 @@ UI/&DistanceFormat=거리: {0}
 UI/&Experimental Preview:=시험용 미리보기 <i><color=Yellow>[사용하기 전에 백업을 저장하십시오]</color></i>:
 UI/&Expert=전문가
 UI/&From=으로부터
+UI/&LootAllGoldTitle=금
+UI/&LootAllGoldTooltip=이 컨테이너에서 모든 금을 약탈합니다.
+UI/&LootAllIngredientsTitle=재료
+UI/&LootAllIngredientsTooltip=이 용기에서 무중력 재료를 모두 꺼냅니다.
+UI/&LootAllScrollsTitle=스크롤
+UI/&LootAllScrollsTooltip=이 상자에서 모든 주문 두루마리를 약탈합니다.
 UI/&PartyEditor=파티 편집
 UI/&PartyEditorMessage=이 간단한 파티 편집기는 불러온 게임 세션의 캐릭터를 편집할 수 있게 해줍니다. 문제 발생 시 보고하려면 다음을 클릭하십시오:
 UI/&PartyEditorUnavailable=****** 파티 편집기 사용 불가: 저장된 게임을 불러오십시오 ******

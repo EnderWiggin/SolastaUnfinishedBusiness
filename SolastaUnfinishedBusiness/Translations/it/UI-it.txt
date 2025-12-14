@@ -9,6 +9,12 @@ UI/&DistanceFormat=Distanza: {0}
 UI/&Experimental Preview:=Anteprima sperimentale <i><color=Yellow>[salvataggio di backup prima dell'uso]</color></i>:
 UI/&Expert=Esperto
 UI/&From=Da
+UI/&LootAllGoldTitle=Oro
+UI/&LootAllGoldTooltip=Raccogli tutto l'oro da questo contenitore.
+UI/&LootAllIngredientsTitle=Ingredienti
+UI/&LootAllIngredientsTooltip=Raccogli tutti gli ingredienti senza peso da questo contenitore.
+UI/&LootAllScrollsTitle=Pergamene
+UI/&LootAllScrollsTooltip=Saccheggia tutte le pergamene degli incantesimi da questo contenitore.
 UI/&PartyEditor=Redattore del partito
 UI/&PartyEditorMessage=Questo semplice editor di gruppo ti consente di modificare i personaggi in una sessione di gioco caricata. Clicca su quanto segue per segnalare i problemi:
 UI/&PartyEditorUnavailable=****** Party Editor non disponibile: caricare un salvataggio della partita ******

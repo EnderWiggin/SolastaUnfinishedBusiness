@@ -9,6 +9,12 @@ UI/&DistanceFormat=Distancia: {0}
 UI/&Experimental Preview:=Vista previa experimental <i><color=Yellow>[guardar copia de seguridad antes de usar]</color></i>:
 UI/&Expert=Experto
 UI/&From=De
+UI/&LootAllGoldTitle=Oro
+UI/&LootAllGoldTooltip=Saquea todo el oro de este contenedor.
+UI/&LootAllIngredientsTitle=Ingredientes
+UI/&LootAllIngredientsTooltip=Saquea todos los ingredientes ingrávidos de este contenedor.
+UI/&LootAllScrollsTitle=Pergaminos
+UI/&LootAllScrollsTooltip=Saquea todos los pergaminos de hechizos de este contenedor.
 UI/&PartyEditor=Editor de fiestas
 UI/&PartyEditorMessage=Este sencillo editor de grupos te permite editar personajes en una sesión de juego cargada. Haz clic en los siguientes enlaces para informar problemas:
 UI/&PartyEditorUnavailable=****** Editor de fiestas no disponible: cargue una partida guardada ******

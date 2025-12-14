@@ -9,6 +9,12 @@ UI/&DistanceFormat=Расстояние: {0}
 UI/&Experimental Preview:=Экспериментальное превью <i><color=Yellow>[сделайте бэкап сохранений перед использованием]</color></i>:
 UI/&Expert=Компетентность
 UI/&From=От
+UI/&LootAllGoldTitle=Золото
+UI/&LootAllGoldTooltip=Забирает все золото из этого контейнера.
+UI/&LootAllIngredientsTitle=Ингредиенты
+UI/&LootAllIngredientsTooltip=Вытаскивает все невесомые ингредиенты из этого контейнера.
+UI/&LootAllScrollsTitle=Свитки
+UI/&LootAllScrollsTooltip=Собирает все свитки заклинаний из этого контейнера.
 UI/&PartyEditor=Редактор группы
 UI/&PartyEditorMessage=Этот простой редактор группы позволяет вам редактировать персонажей в загруженной игровой сессии. Пожалуйста, нажмите сюда, чтобы сообщить о проблеме:
 UI/&PartyEditorUnavailable=****** Редактор группы недоступен: Пожалуйста, загрузите сохранённую игру ******
