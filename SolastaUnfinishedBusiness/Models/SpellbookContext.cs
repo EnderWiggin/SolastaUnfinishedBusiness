@@ -87,21 +87,17 @@ internal static class SpellbookContext
         return null;
     }
 
-    internal static void AddSpellbookToDroppedLoot(RulesetCharacterMonster monster)
+    internal static RulesetItem TryDropSpellbook(RulesetCharacterMonster monster)
     {
-        if (monster?.Name == null || monster.MonsterDefinition == null || monster.droppedItems == null) { return; }
+        if (!Main.Settings.EnemySpellcastersDropScribedSpellbooks) { return null;}
+
+        if (monster?.Name == null || monster.MonsterDefinition == null || monster.droppedItems == null) { return null; }
 
         var spellList = GetWizardSpells(monster.MonsterDefinition);
-        if (spellList.Count <= 0) { return; }
-
-        //Skip if monster already drops spellbook 
-        if (monster.droppedItems.Any(i => i is RulesetItemSpellbook spellbook && spellbook.ScribedSpells.Count > 0))
-        {
-            return;
-        }
+        if (spellList.Count <= 0) { return null; }
 
         var spellbook = MakeBlankSpellbook();
-        if (spellbook == null) { return; }
+        if (spellbook == null) { return null; }
 
         spellbook.ScribedSpells = spellList;
         spellbook.ScribedSpells.Sort(spellbook);
@@ -114,6 +110,6 @@ internal static class SpellbookContext
             pages.Refresh();
         }
 
-        monster.droppedItems.Add(spellbook);
+        return spellbook;
     }
 }

@@ -297,4 +297,18 @@ internal static class CustomItemsContext
             // empty
         }
     }
+
+    /**Called right before items are dropped as loot from this monster*/
+    public static List<RulesetItem> ModifyDroppedItems(RulesetCharacterMonster monster)
+    {
+        var spellbook = SpellbookContext.TryDropSpellbook(monster);
+        if (spellbook != null)
+        {
+            var items = monster.DroppedItems.ToList();
+            items.Add(spellbook);
+            return items;
+        }
+
+        return monster.DroppedItems;
+    }
 }
