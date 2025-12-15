@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 using HarmonyLib;
 using JetBrains.Annotations;
 using SolastaUnfinishedBusiness.ItemCrafting;
@@ -11,6 +12,56 @@ namespace SolastaUnfinishedBusiness.Patches;
 [UsedImplicitly]
 internal static class ProximityLootModalPatcher
 {
+    private const string LootMoneyButton = "LootMoneyButton";
+    private const string LootIngredientsButton = "LootIngredientsButton";
+    private const string LootScrollsButton = "LootScrollsButton";
+
+    private static bool OnlyMoney(ItemDefinition item)
+    {
+        return item.IsWealthPile;
+    }
+
+    private static bool OnlyLightIngredients(ItemDefinition item)
+    {
+        return item.ItemTags.Contains(TagsDefinitions.ItemTagIngredient) && item.weight <= 1;
+    }
+
+    private static bool OnlyScrolls(ItemDefinition item)
+    {
+        return ScrollsData.IsScrollItem(item);
+    }
+
+    private static bool SlotMatches(RulesetInventorySlot slot, Func<ItemDefinition, bool> filter)
+    {
+        var item = slot.EquipedItem;
+        return item != null && filter.Invoke(item.ItemDefinition);
+    }
+
+    private static void UpdateCustomButtons(LootEnumerationModal modal)
+    {
+        if (modal is not ProximityLootModal) { return; }
+
+        var parent = modal.lootAllButton.transform.parent;
+
+        var button = parent.Find(LootMoneyButton);
+        if (button != null)
+        {
+            button.gameObject.SetActive(modal.groundSlots.Any(s => SlotMatches(s, OnlyMoney)));
+        }
+
+        button = parent.Find(LootIngredientsButton);
+        if (button != null)
+        {
+            button.gameObject.SetActive(modal.groundSlots.Any(s => SlotMatches(s, OnlyLightIngredients)));
+        }
+
+        button = parent.Find(LootScrollsButton);
+        if (button != null)
+        {
+            button.gameObject.SetActive(modal.groundSlots.Any(s => SlotMatches(s, OnlyScrolls)));
+        }
+    }
+
     [HarmonyPatch(typeof(ProximityLootModal), nameof(ProximityLootModal.OnBeginShow))]
     [SuppressMessage("Minor Code Smell", "S101:Types should be named in PascalCase", Justification = "Patch")]
     [UsedImplicitly]
@@ -20,6 +71,7 @@ internal static class ProximityLootModalPatcher
         internal static void Prefix([NotNull] ProximityLootModal __instance)
         {
             InitCustomButtons(__instance);
+            UpdateCustomButtons(__instance);
         }
 
         private static void InitCustomButtons(ProximityLootModal modal)
@@ -33,7 +85,7 @@ internal static class ProximityLootModalPatcher
                 if (element.minWidth > 100) { element.minWidth = 100; }
             }
 
-            if (parent.Find("LootMoneyButton") != null) { return; }
+            if (parent.Find(LootMoneyButton) != null) { return; }
 
             var prefab = modal.lootAllButton.gameObject;
 
@@ -50,7 +102,7 @@ internal static class ProximityLootModalPatcher
                 if (element.minWidth > 100) { element.minWidth = 100; }
             }
 
-            asset.name = "LootMoneyButton";
+            asset.name = LootMoneyButton;
 
             //Loot all ingredients
             asset = Object.Instantiate(prefab, parent, false);
@@ -65,7 +117,7 @@ internal static class ProximityLootModalPatcher
                 if (element.minWidth > 100) { element.minWidth = 100; }
             }
 
-            asset.name = "LootIngredientsButton";
+            asset.name = LootIngredientsButton;
 
             //Loot all ingredients
             asset = Object.Instantiate(prefab, parent, false);
@@ -80,22 +132,7 @@ internal static class ProximityLootModalPatcher
                 if (element.minWidth > 100) { element.minWidth = 100; }
             }
 
-            asset.name = "LootScrollsButton";
-        }
-
-        private static bool OnlyMoney(ItemDefinition item)
-        {
-            return item.IsWealthPile;
-        }
-
-        private static bool OnlyLightIngredients(ItemDefinition item)
-        {
-            return item.ItemTags.Contains(TagsDefinitions.ItemTagIngredient) && item.weight <= 1;
-        }
-
-        private static bool OnlyScrolls(ItemDefinition item)
-        {
-            return ScrollsData.IsScrollItem(item);
+            asset.name = LootScrollsButton;
         }
 
         private static void OnLootCb(LootEnumerationModal modal, Func<ItemDefinition, bool> filter)
@@ -142,6 +179,18 @@ internal static class ProximityLootModalPatcher
             }
 
             modal.CharacterSelectionChanged();
+        }
+    }
+
+    [HarmonyPatch(typeof(LootEnumerationModal), nameof(LootEnumerationModal.Refresh))]
+    [SuppressMessage("Minor Code Smell", "S101:Types should be named in PascalCase", Justification = "Patch")]
+    [UsedImplicitly]
+    internal static class Refresh_Patch
+    {
+        [UsedImplicitly]
+        internal static void Prefix([NotNull] LootEnumerationModal __instance)
+        {
+            UpdateCustomButtons(__instance);
         }
     }
 }
