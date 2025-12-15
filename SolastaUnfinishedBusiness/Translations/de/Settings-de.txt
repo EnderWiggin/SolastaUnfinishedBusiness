@@ -243,6 +243,7 @@ ModUi/&EnableScimitarSpecialization=Gewähre Krummsäbel <color=#D89555>Waffensp
 ModUi/&EnableSignatureSpellsRelearn=Aktiviere, dass <color=#D89555>Signaturzauber</color> bei jeder langen Pause vorbereitet werden <i><color=#F0DAA0>[statt einmal auf Stufe 20]</color></i>
 ModUi/&EnableSmiteSpells2024=Swap Smite -Zauber mit 5E 2024 Version <i> <color =#f0daa0> [Trigger auf Treffer und keine Konzentration erfordern] </color> </i>
 ModUi/&EnableSorcererArcaneApotheosis2024=Aktiviere <color=#D89555>Arkane Apotheose</color>, um <color=#D89555>Zauberhafte Wiederherstellung</color> auf Level 20 zu ersetzen.
+ModUi/&EnableSorcererDraconicBloodlineAC2024=Aktiviere die 2024-Version von <color=#D89555>Draconic Resilience</color> von <color=#D89555>Draconic Bloodline</color> <i><color=#F0DAA0>[10+DEX+CHA statt 13+DEX]</color></i>
 ModUi/&EnableSorcererInnateSorcery2024=Aktiviere <color=#D89555>Innate Sorcery</color> und <color=#D89555>Sorcery Incarnate</color> auf Level 1 und 7.
 ModUi/&EnableSorcererMagicalGuidance=Aktiviere <color=#D89555>Magische Führung</color> auf Stufe 5.
 ModUi/&EnableSorcererMetamagic2024=Aktiviere <color=#D89555>Metamagic</color> auf Level 2 statt 3.

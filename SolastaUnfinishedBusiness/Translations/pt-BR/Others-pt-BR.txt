@@ -213,6 +213,7 @@ Feature/&FeatureSetRangerDeftExplorerDescription=Graças às suas viagens, você
 Feature/&FeatureSetRangerDeftExplorerTitle=Explorador hábil
 Feature/&FeatureSetRangerFavoredEnemyDescription=Você sempre tem a magia Hunter's Mark preparada. Você pode conjurá-la duas vezes sem gastar um espaço de magia, e você recupera todos os usos gastos desta habilidade quando termina um Long Rest. O número de vezes que você pode conjurar a magia sem um espaço de magia aumenta em certos níveis de Ranger, aumentando para 3 no 5º nível, 4 no 9º nível, 5 no 13º nível e 6 no 17º nível.
 Feature/&FeatureSetRangerFavoredEnemyTitle=Inimigo Favorito
+Feature/&FeatureSetSorcererDraconicResilience2024Description=Você ganha um ponto de vida adicional por nível e sua classe de armadura é 10 + bônus de destreza + bônus de carisma quando você não está usando armadura
 Feature/&FeatureSetSorcererSorceryIncarnateDescription=Se você não tiver mais usos para Feitiçaria Inata, poderá usá-la se gastar 2 Pontos de Feitiçaria ao realizar a Ação Bônus para ativá-la.
 Feature/&FeatureSetSorcererSorceryIncarnateTitle=Feitiçaria Encarnada
 Feature/&FeatureSorcererArcaneApotheosisDescription=Enquanto sua habilidade Feitiçaria Inata estiver ativa, você pode usar uma opção de Metamagia em cada um dos seus turnos sem gastar Pontos de Feitiçaria nela.

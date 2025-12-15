@@ -213,6 +213,7 @@ Feature/&FeatureSetRangerDeftExplorerDescription=Gracias a tus viajes, obtienes 
 Feature/&FeatureSetRangerDeftExplorerTitle=Explorador hábil
 Feature/&FeatureSetRangerFavoredEnemyDescription=Siempre tienes preparado el hechizo Marca del cazador. Puedes lanzarlo dos veces sin gastar un espacio de conjuro y recuperas todos los usos gastados de esta habilidad cuando terminas un descanso prolongado. La cantidad de veces que puedes lanzar el hechizo sin un espacio de conjuro aumenta en ciertos niveles de explorador, aumentando a 3 en el nivel 5, 4 en el nivel 9, 5 en el nivel 13 y 6 en el nivel 17.
 Feature/&FeatureSetRangerFavoredEnemyTitle=Enemigo Favorecido
+Feature/&FeatureSetSorcererDraconicResilience2024Description=Obtienes un punto de vida adicional por nivel y tu clase de armadura es 10 + bonificación de destreza + bonificación de carisma cuando no llevas armadura.
 Feature/&FeatureSetSorcererSorceryIncarnateDescription=Si no te quedan usos de Hechicería innata, puedes usarla si gastas 2 puntos de hechicería cuando realizas la acción adicional para activarla.
 Feature/&FeatureSetSorcererSorceryIncarnateTitle=La brujería encarnada
 Feature/&FeatureSorcererArcaneApotheosisDescription=Mientras tu característica Hechicería Innata esté activa, puedes usar una opción Metamágica en cada uno de tus turnos sin gastar Puntos de Hechicería en ella.

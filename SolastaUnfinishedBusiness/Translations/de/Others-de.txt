@@ -213,6 +213,7 @@ Feature/&FeatureSetRangerDeftExplorerDescription=Dank deiner Reisen erlangst du 
 Feature/&FeatureSetRangerDeftExplorerTitle=Geschickter Entdecker
 Feature/&FeatureSetRangerFavoredEnemyDescription=Sie haben den Zauber „Jägermal“ immer bereit. Sie können ihn zweimal wirken, ohne einen Zauberplatz zu verbrauchen, und Sie erhalten alle verbrauchten Anwendungen dieser Fähigkeit zurück, wenn Sie eine lange Pause beenden. Die Anzahl der Male, die Sie den Zauber ohne Zauberplatz wirken können, erhöht sich auf bestimmten Ranger-Leveln und steigt auf 3 auf dem 5. Level, 4 auf dem 9. Level, 5 auf dem 13. Level und 6 auf dem 17. Level.
 Feature/&FeatureSetRangerFavoredEnemyTitle=Bevorzugter Feind
+Feature/&FeatureSetSorcererDraconicResilience2024Description=Du erhältst einen zusätzlichen Trefferpunkt pro Level und deine Rüstungsklasse beträgt 10 + Geschicklichkeitsbonus + Charismabonus, wenn du keine Rüstung trägst
 Feature/&FeatureSetSorcererSorceryIncarnateDescription=Wenn Sie keine angeborene Zauberei mehr einsetzen können, können Sie sie verwenden, indem Sie beim Ausführen der Bonusaktion zum Aktivieren 2 Zaubereipunkte ausgeben.
 Feature/&FeatureSetSorcererSorceryIncarnateTitle=Die Verkörperung der Zauberei
 Feature/&FeatureSorcererArcaneApotheosisDescription=Während Ihre angeborene Zauberei-Funktion aktiv ist, können Sie in jedem Ihrer Züge eine Metamagie-Option nutzen, ohne dafür Zauberei-Punkte auszugeben.

@@ -243,6 +243,7 @@ ModUi/&EnableScimitarSpecialization=Cimitarra de concesión <color=#D89555>Espec
 ModUi/&EnableSignatureSpellsRelearn=Permite que los <color=#D89555>hechizos exclusivos</color> se preparen cada descanso prolongado <i><color=#F0DAA0>[en lugar de una vez en el nivel 20]</color></i>
 ModUi/&EnableSmiteSpells2024=Intercambie los hechizos de Smite con la versión 5E 2024 <i> <color =#f0daa0> [disparar en el golpe y no requerir concentración] </color> </i>
 ModUi/&EnableSorcererArcaneApotheosis2024=Habilita <color=#D89555>Apoteosis arcana</color> para reemplazar <color=#D89555>Restauración hechicera</color> en el nivel 20
+ModUi/&EnableSorcererDraconicBloodlineAC2024=Habilite la versión 2024 de <color=#D89555>Draconic Resilience</color> de <color=#D89555>Draconic Bloodline</color> <i><color=#F0DAA0>[10+DEX+CHA en lugar de 13+DEX]</color></i>
 ModUi/&EnableSorcererInnateSorcery2024=Habilita <color=#D89555>Hechicería innata</color> y <color=#D89555>Hechicería encarnada</color> en los niveles 1 y 7
 ModUi/&EnableSorcererMagicalGuidance=Habilitar <color=#D89555>Guía mágica</color> en el nivel 5
 ModUi/&EnableSorcererMetamagic2024=Habilitar <color=#D89555>Metamagia</color> en el nivel 2 en lugar del 3

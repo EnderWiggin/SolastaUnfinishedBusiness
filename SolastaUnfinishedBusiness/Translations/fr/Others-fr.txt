@@ -213,6 +213,7 @@ Feature/&FeatureSetRangerDeftExplorerDescription=Grâce à vos voyages, vous obt
 Feature/&FeatureSetRangerDeftExplorerTitle=Explorateur habile
 Feature/&FeatureSetRangerFavoredEnemyDescription=Vous avez toujours le sort Marque du chasseur prêt. Vous pouvez le lancer deux fois sans dépenser d'emplacement de sort, et vous récupérez toutes les utilisations dépensées de cette capacité lorsque vous terminez un Repos long. Le nombre de fois que vous pouvez lancer le sort sans emplacement de sort augmente à certains niveaux de Rôdeur, passant à 3 au niveau 5, 4 au niveau 9, 5 au niveau 13 et 6 au niveau 17.
 Feature/&FeatureSetRangerFavoredEnemyTitle=Ennemi favori
+Feature/&FeatureSetSorcererDraconicResilience2024Description=Vous gagnez un point de vie supplémentaire par niveau et votre classe d'armure est de 10 + bonus de dextérité + bonus de charisme lorsque vous ne portez pas d'armure
 Feature/&FeatureSetSorcererSorceryIncarnateDescription=Si vous n'avez plus d'utilisation de Sorcellerie innée, vous pouvez l'utiliser si vous dépensez 2 points de Sorcellerie lorsque vous effectuez l'action bonus pour l'activer.
 Feature/&FeatureSetSorcererSorceryIncarnateTitle=La sorcellerie incarnée
 Feature/&FeatureSorcererArcaneApotheosisDescription=Tant que votre fonction Sorcellerie innée est active, vous pouvez utiliser une option Métamagie à chacun de vos tours sans dépenser de points de Sorcellerie dessus.

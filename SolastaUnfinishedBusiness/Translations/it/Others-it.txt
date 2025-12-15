@@ -213,6 +213,7 @@ Feature/&FeatureSetRangerDeftExplorerDescription=Grazie ai tuoi viaggi, ottieni 
 Feature/&FeatureSetRangerDeftExplorerTitle=Esploratore abile
 Feature/&FeatureSetRangerFavoredEnemyDescription=Hai sempre pronto l'incantesimo Hunter's Mark. Puoi lanciarlo due volte senza spendere uno slot incantesimo e recuperi tutti gli usi spesi di questa capacità quando finisci un Long Rest. Il numero di volte in cui puoi lanciare l'incantesimo senza uno slot incantesimo aumenta a certi livelli di Ranger, passando a 3 al 5° livello, 4 al 9° livello, 5 al 13° livello e 6 al 17° livello.
 Feature/&FeatureSetRangerFavoredEnemyTitle=Nemico favorito
+Feature/&FeatureSetSorcererDraconicResilience2024Description=Ottieni un punto ferita aggiuntivo per livello e la tua classe armatura è 10 + bonus destrezza + bonus carisma quando non indossi l'armatura
 Feature/&FeatureSetSorcererSorceryIncarnateDescription=Se non hai più possibilità di usare la Stregoneria Innata, puoi usarla spendendo 2 Punti Stregoneria quando esegui l'Azione Bonus per attivarla.
 Feature/&FeatureSetSorcererSorceryIncarnateTitle=Stregoneria incarnata
 Feature/&FeatureSorcererArcaneApotheosisDescription=Finché la tua caratteristica Stregoneria Innata è attiva, puoi usare un'opzione Metamagia in ognuno dei tuoi turni senza spendere Punti Stregoneria.

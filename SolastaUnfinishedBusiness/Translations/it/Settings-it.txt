@@ -243,6 +243,7 @@ ModUi/&EnableScimitarSpecialization=Grant Scimitar <color=#D89555>Specializzazio
 ModUi/&EnableSignatureSpellsRelearn=Abilita la preparazione degli <color=#D89555>incantesimi distintivi</color> a ogni riposo lungo <i><color=#F0DAA0>[invece di una volta al livello 20]</color></i>
 ModUi/&EnableSmiteSpells2024=Scambia gli incantesimi con la versione 5E 2024 <i> <color =#f0daa0> [trigger su hit e non richiedono concentrazione] </ color> </i>
 ModUi/&EnableSorcererArcaneApotheosis2024=Abilita <color=#D89555>Apoteosi Arcana</color> per sostituire <color=#D89555>Restauro Stregonesco</color> al livello 20
+ModUi/&EnableSorcererDraconicBloodlineAC2024=Abilita la versione 2024 di <color=#D89555> Resilienza Draconica</color> da <color=#D89555> Stirpe Draconica</color> <i><color=#F0DAA0>[10+DEX+CHA invece di 13+DEX]</color></i>
 ModUi/&EnableSorcererInnateSorcery2024=Abilita <color=#D89555>Stregoneria Innata</color> e <color=#D89555>Stregoneria Incarnata</color> al livello 1 e 7
 ModUi/&EnableSorcererMagicalGuidance=Abilita <color=#D89555>Guida magica</color> al livello 5
 ModUi/&EnableSorcererMetamagic2024=Abilita <color=#D89555>Metamagia</color> al livello 2 invece che 3
