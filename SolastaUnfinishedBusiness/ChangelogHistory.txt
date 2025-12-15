@@ -1,3 +1,7 @@
+1.5.97.118:
+- buttons to loot gold, ingredients or scrolls would only be visible if there's at least one of the matching items in loot pile
+- added option for 2024 version `Draconic Resilience` from `Draconic Bloodline` Sorcerer subclass
+
 1.5.97.117:
 - made `One with Blade` attack visible only during battle
 - fixed not being able to cast 2024 Smites for warlocks when Spell Points are enabled
