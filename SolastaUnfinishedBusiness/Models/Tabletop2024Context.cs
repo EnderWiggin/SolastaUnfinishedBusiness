@@ -178,6 +178,7 @@ public static partial class Tabletop2024Context
         SwitchSorcererMetamagic();
         SwitchSorcererOriginLearningLevel();
         SwitchSorcererSorcerousRestorationAtLevel5();
+        SwitchSorcererDraconicBloodlineAC();
         SwitchSurprisedEnforceDisadvantage();
         SwitchWarlockInvocationsProgression();
         SwitchWarlockMagicalCunningAndImprovedEldritchMaster();

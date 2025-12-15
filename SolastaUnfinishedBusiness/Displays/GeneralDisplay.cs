@@ -990,6 +990,13 @@ internal static class ToolsDisplay
             Tabletop2024Context.SwitchSorcererSorcerousRestorationAtLevel5();
         }
 
+        toggle = Main.Settings.EnableSorcererDraconicBloodlineAC2024;
+        if (UI.Toggle(Gui.Localize("ModUi/&EnableSorcererDraconicBloodlineAC2024"), ref toggle, UI.AutoWidth()))
+        {
+            Main.Settings.EnableSorcererDraconicBloodlineAC2024 = toggle;
+            Tabletop2024Context.SwitchSorcererDraconicBloodlineAC();
+        }
+
         UI.Label();
         UI.Label("<color=#F0DAA0>" + Gui.Localize("Class/&WarlockTitle") + ":</color>");
         UI.Label();

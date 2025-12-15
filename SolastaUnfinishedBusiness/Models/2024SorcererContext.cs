@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using SolastaUnfinishedBusiness.Api;
 using SolastaUnfinishedBusiness.Api.GameExtensions;
 using SolastaUnfinishedBusiness.Api.LanguageExtensions;
 using SolastaUnfinishedBusiness.Behaviors;
@@ -10,7 +9,9 @@ using SolastaUnfinishedBusiness.Builders;
 using SolastaUnfinishedBusiness.Builders.Features;
 using SolastaUnfinishedBusiness.Interfaces;
 using SolastaUnfinishedBusiness.Validators;
+using static FeatureDefinitionAttributeModifier;
 using static RuleDefinitions;
+using static SolastaUnfinishedBusiness.Api.DatabaseHelper;
 using static SolastaUnfinishedBusiness.Api.DatabaseHelper.ConditionDefinitions;
 using static SolastaUnfinishedBusiness.Api.DatabaseHelper.FeatureDefinitionActionAffinitys;
 using static SolastaUnfinishedBusiness.Api.DatabaseHelper.FeatureDefinitionPointPools;
@@ -143,8 +144,8 @@ public static partial class Tabletop2024Context
 
         foreach (var (subClassName, featureName) in featuresGrantedAt2)
         {
-            var subClass = DatabaseHelper.GetDefinition<CharacterSubclassDefinition>(subClassName);
-            var feature = DatabaseHelper.GetDefinition<FeatureDefinition>(featureName);
+            var subClass = GetDefinition<CharacterSubclassDefinition>(subClassName);
+            var feature = GetDefinition<FeatureDefinition>(featureName);
 
             subClass.FeatureUnlocks.FirstOrDefault(x => x.FeatureDefinition == feature)!.level = level;
         }
@@ -239,6 +240,29 @@ public static partial class Tabletop2024Context
         }
 
         Sorcerer.FeatureUnlocks.Sort(Sorting.CompareFeatureUnlock);
+    }
+
+    internal static void SwitchSorcererDraconicBloodlineAC()
+    {
+        var feature = FeatureDefinitionAttributeModifiers.AttributeModifierSorcererDraconicResilienceAC;
+        var featureSet = FeatureDefinitionFeatureSets.FeatureSetSorcererDraconicResilience;
+        if (Main.Settings.EnableSorcererDraconicBloodlineAC2024)
+        {
+            feature.modifierOperation = AttributeModifierOperation.SetWithDexPlusOtherAbilityScoreBonusIfBetter;
+            feature.modifierValue = 10;
+            feature.modifierAbilityScore = AttributeDefinitions.Charisma;
+
+            featureSet.GuiPresentation.Description = "Feature/&FeatureSetSorcererDraconicResilience2024Description";
+        }
+        else
+        {
+            feature.modifierOperation = AttributeModifierOperation.Set;
+            feature.modifierValue = 13;
+            //not really needed, just returning to default
+            feature.modifierAbilityScore = AttributeDefinitions.Constitution;
+
+            featureSet.GuiPresentation.Description = "Feature/&FeatureSetSorcererDraconicResilienceDescription";
+        }
     }
 
     private sealed class CustomBehaviorArcaneApotheosis : IMagicEffectInitiatedByMe, IMagicEffectFinishedByMe

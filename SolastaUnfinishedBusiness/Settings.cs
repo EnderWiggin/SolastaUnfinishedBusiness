@@ -435,6 +435,7 @@ public class Settings : UnityModManager.ModSettings
     public bool HideQuickenedActionWhenMetamagicOff { get; set; }
     [Tag(Type = TagType.T2024)] public bool EnableSorcererSorcerousRestoration2024 { get; set; }
     [Tag(Type = TagType.T2024)] public bool EnableSorcererMetamagic2024 { get; set; }
+    [Tag(Type = TagType.T2024)] public bool EnableSorcererDraconicBloodlineAC2024 { get; set; }
     [Tag(Type = TagType.T2024)] public bool EnableSorcererOrigin2024 { get; set; }
     [Tag(Type = TagType.T2024)] public bool EnableWarlockInvocationProgression2024 { get; set; }
     [Tag(Type = TagType.T2024)] public bool EnableWarlockMagicalCunningAndImprovedEldritchMaster2024 { get; set; }

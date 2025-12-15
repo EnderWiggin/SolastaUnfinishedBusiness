@@ -213,6 +213,7 @@ Feature/&FeatureSetRangerFavoredEnemyDescription=You always have the Hunter's Ma
 Feature/&FeatureSetRangerFavoredEnemyTitle=Favored Enemy
 Feature/&FeatureSetSorcererSorceryIncarnateDescription=If you have no uses of Innate Sorcery left, you can use it if you spend 2 Sorcery Points when you take the Bonus Action to activate it.
 Feature/&FeatureSetSorcererSorceryIncarnateTitle=Sorcery Incarnate
+Feature/&FeatureSetSorcererDraconicResilience2024Description=You gain one additional hit point per level and your armor class is 10 + dexterity bonus + charisma bonus when you are not wearing armor
 Feature/&FeatureSorcererArcaneApotheosisDescription=While your Innate Sorcery feature is active, you can use one Metamagic option on each of your turns without spending Sorcery Points on it.
 Feature/&FeatureSorcererArcaneApotheosisTitle=Arcane Apotheosis
 Feature/&FeatureSorcererMagicalGuidanceDescription=You can tap into your inner wellspring of magic to try and conjure success from failure. When you make an ability check that fails, you can spend 1 sorcery point to reroll the d20, and you must use the new roll, potentially turning the failure into a success.
