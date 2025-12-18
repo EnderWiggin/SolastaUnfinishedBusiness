@@ -3,6 +3,7 @@ using System.Linq;
 using JetBrains.Annotations;
 using SolastaUnfinishedBusiness.Api;
 using SolastaUnfinishedBusiness.Api.GameExtensions;
+using SolastaUnfinishedBusiness.Feats;
 using SolastaUnfinishedBusiness.Subclasses;
 using SolastaUnfinishedBusiness.Validators;
 using TA;
@@ -38,9 +39,7 @@ internal static class CustomSituationalContext
                 ValidatorsCharacter.HasWeaponType(GreatswordType)(contextParams.source),
 
             ExtraSituationalContext.HasBladeMasteryWeaponTypesInHands =>
-                ValidatorsCharacter.HasWeaponType(
-                        DaggerType, ShortswordType, LongswordType, ScimitarType, RapierType, GreatswordType)
-                    (contextParams.source),
+                ValidatorsCharacter.HasWeaponType(MeleeCombatFeats.BladeMasteryWeapons)(contextParams.source),
 
             ExtraSituationalContext.HasSimpleOrMartialWeaponInHands =>
                 ValidatorsCharacter.HasWeaponType(SimpleOrMartialWeapons)(contextParams.source),

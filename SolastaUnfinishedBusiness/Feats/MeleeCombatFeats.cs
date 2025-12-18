@@ -950,15 +950,15 @@ internal static class MeleeCombatFeats
 
     #region Blade Mastery
 
+    internal static readonly WeaponTypeDefinition[] BladeMasteryWeapons =
+    [
+        DaggerType, ShortswordType, LongswordType, ScimitarType, RapierType, GreatswordType,
+        CustomWeaponsContext.KatanaWeaponType
+    ];
+    
     private static FeatDefinition BuildBladeMastery()
     {
         const string NAME = "FeatBladeMastery";
-
-        var weaponTypes = new[]
-        {
-            DaggerType, ShortswordType, LongswordType, ScimitarType, RapierType, GreatswordType,
-            CustomWeaponsContext.KatanaWeaponType
-        };
 
         var feat = FeatDefinitionBuilder
             .Create(NAME)
@@ -975,8 +975,8 @@ internal static class MeleeCombatFeats
             .AddToDB();
 
         feat.AddCustomSubFeatures(
-            new AttackComputeModifierFeatBladeMastery(feat, weaponTypes),
-            new ModifyWeaponAttackModeTypeFilter(feat, weaponTypes));
+            new AttackComputeModifierFeatBladeMastery(feat, BladeMasteryWeapons),
+            new ModifyWeaponAttackModeTypeFilter(feat, BladeMasteryWeapons));
 
         return feat;
     }
