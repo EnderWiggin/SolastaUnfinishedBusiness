@@ -35,7 +35,16 @@
   "requiredAttunementClasses": [],
   "itemRarity": "Common",
   "incompatibleWithMonkReturnMissile": false,
-  "staticProperties": [],
+  "staticProperties": [
+    {
+      "$type": "ItemPropertyDescription, Assembly-CSharp",
+      "appliesOnItemOnly": false,
+      "type": "Feature",
+      "featureDefinition": "Definition:ActionAffinityPoisonBonusAction:fcce2e74-697a-5d50-a6e4-03e3f03fb75d",
+      "conditionDefinition": null,
+      "knowledgeAffinity": "ActiveAndHidden"
+    }
+  ],
   "isArmor": false,
   "isWeapon": false,
   "isAmmunition": false,
@@ -66,6 +75,18 @@
         "type": "Power",
         "spellDefinition": "Definition:Fly:6c13f5461f5047645a8c165cc0f43f83",
         "featureDefinitionPower": "Definition:PowerFunctionApplyPoison_Basic:5027e9179a94e324a832dc0d3cba6358"
+      },
+      {
+        "$type": "DeviceFunctionDescription, Assembly-CSharp",
+        "parentUsage": "Single",
+        "useAffinity": "AtWill",
+        "useAmount": 1,
+        "rechargeRate": "Dawn",
+        "durationType": "Hour",
+        "canOverchargeSpell": false,
+        "type": "Power",
+        "spellDefinition": "Definition:Fly:6c13f5461f5047645a8c165cc0f43f83",
+        "featureDefinitionPower": "Definition:PowerFunctionApplyPoison_Basic_2024BA:a66c9c41-1aa4-53a2-a981-161af4535781"
       }
     ],
     "usableDeviceTags": [

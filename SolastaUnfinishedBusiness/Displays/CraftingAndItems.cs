@@ -3,6 +3,8 @@ using System.Linq;
 using HarmonyLib;
 using SolastaUnfinishedBusiness.Api.LanguageExtensions;
 using SolastaUnfinishedBusiness.Api.ModKit;
+using SolastaUnfinishedBusiness.Api.ModKit.Utility;
+using SolastaUnfinishedBusiness.CustomUI;
 using SolastaUnfinishedBusiness.Models;
 using UnityEngine;
 
@@ -70,14 +72,37 @@ internal static class CraftingAndItems
 
     private static int CurrentItemsWeaponTagsFilterIndex { get; set; }
 
+    private static string CurrentItemsSearchText = "";
+
     internal static void DisplayCraftingAndItems()
     {
         UI.Label();
         UI.Label();
 
-        #region Item
+        DisplayGeneral();
+        DisplayCrafting();
+        DisplayLegendaryTweaks();
+        DisplayItems();
 
-        var toggle = Main.Settings.AllowAnyClassToUseArcaneShieldstaff;
+        UI.Label();
+    }
+
+    private static void DisplayGeneral()
+    {
+        var toggle = Main.Settings.DisplayItemsGeneralToggle;
+        if (UI.DisclosureToggle(Gui.Localize("ModUi/&General"), ref toggle, 200))
+        {
+            Main.Settings.DisplayItemsGeneralToggle = toggle;
+        }
+
+        if (!Main.Settings.DisplayItemsGeneralToggle)
+        {
+            return;
+        }
+
+        UI.Label();
+
+        toggle = Main.Settings.AllowAnyClassToUseArcaneShieldstaff;
         if (UI.Toggle(Gui.Localize("ModUi/&ArcaneShieldstaffOptions"), ref toggle, UI.AutoWidth()))
         {
             Main.Settings.AllowAnyClassToUseArcaneShieldstaff = toggle;
@@ -199,6 +224,18 @@ internal static class CraftingAndItems
 
         UI.Label();
 
+        toggle = Main.Settings.AddNewScrollsToShops;
+        if (UI.Toggle(Gui.Localize(Gui.Localize("ModUi/&AddNewScrollsToShops")), ref toggle, UI.AutoWidth()))
+        {
+            Main.Settings.AddNewScrollsToShops = toggle;
+        }
+
+        toggle = Main.Settings.AddNewScrollsToTreasure;
+        if (UI.Toggle(Gui.Localize(Gui.Localize("ModUi/&AddNewScrollsToTreasure")), ref toggle, UI.AutoWidth()))
+        {
+            Main.Settings.AddNewScrollsToTreasure = toggle;
+        }
+
         toggle = Main.Settings.AddCustomIconsToOfficialItems;
         if (UI.Toggle(Gui.Localize(Gui.Localize("ModUi/&AddCustomIconsToOfficialItems")), ref toggle, UI.AutoWidth()))
         {
@@ -241,13 +278,6 @@ internal static class CraftingAndItems
             Main.Settings.SetBeltOfDwarvenKindBeardChances = intValue;
             ItemCraftingMerchantContext.SwitchSetBeltOfDwarvenKindBeardChances();
         }
-
-        #endregion
-
-        DisplayCrafting();
-        DisplayItems();
-
-        UI.Label();
     }
 
     private static void DisplayCrafting()
@@ -288,6 +318,12 @@ internal static class CraftingAndItems
             }
         }
 
+        toggle = Main.Settings.LearnAllScrollRecipes;
+        if (UI.Toggle(Gui.Localize("ModUi/&LearnAllScrollRecipes"), ref toggle, UI.AutoWidth()))
+        {
+            Main.Settings.LearnAllScrollRecipes = toggle;
+        }
+
         UI.Label();
 
         var intValue = Main.Settings.RecipeCost;
@@ -309,6 +345,21 @@ internal static class CraftingAndItems
         if (UI.Toggle(Gui.Localize(Gui.Localize("ModUi/&AddNewWeaponsAndRecipesToShops")), ref toggle, UI.AutoWidth()))
         {
             Main.Settings.AddNewWeaponsAndRecipesToShops = toggle;
+        }
+
+        if (Main.Settings.AddNewWeaponsAndRecipesToShops)
+        {
+            toggle = Main.Settings.NewWeaponsAndRecipesBaseInsteadOfPrimed;
+            if (UI.Toggle(Gui.Localize("ModUi/&NewWeaponsAndRecipesBaseInsteadOfPrimed"), ref toggle, UI.AutoWidth()))
+            {
+                Main.Settings.NewWeaponsAndRecipesBaseInsteadOfPrimed = toggle;
+            }
+
+            toggle = Main.Settings.NewWeaponsAndRecipesSimplified;
+            if (UI.Toggle(Gui.Localize("ModUi/&NewWeaponsAndRecipesSimplified"), ref toggle, UI.AutoWidth()))
+            {
+                Main.Settings.NewWeaponsAndRecipesSimplified = toggle;
+            }
         }
 
         toggle = CraftingContext.RecipeBooks.Keys.Count == Main.Settings.CraftingInStore.Count;
@@ -377,6 +428,46 @@ internal static class CraftingAndItems
         }
     }
 
+    private static void DisplayLegendaryTweaks()
+    {
+        UI.Label();
+        var toggle = Main.Settings.LegendaryTweaksToggle;
+        if (UI.DisclosureToggle(Gui.Localize("ModUi/&LegendaryTweaksTitle"), ref toggle, 200))
+        {
+            Main.Settings.LegendaryTweaksToggle = toggle;
+        }
+
+        if (!Main.Settings.LegendaryTweaksToggle)
+        {
+            return;
+        }
+
+        UI.Label(Gui.Localize("ModUi/&LegendaryTweaksDetails"));
+        UI.Label();
+
+        foreach (var pair in CustomizedWeaponTypesContext.AvailableTransforms)
+        {
+            var item = pair.Key;
+            var sel = Main.Settings.WeaponTweakedTypes.GetValueOrDefault(item.name);
+            var name = GuiItemTweaks.FormatTitle(item).Khaki().Bold();
+            var baseType = pair.Value[0];
+            UI.Label($"{name} ({baseType})");
+            using (UI.HorizontalScope())
+            {
+                for (var index = 0; index < pair.Value.Count; index++)
+                {
+                    var form = pair.Value[index];
+                    if (sel == index) { form = form.Orange().Bold(); }
+
+                    var idx = index;
+                    UI.ActionButton(form, () => { CustomizedWeaponTypesContext.SetTransform(item, idx); });
+                }
+            }
+
+            UI.Label();
+        }
+    }
+
     private static void DisplayItems()
     {
         var toggle = Main.Settings.DisplayItemsToggle;
@@ -419,7 +510,17 @@ internal static class CraftingAndItems
             UI.Label("Item Tag".Bold(), UI.Width(100f));
 
             UI.Space(40f);
-            UI.Label(Gui.Localize("ModUi/&ItemsHelp2"));
+            using (UI.VerticalScope())
+            {
+                using (UI.HorizontalScope())
+                {
+                    UI.Label(Gui.Localize("Screen/&SearchByNameTitle"));
+                    UI.Space(5f);
+                    UI.TextField(ref CurrentItemsSearchText, options: UI.Width(200f));
+                }
+
+                UI.Label(Gui.Localize("ModUi/&ItemsHelp2"));
+            }
         }
 
         using (UI.HorizontalScope(UI.Width(800f), UI.Height(400)))
@@ -473,13 +574,16 @@ internal static class CraftingAndItems
         var rulesetItemFactoryService = ServiceRepository.GetService<IRulesetItemFactoryService>();
         var characterName = characterInspectionScreen.InspectedCharacter.Name;
 
+        var filter = CurrentItemsSearchText.ToLower();
+
         var items = DatabaseRepository.GetDatabase<ItemDefinition>()
             .Where(x => !x.guiPresentation.Hidden)
             .Where(x => ItemsFilters[CurrentItemsFilterIndex].Item2(x))
             .Where(x => ItemsItemTagsFilters[CurrentItemsItemTagsFilterIndex].Item2(x))
             .Where(x => ItemsWeaponTagsFilters[CurrentItemsWeaponTagsFilterIndex].Item2(x))
             .Where(x => service.IsContentPackAvailable(x.ContentPack))
-            .OrderBy(x => x.FormatTitle());
+            .Where(x => string.IsNullOrEmpty(filter) || GuiItemTweaks.FormatTitle(x).ToLower().Contains(filter))
+            .OrderBy(GuiItemTweaks.FormatTitle);
 
         using var scrollView =
             new GUILayout.ScrollViewScope(ItemPosition, UI.AutoWidth(), UI.AutoHeight());
@@ -498,12 +602,7 @@ internal static class CraftingAndItems
                     },
                     UI.Width(30f));
 
-                var label = item.GuiPresentation.Title.StartsWith("Equipment/&CraftingManual")
-                    ? Gui.Format(item.GuiPresentation.Title,
-                        item.DocumentDescription.RecipeDefinition.CraftedItem.FormatTitle())
-                    : item.FormatTitle();
-
-                UI.Label(label, UI.AutoWidth());
+                UI.Label(GuiItemTweaks.FormatTitle(item), UI.AutoWidth());
             }
         }
     }

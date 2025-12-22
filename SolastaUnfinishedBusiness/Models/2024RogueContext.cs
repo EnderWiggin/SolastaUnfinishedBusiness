@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using SolastaUnfinishedBusiness.Api.GameExtensions;
 using SolastaUnfinishedBusiness.Api.LanguageExtensions;
@@ -26,7 +26,7 @@ using static SolastaUnfinishedBusiness.Api.DatabaseHelper.FeatureDefinitionProfi
 
 namespace SolastaUnfinishedBusiness.Models;
 
-internal static partial class Tabletop2024Context
+public static partial class Tabletop2024Context
 {
     private const string FeatSteadyAim = "FeatSteadyAim";
 
@@ -435,6 +435,7 @@ internal static partial class Tabletop2024Context
         if (!attacker.OncePerTurnIsValid("AdditionalDamageRogueSneakAttack") ||
             !attacker.OncePerTurnIsValid("AdditionalDamageRoguishHoodlumNonFinesseSneakAttack") ||
             !attacker.OncePerTurnIsValid("AdditionalDamageRoguishDuelistDaringDuel") ||
+            !attacker.OncePerTurnIsValid("AdditionalDamageRoguishSwashbucklerRakishAudacity1v1") ||
             !attacker.OncePerTurnIsValid("AdditionalDamageRoguishUmbralStalkerDeadlyShadows"))
         {
             return false;
@@ -452,6 +453,8 @@ internal static partial class Tabletop2024Context
                     .IsConsciousCharacterOfSideNextToCharacter(defender, attacker.Side, attacker) ||
                 // it's a Duelist and target is dueling with him
                 RoguishDuelist.TargetIsDuelingWithRoguishDuelist(attacker, defender, advantageType) ||
+                // it's a Swashbuckler and meets 1v1 conditions
+                RoguishSwashbuckler.IsRakishAudacity1v1Valid(attacker, defender, advantageType) ||
                 // it's an Umbral Stalker and source or target are in dim light or darkness
                 RoguishUmbralStalker.SourceOrTargetAreNotBright(attacker, defender, advantageType)
         };

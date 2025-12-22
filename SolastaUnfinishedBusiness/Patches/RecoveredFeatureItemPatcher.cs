@@ -2,6 +2,7 @@
 using HarmonyLib;
 using JetBrains.Annotations;
 using SolastaUnfinishedBusiness.CustomUI;
+using SolastaUnfinishedBusiness.Models;
 
 namespace SolastaUnfinishedBusiness.Patches;
 
@@ -14,10 +15,19 @@ public static class RecoveredFeatureItemPatcher
     public static class Bind_Patch
     {
         [UsedImplicitly]
-        public static void Postfix(RecoveredFeatureItem __instance, RulesetCharacterHero character)
+        public static void Postfix(RecoveredFeatureItem __instance, RulesetCharacterHero character,
+            FeatureDefinition featureDefinition)
         {
             //PATCH: adds current character to recovered during rest feature's tooltip context, so it may properly update ts user-dependant stats
             Tooltips.AddContextToRecoveredFeature(__instance, character);
+
+            //PATCH: correctly report Spell Points
+            if (featureDefinition == SpellPointsContext.PowerSpellPoints)
+            {
+                __instance.tooltip.Clear();
+                __instance.tooltip.Content = "Screen/&SpellPointsRecoveredDescription";
+                __instance.titleLabel.Text = "Screen/&SpellPointsRecoveredTitle";
+            }
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using HarmonyLib;
 using JetBrains.Annotations;
+using SolastaUnfinishedBusiness.CustomUI;
 using SolastaUnfinishedBusiness.Models;
 
 namespace SolastaUnfinishedBusiness.Patches;
@@ -24,6 +25,43 @@ public static class GuiItemDefinitionPatcher
 
             //PATCH: adds `Unfinished Business` tag to all CE items
             CeContentPackContext.AddCeTag(item, tags);
+        }
+    }
+    
+    [HarmonyPatch(typeof(GuiItemDefinition), nameof(GuiItemDefinition.Title), MethodType.Getter)]
+    [SuppressMessage("Minor Code Smell", "S101:Types should be named in PascalCase", Justification = "Patch")]
+    [UsedImplicitly]
+    public static class Title_Getter_Patch
+    {
+        [UsedImplicitly]
+        public static void Postfix(GuiItemDefinition __instance, ref string __result)
+        {
+            __result = GuiItemTweaks.FormatTitle(__instance.ItemDefinition);
+        }
+    }
+    
+    [HarmonyPatch(typeof(GuiItemDefinition), nameof(GuiItemDefinition.Description), MethodType.Getter)]
+    [SuppressMessage("Minor Code Smell", "S101:Types should be named in PascalCase", Justification = "Patch")]
+    [UsedImplicitly]
+    public static class Description_Getter_Patch
+    {
+        [UsedImplicitly]
+        public static void Postfix(GuiItemDefinition __instance, ref string __result)
+        {
+            __result = GuiItemTweaks.FormatDescription(__instance.ItemDefinition);
+        }
+    }
+    
+    [HarmonyPatch(typeof(GuiItemDefinition), nameof(GuiItemDefinition.SubtitleWithoutRarity), MethodType.Getter)]
+    [SuppressMessage("Minor Code Smell", "S101:Types should be named in PascalCase", Justification = "Patch")]
+    [UsedImplicitly]
+    public static class SubtitleWithoutRarity_Getter_Patch
+    {
+        [UsedImplicitly]
+        public static bool Prefix(GuiItemDefinition __instance, ref string __result)
+        {
+            __result = GuiItemTweaks.SubTitleWithoutRarity(__instance.ItemDefinition);
+            return false;
         }
     }
 }

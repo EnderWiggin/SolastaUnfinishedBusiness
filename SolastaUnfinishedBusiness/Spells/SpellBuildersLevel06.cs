@@ -219,7 +219,7 @@ internal static partial class SpellBuilders
                         .Build(),
                     EffectFormBuilder.Create()
                         .HasSavingThrow(EffectSavingThrowType.Negates)
-                        .SetMotionForm(MotionForm.MotionType.DragToOrigin, VerticalPushPullMotion.PullOntoCaster)
+                        .SetMotionForm(MotionForm.MotionType.DragToOrigin, MotionContext.PullOntoCaster)
                         .Build())
                 .SetImpactEffectParameters(EldritchBlast)
                 .Build())

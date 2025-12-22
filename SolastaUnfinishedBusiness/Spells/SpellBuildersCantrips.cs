@@ -75,9 +75,46 @@ internal static partial class SpellBuilders
 
     #region Blade Ward
 
+    internal static EffectDescription BladeWardEffect2014;
+    internal static EffectDescription BladeWardEffect2024;
+
     internal static SpellDefinition BuildBladeWard()
     {
         const string NAME = "BladeWard";
+
+        BladeWardEffect2014 = EffectDescriptionBuilder.Create()
+            .SetDurationData(DurationType.Round, 1)
+            .SetTargetingData(Side.Ally, RangeType.Self, 0, TargetType.Self)
+            .SetEffectForms(EffectFormBuilder.ConditionForm(
+                ConditionDefinitionBuilder.Create($"Condition{NAME}")
+                    .SetGuiPresentation(NAME, Category.Spell, ConditionShielded)
+                    .SetPossessive()
+                    .SetFeatures(
+                        DamageAffinityBludgeoningResistanceTrue,
+                        DamageAffinitySlashingResistanceTrue,
+                        DamageAffinityPiercingResistanceTrue)
+                    .AddToDB()))
+            .SetParticleEffectParameters(FeatureDefinitionPowers.PowerPatronHiveReactiveCarapace)
+            .SetCasterEffectParameters(GuidingBolt)
+            .Build();
+
+        BladeWardEffect2024 = EffectDescriptionBuilder.Create()
+            .SetDurationData(DurationType.Minute, 1)
+            .SetTargetingData(Side.Ally, RangeType.Self, 0, TargetType.Self)
+            .SetEffectForms(EffectFormBuilder.ConditionForm(
+                ConditionDefinitionBuilder.Create($"Condition{NAME}2024")
+                    .SetGuiPresentation("Spell/&BladeWardTitle", "Spell/&BladeWard2024Description", ConditionShielded)
+                    .SetPossessive()
+                    .AddCustomSubFeatures(new CombatAffinityOnMyAttacker(FeatureDefinitionCombatAffinityBuilder
+                        .Create($"CombatAffinity{NAME}2024")
+                        .SetGuiPresentation("Spell/&BladeWardTitle", Gui.NoLocalization)
+                        .SetMyAttackModifierDie(DieType.D4)
+                        .SetMyAttackModifierSign(AttackModifierSign.Substract)
+                        .AddToDB()))
+                    .AddToDB()))
+            .SetParticleEffectParameters(FeatureDefinitionPowers.PowerPatronHiveReactiveCarapace)
+            .SetCasterEffectParameters(GuidingBolt)
+            .Build();
 
         var spell = SpellDefinitionBuilder
             .Create(NAME)
@@ -89,24 +126,7 @@ internal static partial class SpellBuilders
             .SetVerboseComponent(true)
             .SetSomaticComponent(true)
             .SetVocalSpellSameType(VocalSpellSemeType.Defense)
-            .SetEffectDescription(
-                EffectDescriptionBuilder
-                    .Create()
-                    .SetDurationData(DurationType.Round, 1)
-                    .SetTargetingData(Side.Ally, RangeType.Self, 0, TargetType.Self)
-                    .SetEffectForms(
-                        EffectFormBuilder.ConditionForm(
-                            ConditionDefinitionBuilder
-                                .Create($"Condition{NAME}")
-                                .SetGuiPresentation(NAME, Category.Spell, ConditionShielded)
-                                .SetFeatures(
-                                    DamageAffinityBludgeoningResistanceTrue,
-                                    DamageAffinitySlashingResistanceTrue,
-                                    DamageAffinityPiercingResistanceTrue)
-                                .AddToDB()))
-                    .SetParticleEffectParameters(FeatureDefinitionPowers.PowerPatronHiveReactiveCarapace)
-                    .SetCasterEffectParameters(GuidingBolt)
-                    .Build())
+            .SetEffectDescription(BladeWardEffect2014)
             .AddToDB();
 
         return spell;
@@ -130,23 +150,18 @@ internal static partial class SpellBuilders
             .SetVerboseComponent(true)
             .SetSomaticComponent(false)
             .SetVocalSpellSameType(VocalSpellSemeType.Attack)
-            .SetEffectDescription(
-                EffectDescriptionBuilder
-                    .Create()
-                    .SetTargetingData(Side.Enemy, RangeType.Distance, 1, TargetType.IndividualsUnique, 8)
-                    .SetEffectAdvancement(EffectIncrementMethod.CasterLevelTable, additionalDicePerIncrement: 1)
-                    .SetSavingThrowData(false, AttributeDefinitions.Constitution, false,
-                        EffectDifficultyClassComputation.SpellCastingFeature)
-                    .SetEffectForms(
-                        EffectFormBuilder
-                            .Create()
-                            .SetDamageForm(DamageTypeRadiant, 1, DieType.D6)
-                            .HasSavingThrow(EffectSavingThrowType.Negates)
-                            .Build())
-                    .SetParticleEffectParameters(SacredFlame)
-                    .SetImpactEffectParameters(SacredFlame
-                        .EffectDescription.EffectParticleParameters.effectParticleReference)
-                    .Build())
+            .SetEffectDescription(EffectDescriptionBuilder.Create()
+                .SetTargetingData(Side.Enemy, RangeType.Self, 1, TargetType.Cube, 3)
+                .SetEffectAdvancement(EffectIncrementMethod.CasterLevelTable, additionalDicePerIncrement: 1)
+                .SetSavingThrowData(false, AttributeDefinitions.Constitution, false,
+                    EffectDifficultyClassComputation.SpellCastingFeature)
+                .SetEffectForms(
+                    EffectFormBuilder.DamageForm(DamageTypeRadiant, 1, DieType.D6)
+                    .WithSavingThrow(EffectSavingThrowType.Negates)
+                )
+                .SetParticleEffectParameters(Shine)
+                .SetImpactEffectParameters(SacredFlame.ParticleEffectReference())
+                .Build())
             .AddToDB();
 
         return spell;
@@ -592,6 +607,13 @@ internal static partial class SpellBuilders
             .SetGuiPresentation(Category.Condition, ConditionDefinitions.ConditionLightSensitive)
             .SetSilent(Silent.WhenAddedOrRemoved)
             .SetConditionType(ConditionType.Detrimental)
+            .SetFeatures(
+                FeatureDefinitionConditionAffinityBuilder
+                        .Create($"ConditionAffinity{NAME}")
+                        .SetGuiPresentationNoContent(true)
+                        .SetConditionAffinityType(ConditionAffinityType.Immunity)
+                        .SetConditionType(ConditionInvisibleBase)
+                        .AddToDB())
             .AddToDB();
 
         var spell = SpellDefinitionBuilder

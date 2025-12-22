@@ -16,7 +16,6 @@ Feature/&ProficiencyBackgroundFarmerWeaponsDescription=Maîtrise des massues et 
 Feature/&ProficiencyBackgroundFarmerWeaponsTitle=Armes de fermier
 Feature/&ProficiencyBackgroundMilitiaArmorDescription=Maîtrise des armures légères.
 Feature/&ProficiencyBackgroundMilitiaArmorTitle=Armure de milice
-Feature/&ProficiencyBackgroundMilitiaSkillsDescription=Athlétisme, tromperie et intimidation
 Feature/&ProficiencyBackgroundMilitiaSkillsTitle=Compétences de la milice
 Feature/&ProficiencyBackgroundMilitiaWeaponsDescription=Maîtrise de l'épée courte et de la lance.
 Feature/&ProficiencyBackgroundMilitiaWeaponsTitle=Armes de la milice

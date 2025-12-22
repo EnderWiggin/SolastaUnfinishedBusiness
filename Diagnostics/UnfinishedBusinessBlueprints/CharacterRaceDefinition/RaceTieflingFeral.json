@@ -15,11 +15,6 @@
     },
     {
       "$type": "FeatureUnlockByLevel, Assembly-CSharp",
-      "featureDefinition": "Definition:AttributeModifierTieflingDexterityAbilityScoreIncrease:409c00e9-2d72-5c82-9c3f-ed0697291032",
-      "level": 1
-    },
-    {
-      "$type": "FeatureUnlockByLevel, Assembly-CSharp",
       "featureDefinition": "Definition:CastSpellTieflingFeral:e3ab91b0-b45c-58ec-8563-bdbe9a3b3740",
       "level": 1
     }
@@ -109,7 +104,8 @@
       "HairColor",
       "BodyDecorationColor",
       "TailLength",
-      "BeardShape"
+      "BeardShape",
+      "Eye"
     ],
     "needBeard": false,
     "defaultMusculature": 0,
@@ -281,7 +277,7 @@
   },
   "guiPresentation": {
     "$type": "GuiPresentation, Assembly-CSharp",
-    "hidden": true,
+    "hidden": false,
     "title": "Race/&RaceTieflingFeralTitle",
     "description": "Race/&RaceTieflingFeralDescription",
     "spriteReference": {

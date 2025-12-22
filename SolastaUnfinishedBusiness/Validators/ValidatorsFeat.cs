@@ -126,7 +126,7 @@ internal static class ValidatorsFeat
     internal static (bool result, string output) ValidateHasExtraAttack(FeatDefinition _, RulesetCharacterHero hero)
     {
         var guiFormat = Gui.Localize("Tooltip/&PreReqMustHaveExtraAttacks");
-        var hasExtraAttack = hero.GetFeaturesByType<FeatureDefinitionAttributeModifier>()
+        var hasExtraAttack = hero.FeaturesByType<FeatureDefinitionAttributeModifier>()
             .Any(x =>
                 x.ModifiedAttribute == AttributeDefinitions.AttacksNumber &&
                 x.ModifierOperation

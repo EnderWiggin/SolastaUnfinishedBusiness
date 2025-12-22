@@ -132,7 +132,7 @@ public static class GameLocationEnvironmentManagerPatcher
             }
 
             //PATCH: allow push and pull motion effects to change vertical position of a target
-            __result = VerticalPushPullMotion.ComputePushDestination(
+            __result = MotionContext.ComputePushDestination(
                 sourceCenter, target, distance, reverse, positioningService, ref destination, ref direction);
 
             return false;

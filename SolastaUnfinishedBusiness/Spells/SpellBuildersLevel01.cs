@@ -147,6 +147,66 @@ internal static partial class SpellBuilders
 
     #endregion
 
+    #region Divine Smite
+
+    internal static SpellDefinition BuildDivineSmite()
+    {
+        const string NAME = "DivineSmiteSpell";
+
+        var divineSmite = FeatureDefinitionAdditionalDamages.AdditionalDamagePaladinDivineSmite;
+        var smiteGui = divineSmite.GuiPresentation;
+        var dices = DiceByRankBuilder.BuildDiceByRankTable(2);
+
+        // Add dice number for rank 0 - used by free cast
+        dices.Insert(0, new DiceByRank { rank = 0, diceNumber = dices[0].diceNumber });
+
+        var additionalDamageDivineSmite = FeatureDefinitionAdditionalDamageBuilder
+            .Create($"AdditionalDamage{NAME}")
+            .SetGuiPresentation(smiteGui)
+            .SetTriggerCondition(AdditionalDamageTriggerCondition.AlwaysActive)
+            .SetAttackModeOnly()
+            .SetNotificationTag("DivineSmite")
+            .SetDamageDice(DieType.D8, 1)
+            .SetSpecificDamageType(DamageTypeRadiant)
+            .SetDamageValueDetermination(AdditionalDamageValueDetermination.Die)
+            .SetAdditionalDamageFamilies(1, CharacterFamilyDefinitions.Undead, CharacterFamilyDefinitions.Fiend)
+            .SetAdvancement(AdditionalDamageAdvancement.SlotLevel, dices)
+            .SetImpactParticleReference(divineSmite)
+            .AddToDB();
+
+        var spell = SpellDefinitionBuilder.Create(BrandingSmite, NAME)
+            .SetGuiPresentation(smiteGui.Title, smiteGui.Description,
+                Sprites.GetSprite(NAME, Resources.DivineSmite, 128))
+            .SetSchoolOfMagic(SchoolOfMagicDefinitions.SchoolEvocation)
+            .SetSpellLevel(1)
+            .SetCastingTime(ActivationTime.OnAttackHit)
+            .SetMaterialComponent(MaterialComponentType.None)
+            .SetVerboseComponent(true)
+            .SetSomaticComponent(false)
+            .SetRequiresConcentration(false)
+            .SetVocalSpellSameType(VocalSpellSemeType.Buff)
+            .SetEffectDescription(EffectDescriptionBuilder.Create()
+                .SetDurationData(DurationType.Minute, 1)
+                .SetTargetingData(Side.Ally, RangeType.Self, 0, TargetType.Self)
+                .SetEffectAdvancement(EffectIncrementMethod.PerAdditionalSlotLevel, additionalDicePerIncrement: 1)
+                .SetEffectForms(EffectFormBuilder.ConditionForm(ConditionDefinitionBuilder.Create($"Condition{NAME}")
+                    .SetGuiPresentation(divineSmite.GuiPresentation)
+                    .SetSilent(Silent.Always)
+                    .SetSpecialDuration(DurationType.Minute, 1)
+                    .AddSpecialInterruptions(ConditionInterruption.AttacksAndDamages)
+                    .SetFeatures(additionalDamageDivineSmite)
+                    .AddToDB()))
+                .SetParticleEffectParameters(Shield)
+                .UseQuickAnimations()
+                .Build())
+            .AddToDB();
+        
+        // SmiteSpells2024Context.SmiteSpells[spell] = additionalDamageDivineSmite;
+        return spell;
+    }
+
+    #endregion
+    
     #region Earth Tremor
 
     internal static SpellDefinition BuildEarthTremor()
@@ -239,7 +299,7 @@ internal static partial class SpellBuilders
             .SetDamageDice(DieType.D6, 0)
             .SetSavingThrowData(
                 EffectDifficultyClassComputation.SpellCastingFeature,
-                EffectSavingThrowType.Negates,
+                EffectSavingThrowType.None,
                 AttributeDefinitions.Strength)
             .AddConditionOperation(new ConditionOperationDescription
             {
@@ -476,6 +536,10 @@ internal static partial class SpellBuilders
                     .Build())
             .AddToDB();
 
+        SmiteSpells2024Context.SmiteSpells.Add(spell);
+        SmiteSpells2024Context.SmiteDamages.Add(additionalDamageSearingSmite);
+        SmiteSpells2024Context.SmiteConditions.Add(conditionSearingSmite);
+
         return spell;
     }
 
@@ -483,22 +547,23 @@ internal static partial class SpellBuilders
 
     #region Wrathful Smite
 
+    internal static FeatureDefinitionAdditionalDamage AdditionalDamageWrathfulSmite;
     internal static SpellDefinition BuildWrathfulSmite()
     {
         const string NAME = "WrathfulSmite";
 
-        var additionalDamageWrathfulSmite = FeatureDefinitionAdditionalDamageBuilder
+        AdditionalDamageWrathfulSmite = FeatureDefinitionAdditionalDamageBuilder
             .Create($"AdditionalDamage{NAME}")
             .SetGuiPresentation(NAME, Category.Spell)
             .SetNotificationTag(NAME)
             .SetAttackModeOnly()
             .SetRequiredProperty(RestrictedContextRequiredProperty.MeleeWeapon)
             .SetDamageDice(DieType.D6, 1)
-            .SetSpecificDamageType(DamageTypeNecrotic)
+            .SetSpecificDamageType(DamageTypePsychic)
             .SetAdvancement(AdditionalDamageAdvancement.SlotLevel)
             .SetSavingThrowData(
                 EffectDifficultyClassComputation.SpellCastingFeature,
-                EffectSavingThrowType.Negates,
+                EffectSavingThrowType.None,
                 AttributeDefinitions.Wisdom)
             .AddConditionOperation(
                 new ConditionOperationDescription
@@ -515,21 +580,21 @@ internal static partial class SpellBuilders
                     saveAffinity = EffectSavingThrowType.Negates,
                     saveOccurence = TurnOccurenceType.EndOfTurn
                 })
-            .SetImpactParticleReference(Fear.EffectDescription.EffectParticleParameters.impactParticleReference)
+            .SetImpactParticleReference(Fear)
             .AddToDB();
 
         var conditionWrathfulSmite = ConditionDefinitionBuilder
             .Create($"Condition{NAME}")
             .SetGuiPresentation(NAME, Category.Spell, ConditionBrandingSmite)
             .SetPossessive()
-            .SetFeatures(additionalDamageWrathfulSmite)
+            .SetFeatures(AdditionalDamageWrathfulSmite)
             .SetSpecialInterruptions(ExtraConditionInterruption.AttacksWithMeleeAndDamages)
             .AddToDB();
 
         var spell = SpellDefinitionBuilder
             .Create(BrandingSmite, NAME)
             .SetGuiPresentation(Category.Spell, Sprites.GetSprite(NAME, Resources.WrathfulSmite, 128))
-            .SetSchoolOfMagic(SchoolOfMagicDefinitions.SchoolNecromancy)
+            .SetSchoolOfMagic(SchoolOfMagicDefinitions.SchoolEvocation)
             .SetSpellLevel(1)
             .SetCastingTime(ActivationTime.BonusAction)
             .SetMaterialComponent(MaterialComponentType.None)
@@ -546,6 +611,10 @@ internal static partial class SpellBuilders
                     .SetParticleEffectParameters(Fear)
                     .Build())
             .AddToDB();
+        
+        SmiteSpells2024Context.SmiteSpells.Add(spell);
+        SmiteSpells2024Context.SmiteDamages.Add(AdditionalDamageWrathfulSmite);
+        SmiteSpells2024Context.SmiteConditions.Add(conditionWrathfulSmite);
 
         return spell;
     }
@@ -734,11 +803,13 @@ internal static partial class SpellBuilders
 
     #region Thunderous Smite
 
+    internal static FeatureDefinitionPower PowerThunderousSmite;
+
     internal static SpellDefinition BuildThunderousSmite()
     {
         const string NAME = "ThunderousSmite";
 
-        var powerThunderousSmite = FeatureDefinitionPowerBuilder
+        PowerThunderousSmite = FeatureDefinitionPowerBuilder
             .Create($"Power{NAME}ThunderousSmite")
             .SetGuiPresentation(NAME, Category.Spell, hidden: true)
             .SetUsesFixed(ActivationTime.OnAttackHitMeleeAuto)
@@ -767,7 +838,7 @@ internal static partial class SpellBuilders
             .SetGuiPresentation(
                 $"{NAME}Title".Formatted(Category.Spell), Gui.EmptyContent, ConditionBrandingSmite)
             .SetPossessive()
-            .SetFeatures(powerThunderousSmite)
+            .SetFeatures(PowerThunderousSmite)
             .AddCustomSubFeatures(AddUsablePowersFromCondition.Marker)
             .SetSpecialInterruptions(ExtraConditionInterruption.AttacksWithMeleeAndDamages)
             .AddToDB();
@@ -794,6 +865,9 @@ internal static partial class SpellBuilders
                     .SetParticleEffectParameters(Shatter)
                     .Build())
             .AddToDB();
+
+        SmiteSpells2024Context.SmiteSpells.Add(spell);
+        SmiteSpells2024Context.SmiteConditions.Add(conditionThunderousSmite);
 
         return spell;
     }
@@ -1647,9 +1721,12 @@ internal static partial class SpellBuilders
             }
             else
             {
-                var commandService = ServiceRepository.GetService<ICommandService>();
-
-                commandService.EndTurn();
+                actingCharacter.SpendActionType(ActionType.Main);
+                actingCharacter.SpendActionType(ActionType.Bonus);
+                actingCharacter.SpendActionType(ActionType.Move);
+                actingCharacter.SpendActionType(ActionType.NoCost);
+                actingCharacter.SpendActionType(ActionType.FreeOnce);
+                actingCharacter.SpendActionType(ActionType.Reaction);
             }
         }
     }
@@ -1658,15 +1735,14 @@ internal static partial class SpellBuilders
     {
         public void OnCharacterTurnStarted(GameLocationCharacter locationCharacter)
         {
-            var actionService = ServiceRepository.GetService<IGameLocationActionService>();
-            var commandService = ServiceRepository.GetService<ICommandService>();
-            var actionParams = new CharacterActionParams(locationCharacter, Id.DropProne)
-            {
-                CanBeAborted = false, CanBeCancelled = false
-            };
+            MotionContext.ProneTarget(locationCharacter);
 
-            actionService.ExecuteAction(actionParams, null, false);
-            commandService.EndTurn();
+            locationCharacter.SpendActionType(ActionType.Main);
+            locationCharacter.SpendActionType(ActionType.Bonus);
+            locationCharacter.SpendActionType(ActionType.Move);
+            locationCharacter.SpendActionType(ActionType.NoCost);
+            locationCharacter.SpendActionType(ActionType.FreeOnce);
+            locationCharacter.SpendActionType(ActionType.Reaction);
         }
     }
 
@@ -2450,34 +2526,17 @@ internal static partial class SpellBuilders
 
     #region Sanctuary
 
+    private static readonly ConditionDefinition ConditionSanctuary = ConditionDefinitionBuilder
+        .Create("ConditionSanctuary")
+        .SetGuiPresentation(Category.Condition, ConditionDivineFavor)
+        .AddSpecialInterruptions(ConditionInterruption.Attacks)
+        //TODO: make it break only when targeting enemies
+        .AddSpecialInterruptions(ExtraConditionInterruption.AffectsEnemy)
+        .AddToDB();
+
     internal static SpellDefinition BuildSanctuary()
     {
         const string NAME = "Sanctuary";
-
-        var conditionSanctuary = ConditionDefinitionBuilder
-            .Create($"Condition{NAME}")
-            .SetGuiPresentation(Category.Condition, ConditionDivineFavor)
-            .AddSpecialInterruptions(ConditionInterruption.Attacks, ConditionInterruption.CastSpell)
-            .AddToDB();
-
-        var conditionSanctuaryReduceDamage = ConditionDefinitionBuilder
-            .Create($"Condition{NAME}ReduceDamage")
-            .SetGuiPresentationNoContent(true)
-            .SetSilent(Silent.WhenAddedOrRemoved)
-            .AddFeatures(
-                FeatureDefinitionReduceDamageBuilder
-                    .Create($"ReduceDamage{NAME}")
-                    .SetGuiPresentation(NAME, Category.Spell)
-                    .SetAlwaysActiveReducedDamage((_, _) => 999)
-                    .AddToDB())
-            .AddSpecialInterruptions(
-                (ConditionInterruption)ExtraConditionInterruption.AfterWasAttacked,
-                ConditionInterruption.Attacks,
-                ConditionInterruption.CastSpell)
-            .AddToDB();
-
-        conditionSanctuary.AddCustomSubFeatures(
-            new CustomBehaviorSanctuary(conditionSanctuary, conditionSanctuaryReduceDamage));
 
         var spell = SpellDefinitionBuilder
             .Create(NAME)
@@ -2489,18 +2548,71 @@ internal static partial class SpellBuilders
             .SetVerboseComponent(true)
             .SetSomaticComponent(true)
             .SetVocalSpellSameType(VocalSpellSemeType.Buff)
-            .SetEffectDescription(
-                EffectDescriptionBuilder
-                    .Create()
-                    .SetTargetingData(Side.Ally, RangeType.Distance, 6, TargetType.IndividualsUnique)
-                    .SetDurationData(DurationType.Minute, 1)
-                    .SetEffectForms(EffectFormBuilder.ConditionForm(conditionSanctuary))
-                    .SetParticleEffectParameters(ProtectionFromEvilGood)
-                    .Build())
-            .AddCustomSubFeatures(new PowerOrSpellFinishedByMeSanctuary(conditionSanctuary))
+            .SetEffectDescription(EffectDescriptionBuilder.Create()
+                .SetTargetingData(Side.Ally, RangeType.Distance, 6, TargetType.IndividualsUnique)
+                .SetDurationData(DurationType.Minute, 1)
+                .SetEffectForms(EffectFormBuilder.ConditionForm(ConditionSanctuary))
+                .SetParticleEffectParameters(ProtectionFromEvilGood)
+                .Build())
+            .AddCustomSubFeatures(new PowerOrSpellFinishedByMeSanctuary(ConditionSanctuary))
             .AddToDB();
 
         return spell;
+    }
+
+    /**Returns false if target has Sanctuary and Attacker failed saving throw against it*/
+    internal static bool CheckSanctuary(RulesetCharacter attacker, RulesetCharacter target)
+    {
+        if (attacker == null || target == null) { return true; }
+
+        //Sanctuary does not affect same-side actions
+        if (!attacker.IsOppositeSide(target.Side)) { return true; }
+
+        if (!target.TryGetConditionOfCategoryAndType(AttributeDefinitions.TagEffect, ConditionSanctuary.Name,
+                out var condition))
+        {
+            return true;
+        }
+
+        var outcome = attacker.MakeSimpleSavingThrow(AttributeDefinitions.Wisdom, dc: condition.Amount,
+            ConditionSanctuary, schoolOfMagic: SchoolOfMagicDefinitions.SchoolAbjuration.Name);
+
+        return outcome is RollOutcome.Success or RollOutcome.CriticalSuccess;
+    }
+
+    public static bool CheckSanctuaryForMagicEffect(CharacterActionMagicEffect magic, GameLocationCharacter target,
+        out bool isImmune)
+    {
+        isImmune = false;
+
+        RulesetEffect effect = magic switch
+        {
+            CharacterActionCastSpell spell => spell.activeSpell,
+            CharacterActionUsePower power => power.activePower,
+            _ => null
+        };
+
+        if (effect == null) { return true; }
+
+        if (effect.EffectDescription.TargetType is not TargetType.Individuals and not TargetType.IndividualsUnique)
+        {
+            return true;
+        }
+
+        var testedKey = $"SanctuaryResult:{effect.guid}";
+        var tested = target.GetSpecialFeatureUses(testedKey);
+
+        if (tested < 0)
+        {
+            isImmune = !CheckSanctuary(magic.ActingCharacter.RulesetCharacter, target.RulesetCharacter);
+            target.SetSpecialFeatureUses(testedKey, isImmune ? 1 : 0);
+        }
+        else
+        {
+            isImmune = tested == 1;
+        }
+
+        return !isImmune;
     }
 
     // store the caster Save DC on condition amount
@@ -2533,78 +2645,6 @@ internal static partial class SpellBuilders
                     rulesetCaster.FeaturesToBrowse, rulesetCaster.FeaturesOrigin);
                 activeCondition.Amount = rulesetCaster.ComputeSaveDC(actionCastSpell.activeSpell.SpellRepertoire);
             }
-        }
-    }
-
-    // force the attacker to roll a WIS saving throw or lose the attack
-    private sealed class CustomBehaviorSanctuary : ITryAlterOutcomeAttack
-    {
-        private readonly ConditionDefinition _conditionReduceDamage;
-        private readonly ConditionDefinition _conditionSanctuary;
-
-        internal CustomBehaviorSanctuary(
-            ConditionDefinition conditionSanctuary,
-            ConditionDefinition conditionReduceDamage)
-        {
-            _conditionSanctuary = conditionSanctuary;
-            _conditionReduceDamage = conditionReduceDamage;
-        }
-
-        public int HandlerPriority => 20;
-
-        public IEnumerator OnTryAlterOutcomeAttack(
-            GameLocationBattleManager instance,
-            CharacterAction action,
-            GameLocationCharacter attacker,
-            GameLocationCharacter defender,
-            GameLocationCharacter helper,
-            ActionModifier actionModifier,
-            RulesetAttackMode attackMode,
-            RulesetEffect rulesetEffect)
-        {
-            var rulesetDefender = defender.RulesetCharacter;
-
-            if (helper.IsOppositeSide(defender.Side))
-            {
-                yield break;
-            }
-
-            if (!rulesetDefender.TryGetConditionOfCategoryAndType(
-                    AttributeDefinitions.TagEffect,
-                    _conditionSanctuary.Name,
-                    out var activeCondition))
-            {
-                yield break;
-            }
-
-            var casterSaveDC = activeCondition.Amount;
-            var modifierTrend = attacker.RulesetCharacter.actionModifier.savingThrowModifierTrends;
-            var advantageTrends = attacker.RulesetCharacter.actionModifier.savingThrowAdvantageTrends;
-            var attackerWisModifier = AttributeDefinitions.ComputeAbilityScoreModifier(
-                attacker.RulesetCharacter.TryGetAttributeValue(AttributeDefinitions.Wisdom));
-
-            attacker.RulesetCharacter.RollSavingThrow(
-                0, AttributeDefinitions.Wisdom, null, modifierTrend, advantageTrends, attackerWisModifier, casterSaveDC,
-                false, out var savingOutcome, out _);
-
-            if (savingOutcome == RollOutcome.Success)
-            {
-                yield break;
-            }
-
-            rulesetDefender.InflictCondition(
-                _conditionReduceDamage.Name,
-                DurationType.Round,
-                0,
-                TurnOccurenceType.StartOfTurn,
-                AttributeDefinitions.TagEffect,
-                rulesetDefender.guid,
-                rulesetDefender.CurrentFaction.Name,
-                1,
-                _conditionReduceDamage.Name,
-                0,
-                0,
-                0);
         }
     }
 
@@ -2893,6 +2933,8 @@ internal static partial class SpellBuilders
 
     #region Witch Bolt
 
+    internal static FeatureDefinitionPower WitchBoltPower;
+    
     internal static SpellDefinition BuildWitchBolt()
     {
         const string NAME = "WitchBolt";
@@ -2905,25 +2947,23 @@ internal static partial class SpellBuilders
             .SetConditionParticleReference(PowerTraditionShockArcanistArcaneFury)
             .AddToDB();
 
-        var powerWitchBolt = FeatureDefinitionPowerBuilder
+        WitchBoltPower = FeatureDefinitionPowerBuilder
             .Create($"Power{NAME}")
             .SetGuiPresentation(NAME, Category.Spell, LightningBolt)
             .SetUsesFixed(ActivationTime.Action)
-            .SetEffectDescription(
-                EffectDescriptionBuilder
-                    .Create()
-                    .SetTargetingData(Side.Enemy, RangeType.Distance, 6, TargetType.IndividualsUnique)
-                    .SetEffectForms(EffectFormBuilder.DamageForm(DamageTypeLightning, 1, DieType.D12))
-                    .SetParticleEffectParameters(ChainLightning)
-                    .SetImpactEffectParameters(LightningBolt)
-                    .Build())
+            .SetEffectDescription(EffectDescriptionBuilder.Create()
+                .SetTargetingData(Side.Enemy, RangeType.Distance, 6, TargetType.IndividualsUnique)
+                .SetEffectForms(EffectFormBuilder.DamageForm(DamageTypeLightning, 1, DieType.D12))
+                .SetParticleEffectParameters(ChainLightning)
+                .SetImpactEffectParameters(LightningBolt)
+                .Build())
             .AddToDB();
 
         var conditionWitchBoltSelf = ConditionDefinitionBuilder
             .Create($"Condition{NAME}Self")
             .SetGuiPresentationNoContent(true)
             .SetSilent(Silent.WhenAddedOrRemoved)
-            .SetFeatures(powerWitchBolt)
+            .SetFeatures(WitchBoltPower)
             .AddToDB();
 
         var spell = SpellDefinitionBuilder
@@ -2937,35 +2977,41 @@ internal static partial class SpellBuilders
             .SetVerboseComponent(true)
             .SetVocalSpellSameType(VocalSpellSemeType.Attack)
             .SetRequiresConcentration(true)
-            .SetEffectDescription(
-                EffectDescriptionBuilder
-                    .Create()
-                    .SetDurationData(DurationType.Minute, 1)
-                    .SetTargetingData(Side.Enemy, RangeType.RangeHit, 6, TargetType.IndividualsUnique)
-                    .SetEffectAdvancement(EffectIncrementMethod.PerAdditionalSlotLevel, additionalDicePerIncrement: 1)
-                    .SetEffectForms(
-                        EffectFormBuilder
-                            .Create()
-                            .SetDamageForm(DamageTypeLightning, 1, DieType.D12)
-                            .Build(),
-                        EffectFormBuilder.ConditionForm(conditionWitchBolt),
-                        EffectFormBuilder.ConditionForm(
-                            conditionWitchBoltSelf,
-                            ConditionForm.ConditionOperation.Add, true))
-                    .SetParticleEffectParameters(ChainLightning)
-                    .SetImpactEffectParameters(LightningBolt)
-                    .Build())
+            .SetEffectDescription(EffectDescriptionBuilder.Create()
+                .SetDurationData(DurationType.Minute, 1)
+                .SetTargetingData(Side.Enemy, RangeType.RangeHit, 6, TargetType.IndividualsUnique)
+                .SetEffectAdvancement(EffectIncrementMethod.PerAdditionalSlotLevel, additionalDicePerIncrement: 1)
+                .SetEffectForms(
+                    EffectFormBuilder.DamageForm(DamageTypeLightning, 1, DieType.D12),
+                    EffectFormBuilder.AddConditionForm(conditionWitchBolt),
+                    EffectFormBuilder.AddConditionForm(conditionWitchBoltSelf, true))
+                .SetParticleEffectParameters(ChainLightning)
+                .SetImpactEffectParameters(LightningBolt)
+                .Build())
             .AddToDB();
 
-        powerWitchBolt.AddCustomSubFeatures(
-            new CustomBehaviorWitchBolt(spell, powerWitchBolt, conditionWitchBolt));
+        var witchBoltDuration = ComputeRoundsDuration(DurationType.Minute, 1);
+        WitchBoltPower.AddCustomSubFeatures(
+            new CustomBehaviorWitchBolt(spell, WitchBoltPower, conditionWitchBolt),
+            new ModifyPowerVisibility((character, power, _) =>
+            {
+                if (power.activationTime == ActivationTime.Action) { return true; }
+
+                if (character.TryGetConditionOfCategoryAndType(AttributeDefinitions.TagEffect,
+                        conditionWitchBoltSelf.Name, out var condition))
+                {
+                    return condition.RemainingRounds < witchBoltDuration;
+                }
+
+                return true;
+            }));
 
         conditionWitchBolt.AddCustomSubFeatures(
             new ActionFinishedByMeWitchBoltEnemy(spell, conditionWitchBolt));
 
         conditionWitchBoltSelf.AddCustomSubFeatures(
             AddUsablePowersFromCondition.Marker,
-            new ActionFinishedByMeWitchBolt(spell, powerWitchBolt, conditionWitchBolt));
+            new ActionFinishedByMeWitchBolt(spell, WitchBoltPower, conditionWitchBolt));
 
         return spell;
     }

@@ -4,12 +4,12 @@
     {
       "$type": "FeatureUnlockByLevel, Assembly-CSharp",
       "featureDefinition": "Definition:FeatureSetBladeDancerBladeDance:9b607616-747c-5a9b-83ea-fdcde0466dec",
-      "level": 2
+      "level": 3
     },
     {
       "$type": "FeatureUnlockByLevel, Assembly-CSharp",
       "featureDefinition": "Definition:FeatureSetCasterBladeDancerFighting:b35bc70e-1ad3-578a-bc66-ea5d76da0d00",
-      "level": 2
+      "level": 3
     },
     {
       "$type": "FeatureUnlockByLevel, Assembly-CSharp",

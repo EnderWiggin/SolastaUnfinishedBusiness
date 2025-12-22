@@ -64,7 +64,7 @@ Feature/&PowerFeatOrcishAggressionTitle=Agression des orques
 Feedback/&AdditionalDamageOrcishFuryFormat=Fureur orque
 Feedback/&AdditionalDamageOrcishFuryLine=La fureur orque inflige +{2} dégâts supplémentaires !
 Feedback/&BountifulLuckAttackToHitRoll={0} a utilisé {1} et lance un {2} pour remplacer {3} au jet d'attaque
-Feedback/&BountifulLuckCheckToHitRoll={0} a utilisé {1} et lance un {2} pour remplacer {3} sur le jet de contrôle
+Feedback/&BountifulLuckCheckToHitRoll={0} a utilisé {1} et lance un {2} pour remplacer {3} sur le jet de contrôle: {4}
 Feedback/&BountifulLuckSavingToHitRoll={0} a utilisé {1} et lance un {2} pour remplacer {3} sur le jet de sauvegarde
 Feedback/&DwarvenFortitudeHitDieRolled={0} a lancé un {2} et a soigné {3} = {4}.
 Feedback/&FlamesOfPhlegethosReroll={0} utilise les Flammes de Phlégéthos pour relancer un dé de dégâts magiques {1} de {2} à {3}.

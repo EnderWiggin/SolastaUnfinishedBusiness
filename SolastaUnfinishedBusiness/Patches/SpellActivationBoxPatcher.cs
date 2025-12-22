@@ -47,11 +47,12 @@ public static class SpellActivationBoxPatcher
             int spellLevel,
             out int remaining,
             out int max,
+            RulesetCharacter caster,
             SpellActivationBox spellActivationBox)
         {
-            if (Main.Settings.UseAlternateSpellPointsSystem)
+            if (caster.IsSpellPointsEnabled())
             {
-                var canCastSpell = SpellPointsContext.CanCastSpellOfLevel(repertoire.GetCaster(), spellLevel);
+                var canCastSpell = SpellPointsContext.CanCastSpellOfLevel(caster, spellLevel);
 
                 max = 1; // irrelevant
                 remaining = canCastSpell ? 1 : 0;
@@ -79,6 +80,7 @@ public static class SpellActivationBoxPatcher
 
             return instructions
                 .ReplaceCalls(getSlotsNumberMethod, "SpellActivationBox.BindSpell.GetSlotsNumber",
+                    new CodeInstruction(OpCodes.Ldarg_1),
                     new CodeInstruction(OpCodes.Ldarg_0),
                     new CodeInstruction(OpCodes.Call, myGetSlotsNumberMethod))
                 .ReplaceCalls(uniqueLevelSlotsMethod, "SpellActivationBox.BindSpell.UniqueLevelSlots",
@@ -101,7 +103,8 @@ public static class SpellActivationBoxPatcher
                 return;
             }
 
-            var rulesetCaster = __instance.spellRepertoire.GetCaster();
+            var rulesetCaster = __instance.tooltip.Context as RulesetCharacter
+                                ?? __instance.spellRepertoire.GetCaster();
             var caster = GameLocationCharacter.GetFromActor(rulesetCaster);
 
             caster?.RegisterShiftState();

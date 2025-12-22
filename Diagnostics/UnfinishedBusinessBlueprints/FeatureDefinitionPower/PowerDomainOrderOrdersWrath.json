@@ -176,7 +176,7 @@
     "$type": "GuiPresentation, Assembly-CSharp",
     "hidden": false,
     "title": "Feature/&PowerDomainOrderOrdersWrathTitle",
-    "description": "Once per turn when you hit a creature with your Divine Strike, you curse that creature until the beginning of your next turn. The next time your ally attacks that creature and deals damage, it takes an additional 2d8 psychic damage.",
+    "description": "Once per turn when you hit a creature with your Blessed Strikes, you curse that creature until the beginning of your next turn. The next time your ally attacks that creature and deals damage, it takes an additional 2d8 psychic damage.",
     "spriteReference": {
       "$type": "UnityEngine.AddressableAssets.AssetReferenceSprite, Unity.Addressables",
       "m_AssetGUID": "",

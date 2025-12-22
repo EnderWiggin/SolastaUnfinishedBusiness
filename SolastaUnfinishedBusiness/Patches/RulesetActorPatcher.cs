@@ -113,12 +113,13 @@ public static class RulesetActorPatcher
                 .GetFirstSubFeatureOfType<IBindToRulesetConditionCustom>();
             if (replaceWithRulesetConditionCustom != null)
             {
-                var originalCondition = newCondition;
                 // The original condition is yet to register, however it is got from its pool, so we should return it
-                replaceWithRulesetConditionCustom.ReplaceRulesetCondition(originalCondition, out newCondition);
-                if (originalCondition != newCondition)
+                replaceWithRulesetConditionCustom.ReplaceRulesetCondition(newCondition, out var replacedCondition);
+
+                if (replacedCondition != newCondition && replacedCondition != null)
                 {
-                    RulesetCondition.objectPool.Return(originalCondition);
+                    RulesetCondition.objectPool.Return(newCondition);
+                    newCondition = replacedCondition;
                 }
             }
 
@@ -164,7 +165,7 @@ public static class RulesetActorPatcher
         public static bool Prefix(RulesetActor __instance)
         {
             __instance.isArmorClassDependentToPositioning = __instance
-                .GetFeaturesByType<FeatureDefinitionAttributeModifier>()
+                .FeaturesByType<FeatureDefinitionAttributeModifier>()
                 .Any(attributeModifier =>
                     attributeModifier.ModifiedAttribute == AttributeDefinitions.ArmorClass &&
                     (attributeModifier.SituationalContext

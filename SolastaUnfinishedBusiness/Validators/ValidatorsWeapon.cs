@@ -92,6 +92,8 @@ internal static class ValidatorsWeapon
             attackMode is { SourceDefinition: ItemDefinition itemDefinition, Ranged: false } &&
             IsMelee(itemDefinition);
     }
+    
+   
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     internal static bool IsShield([CanBeNull] ItemDefinition itemDefinition)
@@ -137,7 +139,7 @@ internal static class ValidatorsWeapon
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private static bool IsUnarmed([CanBeNull] ItemDefinition itemDefinition)
+    internal static bool IsUnarmed([CanBeNull] ItemDefinition itemDefinition)
     {
         if (!itemDefinition)
         {
@@ -165,6 +167,15 @@ internal static class ValidatorsWeapon
         }
 
         return attackMode?.SourceDefinition is ItemDefinition itemDefinition && IsUnarmed(itemDefinition);
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    internal static bool IsMeleeOrUnarmed(
+        [CanBeNull] RulesetAttackMode attackMode,
+        [CanBeNull] RulesetItem rulesetItem,
+        RulesetCharacter rulesetCharacter)
+    {
+        return IsMeleeOrUnarmed(attackMode);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]

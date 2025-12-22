@@ -8,6 +8,7 @@ using JetBrains.Annotations;
 using SolastaUnfinishedBusiness.Api.GameExtensions;
 using SolastaUnfinishedBusiness.Api.Helpers;
 using SolastaUnfinishedBusiness.Behaviors;
+using SolastaUnfinishedBusiness.Behaviors.Specific;
 using SolastaUnfinishedBusiness.Feats;
 using SolastaUnfinishedBusiness.Interfaces;
 using SolastaUnfinishedBusiness.Models;
@@ -39,6 +40,20 @@ public static class RulesetCharacterMonsterPatcher
     [UsedImplicitly]
     public static class RefreshAll_Patch
     {
+        [UsedImplicitly]
+        public static void Prefix(RulesetCharacterMonster __instance)
+        {
+            //PATCH: clears cached customized spell effects
+            PowerBundle.ClearSpellEffectCache(__instance);
+        }
+
+        [UsedImplicitly]
+        public static void Postfix(RulesetCharacterMonster __instance)
+        {
+            //PATCH: allow power use validators to work on permanent (aura) powers
+            __instance.UpdatePermanentPowersAsNeeded();
+        }
+
         [NotNull]
         [UsedImplicitly]
         public static IEnumerable<CodeInstruction> Transpiler([NotNull] IEnumerable<CodeInstruction> instructions)

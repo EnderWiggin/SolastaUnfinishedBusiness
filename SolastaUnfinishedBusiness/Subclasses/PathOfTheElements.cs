@@ -598,7 +598,7 @@ public sealed class PathOfTheElements : AbstractSubclass
 
                 var actionService = ServiceRepository.GetService<IGameLocationActionService>();
 
-                actionService.StopCharacterActions(targetLocationCharacter, CharacterAction.InterruptionType.Abort);
+                actionService.StopCharacterActions(targetLocationCharacter, CharacterAction.InterruptionType.ForcedMovement);
                 rulesetDefender.InflictCondition(
                     CustomConditionsContext.StopMovement.Name,
                     DurationType.Round,

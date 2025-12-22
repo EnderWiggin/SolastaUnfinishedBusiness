@@ -14,7 +14,7 @@
   "features": [],
   "guiPresentation": {
     "$type": "GuiPresentation, Assembly-CSharp",
-    "hidden": true,
+    "hidden": false,
     "title": "Feat/&FeatGroupElementalTouchTitle",
     "description": "The first time each turn that you deal damage with an unarmed attack or weapon, you deal additional elemental damage equal to your proficiency bonus.",
     "spriteReference": {

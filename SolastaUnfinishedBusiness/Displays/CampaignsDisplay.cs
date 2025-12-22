@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using HarmonyLib;
 using SolastaUnfinishedBusiness.Api.LanguageExtensions;
 using SolastaUnfinishedBusiness.Api.ModKit;
 using SolastaUnfinishedBusiness.CustomUI;
@@ -84,6 +85,12 @@ internal static class CampaignsDisplay
             }
         }
 
+        toggle = Main.Settings.EnemySpellcastersDropScribedSpellbooks;
+        if (UI.Toggle(Gui.Localize("ModUi/&EnemySpellcastersDropScribedSpellbooks"), ref toggle, UI.AutoWidth()))
+        {
+            Main.Settings.EnemySpellcastersDropScribedSpellbooks = toggle;
+        }
+
         UI.Label();
 
         toggle = Main.Settings.AltOnlyHighlightItemsInPartyFieldOfView;
@@ -116,6 +123,12 @@ internal static class CampaignsDisplay
         if (UI.Toggle(Gui.Localize("ModUi/&HideExitAndTeleporterGizmosIfNotDiscovered"), ref toggle, UI.AutoWidth()))
         {
             Main.Settings.HideExitsAndTeleportersGizmosIfNotDiscovered = toggle;
+        }
+
+        toggle = Main.Settings.EnableOutOfCombatTargetingSightLines;
+        if (UI.Toggle(Gui.Localize("ModUi/&EnableOutOfCombatTargetingSightLines"), ref toggle, UI.AutoWidth()))
+        {
+            Main.Settings.EnableOutOfCombatTargetingSightLines = toggle;
         }
 
         UI.Label();
@@ -255,7 +268,11 @@ internal static class CampaignsDisplay
         }
 
         toggle = Main.Settings.EnableExtendedProficienciesPanelDisplay;
-        if (UI.Toggle(Gui.Localize("ModUi/&EnableExtendedProficienciesPanelDisplay"), ref toggle, UI.AutoWidth()))
+        var pools = InvocationPoolTypeCustom.Pools.All.Where(p => !p.Hidden)
+            .Select(p => Gui.Localize(p.PanelTitle))
+            .OrderBy(p => p)
+            .Join(delimiter: Gui.ListSeparator());
+        if (UI.Toggle(Gui.Format("ModUi/&EnableExtendedProficienciesPanelDisplay", pools), ref toggle, UI.AutoWidth()))
         {
             Main.Settings.EnableExtendedProficienciesPanelDisplay = toggle;
         }

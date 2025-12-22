@@ -10,11 +10,6 @@
   "featureUnlocks": [
     {
       "$type": "FeatureUnlockByLevel, Assembly-CSharp",
-      "featureDefinition": "Definition:FeatureSetHalfElfAbilityScoreIncrease:38424c7fca90b024cb6fb8355d62b61d",
-      "level": 1
-    },
-    {
-      "$type": "FeatureUnlockByLevel, Assembly-CSharp",
       "featureDefinition": "Definition:SenseDarkvision:446f786482b07db45b6f4a0854be3056",
       "level": 1
     },
@@ -31,6 +26,16 @@
     {
       "$type": "FeatureUnlockByLevel, Assembly-CSharp",
       "featureDefinition": "Definition:SenseNormalVision:222ef639393ed4e4bbd7152690597945",
+      "level": 1
+    },
+    {
+      "$type": "FeatureUnlockByLevel, Assembly-CSharp",
+      "featureDefinition": "Definition:PointPoolAbilityScore4:52183061-652d-5210-ae35-2e6fccf05020",
+      "level": 1
+    },
+    {
+      "$type": "FeatureUnlockByLevel, Assembly-CSharp",
+      "featureDefinition": "Definition:PointPoolBonusFeat:c3eef96a911e20a40ab0e8a61c7463e1",
       "level": 1
     }
   ],
@@ -114,7 +119,8 @@
       "Pronoun",
       "BodyDecorationColor",
       "Scars",
-      "Musculature"
+      "Musculature",
+      "Eye"
     ],
     "needBeard": false,
     "defaultMusculature": 0,
@@ -268,7 +274,7 @@
   },
   "guiPresentation": {
     "$type": "GuiPresentation, Assembly-CSharp",
-    "hidden": true,
+    "hidden": false,
     "title": "Race/&HalfElfTitle",
     "description": "Race/&HalfElfDescription",
     "spriteReference": {

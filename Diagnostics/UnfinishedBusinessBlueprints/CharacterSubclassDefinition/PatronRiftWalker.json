@@ -4,17 +4,17 @@
     {
       "$type": "FeatureUnlockByLevel, Assembly-CSharp",
       "featureDefinition": "Definition:PowerRiftWalkerBlink:0ddfb64d-6da6-55fa-9944-4ec5a337effa",
-      "level": 1
+      "level": 3
     },
     {
       "$type": "FeatureUnlockByLevel, Assembly-CSharp",
       "featureDefinition": "Definition:MagicAffinityRiftWalkerExpandedSpells:18a81672-abf4-557e-b8b8-9c8ead0e6545",
-      "level": 1
+      "level": 3
     },
     {
       "$type": "FeatureUnlockByLevel, Assembly-CSharp",
       "featureDefinition": "Definition:PowerRiftWalkerRiftStep:32357772-126d-5d36-ad70-2daa0d09a5f3",
-      "level": 1
+      "level": 3
     },
     {
       "$type": "FeatureUnlockByLevel, Assembly-CSharp",

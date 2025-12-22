@@ -14,7 +14,7 @@
   "features": [],
   "guiPresentation": {
     "$type": "GuiPresentation, Assembly-CSharp",
-    "hidden": true,
+    "hidden": false,
     "title": "Feat/&FeatGroupHalfWisdomTitle",
     "description": "Aegis Touched [Wis], Apothecary [Wis], Awaken the Beast [Wis], Baleful Scion [Wis], Blessed Soul [Cleric], Celestial Touched [Wis], Chef [Wis], Creed of Maraike, Elven Accuracy [Wis], Expand the Hunt, Fey Teleportation [Wis], Flame Touched [Wis], Gift of the Gem Dragon [Wis], Grudge Bearer [Wis], Iridescent Touched [Wis], Peregrination Touched [Wis], Retinue Touched [Wis], Shadow Touched [Wis], Telekinetic [Wis], Toxicologist [Wis], Verdant Touched [Wis], Wise Archery, Wise Defense, Wise Precision",
     "spriteReference": {

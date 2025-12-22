@@ -24,6 +24,22 @@ public static class ActionDefinitionsPatcher
             }
         }
     }
+    
+    [HarmonyPatch(typeof(ActionDefinitions), nameof(ActionDefinitions.IsAttackAction))]
+    [SuppressMessage("Minor Code Smell", "S101:Types should be named in PascalCase", Justification = "Patch")]
+    [UsedImplicitly]
+    public static class IsAttackAction_Patch
+    {
+        [UsedImplicitly]
+        public static void Postfix(ref bool __result, ActionDefinitions.Id actionId)
+        {
+            //PATCH: support for Nick weapon mastery
+            if (actionId == (ActionDefinitions.Id)ExtraActionId.NickMasteryAttack)
+            {
+                __result = true;
+            }
+        }
+    }
 
     [HarmonyPatch(typeof(ActionDefinitions), nameof(ActionDefinitions.IsProxyAction))]
     [SuppressMessage("Minor Code Smell", "S101:Types should be named in PascalCase", Justification = "Patch")]
@@ -53,6 +69,19 @@ public static class ActionDefinitionsPatcher
             {
                 __result = true;
             }
+        }
+    }
+    
+    [HarmonyPatch(typeof(ActionDefinitions), nameof(ActionDefinitions.IsPowerAction))]
+    [SuppressMessage("Minor Code Smell", "S101:Types should be named in PascalCase", Justification = "Patch")]
+    [UsedImplicitly]
+    public static class IsPowerAction_Patch
+    {
+        [UsedImplicitly]
+        public static void Postfix(ref bool __result, ActionDefinitions.Id actionId)
+        {
+            //PATCH: fixes custom actions that use powers not showing proper targeting cursor
+            __result = __result || CustomActionIdContext.IsPowerUseActionId(actionId);
         }
     }
 }

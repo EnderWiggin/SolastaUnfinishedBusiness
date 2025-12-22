@@ -17,6 +17,7 @@ internal static class InvocationsContext
     private const int SpacingY = 5;
 
     internal static HashSet<InvocationDefinition> Invocations { get; private set; } = [];
+    internal static readonly HashSet<InvocationDefinition> DisabledInvocations = [];
 
     internal static void LateLoad()
     {
@@ -52,7 +53,7 @@ internal static class InvocationsContext
         LoadInvocation(BuildPoisonousBlast());
         LoadInvocation(BuildShroudOfShadow());
         LoadInvocation(BuildSpectralShield());
-        LoadInvocation(BuildStasis());
+        DisabledInvocations.Add(BuildStasis()); //identical to Mire The Mind from vanilla - do not show it, but keep built for compatibility
         LoadInvocation(BuildSuperiorPactWeapon());
         LoadInvocation(BuildTenaciousPlague());
         LoadInvocation(BuildTombOfFrost());

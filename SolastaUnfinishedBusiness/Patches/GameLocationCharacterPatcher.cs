@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reflection.Emit;
 using HarmonyLib;
 using JetBrains.Annotations;
+using NAudio.CoreAudioApi;
 using SolastaUnfinishedBusiness.Api;
 using SolastaUnfinishedBusiness.Api.GameExtensions;
 using SolastaUnfinishedBusiness.Api.Helpers;
@@ -19,6 +20,7 @@ using SolastaUnfinishedBusiness.Validators;
 using TA;
 using UnityEngine;
 using static ActionDefinitions;
+using static LocationDefinitions;
 using static RuleDefinitions;
 using static SenseMode;
 
@@ -50,6 +52,37 @@ public static class GameLocationCharacterPatcher
             return false;
         }
     }
+
+    [HarmonyPatch(typeof(GameLocationCharacter), nameof(GameLocationCharacter.SignalJumpFinished))]
+    [SuppressMessage("Minor Code Smell", "S101:Types should be named in PascalCase", Justification = "Patch")]
+    [UsedImplicitly]
+    public static class SignalJumpFinished_Patch
+    {
+        [UsedImplicitly]
+        public static void Postfix(
+            GameLocationCharacter __instance,
+            int3 start, int3 finish, bool landingFailed)
+        {
+            if (Main.Settings.ModifyJumpRulesForArmorAndEncumberance
+                && landingFailed
+                )
+            {
+                var damageForm = new DamageForm
+                {
+                    DamageType = DamageTypeBludgeoning,
+                    DiceNumber = 1,
+                    DieType = DieType.D4
+                };
+                var rolls = new List<int>();
+                var totalDamage = __instance.RulesetCharacter.RollDamage(damageForm, 0, false, 0, 0, 1, false, false, false, rolls);
+                var currentHitPoints = __instance.RulesetCharacter.CurrentHitPoints;
+                
+                __instance.RulesetCharacter.SustainDamage(totalDamage, damageForm.DamageType, false, __instance.Guid,
+                    new RollInfo(damageForm.DieType, rolls, 0), out _);
+            }
+        }
+    }
+
 
     [HarmonyPatch(typeof(GameLocationCharacter), nameof(GameLocationCharacter.CanMoveInSituation))]
     [SuppressMessage("Minor Code Smell", "S101:Types should be named in PascalCase", Justification = "Patch")]
@@ -805,33 +838,6 @@ public static class GameLocationCharacterPatcher
             }
 
             rulesetCharacter.RefreshAll();
-
-            return false;
-        }
-    }
-
-    //PATCH: fix vanilla issues that removes hero off stealth if within enemy perceived range on a surprise attack
-    [HarmonyPatch(typeof(GameLocationCharacter), nameof(GameLocationCharacter.UpdateStealthStatus))]
-    [SuppressMessage("Minor Code Smell", "S101:Types should be named in PascalCase", Justification = "Patch")]
-    [UsedImplicitly]
-    public static class UpdateStealthStatus_Patch
-    {
-        [UsedImplicitly]
-        public static bool Prefix(GameLocationCharacter __instance)
-        {
-            if (!Main.Settings.KeepStealthOnHeroIfPerceivedDuringSurpriseAttack)
-            {
-                return true;
-            }
-
-            var service = ServiceRepository.GetService<IGameLocationBattleService>();
-
-            if (service.HasBattleStarted)
-            {
-                return true;
-            }
-
-            __instance.wasPerceivedByFoes = __instance.isPerceivedByFoes;
 
             return false;
         }

@@ -12,7 +12,7 @@
   "iterativeTargeting": false,
   "canTriggerBattle": false,
   "parameter": "ActivatePower",
-  "formType": "Invisible",
+  "formType": "Large",
   "overrideGuiActionType": false,
   "overridenGuiActionType": "Main",
   "focusCameraOnAction": true,

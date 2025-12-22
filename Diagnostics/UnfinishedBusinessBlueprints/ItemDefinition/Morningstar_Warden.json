@@ -63,7 +63,9 @@
     "reachRange": 1,
     "closeRange": 5,
     "maxRange": 5,
-    "weaponTags": [],
+    "weaponTags": [
+      "Sap"
+    ],
     "effectDescription": {
       "$type": "EffectDescription, Assembly-CSharp",
       "rangeType": "Self",

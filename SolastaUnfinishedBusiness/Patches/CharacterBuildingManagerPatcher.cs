@@ -101,47 +101,74 @@ public static class CharacterBuildingManagerPatcher
         }
     }
 
+    private static void UndoGrantPool(
+        CharacterBuildingManager __instance,
+        CharacterHeroBuildingData heroBuildingData,
+        InvocationDefinition invocation)
+    {
+        if (invocation.GrantedFeature is not FeatureDefinitionPointPool featureDefinitionPointPool)
+        {
+            return;
+        }
+
+        if (!heroBuildingData.PointPoolStacks.TryGetValue(featureDefinitionPointPool.PoolType,
+                out var pointPoolStack))
+        {
+            return;
+        }
+
+        var hero = __instance.CurrentLocalHeroCharacter;
+
+        __instance.GetLastAssignedClassAndLevel(hero, out var classDefinition, out var level);
+
+        var finaTag = AttributeDefinitions.GetClassTag(classDefinition, level) +
+                      featureDefinitionPointPool.ExtraSpellsTag + featureDefinitionPointPool.ExtraSpellsTag;
+
+        if (!pointPoolStack.ActivePools.TryGetValue(finaTag, out var pool))
+        {
+            return;
+        }
+
+        pool.maxPoints -= featureDefinitionPointPool.poolAmount;
+
+        if (pool.maxPoints == 0)
+        {
+            pointPoolStack.ActivePools.Remove(finaTag);
+        }
+    }
+
+
+    [HarmonyPatch(typeof(CharacterBuildingManager), nameof(CharacterBuildingManager.UntrainInvocations))]
+    [SuppressMessage("Minor Code Smell", "S101:Types should be named in PascalCase", Justification = "Patch")]
+    [UsedImplicitly]
+    public static class UntrainInvocations_Patch
+    {
+        [UsedImplicitly]
+        public static void Prefix(
+            CharacterBuildingManager __instance,
+            CharacterHeroBuildingData heroBuildingData,
+            string tag)
+        {
+            if (!heroBuildingData.LevelupTrainedInvocations.TryGetValue(tag, out var invocations))
+            {
+                return;
+            }
+
+            foreach (var invocation in invocations)
+            {
+                //PATCH: do not check or modify point pools when dealing with custom invocations
+                if (invocation is InvocationDefinitionCustom) { continue; }
+
+                UndoGrantPool(__instance, heroBuildingData, invocation);
+            }
+        }
+    }
+
     [HarmonyPatch(typeof(CharacterBuildingManager), nameof(CharacterBuildingManager.UntrainInvocation))]
     [SuppressMessage("Minor Code Smell", "S101:Types should be named in PascalCase", Justification = "Patch")]
     [UsedImplicitly]
     public static class UntrainInvocation_Patch
     {
-        private static void UndoGrantPool(
-            CharacterBuildingManager __instance,
-            CharacterHeroBuildingData heroBuildingData,
-            InvocationDefinition invocation)
-        {
-            if (invocation.GrantedFeature is not FeatureDefinitionPointPool featureDefinitionPointPool)
-            {
-                return;
-            }
-
-            if (!heroBuildingData.PointPoolStacks.TryGetValue(featureDefinitionPointPool.PoolType,
-                    out var pointPoolStack))
-            {
-                return;
-            }
-
-            var hero = __instance.CurrentLocalHeroCharacter;
-
-            __instance.GetLastAssignedClassAndLevel(hero, out var classDefinition, out var level);
-
-            var finaTag = AttributeDefinitions.GetClassTag(classDefinition, level) +
-                          featureDefinitionPointPool.ExtraSpellsTag + featureDefinitionPointPool.ExtraSpellsTag;
-
-            if (!pointPoolStack.ActivePools.TryGetValue(finaTag, out var pool))
-            {
-                return;
-            }
-
-            pool.maxPoints -= featureDefinitionPointPool.poolAmount;
-
-            if (pool.maxPoints == 0)
-            {
-                pointPoolStack.ActivePools.Remove(finaTag);
-            }
-        }
-
         [UsedImplicitly]
         public static bool Prefix(
             CharacterBuildingManager __instance,
@@ -368,7 +395,7 @@ public static class CharacterBuildingManagerPatcher
             }
 
             // consider cantrips from subclasses
-            var subclassTag = AttributeDefinitions.GetSubclassTag(selectedClass, 1, selectedSubclass);
+            var subclassTag = AttributeDefinitions.GetSubclassTag(selectedClass, selectedClassLevel, selectedSubclass);
             var subclassPoolName = $"{subclassTag}{name}";
 
             if (!heroBuildingData.AcquiredCantrips.TryGetValue(subclassPoolName, out var cantrips3))

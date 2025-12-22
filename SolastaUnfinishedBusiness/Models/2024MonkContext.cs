@@ -31,7 +31,7 @@ using static SolastaUnfinishedBusiness.Api.DatabaseHelper.FeatureDefinitionProfi
 
 namespace SolastaUnfinishedBusiness.Models;
 
-internal static partial class Tabletop2024Context
+public static partial class Tabletop2024Context
 {
     internal static readonly ConditionDefinition ConditionStunningStrikeMark = ConditionDefinitionBuilder
         .Create("ConditionStunningStrikeMark")
@@ -265,12 +265,13 @@ internal static partial class Tabletop2024Context
         .SetGuiPresentation(Category.Feature,
             Sprites.GetSprite("PowerStepOfTheWindNoCost", Resources.PowerStepOfTheWindNoCost, 256, 128))
         .SetUsesFixed(ActivationTime.BonusAction)
-        .SetEffectDescription(
-            EffectDescriptionBuilder
-                .Create(PowerMonkStepOfTheWindDash)
-                .SetEffectForms(EffectFormBuilder.ConditionForm(ConditionDashingBonusStepOfTheWind))
-                .SetCasterEffectParameters(SpellDefinitions.Command)
-                .Build())
+        .SetEffectDescription(EffectDescriptionBuilder.Create(PowerMonkStepOfTheWindDash)
+            .SetEffectForms(EffectFormBuilder.ConditionForm(ConditionDefinitionBuilder
+                .Create(ConditionDashingBonusStepOfTheWind, "ConditionMonkStepOfTheWind2024AtWill")
+                .SetFeatures(MovementAffinityConditionDashingBonus)
+                .AddToDB()))
+            .SetCasterEffectParameters(SpellDefinitions.Command)
+            .Build())
         .AddCustomSubFeatures(WayOfBlade.PowerOrSpellFinishedByMeSwiftStrike.Marker)
         .AddToDB();
 
@@ -970,7 +971,8 @@ internal static partial class Tabletop2024Context
             void ReactionValidated()
             {
                 var healing = rulesetCharacter.GetClassLevel(Monk) + rulesetCharacter.RollDiceAndSum(
-                    rulesetCharacter.GetMonkDieType(), RollContext.HealValueRoll, 1, []);
+                    rulesetCharacter.GetMonkDieType(), RollContext.HealValueRoll, 1,
+                    maximumDamage: rulesetCharacter.ReceivesMaximizedHealing());
 
                 // be silent on combat log
                 usablePower.remainingUses--;

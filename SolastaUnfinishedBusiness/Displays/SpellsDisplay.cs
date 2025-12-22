@@ -158,6 +158,20 @@ internal static class SpellsDisplay
             Tabletop2024Context.SwitchOneDndSpellBarkskin();
         }
 
+        toggle = Main.Settings.EnableOneDndBladeWardCantrip;
+        if (UI.Toggle(Gui.Localize("ModUi/&EnableOneDndBladeWardCantrip"), ref toggle, UI.AutoWidth()))
+        {
+            Main.Settings.EnableOneDndBladeWardCantrip = toggle;
+            Tabletop2024Context.SwitchOneDndCantripBladeWard();
+        }
+
+        toggle = Main.Settings.EnableOneDndChillTouchCantrip;
+        if (UI.Toggle(Gui.Localize("ModUi/&EnableOneDndChillTouchCantrip"), ref toggle, UI.AutoWidth()))
+        {
+            Main.Settings.EnableOneDndChillTouchCantrip = toggle;
+            Tabletop2024Context.SwitchOneDndCantripChillTouch();
+        }
+
         toggle = Main.Settings.EnableOneDndDamagingSpellsUpgrade;
         if (UI.Toggle(Gui.Localize("ModUi/&EnableOneDndDamagingSpellsUpgrade"), ref toggle, UI.AutoWidth()))
         {
@@ -177,6 +191,23 @@ internal static class SpellsDisplay
         {
             Main.Settings.EnableOneDndDivineFavorSpell = toggle;
             Tabletop2024Context.SwitchOneDndSpellDivineFavor();
+        }
+
+        toggle = Main.Settings.EnableSmiteSpells2024;
+        if (UI.Toggle(Gui.Localize("ModUi/&EnableSmiteSpells2024"), ref toggle, UI.AutoWidth()))
+        {
+            Main.Settings.EnableSmiteSpells2024 = toggle;
+            SmiteSpells2024Context.SwitchSmiteSpells();
+        }
+
+        if (Main.Settings.EnableSmiteSpells2024)
+        {
+            toggle = Main.Settings.AddPaladinSmiteToggle;
+            if (UI.Toggle(" + " + Gui.Localize("ModUi/&AddPaladinSmiteToggle"), ref toggle, UI.AutoWidth()))
+            {
+                Main.Settings.AddPaladinSmiteToggle = toggle;
+                Global.RefreshControlledCharacter();
+            }
         }
 
         toggle = Main.Settings.EnableOneDndGuidanceSpell;
@@ -242,6 +273,13 @@ internal static class SpellsDisplay
             Tabletop2024Context.SwitchOneDndSpellStoneSkin();
         }
 
+        toggle = Main.Settings.EnableOneDndWitchBoltSpell;
+        if (UI.Toggle(Gui.Localize("ModUi/&EnableOneDndWitchBoltSpell"), ref toggle, UI.AutoWidth()))
+        {
+            Main.Settings.EnableOneDndWitchBoltSpell = toggle;
+            Tabletop2024Context.SwitchOneDndSpellWitchBolt();
+        }
+
         toggle = Main.Settings.EnableOneDndTrueStrikeCantrip;
         if (UI.Toggle(Gui.Localize("ModUi/&EnableOneDndTrueStrikeCantrip"), ref toggle, UI.AutoWidth()))
         {
@@ -267,6 +305,12 @@ internal static class SpellsDisplay
         if (UI.Toggle(Gui.Localize("ModUi/&EnableRelearnSpells"), ref toggle, UI.AutoWidth()))
         {
             Main.Settings.EnableRelearnSpells = toggle;
+        }
+
+        toggle = Main.Settings.SwapShineCantrip;
+        if (UI.Toggle(Gui.Localize("ModUI/&SwapShineCantrip"), ref toggle, UI.AutoWidth()))
+        {
+            Main.Settings.SwapShineCantrip = toggle;
         }
     }
 
@@ -307,6 +351,20 @@ internal static class SpellsDisplay
         {
             Main.Settings.AllowDisplayingNonSuggestedSpells = toggle;
             SpellsContext.RecalculateDisplayedSpells();
+        }
+
+        toggle = Main.Settings.AddNewScrollsToShops;
+        if (UI.Toggle(Gui.Localize(Gui.Localize("ModUi/&AddNewScrollsToShops")), ref toggle,
+                UI.Width(ModUi.PixelsPerColumn)))
+        {
+            Main.Settings.AddNewScrollsToShops = toggle;
+        }
+
+        toggle = Main.Settings.AddNewScrollsToTreasure;
+        if (UI.Toggle(Gui.Localize(Gui.Localize("ModUi/&AddNewScrollsToTreasure")), ref toggle,
+                UI.Width(ModUi.PixelsPerColumn)))
+        {
+            Main.Settings.AddNewScrollsToTreasure = toggle;
         }
 
         UI.Label();

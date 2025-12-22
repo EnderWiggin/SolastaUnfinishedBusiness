@@ -16,7 +16,7 @@
   ],
   "guiPresentation": {
     "$type": "GuiPresentation, Assembly-CSharp",
-    "hidden": true,
+    "hidden": false,
     "title": "FightingStyle/&LungerTitle",
     "description": "FightingStyle/&LungerDescription",
     "spriteReference": {

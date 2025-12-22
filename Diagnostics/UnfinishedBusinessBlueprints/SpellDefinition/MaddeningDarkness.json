@@ -29,7 +29,7 @@
     "targetExcludeCaster": false,
     "canBePlacedOnCharacter": true,
     "affectOnlyGround": false,
-    "targetFilteringMethod": "AllCharacterAndGadgets",
+    "targetFilteringMethod": "CharacterGadgetEffectProxy",
     "targetFilteringTag": "No",
     "requiresVisibilityForPosition": true,
     "inviteOptionalAlly": false,
@@ -121,7 +121,7 @@
         "conditionForm": {
           "$type": "ConditionForm, Assembly-CSharp",
           "conditionDefinitionName": "",
-          "conditionDefinition": "Definition:ConditionDarkness:5dccdb5c5c2d7a044b78e41440d2724b",
+          "conditionDefinition": "Definition:ConditionBlindedByDarkness:0262e7d0-0f38-5a86-8fc5-4ee1b2888cc1",
           "operation": "Add",
           "conditionsList": [],
           "applyToSelf": false,

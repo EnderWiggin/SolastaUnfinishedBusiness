@@ -273,7 +273,7 @@ public sealed class RangerGloomStalker : AbstractSubclass
         public void ApplyFeature(RulesetCharacterHero hero, string tag)
         {
             hero.ActiveFeatures[tag]
-                .TryAdd(hero.GetFeaturesByType<FeatureDefinitionSense>()
+                .TryAdd(hero.FeaturesByType<FeatureDefinitionSense>()
                     .Any(x => x.SenseType == SenseMode.Type.Darkvision)
                     ? senseDarkvision18
                     : FeatureDefinitionSenses.SenseDarkvision);

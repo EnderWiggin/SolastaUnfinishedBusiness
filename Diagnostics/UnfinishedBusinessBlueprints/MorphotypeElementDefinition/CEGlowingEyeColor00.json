@@ -1,6 +1,6 @@
 {
   "$type": "MorphotypeElementDefinition, Assembly-CSharp",
-  "playerSelectable": false,
+  "playerSelectable": true,
   "category": "EyeColor",
   "mainColor": {
     "$type": "UnityEngine.Color, UnityEngine.CoreModule",

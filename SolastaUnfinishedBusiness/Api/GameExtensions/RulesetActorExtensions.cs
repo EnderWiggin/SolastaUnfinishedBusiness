@@ -192,7 +192,7 @@ internal static class RulesetActorExtensions
     }
 
     [NotNull]
-    private static List<T> FeaturesByType<T>([CanBeNull] RulesetActor actor) where T : class
+    internal static List<T> FeaturesByType<T>([CanBeNull] this RulesetActor actor) where T : class
     {
         var list = new List<FeatureDefinition>();
 
@@ -204,12 +204,6 @@ internal static class RulesetActorExtensions
         return list
             .OfType<T>()
             .ToList();
-    }
-
-    [NotNull]
-    internal static List<T> GetFeaturesByType<T>(this RulesetActor actor) where T : class
-    {
-        return FeaturesByType<T>(actor);
     }
 
     [NotNull]
@@ -268,6 +262,11 @@ internal static class RulesetActorExtensions
     internal static bool HasAnyFeature(this RulesetActor actor, params FeatureDefinition[] features)
     {
         return FeaturesByType<FeatureDefinition>(actor).Any(features.Contains);
+    }
+
+    internal static bool HasAnyFeature(this RulesetActor actor, params string[] featureNames)
+    {
+        return FeaturesByType<FeatureDefinition>(actor).Any(f => featureNames.Contains(f.Name));
     }
 
 #if false
@@ -370,5 +369,36 @@ internal static class RulesetActorExtensions
         }
 
         actor.RefreshAll();
+    }
+
+    internal static int TryGetProficiencyBonus(this RulesetActor actor)
+    {
+        return actor.TryGetAttributeValue(AttributeDefinitions.ProficiencyBonus);
+    }
+
+    internal static int TryGetAbilityModifier(this RulesetActor actor, string ability)
+    {
+        return AttributeDefinitions.ComputeAbilityScoreModifier(actor.TryGetAttributeValue(ability));
+    }
+
+    internal static RollOutcome MakeSimpleSavingThrow(this RulesetActor actor, string saveAbility, int dc,
+        BaseDefinition source,
+        string schoolOfMagic = "", string damageType = "", string conditionType = "", string sourceFamily = "")
+    {
+        var modifier = new ActionModifier();
+        var saveBonus = actor.ComputeBaseSavingThrowBonus(saveAbility, modifier.SavingThrowModifierTrends);
+        actor.ComputeSavingThrowModifier(saveAbility, EffectForm.EffectFormType.Motion, source.Name, 
+            schoolOfMagic, damageType, conditionType, sourceFamily, modifier, []);
+
+        actor.RollSavingThrow(saveBonus, saveAbility, source, modifier.SavingThrowModifierTrends,
+            modifier.SavingThrowAdvantageTrends, modifier.SavingThrowModifier, dc, false, out var outcome, out _);
+
+        return outcome;
+    }
+    
+    internal static bool ReceivesMaximizedHealing(this RulesetActor actor)
+    {
+        return actor.FeaturesByType<IHealingModificationProvider>()
+            .Any(x => x.MaximizeReceivedHealing);
     }
 }

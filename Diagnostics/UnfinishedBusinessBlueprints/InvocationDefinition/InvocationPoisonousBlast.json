@@ -1,7 +1,7 @@
 {
   "$type": "InvocationDefinition, Assembly-CSharp",
   "requiredKnownSpell": "Definition:EldritchBlast:1bc808c50803d9841be7af7314327d6d",
-  "requiredLevel": 1,
+  "requiredLevel": 2,
   "requiredPact": null,
   "grantedFeature": "Definition:FeatureInvocationPoisonousBlast:f68fab12-a843-5e11-b5f3-8032407b5408",
   "grantedSpell": null,
@@ -10,7 +10,7 @@
   "overrideMaterialComponent": true,
   "guiPresentation": {
     "$type": "GuiPresentation, Assembly-CSharp",
-    "hidden": true,
+    "hidden": false,
     "title": "Invocation/&InvocationPoisonousBlastTitle",
     "description": "Invocation/&InvocationPoisonousBlastDescription",
     "spriteReference": {

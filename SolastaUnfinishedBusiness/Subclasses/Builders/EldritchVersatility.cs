@@ -432,7 +432,7 @@ internal static class EldritchVersatilityBuilders
 
             CurrentPoints = 0;
             SlotLevel = SharedSpellsContext.GetWarlockSpellLevel(ownerHero);
-            CreateSlotDC = 8 + proficiencyBonus + (2 * SlotLevel);
+            CreateSlotDC = 8 + proficiencyBonus + SlotLevel;
             IsValidBlastBreakthrough = false;
             IsOverload = false;
             HasBlastPursuit = ownerHero.HasAnyFeature(FeatureBlastReload);
@@ -789,20 +789,23 @@ internal static class EldritchVersatilityBuilders
                 yield break;
             }
 
-            if (featureOwner != caster.RulesetCharacter)
+            //Do not process spells cast by self
+            if (featureOwner == caster.RulesetCharacter)
             {
-                // Nobody identified the spell
-                if (string.IsNullOrEmpty(castAction.ActiveSpell.IdentifiedBy))
-                {
-                    yield break;
-                }
+                yield break;
+            }
 
-                var owner = GameLocationCharacter.GetFromActor(featureOwner);
+            // Nobody identified the spell
+            if (string.IsNullOrEmpty(castAction.ActiveSpell.IdentifiedBy))
+            {
+                yield break;
+            }
 
-                if (owner != null && (!owner.IsWithinRange(caster, 12) || !caster.CanPerceiveTarget(owner)))
-                {
-                    yield break;
-                }
+            var owner = GameLocationCharacter.GetFromActor(featureOwner);
+
+            if (owner != null && (!owner.IsWithinRange(caster, 12) || !caster.CanPerceiveTarget(owner)))
+            {
+                yield break;
             }
 
             var warlockRepertoire = featureOwner.GetOriginalHero()!
@@ -839,6 +842,7 @@ internal static class EldritchVersatilityBuilders
                 yield break;
             }
 
+            bool success;
             // You yourself should pass a check again to copy it if not overload
             if (!supportCondition.IsOverload)
             {
@@ -855,55 +859,54 @@ internal static class EldritchVersatilityBuilders
 
                 var glc = GameLocationCharacter.GetFromActor(featureOwner);
 
-                if (glc != null)
+                if (glc == null) { yield break; }
+
+                var abilityCheckRoll = glc.RollAbilityCheckEx(
+                    AttributeDefinitions.Intelligence, SkillDefinitions.Arcana,
+                    14 + spellLevel + Math.Max(-6, spellLevel - supportCondition.CurrentPoints),
+                    AdvantageType.None,
+                    checkModifier,
+                    false,
+                    -1,
+                    out var rollOutcome,
+                    out var successDelta,
+                    out var rawRoll,
+                    true);
+
+                //PATCH: support for Bardic Inspiration roll off battle and ITryAlterOutcomeAttributeCheck
+                var abilityCheckData = new AbilityCheckData
                 {
-                    var abilityCheckRoll = glc.RollAbilityCheck(
-                        AttributeDefinitions.Intelligence, SkillDefinitions.Arcana,
-                        14 + spellLevel + Math.Max(-6, spellLevel - supportCondition.CurrentPoints),
-                        AdvantageType.None,
-                        checkModifier,
-                        false,
-                        -1,
-                        out var rollOutcome,
-                        out var successDelta,
-                        true);
+                    AbilityCheckRoll = abilityCheckRoll,
+                    AbilityCheckRollOutcome = rollOutcome,
+                    AbilityCheckSuccessDelta = successDelta,
+                    AbilityCheckActionModifier = checkModifier,
+                    Action = castAction
+                };
 
-                    //PATCH: support for Bardic Inspiration roll off battle and ITryAlterOutcomeAttributeCheck
-                    var abilityCheckData = new AbilityCheckData
-                    {
-                        AbilityCheckRoll = abilityCheckRoll,
-                        AbilityCheckRollOutcome = rollOutcome,
-                        AbilityCheckSuccessDelta = successDelta,
-                        AbilityCheckActionModifier = checkModifier,
-                        Action = castAction
-                    };
+                yield return TryAlterOutcomeAttributeCheck
+                    .HandleITryAlterOutcomeAttributeCheck(glc, abilityCheckData, rawRoll);
 
-                    yield return TryAlterOutcomeAttributeCheck
-                        .HandleITryAlterOutcomeAttributeCheck(glc, abilityCheckData);
+                castAction.AbilityCheckRoll = abilityCheckData.AbilityCheckRoll;
+                castAction.AbilityCheckRollOutcome = abilityCheckData.AbilityCheckRollOutcome;
+                castAction.AbilityCheckSuccessDelta = abilityCheckData.AbilityCheckSuccessDelta;
 
-                    castAction.AbilityCheckRoll = abilityCheckData.AbilityCheckRoll;
-                    castAction.AbilityCheckRollOutcome = abilityCheckData.AbilityCheckRollOutcome;
-                    castAction.AbilityCheckSuccessDelta = abilityCheckData.AbilityCheckSuccessDelta;
-
-                    // Fails check
-                    if (castAction.AbilityCheckRollOutcome > RollOutcome.Success)
-                    {
-                        yield break;
-                    }
-                }
-                else
-                {
-                    yield break;
-                }
+                success = castAction.AbilityCheckRollOutcome is RollOutcome.Success or RollOutcome.CriticalSuccess;
+            }
+            else
+            {
+                success = true;
             }
 
             var console = Gui.Game.GameConsole;
-            var entry = new GameConsoleEntry(
-                "Feedback/BattlefieldShorthandCopySpellSuccess", console.consoleTableDefinition) { Indent = true };
+            var line = success
+                ? "Feedback/&BattlefieldShorthandCopySpellSuccess"
+                : "Feedback/&BattlefieldShorthandCopySpellFailure";
+            var entry = new GameConsoleEntry(line, console.consoleTableDefinition) { Indent = true };
 
             console.AddCharacterEntry(featureOwner, entry);
-            entry.AddParameter(
-                ConsoleStyleDuplet.ParameterType.Positive, selectedSpellDefinition.GuiPresentation.Title);
+            entry.AddParameter(ConsoleStyleDuplet.ParameterType.AttackSpellPower,
+                selectedSpellDefinition.GuiPresentation.Title, tooltipContent: selectedSpellDefinition.Name,
+                tooltipClass: GuiSpellDefinition.TooltipClassSpellDefinition);
             console.AddEntry(entry);
             supportCondition.CopiedSpells.Add(selectedSpellDefinition);
             warlockRepertoire.ExtraSpellsByTag["BattlefieldShorthand"].Add(selectedSpellDefinition);
@@ -933,7 +936,7 @@ internal static class EldritchVersatilityBuilders
                 checkModifier.AbilityCheckModifierTrends.Add(new TrendInfo(checkModifier.AbilityCheckModifier,
                     FeatureSourceType.CharacterFeature, "PowerPatronEldritchSurgeVersatilitySwitchPool", null));
 
-                var abilityCheckRoll = gameLocationCharacter.RollAbilityCheck(
+                var abilityCheckRoll = gameLocationCharacter.RollAbilityCheckEx(
                     AttributeDefinitions.Intelligence, SkillDefinitions.Arcana,
                     supportCondition.CreateSlotDC,
                     AdvantageType.None,
@@ -942,6 +945,7 @@ internal static class EldritchVersatilityBuilders
                     -1,
                     out var rollOutcome,
                     out var successDelta,
+                    out var rawRoll,
                     true);
 
                 //PATCH: support for Bardic Inspiration roll off battle and ITryAlterOutcomeAttributeCheck
@@ -955,7 +959,7 @@ internal static class EldritchVersatilityBuilders
                 };
 
                 yield return TryAlterOutcomeAttributeCheck
-                    .HandleITryAlterOutcomeAttributeCheck(gameLocationCharacter, abilityCheckData);
+                    .HandleITryAlterOutcomeAttributeCheck(gameLocationCharacter, abilityCheckData, rawRoll);
 
                 action.AbilityCheckRoll = abilityCheckData.AbilityCheckRoll;
                 action.AbilityCheckRollOutcome = abilityCheckData.AbilityCheckRollOutcome;
@@ -973,8 +977,6 @@ internal static class EldritchVersatilityBuilders
                         console.consoleTableDefinition) { Indent = true };
 
                 console.AddCharacterEntry(featureOwner, entry);
-                entry.AddParameter(ConsoleStyleDuplet.ParameterType.AbilityInfo,
-                    supportCondition.CreateSlotDC.ToString());
                 console.AddEntry(entry);
 
                 // If fails
@@ -1082,7 +1084,7 @@ internal static class EldritchVersatilityBuilders
 
             var console = Gui.Game.GameConsole;
             var entry =
-                new GameConsoleEntry("Feedback/EldritchAegisGiveACBonus", console.consoleTableDefinition)
+                new GameConsoleEntry("Feedback/&EldritchAegisGiveACBonus", console.consoleTableDefinition)
                 {
                     Indent = true
                 };

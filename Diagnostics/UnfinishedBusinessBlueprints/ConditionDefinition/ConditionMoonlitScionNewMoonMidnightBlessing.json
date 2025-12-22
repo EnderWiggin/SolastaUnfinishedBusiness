@@ -6,7 +6,9 @@
   "features": [
     "Definition:DamageAffinityColdResistance:277b59ebffdc36946879acc4e946affd",
     "Definition:PowerMoonlitScionLunarChill:e5e8a27e-7f73-5ad8-8310-0d6a3e7d71d2",
-    "Definition:SenseDarkvision:446f786482b07db45b6f4a0854be3056"
+    "Definition:SenseDarkvision:446f786482b07db45b6f4a0854be3056",
+    "Definition:ConditionAffinityWeatherChilledImmunity:bc4e3a662c267ae498bb1f3c1d754980",
+    "Definition:ConditionAffinityWeatherFrozenImmunity:6eedca541acbb494fa8aea97c7ff074a"
   ],
   "allowMultipleInstances": false,
   "silentWhenAdded": false,

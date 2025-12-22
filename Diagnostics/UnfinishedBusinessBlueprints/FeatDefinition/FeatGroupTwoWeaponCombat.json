@@ -14,7 +14,7 @@
   "features": [],
   "guiPresentation": {
     "$type": "GuiPresentation, Assembly-CSharp",
-    "hidden": true,
+    "hidden": false,
     "title": "Feat/&FeatGroupTwoWeaponCombatTitle",
     "description": "Ambidextrous, Dual Flurry, Dual Wielder, Twin Blade",
     "spriteReference": {

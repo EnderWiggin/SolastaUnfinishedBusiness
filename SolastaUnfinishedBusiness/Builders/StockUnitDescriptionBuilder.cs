@@ -16,6 +16,23 @@ internal class StockUnitDescriptionBuilder
     private string _requiredFaction = string.Empty;
     private int _stackCount = 1;
 
+    internal static StockUnitDescriptionBuilder From(StockUnitDescription stock)
+    {
+        return new StockUnitDescriptionBuilder
+        {
+            _itemDefinition = stock.ItemDefinition,
+            _factionStatus = stock.factionStatus,
+            _initialAmount = stock.initialAmount,
+            _maxAmount = stock.maxAmount,
+            _minAmount = stock.minAmount,
+            _reassortAmount = stock.reassortAmount,
+            _reassortRateType = stock.reassortRateType,
+            _reassortRateValue = stock.reassortRateValue,
+            _requiredFaction = stock.requiredFaction,
+            _stackCount = stock.stackCount,
+        };
+    }
+
     internal StockUnitDescriptionBuilder SetItem(ItemDefinition itemDefinition)
     {
         _itemDefinition = itemDefinition;

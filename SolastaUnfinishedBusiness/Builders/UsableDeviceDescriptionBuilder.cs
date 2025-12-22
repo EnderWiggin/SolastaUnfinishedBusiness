@@ -1,4 +1,5 @@
-﻿using UnityEngine.AddressableAssets;
+﻿using SolastaUnfinishedBusiness.Api.LanguageExtensions;
+using UnityEngine.AddressableAssets;
 using static EquipmentDefinitions;
 
 namespace SolastaUnfinishedBusiness.Builders;
@@ -54,6 +55,12 @@ internal class UsableDeviceDescriptionBuilder
     internal UsableDeviceDescriptionBuilder AddFunctions(params DeviceFunctionDescription[] functions)
     {
         _description.DeviceFunctions.AddRange(functions);
+        return this;
+    }
+
+    internal UsableDeviceDescriptionBuilder SetTags(params string[] tags)
+    {
+        _description.usableDeviceTags.SetRange(tags);
         return this;
     }
 

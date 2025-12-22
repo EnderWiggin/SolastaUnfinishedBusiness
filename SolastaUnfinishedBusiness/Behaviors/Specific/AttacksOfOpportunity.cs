@@ -185,7 +185,7 @@ internal class CustomReactionAttack
         bool allowRange)
     {
         if (!attacker.CanPerformOpportunityAttackOnCharacter(mover, movement?.to, movement?.from,
-                out var mode, out var attackModifier, allowRange, battleManager, AccountAoOImmunity, WeaponValidator))
+                out var mode, out var attackModifier, AccountAoOImmunity, battleManager, WeaponValidator, allowRange))
         {
             yield break;
         }

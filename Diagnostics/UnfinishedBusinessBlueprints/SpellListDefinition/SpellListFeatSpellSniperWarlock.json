@@ -8,7 +8,27 @@
       "level": 0,
       "spells": [
         "Definition:ChillTouch:2dffe98ad497e4b418abc947f6077fb7",
-        "Definition:EldritchBlast:1bc808c50803d9841be7af7314327d6d"
+        "Definition:EldritchBlast:1bc808c50803d9841be7af7314327d6d",
+        "Definition:AirBlast:abe05c55-df0e-527c-ab83-6cd88d84c683",
+        "Definition:BladeWard:5d04caa2-64a0-587e-a0d2-6c9ab52a56ca",
+        "Definition:BoomingBlade:8a6f90f1-6d31-5701-8498-2c3527f7d33b",
+        "Definition:BurstOfRadiance:1e699378-f73c-564a-a7d8-b5b90931ae27",
+        "Definition:CreateBonfire:3f2e87e8-860f-58ce-b347-b54c8d6581ac",
+        "Definition:EnduringSting:2c6213d1-b9cd-5488-86cf-237326e79bbf",
+        "Definition:IlluminatingSphere:e7fc59b8-93d9-53aa-86f7-659ac0d16fcf",
+        "Definition:Infestation:588e52e7-a8b5-58b4-9b07-1d02dcb7520a",
+        "Definition:LightningLure:a371e3b0-84af-5794-9d67-642b9677fc8d",
+        "Definition:MindSpike:bfa2d1c0-d3ad-5895-8bef-21c8f4830c7c",
+        "Definition:MinorLifesteal:45d18b97-30c5-5a95-8618-c7297e7ee7d9",
+        "Definition:PrimalSavagery:a24eee9b-4a70-559f-838b-76777d3f6666",
+        "Definition:ResonatingStrike:c8ecadb8-8b2a-57dd-93dd-41f6557ef52d",
+        "Definition:SunlightBlade:62effe92-a4c1-58ed-a9a0-06f1a64e8c8e",
+        "Definition:SwordStorm:d3b6df03-2c2c-524a-a160-e988006a5fd8",
+        "Definition:StarryWisp:9856da86-1888-5630-8647-3a003421a268",
+        "Definition:TollTheDead:7a5e1cf4-e437-506a-8f2d-1cd94a0fb9f5",
+        "Definition:ThornyVines:821729fd-5a81-5fcc-bb24-5a715e7a34c0",
+        "Definition:ThunderStrike:e3acbcf7-0653-56ce-b685-1d1c7c73cff1",
+        "Definition:Wrack:4981f583-1a5c-59aa-86ba-d430a6a89969"
       ]
     },
     {

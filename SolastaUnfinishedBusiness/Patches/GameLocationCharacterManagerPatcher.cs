@@ -1,8 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.Reflection;
+using System.Reflection.Emit;
 using HarmonyLib;
 using JetBrains.Annotations;
 using SolastaUnfinishedBusiness.Api;
+using SolastaUnfinishedBusiness.Api.Helpers;
 using SolastaUnfinishedBusiness.Models;
 using SolastaUnfinishedBusiness.Subclasses;
 using TA;
@@ -253,6 +257,32 @@ public static class GameLocationCharacterManagerPatcher
                 ServiceRepository.GetService<IGameLocationPositioningService>()
                     .PlaceCharacter(character, character.LocationPosition, character.Orientation);
             }
+        }
+    }
+
+    [HarmonyPatch(typeof(GameLocationCharacterManager), nameof(GameLocationCharacterManager.KillCharacter))]
+    [SuppressMessage("Minor Code Smell", "S101:Types should be named in PascalCase", Justification = "Patch")]
+    [UsedImplicitly]
+    public static class KillCharacter_Patch
+    {
+        [NotNull]
+        [UsedImplicitly]
+        public static IEnumerable<CodeInstruction> Transpiler([NotNull] IEnumerable<CodeInstruction> instructions)
+        {
+            //PATCH: allow modifying loot drops from monsters
+            var normal = typeof(RulesetCharacterMonster)
+                .GetProperty(nameof(RulesetCharacterMonster.DroppedItems))?
+                .GetGetMethod();
+
+            var custom = new Func<RulesetCharacterMonster, List<RulesetItem>>(GetDroppedItems).Method;
+
+            return instructions.ReplaceCalls(normal, "GameLocationCharacterManager.KillCharacter",
+                new CodeInstruction(OpCodes.Call, custom));
+        }
+
+        private static List<RulesetItem> GetDroppedItems(RulesetCharacterMonster monster)
+        {
+            return CustomItemsContext.ModifyDroppedItems(monster);
         }
     }
 

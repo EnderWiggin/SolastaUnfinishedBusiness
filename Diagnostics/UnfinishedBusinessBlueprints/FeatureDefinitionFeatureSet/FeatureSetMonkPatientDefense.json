@@ -1,7 +1,8 @@
 {
   "$type": "FeatureDefinitionFeatureSet, Assembly-CSharp",
   "featureSet": [
-    "Definition:PowerMonkPatientDefense:24fa05ec9f3efcf4d86e6a0833c6281b"
+    "Definition:PowerMonkPatientDefense2024AtWill:1e317898-d7d7-51c6-ac2d-cff9d3ae918f",
+    "Definition:PowerMonkPatientDefense2024Ki:54cab69c-5bfa-529a-a6ed-6114ced862ef"
   ],
   "mode": "Union",
   "ancestryDamageTypeMap": [],
@@ -14,7 +15,7 @@
     "$type": "GuiPresentation, Assembly-CSharp",
     "hidden": false,
     "title": "Feature/&PatientDefenseTitle",
-    "description": "Feature/&PatientDefenseDescription",
+    "description": "Feature/&AlternatePatientDefenseDescription",
     "spriteReference": {
       "$type": "UnityEngine.AddressableAssets.AssetReferenceSprite, Unity.Addressables",
       "m_AssetGUID": "",

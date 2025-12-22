@@ -64,7 +64,7 @@ Feature/&PowerFeatOrcishAggressionTitle=Agressão Orc
 Feedback/&AdditionalDamageOrcishFuryFormat=Fúria Orc
 Feedback/&AdditionalDamageOrcishFuryLine=Fúria Orc causa dano extra de +{2}!
 Feedback/&BountifulLuckAttackToHitRoll={0} usou {1} e rola um {2} para substituir {3} na jogada de ataque
-Feedback/&BountifulLuckCheckToHitRoll={0} usou {1} e rola um {2} para substituir {3} no teste
+Feedback/&BountifulLuckCheckToHitRoll={0} usou {1} e rola um {2} para substituir {3} no teste: {4}
 Feedback/&BountifulLuckSavingToHitRoll={0} usou {1} e rola um {2} para substituir {3} na jogada de salvamento
 Feedback/&DwarvenFortitudeHitDieRolled={0} rolou um {2} e curou {3} = {4}.
 Feedback/&FlamesOfPhlegethosReroll={0} usa Chamas de Phlegethos para rolar novamente um dado de dano mágico {1} de {2} para {3}.

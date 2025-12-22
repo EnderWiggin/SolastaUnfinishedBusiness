@@ -1,7 +1,7 @@
 {
   "$type": "InvocationDefinition, Assembly-CSharp",
   "requiredKnownSpell": "Definition:EldritchBlast:1bc808c50803d9841be7af7314327d6d",
-  "requiredLevel": 1,
+  "requiredLevel": 2,
   "requiredPact": null,
   "grantedFeature": "Definition:PowerInvocationGraspingBlast:e2005c02-4350-58b7-be1a-8d92a7659dac",
   "grantedSpell": null,
@@ -10,7 +10,7 @@
   "overrideMaterialComponent": true,
   "guiPresentation": {
     "$type": "GuiPresentation, Assembly-CSharp",
-    "hidden": true,
+    "hidden": false,
     "title": "Invocation/&InvocationGraspingBlastTitle",
     "description": "Invocation/&InvocationGraspingBlastDescription",
     "spriteReference": {

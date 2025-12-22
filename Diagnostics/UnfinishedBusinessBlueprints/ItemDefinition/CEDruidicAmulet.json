@@ -1,6 +1,6 @@
 {
   "$type": "ItemDefinition, Assembly-CSharp",
-  "inDungeonEditor": false,
+  "inDungeonEditor": true,
   "merchantCategory": "MagicDevice",
   "weight": 0.5,
   "slotTypes": [
@@ -195,7 +195,7 @@
   "clueSuspectPairs": [],
   "guiPresentation": {
     "$type": "GuiPresentation, Assembly-CSharp",
-    "hidden": true,
+    "hidden": false,
     "title": "Item/&CEDruidicAmuletTitle",
     "description": "Item/&CEDruidicAmuletDescription",
     "spriteReference": {

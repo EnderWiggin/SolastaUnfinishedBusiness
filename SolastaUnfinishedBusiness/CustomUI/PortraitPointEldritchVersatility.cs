@@ -21,26 +21,34 @@ internal class PortraitPointEldritchVersatility : ICustomPortraitPointPoolProvid
     {
         var currentPoints = 0;
         var maxPoints = 0;
+        string attribute;
+        string priority;
 
         if (!character.GetVersatilitySupportCondition(out var supportCondition))
         {
-            return "EldritchVersatilityPortraitPoolFormat".Formatted(
-                Category.Tooltip,
-                currentPoints,
-                maxPoints,
-                Gui.NoLocalization.Localized(),
-                Gui.NoLocalization.Localized());
+            attribute = "Tooltip/&ValueNoneTitle";
+            priority = "Tooltip/&ValueNoneTitle";
         }
+        else
+        {
+            currentPoints = supportCondition.CurrentPoints;
+            maxPoints = supportCondition.MaxPoints;
 
-        currentPoints = supportCondition.CurrentPoints;
-        maxPoints = supportCondition.MaxPoints;
+            attribute = string.IsNullOrEmpty(supportCondition.ReplacedAbilityScore)
+                ? "Feature/&PowerPatronEldritchSurgeVersatilitySwitchNoneTitle"
+                : $"Attribute/&{supportCondition.ReplacedAbilityScore}TitleLong";
+
+            priority = supportCondition.StrPowerPriority.Empty()
+                ? "Tooltip/&ValueNoneTitle"
+                : string.Join(", ", supportCondition.StrPowerPriority.Select(s => s.Localized(Category.Feature)));
+        }
 
         return "EldritchVersatilityPortraitPoolFormat".Formatted(
             Category.Tooltip,
             currentPoints,
             maxPoints,
-            Gui.Localize($"Attribute/&{supportCondition.ReplacedAbilityScore}TitleLong"),
-            string.Join(", ", supportCondition.StrPowerPriority.Select(s => s.Localized(Category.Feature))));
+            attribute,
+            priority);
     }
 
     public AssetReferenceSprite Icon => Sprites.EldritchVersatilityResourceIcon;

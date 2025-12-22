@@ -19,7 +19,7 @@
   ],
   "guiPresentation": {
     "$type": "GuiPresentation, Assembly-CSharp",
-    "hidden": true,
+    "hidden": false,
     "title": "Feat/&FeatFlameTouchedChaTitle",
     "description": "Feat/&FeatFlameTouchedChaDescription",
     "spriteReference": {

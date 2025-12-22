@@ -53,6 +53,7 @@ Feedback/&AdditionalDamageSunlightBladeLine={0} illumine {1} avec Sunlit Blade !
 Proxy/&ProxyCreateBonfireTitle=Feu
 Spell/&AirBlastDescription=Tirez une bouffée d'air concentrée sur votre cible.
 Spell/&AirBlastTitle=Souffle d'air
+Spell/&BladeWard2024Description=Vous étendez votre main et tracez un sceau de garde dans les airs. Chaque fois qu'une créature fait un rouleau d'attaque contre vous avant la fin du sort, l'attaquant soustrait 1d4 du rouleau d'attaque.
 Spell/&BladeWardDescription=Vous étendez votre main et tracez un sceau de protection dans les airs. Jusqu'à la fin de votre prochain tour, vous bénéficiez d'une résistance contre les dégâts contondants, perforants et tranchants infligés par les attaques d'armes.
 Spell/&BladeWardTitle=Garde de lame
 Spell/&BoomingBladeDescription=Vous brandissez l'arme utilisée lors du lancement du sort et effectuez une attaque au corps à corps avec contre une créature à moins de {0} distance. En cas de coup, la cible subit les effets normaux de l'attaque avec l'arme, puis se retrouve enveloppée d'une énergie explosive jusqu'au début de votre prochain tour. Si la cible se déplace volontairement de 1,50 mètre ou plus avant cette date, elle subit 1d8 dégâts de tonnerre et le sort prend fin. Au niveau 5, l'attaque de mêlée inflige 1d8 dégâts de tonnerre supplémentaires à la cible en cas de coup, et les dégâts subis par la cible pour se déplacer augmentent à 2d8. Les deux jets de dégâts augmentent de 1d8 aux niveaux 11 et 17.

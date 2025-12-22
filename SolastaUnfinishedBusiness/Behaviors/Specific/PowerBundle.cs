@@ -323,7 +323,7 @@ internal static class PowerBundle
             return null;
         }
 
-        return !effects.TryGetValue(Key(definition, metamagic), out var effect) ? null : effect;
+        return effects.TryGetValue(Key(definition, metamagic), out var effect) ? effect : null;
     }
 
     private static void CacheEffect(

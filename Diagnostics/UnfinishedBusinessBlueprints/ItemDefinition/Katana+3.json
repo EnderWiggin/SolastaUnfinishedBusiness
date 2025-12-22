@@ -1,6 +1,6 @@
 {
   "$type": "ItemDefinition, Assembly-CSharp",
-  "inDungeonEditor": false,
+  "inDungeonEditor": true,
   "merchantCategory": "Weapon",
   "weight": 3.0,
   "slotTypes": [
@@ -56,7 +56,8 @@
     "closeRange": 5,
     "maxRange": 5,
     "weaponTags": [
-      "Versatile"
+      "Versatile",
+      "Sap"
     ],
     "effectDescription": {
       "$type": "EffectDescription, Assembly-CSharp",

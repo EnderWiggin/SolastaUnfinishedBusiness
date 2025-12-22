@@ -10,11 +10,6 @@
   "featureUnlocks": [
     {
       "$type": "FeatureUnlockByLevel, Assembly-CSharp",
-      "featureDefinition": "Definition:FeatureSetOniAbilityScoreIncrease:a47bfd40-8b27-561e-925d-9e5dbf351d7e",
-      "level": 1
-    },
-    {
-      "$type": "FeatureUnlockByLevel, Assembly-CSharp",
       "featureDefinition": "Definition:SenseDarkvision:446f786482b07db45b6f4a0854be3056",
       "level": 1
     },
@@ -46,6 +41,16 @@
     {
       "$type": "FeatureUnlockByLevel, Assembly-CSharp",
       "featureDefinition": "Definition:CastSpellOniOgreMagic:16f271c8-db8b-5854-b6ad-e54b0352fd06",
+      "level": 1
+    },
+    {
+      "$type": "FeatureUnlockByLevel, Assembly-CSharp",
+      "featureDefinition": "Definition:PointPoolAbilityScore3:6045e81f-0b72-5085-8243-234da1816050",
+      "level": 1
+    },
+    {
+      "$type": "FeatureUnlockByLevel, Assembly-CSharp",
+      "featureDefinition": "Definition:PointPoolBonusFeat:c3eef96a911e20a40ab0e8a61c7463e1",
       "level": 1
     }
   ],
@@ -124,7 +129,8 @@
       "BodyDecorationColor",
       "Scars",
       "Musculature",
-      "Horns"
+      "Horns",
+      "Eye"
     ],
     "needBeard": false,
     "defaultMusculature": 0,
@@ -261,7 +267,7 @@
   },
   "guiPresentation": {
     "$type": "GuiPresentation, Assembly-CSharp",
-    "hidden": true,
+    "hidden": false,
     "title": "Race/&RaceOniTitle",
     "description": "Race/&RaceOniDescription",
     "spriteReference": {

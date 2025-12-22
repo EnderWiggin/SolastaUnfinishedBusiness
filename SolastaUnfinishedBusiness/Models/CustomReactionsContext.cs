@@ -17,6 +17,8 @@ internal static class CustomReactionsContext
     {
         MakeReactDefinition(ReactionRequestWarcaster.Name);
         MakeReactDefinition(ReactionRequestSpendBundlePower.Name);
+        MakeReactDefinition(ReactionRequestSelectSmiteSpell.Name);
+        MakeReactDefinition(ReactionRequestSelectSmiteSlot.Name);
     }
 
     private static void MakeReactDefinition(string name)

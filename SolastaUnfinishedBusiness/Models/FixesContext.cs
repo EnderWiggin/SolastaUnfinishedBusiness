@@ -11,6 +11,7 @@ using SolastaUnfinishedBusiness.Builders;
 using SolastaUnfinishedBusiness.Builders.Features;
 using SolastaUnfinishedBusiness.Feats;
 using SolastaUnfinishedBusiness.Interfaces;
+using SolastaUnfinishedBusiness.Patches;
 using SolastaUnfinishedBusiness.Subclasses;
 using SolastaUnfinishedBusiness.Validators;
 using TA.AI;
@@ -56,6 +57,7 @@ internal static class FixesContext
 
     internal static void Load()
     {
+        FixMulticlassMaxAllowedClasses();
         InitMagicAffinitiesAndCastSpells();
         FixMinorMagicEffectsIssues();
     }
@@ -100,6 +102,9 @@ internal static class FixesContext
         FixSpikeGrowthAffectingAir();
         NoTwinnedBladeCantripsOrSpellsWithRetargeting();
         FixStaffOfFireToGetFireResistance();
+        AddTitlesToCreedSaves();
+        ChangeCunningActions();
+        FixMonsterAttacks();
 
         // avoid soft lock scenarios with game UI on any affinity that prevents movement
         foreach (var actionAffinity in DatabaseRepository.GetDatabase<FeatureDefinitionActionAffinity>()
@@ -137,6 +142,47 @@ internal static class FixesContext
 
             feature.GuiPresentation.title = term;
             feature.GuiPresentation.description = term;
+        }
+    }
+
+    private static void ChangeCunningActions()
+    {
+        /*** These changes achieve several goals:
+         * - reduce chances of player mistakenly using main action Dash/Hide/Disengage etc. because they forgot to click Cunning Action button
+         * - reduce amount of clicks to execute Bonus Action Dash/Disengage/Hide etc.
+         * - fixes interaction with Nick weapon mastery
+         * The only problem this change causes is that these 3 actions take up more space than one Cunning Action 
+         */
+        
+        //Make Cunning Action authorize BA dash, hide and disengage, instead of adding new action that grants new BA with them authorized
+        ActionAffinityRogueCunningAction.authorizedActions =
+        [
+            Id.DashBonus, Id.HideBonus, Id.DisengageBonus
+        ];
+
+        //Make Fast Hands authorize BA use item, instead of adding new action that grants new BA with it authorized
+        ActionAffinityThiefFastHands.authorizedActions =
+        [
+            Id.UseItemBonus
+        ];
+    }
+
+    private static void AddTitlesToCreedSaves()
+    {
+        //These affinities are used by various class/subclass features - need at least a title for them
+        
+        Update(SavingThrowAffinityCreedOfArun);
+        Update(SavingThrowAffinityCreedOfEinar);
+        Update(SavingThrowAffinityCreedOfMaraike);
+        Update(SavingThrowAffinityCreedOfMisaye);
+        Update(SavingThrowAffinityCreedOfPakri);
+        Update(SavingThrowAffinityCreedOfSolasta);
+        return;
+
+        static void Update(FeatureDefinitionSavingThrowAffinity affinity)
+        {
+            affinity.GuiPresentation.Title = $"Attribute/&{affinity.AffinityGroups[0].abilityScoreName}TitleLong";
+            affinity.AddCustomSubFeatures(AllowDuplicates.Mark);
         }
     }
 
@@ -512,22 +558,21 @@ internal static class FixesContext
             new ValidateDefinitionApplication(ValidatorsCharacter.HasAttacked));
     }
 
+    private static void FixMulticlassMaxAllowedClasses()
+    {
+        //Dirty fix for broken multiclass allowed classes
+        if (Main.Settings.MaxAllowedClasses < MulticlassContext.MinClasses)
+        {
+            Main.Settings.MaxAllowedClasses = MulticlassContext.MinClasses;
+        }
+        else if (Main.Settings.MaxAllowedClasses > MulticlassContext.MaxClasses)
+        {
+            Main.Settings.MaxAllowedClasses = MulticlassContext.MaxClasses;
+        }
+    }
+
     private static void FixMinorMagicEffectsIssues()
     {
-        // fix issues with bad targeting
-        Darkness.EffectDescription.targetFilteringMethod = TargetFilteringMethod.AllCharacterAndGadgets;
-        Daylight.EffectDescription.targetFilteringMethod = TargetFilteringMethod.AllCharacterAndGadgets;
-        WindWall.EffectDescription.targetFilteringMethod = TargetFilteringMethod.AllCharacterAndGadgets;
-
-        // not exactly spells but these are all Darkness variations for enemies
-        PowerDefilerDarkness.EffectDescription.targetFilteringMethod =
-            TargetFilteringMethod.AllCharacterAndGadgets;
-        PowerSorakWordOfDarkness.EffectDescription.targetFilteringMethod =
-            TargetFilteringMethod.AllCharacterAndGadgets;
-        // well :-)
-        PowerDomainSunIndomitableLight.EffectDescription.targetFilteringMethod =
-            TargetFilteringMethod.AllCharacterAndGadgets;
-
         // fix Resurrection
         Resurrection.EffectDescription.EffectForms[0].ReviveForm.maxSecondsSinceDeath = 864000;
 
@@ -654,6 +699,17 @@ internal static class FixesContext
         }
     }
 
+    private static void FixMonsterAttacks()
+    {
+        var db = DatabaseRepository.GetDatabase<MonsterAttackDefinition>();
+
+        //It is mistakenly marked as ranged, leading to no AoO from Evil Priests
+        if (db.TryGetElement("Attack_Priest_Mace", out var attack))
+        {
+            attack.proximity = AttackProximity.Melee;
+        }
+    }
+
     private static void FixMeleeRetaliationWithReach()
     {
         // max possible reach in game is 15 ft
@@ -689,7 +745,7 @@ internal static class FixesContext
     {
         //BUGFIX: Makes Divine Smite use correct number of dice when spending slot level 5+
         AdditionalDamagePaladinDivineSmite.diceByRankTable = DiceByRankBuilder.BuildDiceByRankTable(2);
-        AdditionalDamageBrandingSmite.diceByRankTable = DiceByRankBuilder.BuildDiceByRankTable(2);
+        AdditionalDamageBrandingSmite.diceByRankTable = DiceByRankBuilder.BuildDiceByRankTable(1);
         AdditionalDamageDomainLifeDivineStrike.diceByRankTable = DiceByRankBuilder.BuildDiceByRankTable(0, 1, 7);
         AdditionalDamageDomainMischiefDivineStrike.diceByRankTable = DiceByRankBuilder.BuildDiceByRankTable(0, 1, 7);
     }

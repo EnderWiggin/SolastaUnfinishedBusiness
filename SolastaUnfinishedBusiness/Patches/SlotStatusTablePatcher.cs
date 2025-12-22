@@ -52,6 +52,10 @@ public static class SlotStatusTablePatcher
             int spellLevel)
         {
             var character = spellRepertoire?.GetCaster();
+            if (spellLevel == 0 && __instance.cantripLabel != null) // Missing cantrip localization
+            {
+                __instance.cantripLabel.Text = Gui.LocalizeSpellLevel(spellLevel);
+            }
 
             // spellRepertoire is null during level up...
             if (spellLevel == 0 || character == null)
@@ -69,7 +73,7 @@ public static class SlotStatusTablePatcher
                 !SharedSpellsContext.IsMulticaster(hero))
             {
                 //PATCH: support display cost on spell level blocks (SPELL_POINTS)
-                if (!Main.Settings.UseAlternateSpellPointsSystem ||
+                if (!character.IsSpellPointsEnabled() ||
                     spellRepertoire.spellCastingClass == Warlock)
                 {
                     return;

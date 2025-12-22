@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
@@ -12,6 +13,7 @@ using SolastaUnfinishedBusiness.Behaviors;
 using SolastaUnfinishedBusiness.Behaviors.Specific;
 using SolastaUnfinishedBusiness.Interfaces;
 using SolastaUnfinishedBusiness.Models;
+using SolastaUnfinishedBusiness.Spells;
 using TA;
 using UnityEngine;
 using static RuleDefinitions;
@@ -1020,6 +1022,12 @@ public static class CharacterActionMagicEffectPatcher
             var rulesetTarget = target.RulesetActor;
             var effectDescription = rulesetEffect.EffectDescription;
 
+            if (actingCharacter.IsOppositeSide(rulesetTarget.Side))
+            {
+                actingCharacter.RulesetCharacter.ProcessConditionsMatchingInterruption(
+                    (ConditionInterruption)ExtraConditionInterruption.AffectsEnemy);
+            }
+
             __instance.AttackRollOutcome = RollOutcome.Success;
 
             var needToRollDie = effectDescription.NeedsToRollDie();
@@ -1344,6 +1352,46 @@ public static class CharacterActionMagicEffectPatcher
         }
     }
 
+    [HarmonyPatch(typeof(CharacterActionMagicEffect), nameof(CharacterActionMagicEffect.ApplyTargetFiltering))]
+    [SuppressMessage("Minor Code Smell", "S101:Types should be named in PascalCase", Justification = "Patch")]
+    [UsedImplicitly]
+    public static class ApplyTargetFiltering_Patch
+    {
+        [UsedImplicitly]
+        public static void Prefix(CharacterActionMagicEffect __instance,
+            EffectDescription effectDescription,
+            List<GameLocationCharacter> targets)
+        {
+            //PATCH: fixes filtering for CharacterGadgetEffectProxy and CharacterGadgetEffectProxyItems - default code skips
+            ApplyTargetFiltering(__instance, effectDescription, targets);
+        }
+
+        private static void ApplyTargetFiltering(CharacterActionMagicEffect instance,
+            EffectDescription effectDescription,
+            List<GameLocationCharacter> targets)
+        {
+            if (effectDescription.TargetFilteringMethod is not (TargetFilteringMethod.CharacterGadgetEffectProxy
+                or TargetFilteringMethod.CharacterGadgetEffectProxyItems))
+            {
+                return;
+            }
+
+            instance.rawTargets.Clear();
+            instance.rawTargets.AddRange(targets);
+            targets.Clear();
+            foreach (var rawTarget in instance.rawTargets)
+            {
+                if ((rawTarget.RulesetGadget == null && rawTarget.RulesetCharacter == null)
+                    || !rawTarget.RulesetActor.IsMatchingFilteringTags(effectDescription.TargetFilteringTag))
+                {
+                    continue;
+                }
+
+                targets.Add(rawTarget);
+            }
+        }
+    }
+
     [HarmonyPatch(typeof(CharacterActionMagicEffect),
         nameof(CharacterActionMagicEffect.ForceApplyConditionOrLightOnSelf))]
     [UsedImplicitly]
@@ -1394,6 +1442,19 @@ public static class CharacterActionMagicEffectPatcher
                 terminateEffectOnTarget: out _);
 
             return false;
+        }
+    }
+
+    [HarmonyPatch(typeof(CharacterActionMagicEffect), nameof(CharacterActionMagicEffect.HandleTargetImmunity))]
+    [UsedImplicitly]
+    public static class HandleTargetImmunity_Patch
+    {
+        [UsedImplicitly]
+        public static bool Prefix([NotNull] CharacterActionMagicEffect __instance,
+            GameLocationCharacter targetCharacter, out bool isImmune)
+        {
+            //PATCH: Used for making Saving Throw when affecting target under Sanctuary
+            return SpellBuilders.CheckSanctuaryForMagicEffect(__instance, targetCharacter, out isImmune);
         }
     }
 }

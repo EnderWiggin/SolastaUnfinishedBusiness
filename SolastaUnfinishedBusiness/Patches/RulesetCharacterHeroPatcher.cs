@@ -17,10 +17,12 @@ using SolastaUnfinishedBusiness.Interfaces;
 using SolastaUnfinishedBusiness.Models;
 using SolastaUnfinishedBusiness.Subclasses;
 using SolastaUnfinishedBusiness.Validators;
+using UnityEngine;
 using static RuleDefinitions;
 using static SolastaUnfinishedBusiness.Api.DatabaseHelper.CharacterClassDefinitions;
 using static SolastaUnfinishedBusiness.Api.DatabaseHelper.FeatureDefinitionAbilityCheckAffinitys;
 using static SolastaUnfinishedBusiness.Api.DatabaseHelper.WeaponTypeDefinitions;
+using static SolastaUnfinishedBusiness.CustomUI.CharacterInspectionScreenEnhancement;
 
 namespace SolastaUnfinishedBusiness.Patches;
 
@@ -157,19 +159,54 @@ public static class RulesetCharacterHeroPatcher
     public static class ComputeAndApplyHitDieRoll_Patch
     {
         [UsedImplicitly]
-        public static void Prefix(
+        public static bool Prefix(
             RulesetCharacterHero __instance,
-            ref DieType die,
-            ref int modifier,
-            ref AdvantageType advantageType,
-            ref bool healKindred,
-            ref bool isBonus)
+            DieType die,
+            int modifier,
+            AdvantageType advantageType,
+            bool healKindred,
+            bool isBonus)
         {
-            foreach (var modifyDiceRollHitDice in __instance.GetSubFeaturesByType<IModifyDiceRollHitDice>())
+            ComputeAndApplyHitDieRoll(__instance, die, modifier, advantageType, healKindred, isBonus);
+            return false;
+        }
+
+        private static void ComputeAndApplyHitDieRoll(RulesetCharacterHero hero,
+            DieType die,
+            int modifier,
+            AdvantageType advantageType,
+            bool healKindred,
+            bool isBonus)
+        {
+            foreach (var mod in hero.GetSubFeaturesByType<IModifyDiceRollHitDice>())
             {
-                modifyDiceRollHitDice.BeforeRoll(
-                    __instance, ref die, ref modifier, ref advantageType, ref healKindred, ref isBonus);
+                mod.BeforeRoll(hero, ref die, ref modifier, ref advantageType, ref healKindred, ref isBonus);
             }
+
+            int firstRoll;
+            var secondRoll = -1;
+            var service = ServiceRepository.GetService<IGameSettingsService>();
+            var maxHealing = service is { MaxHpOnHitDice: true } || hero.ReceivesMaximizedHealing();
+            if (maxHealing)
+            {
+                firstRoll = DiceMaxValue[(int)die];
+            }
+            else
+            {
+                RollDie(die, advantageType, out firstRoll, out secondRoll);
+            }
+
+            var totalHealing = Mathf.Max(0, firstRoll + modifier);
+
+            var hitDieRolled = hero.HitDieRolled;
+            hitDieRolled?.Invoke(hero, die, totalHealing, advantageType, firstRoll, secondRoll, modifier, isBonus);
+            if (totalHealing <= 0)
+                return;
+            hero.ReceiveHealing(totalHealing, false, 0UL);
+            if (!healKindred || !ServiceRepository.GetService<IGameService>().TryFindKindredSpiritFromController(hero, out var kindredSpirit))
+                return;
+            kindredSpirit.ReceiveHealing(totalHealing, false, 0UL);
+            
         }
     }
 
@@ -816,6 +853,8 @@ public static class RulesetCharacterHeroPatcher
 
             //PATCH: remove invalid attacks to prevent hand crossbows use with no free hand
             __instance.AttackModes.RemoveAll(mode => CustomItemsContext.IsAttackModeInvalid(__instance, mode));
+            //PATCH: modify attacks with Off-Hand weapon after Nick was used
+            Tabletop2024Context.ModifyNickOffHandAttack(__instance, __instance.AttackModes);
 
             //refresh character if needed after postfix
             if (_callRefresh && __instance.CharacterRefreshed != null)
@@ -918,8 +957,79 @@ public static class RulesetCharacterHeroPatcher
                 .ForEach(listener => listener.OnHeroRefreshed(__instance));
 #endif
         }
+
+        [UsedImplicitly]
+        public static void Postfix(RulesetCharacterHero __instance)
+        {
+            //PATCH: allow power use validators to work on permanent (aura) powers
+            __instance.UpdatePermanentPowersAsNeeded();
+        }
     }
 
+    [HarmonyPatch(typeof(RulesetCharacterHero), nameof(RulesetCharacterHero.LookForFeatureOrigin))]
+    [SuppressMessage("Minor Code Smell", "S101:Types should be named in PascalCase", Justification = "Patch")]
+    [UsedImplicitly]
+    public static class LookForFeatureOrigin_Patch
+    {
+        [UsedImplicitly]
+        public static void Postfix(RulesetCharacterHero __instance, 
+            FeatureDefinition featureDefinition, 
+            ref CharacterRaceDefinition raceDefinition, 
+            ref CharacterClassDefinition classDefinition, 
+            ref FeatDefinition featDefinition)
+        {
+            if (raceDefinition != null || classDefinition != null || featDefinition != null)
+            {
+                return;
+            }
+            
+            //PATCH: allow looking for feature origin in union feature sets
+            foreach (var classesAndLevel in __instance.ClassesAndLevels)
+            {
+                foreach (var featureUnlock in classesAndLevel.Key.FeatureUnlocks)
+                {
+                    if (featureUnlock.FeatureDefinition is not FeatureDefinitionFeatureSet
+                        {
+                            Mode: FeatureDefinitionFeatureSet.FeatureSetMode.Union
+                        } featureSet)
+                    {
+                        continue;
+                    }
+
+                    if (featureSet.FeatureSet.Contains(featureDefinition))
+                    {
+                        classDefinition = classesAndLevel.Key;
+                        return;
+                    }
+                }
+
+                if (!__instance.ClassesAndSubclasses.ContainsKey(classesAndLevel.Key)
+                    || __instance.ClassesAndSubclasses[classesAndLevel.Key] == null)
+                {
+                    continue;
+                }
+
+                foreach (var featureUnlock in __instance.ClassesAndSubclasses[classesAndLevel.Key].FeatureUnlocks)
+                {
+                    if (featureUnlock.FeatureDefinition is not FeatureDefinitionFeatureSet
+                        {
+                            Mode: FeatureDefinitionFeatureSet.FeatureSetMode.Union
+                        } featureSet)
+                    {
+                        continue;
+                    }
+
+                    if (featureSet.FeatureSet.Contains(featureDefinition))
+                    {
+                        classDefinition = classesAndLevel.Key;
+                        return;
+                    }
+                }
+            }
+            
+        }
+    }
+    
     [HarmonyPatch(typeof(RulesetCharacterHero), nameof(RulesetCharacterHero.RefreshActiveFightingStyles))]
     [SuppressMessage("Minor Code Smell", "S101:Types should be named in PascalCase", Justification = "Patch")]
     [UsedImplicitly]
@@ -1050,27 +1160,25 @@ public static class RulesetCharacterHeroPatcher
             //     return true;
             // }
 
-            var allRitualSpells = new List<SpellDefinition>();
+            var allRitualSpells = new HashSet<SpellDefinition>();
             var magicAffinities = new List<FeatureDefinition>();
-
-            ritualSpells.SetRange(allRitualSpells);
 
             __instance.EnumerateFeaturesToBrowse<FeatureDefinitionMagicAffinity>(magicAffinities);
 
+            var rituals = magicAffinities
+                .OfType<FeatureDefinitionMagicAffinity>()
+                .Select(a => a.RitualCasting)
+                .Where(a => a != RitualCasting.None)
+                .ToHashSet();
+            
             // ReSharper disable once PossibleInvalidCastExceptionInForeachLoop
-            foreach (var featureDefinitionMagicAffinity in magicAffinities
-                         .OfType<FeatureDefinitionMagicAffinity>())
+            foreach (var ritual in rituals)
             {
-                if (featureDefinitionMagicAffinity.RitualCasting == RitualCasting.None)
-                {
-                    continue;
-                }
-
                 foreach (var spellRepertoire in __instance.SpellRepertoires)
                 {
                     // this is very similar to switch statement TA wrote but with spell loops outside
                     // ReSharper disable once SwitchStatementMissingSomeEnumCasesNoDefault
-                    switch (featureDefinitionMagicAffinity.RitualCasting)
+                    switch (ritual)
                     {
                         case RitualCasting.PactTomeRitual:
                         {
@@ -1101,14 +1209,14 @@ public static class RulesetCharacterHeroPatcher
                             break;
                         }
 
-                        case RitualCasting.Prepared
-                            when spellRepertoire.SpellCastingFeature.SpellReadyness ==
-                                 SpellReadyness.Prepared &&
-                                 spellRepertoire.SpellCastingFeature.SpellKnowledge ==
-                                 SpellKnowledge.WholeList:
+                        case RitualCasting.Prepared:
                         {
                             var maxSpellLevel = SharedSpellsContext.MaxSpellLevelOfSpellCastingLevel(spellRepertoire);
-                            var spells = spellRepertoire.PreparedSpells
+                            var spells = (spellRepertoire.SpellCastingFeature.SpellReadyness switch
+                                {
+                                    SpellReadyness.Prepared => spellRepertoire.PreparedSpells,
+                                    _ => spellRepertoire.KnownSpells
+                                })
                                 .Where(s => s.Ritual)
                                 .Where(s => maxSpellLevel >= s.SpellLevel);
 
@@ -1165,7 +1273,7 @@ public static class RulesetCharacterHeroPatcher
                 }
             }
 
-            ritualSpells.SetRange(allRitualSpells.Distinct());
+            ritualSpells.SetRange(allRitualSpells);
 
             return false;
         }
@@ -1247,28 +1355,103 @@ public static class RulesetCharacterHeroPatcher
     public static class EnumerateAvailableDevices_Patch
     {
         [UsedImplicitly]
-        public static void Postfix(
+        public static bool Prefix(
             RulesetCharacterHero __instance,
-            ref IEnumerable<RulesetItemDevice> __result)
+            out IEnumerable<RulesetItemDevice> __result,
+            bool includeContainer,
+            bool ignoreActivationTimeChecks = false)
         {
-            //PATCH: enabled `PowerPoolDevice` by adding fake device to hero's usable devices list
-            if (__instance.UsableDeviceFromMenu != null)
+            __result = EnumerateAvailableDevices(__instance, includeContainer, ignoreActivationTimeChecks);
+            return false;
+        }
+
+        private static IEnumerable<RulesetItemDevice> EnumerateAvailableDevices(
+            RulesetCharacterHero hero,
+            bool includeContainer,
+            bool ignoreActivationTimeChecks = false)
+        {
+            //Mostly copied from the original method, but making sure there are no repeated devices and added support for `PowerPoolDevice`
+            //original code could return same device twice if it was held in off-hand with empty main hand, and you switch to the Lighting weapon config with no torch equipped
+
+            List<RulesetItemDevice> devices = [];
+            var service = ServiceRepository.GetService<IGameLocationBattleService>();
+            var inBattle = service is { IsBattleInProgress: true };
+            if (hero.UsableDeviceFromMenu != null)
             {
-                return;
+                devices.TryAdd(hero.UsableDeviceFromMenu);
+            }
+            else
+            {
+                var characterInventory = hero.characterInventory;
+                var item = characterInventory.InventorySlotsByName[EquipmentDefinitions.SlotTypeMainHand].EquipedItem;
+                if (item != null
+                    && item.ItemDefinition != null
+                    && item.ItemDefinition.SlotsWhereActive.Contains(EquipmentDefinitions.SlotTypeMainHand)
+                    && item.ItemDefinition.IsUsableDevice
+                    && item is RulesetItemDevice { HasUsableFunctions: true } device1
+                    && device1.IsAnyFunctionAvailable(hero, inBattle, false, false, ignoreActivationTimeChecks))
+                {
+                    devices.TryAdd(device1);
+                }
+
+                item = characterInventory.InventorySlotsByName[EquipmentDefinitions.SlotTypeOffHand].EquipedItem;
+                if (item != null
+                    && item.ItemDefinition != null
+                    && item.ItemDefinition.SlotsWhereActive.Contains(EquipmentDefinitions.SlotTypeOffHand)
+                    && item.ItemDefinition.IsUsableDevice
+                    && item is RulesetItemDevice { HasUsableFunctions: true } device2)
+                {
+                    devices.TryAdd(device2);
+                }
+
+                foreach (var kvp in characterInventory.InventorySlotsByType)
+                {
+                    if (kvp.Key == EquipmentDefinitions.SlotTypeMainHand
+                        || kvp.Key == EquipmentDefinitions.SlotTypeOffHand)
+                    {
+                        continue;
+                    }
+
+                    foreach (var rulesetInventorySlot in kvp.Value)
+                    {
+                        item = rulesetInventorySlot.EquipedItem;
+                        if (item != null
+                            && item.ItemDefinition != null
+                            && item.ItemDefinition.SlotsWhereActive.Contains(kvp.Key)
+                            && item.ItemDefinition.IsUsableDevice
+                            && item is RulesetItemDevice { HasUsableFunctions: true } device3
+                            && device3.IsAnyFunctionAvailable(hero, inBattle, false, false, ignoreActivationTimeChecks))
+                        {
+                            devices.TryAdd(device3);
+                        }
+                    }
+                }
+
+                if (includeContainer)
+                {
+                    foreach (var inventorySlot in characterInventory.PersonalContainer.InventorySlots)
+                    {
+                        item = inventorySlot.EquipedItem;
+                        if (item != null
+                            && item.ItemDefinition != null
+                            && item.ItemDefinition.IsUsableDevice
+                            && item is RulesetItemDevice { HasUsableFunctions: true } device4
+                            && device4.IsAnyFunctionAvailable(hero, inBattle, false, false, ignoreActivationTimeChecks))
+                        {
+                            devices.TryAdd(device4);
+                        }
+                    }
+                }
+
+                //PATCH: enabled `PowerPoolDevice` by adding fake device to hero's usable devices list
+                var providers = hero.GetSubFeaturesByType<PowerPoolDevice>();
+                if (providers.Count != 0)
+                {
+                    devices.TryAddRange(providers.Select(provider => provider.GetDevice(hero)));
+                }
             }
 
-            var providers = __instance.GetSubFeaturesByType<PowerPoolDevice>();
-
-            if (providers.Count == 0)
-            {
-                return;
-            }
-
-            var tmp = __result.ToList();
-
-            tmp.AddRange(providers.Select(provider => provider.GetDevice(__instance)));
-
-            __result = tmp;
+            return devices;
         }
     }
 
@@ -1515,6 +1698,36 @@ public static class RulesetCharacterHeroPatcher
             //PATCH: make ISpellCastingAffinityProvider from dynamic item properties apply to repertoires
             return instructions.ReplaceEnumerateFeaturesToBrowse<FeatureDefinitionSavingThrowAffinity>(
                 "RulesetCharacterHero.ComputeBaseSavingThrowBonus", EnumerateFeatureDefinitionSavingThrowAffinity);
+        }
+
+        private static readonly HashSet<string> FeaturesToReplace =
+        [
+            "SavingThrowAffinityCreedOfArun",
+            "SavingThrowAffinityCreedOfEinar",
+            "SavingThrowAffinityCreedOfMaraike",
+            "SavingThrowAffinityCreedOfMisaye",
+            "SavingThrowAffinityCreedOfPakri",
+            "SavingThrowAffinityCreedOfSolasta"
+        ];
+
+        [UsedImplicitly]
+        public static void Postfix(RulesetCharacterHero __instance, string abilityScoreName,
+            List<TrendInfo> savingThrowModifierTrends)
+        {
+            //PATCH: Try finding base feature for saving throws
+            //TODO: may need improvement for other sources
+
+            for (var i = savingThrowModifierTrends.Count - 1; i >= 0; i--)
+            {
+                var trend = savingThrowModifierTrends[i];
+                if (trend.sourceType == FeatureSourceType.ExplicitFeature
+                    && FeaturesToReplace.Contains(trend.sourceName)
+                    && TryFindChoiceFeature(trend.sourceName, __instance, out var choice))
+                {
+                    trend.sourceName = choice.Name;
+                    savingThrowModifierTrends[i] = trend;
+                }
+            }
         }
     }
 

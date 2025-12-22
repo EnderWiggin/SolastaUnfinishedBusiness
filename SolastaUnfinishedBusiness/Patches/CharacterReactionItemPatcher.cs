@@ -9,6 +9,7 @@ using SolastaUnfinishedBusiness.Api.GameExtensions;
 using SolastaUnfinishedBusiness.Api.Helpers;
 using SolastaUnfinishedBusiness.CustomUI;
 using SolastaUnfinishedBusiness.Interfaces;
+using SolastaUnfinishedBusiness.Models;
 using UnityEngine;
 
 namespace SolastaUnfinishedBusiness.Patches;
@@ -51,6 +52,7 @@ public static class CharacterReactionItemPatcher
         {
             var request = __instance.ReactionRequest;
             var size = request is ReactionRequestWarcaster or ReactionRequestSpendBundlePower
+                or ReactionRequestSelectSmiteSpell
                 ? 400
                 : 290;
 
@@ -63,9 +65,15 @@ public static class CharacterReactionItemPatcher
             }
 
             //PATCH: support for displaying custom resources on reaction popup
+            __instance.remainingResourceImage.canvasRenderer.SetAlpha(1);
+            __instance.resourceCostImage.canvasRenderer.SetAlpha(1);
             if (__instance.ReactionRequest is IReactionRequestWithResource attack)
             {
                 SetupResource(__instance, attack.Resource);
+            }
+            else
+            {
+                SetupSpellPoints(__instance);
             }
 
             //BUGFIX: vanilla is collecting KI Points instead of Sorcery Points
@@ -152,8 +160,14 @@ public static class CharacterReactionItemPatcher
                 case ReactionRequestWarcaster warcasterRequest:
                     instance.BindWarcaster(warcasterRequest, slotLevel, interactable, subitemSelected);
                     break;
+                case ReactionRequestSelectSmiteSpell smiteRequest:
+                    instance.BindSmite(smiteRequest, slotLevel, interactable, subitemSelected);
+                    break;
                 case ReactionRequestSpendBundlePower bundlePowerRequest:
                     instance.BindPowerBundle(bundlePowerRequest, slotLevel, interactable, subitemSelected);
+                    break;
+                case ReactionRequestSelectSmiteSlot:
+                    instance.BindSmiteSlot(spellRepertoire, slotLevel, text, interactable, subitemSelected);
                     break;
                 default:
                     instance.Bind(spellRepertoire, slotLevel, text, interactable, subitemSelected);
@@ -192,6 +206,42 @@ public static class CharacterReactionItemPatcher
             }
 
             return false;
+        }
+    }
+
+    private static void SetupSpellPoints(CharacterReactionItem item)
+    {
+        if (item.ReactionRequest is not (ReactionRequestCastSpell or ReactionRequestSpendSpellSlot or ReactionRequestSpendSpellSlotExtended)
+            || !item.guiCharacter.rulesetCharacter.IsSpellPointsEnabled())
+        {
+            return;
+        }
+
+        var caster = item.guiCharacter.rulesetCharacter;
+        var current = caster.GetRemainingSpellPoints();
+
+        var slot = item.ReactionRequest.SubOptionsAvailability.Keys.ElementAtOrDefault(item.GetSelectedSubItem());
+
+        Gui.ReleaseAddressableAsset(item.resourceCostSprite);
+
+        item.remainingResourceGroup.gameObject.SetActive(true);
+        item.remainingResourceImage.canvasRenderer.SetAlpha(0); //hide resource sprite 
+        item.remainingResourceValue.Text = $"{current}";
+
+        item.resourceCostGroup.gameObject.SetActive(slot > 0);
+        item.resourceCostImage.canvasRenderer.SetAlpha(0); //hide resource sprite
+        item.resourceCostValue.Text = $"{SpellPointsContext.SpellCostByLevel[slot]}";
+    }
+
+    [HarmonyPatch(typeof(CharacterReactionItem), nameof(CharacterReactionItem.SubitemSelected))]
+    [SuppressMessage("Minor Code Smell", "S101:Types should be named in PascalCase", Justification = "Patch")]
+    [UsedImplicitly]
+    public static class SubitemSelected_Patch
+    {
+        [UsedImplicitly]
+        public static void Postfix([NotNull] CharacterReactionItem __instance)
+        {
+            SetupSpellPoints(__instance);
         }
     }
 }

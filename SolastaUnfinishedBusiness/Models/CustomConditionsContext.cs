@@ -85,7 +85,7 @@ internal static class CustomConditionsContext
             .SetGuiPresentation("ConditionLightSensitivity", Category.Condition, Gui.NoLocalization)
             .SetMyAttackAdvantage(AdvantageType.None)
             .SetMyAttackModifierSign(AttackModifierSign.Substract)
-            .SetMyAttackModifierDieType(DieType.D4)
+            .SetMyAttackModifierDie(DieType.D4)
             .AddToDB();
 
         var conditionLightSensitive = ConditionDefinitionBuilder

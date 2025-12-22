@@ -20,13 +20,14 @@ using static SolastaUnfinishedBusiness.Api.DatabaseHelper;
 
 namespace SolastaUnfinishedBusiness.Models;
 
-internal static partial class Tabletop2024Context
+public static partial class Tabletop2024Context
 {
     private static readonly FeatureDefinitionCombatAffinity CombatAffinityConditionSurprised =
         FeatureDefinitionCombatAffinityBuilder
             .Create("CombatAffinityConditionSurprised")
-            .SetGuiPresentationNoContent(true)
+            .SetGuiPresentation("Surprised","Surprised")
             .SetInitiativeAffinity(AdvantageType.Disadvantage)
+            .SetAttackOnMeAdvantage(AdvantageType.Advantage)
             .AddToDB();
 
     private static readonly FeatureDefinition AbilityCheckAffinityChampionRemarkableAthlete2024 =
@@ -131,6 +132,8 @@ internal static partial class Tabletop2024Context
         SwitchOneDndHealingSpellsUpgrade();
         SwitchOneDndPreparedSpellsTables();
         SwitchOneDndSpellBarkskin();
+        SwitchOneDndCantripChillTouch();
+        SwitchOneDndCantripBladeWard();
         SwitchOneDndSpellDivineFavor();
         SwitchOneDndSpellGuidance();
         SwitchOneDndSpellHideousLaughter();
@@ -142,11 +145,14 @@ internal static partial class Tabletop2024Context
         SwitchOneDndSpellSpareTheDying();
         SwitchOneDndSpellSpiderClimb();
         SwitchOneDndSpellStoneSkin();
+        SwitchOneDndSpellWitchBolt();
         SwitchPaladinAbjureFoes();
         SwitchPaladinChannelDivinity();
         SwitchPaladinLayOnHand();
         SwitchPaladinRestoringTouch();
         SwitchPaladinSpellCastingAtOne();
+        SwitchPaladinDivineSmite();
+        SwitchPaladinAnyFightingStyle();
         SwitchPoisonsBonusAction();
         SwitchPotionsBonusAction();
         SwitchRangerDeftExplorer();
@@ -161,6 +167,7 @@ internal static partial class Tabletop2024Context
         SwitchRangerRoving();
         SwitchRangerSpellCastingAtOne();
         SwitchRangerTireless();
+        SwitchRangerAnyFightingStyle();
         SwitchRogueBlindSense();
         SwitchRogueCunningStrike();
         SwitchRogueReliableTalent();
@@ -171,6 +178,7 @@ internal static partial class Tabletop2024Context
         SwitchSorcererMetamagic();
         SwitchSorcererOriginLearningLevel();
         SwitchSorcererSorcerousRestorationAtLevel5();
+        SwitchSorcererDraconicBloodlineAC();
         SwitchSurprisedEnforceDisadvantage();
         SwitchWarlockInvocationsProgression();
         SwitchWarlockMagicalCunningAndImprovedEldritchMaster();
@@ -180,6 +188,8 @@ internal static partial class Tabletop2024Context
         SwitchWizardSchoolOfMagicLearningLevel();
         SwitchWeaponMastery();
         SwitchMartialChampion();
+        HomeBrewSomeSpells();
+        SmiteSpells2024Context.LateLoad();
     }
 
     internal static void SwitchSurprisedEnforceDisadvantage()
@@ -375,6 +385,7 @@ internal static partial class Tabletop2024Context
 
         public IEnumerator OnTryAlterAttributeCheck(
             GameLocationBattleManager battleManager,
+            int rawRoll,
             AbilityCheckData abilityCheckData,
             GameLocationCharacter defender,
             GameLocationCharacter helper)
@@ -405,9 +416,8 @@ internal static partial class Tabletop2024Context
                 var rulesetHelper = helper.RulesetCharacter;
                 var dieRoll = rulesetHelper.RollDie(DieType.D20, RollContext.None, false, AdvantageType.None, out _,
                     out _);
-                var previousRoll = abilityCheckData.AbilityCheckRoll;
 
-                if (dieRoll <= abilityCheckData.AbilityCheckRoll)
+                if (dieRoll <= rawRoll)
                 {
                     rulesetHelper.LogCharacterActivatesAbility(
                         "Feature/&FeatureChampionHeroicWarriorTitle",
@@ -415,27 +425,34 @@ internal static partial class Tabletop2024Context
                         extra:
                         [
                             (ConsoleStyleDuplet.ParameterType.Negative, dieRoll.ToString()),
-                            (ConsoleStyleDuplet.ParameterType.Positive, abilityCheckData.AbilityCheckRoll.ToString())
+                            (ConsoleStyleDuplet.ParameterType.Positive, rawRoll.ToString())
                         ]);
 
                     return;
                 }
 
-                abilityCheckData.AbilityCheckSuccessDelta += dieRoll - abilityCheckData.AbilityCheckRoll;
-                abilityCheckData.AbilityCheckRoll = dieRoll;
+                var delta = dieRoll - rawRoll;
+                abilityCheckData.AbilityCheckSuccessDelta += delta;
+                abilityCheckData.AbilityCheckRoll += delta;
                 abilityCheckData.AbilityCheckRollOutcome = abilityCheckData.AbilityCheckSuccessDelta >= 0
                     ? RollOutcome.Success
                     : RollOutcome.Failure;
 
+                var totalRoll = abilityCheckData.AbilityCheckRoll.ToString();
                 rulesetHelper.LogCharacterActivatesAbility(
                     "Feature/&FeatureChampionHeroicWarriorTitle",
                     "Feedback/&BountifulLuckCheckToHitRoll",
                     extra:
                     [
-                        (dieRoll > previousRoll ? ConsoleStyleDuplet.ParameterType.Positive : ConsoleStyleDuplet.ParameterType.Negative,
+                        (dieRoll > rawRoll ? ConsoleStyleDuplet.ParameterType.Positive : ConsoleStyleDuplet.ParameterType.Negative,
                             dieRoll.ToString()),
-                        (previousRoll > dieRoll ? ConsoleStyleDuplet.ParameterType.Positive : ConsoleStyleDuplet.ParameterType.Negative,
-                            previousRoll.ToString())
+                        (rawRoll > dieRoll ? ConsoleStyleDuplet.ParameterType.Positive : ConsoleStyleDuplet.ParameterType.Negative,
+                            rawRoll.ToString()),
+                        abilityCheckData.AbilityCheckRollOutcome == RollOutcome.Success
+                            ? (ConsoleStyleDuplet.ParameterType.SuccessfulRoll,
+                                Gui.Format(GameConsole.AbilityCheckSuccessOutcome, totalRoll))
+                            : (ConsoleStyleDuplet.ParameterType.FailedRoll,
+                                Gui.Format(GameConsole.AbilityCheckFailureOutcome, totalRoll))
                     ]);
             }
         }

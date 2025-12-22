@@ -114,6 +114,11 @@ public sealed class MartialWeaponMaster : AbstractSubclass
 
         // Momentum
 
+        var featureMomentum = FeatureDefinitionBuilder
+            .Create($"Feature{Name}Momentum")
+            .SetGuiPresentation(Category.Feature)
+            .AddToDB();
+
         var conditionMomentum = ConditionDefinitionBuilder
             .Create($"Condition{Name}Momentum")
             .SetGuiPresentationNoContent(true)
@@ -121,16 +126,11 @@ public sealed class MartialWeaponMaster : AbstractSubclass
             .SetFeatures(
                 FeatureDefinitionAdditionalActionBuilder
                     .Create($"AdditionalAction{Name}Momentum")
-                    .SetGuiPresentationNoContent(true)
+                    .SetGuiPresentation(featureMomentum.GuiPresentation.Title, Gui.NoLocalization, hidden: true)
                     .SetActionType(ActionDefinitions.ActionType.Main)
                     .SetRestrictedActions(ActionDefinitions.Id.AttackMain)
                     .SetMaxAttacksNumber(1)
                     .AddToDB())
-            .AddToDB();
-
-        var featureMomentum = FeatureDefinitionBuilder
-            .Create($"Feature{Name}Momentum")
-            .SetGuiPresentation(Category.Feature)
             .AddToDB();
 
         featureMomentum.AddCustomSubFeatures(new OnReducedToZeroHpByMeMomentum(featureMomentum, conditionMomentum));

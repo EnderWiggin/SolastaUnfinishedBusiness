@@ -64,7 +64,7 @@ Feature/&PowerFeatOrcishAggressionTitle=Орочья агрессия
 Feedback/&AdditionalDamageOrcishFuryFormat=Орочье буйство
 Feedback/&AdditionalDamageOrcishFuryLine=Орочье буйство наносит дополнительно +{2} урона!
 Feedback/&BountifulLuckAttackToHitRoll={0} использовал {1}, чтобы выкинуть {2} и заменить {3} на бросок атаки
-Feedback/&BountifulLuckCheckToHitRoll={0} использовал {1}, чтобы выкинуть {2} и заменить {3} на бросок проверки
+Feedback/&BountifulLuckCheckToHitRoll={0} использовал {1}, чтобы выкинуть {2} и заменить {3} на бросок проверки: {4}
 Feedback/&BountifulLuckSavingToHitRoll={0} использовал {1}, чтобы выкинуть {2} и заменить {3} на спасбросок
 Feedback/&DwarvenFortitudeHitDieRolled={0} выкинул {2} и восстановил {3} = {4}.
 Feedback/&FlamesOfPhlegethosReroll={0} использует черту Пламя Флегетоса, чтобы перебросить кость магического урона {1} с {2} на {3}.

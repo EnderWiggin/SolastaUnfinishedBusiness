@@ -3,6 +3,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using HarmonyLib;
 using JetBrains.Annotations;
+using SolastaUnfinishedBusiness.Api.GameExtensions;
 using SolastaUnfinishedBusiness.Api.Helpers;
 using SolastaUnfinishedBusiness.Interfaces;
 using TA.AI.Activities;
@@ -114,7 +115,7 @@ public static class BreakFreePatcher
                     ]);
 
                 var actionModifier = new ActionModifier();
-                var abilityCheckRoll = gameLocationCharacter.RollAbilityCheck(
+                var abilityCheckRoll = gameLocationCharacter.RollAbilityCheckEx(
                     attributeName,
                     string.Empty,
                     checkDC,
@@ -124,6 +125,7 @@ public static class BreakFreePatcher
                     -1,
                     out var rollOutcome,
                     out var successDelta,
+                    out var rawRoll,
                     true);
 
                 //PATCH: support for Bardic Inspiration roll off battle and ITryAlterOutcomeAttributeCheck
@@ -137,7 +139,7 @@ public static class BreakFreePatcher
                 };
 
                 yield return TryAlterOutcomeAttributeCheck
-                    .HandleITryAlterOutcomeAttributeCheck(gameLocationCharacter, abilityCheckData);
+                    .HandleITryAlterOutcomeAttributeCheck(gameLocationCharacter, abilityCheckData, rawRoll);
 
                 success = abilityCheckData.AbilityCheckRollOutcome
                     is RollOutcome.Success or RollOutcome.CriticalSuccess;

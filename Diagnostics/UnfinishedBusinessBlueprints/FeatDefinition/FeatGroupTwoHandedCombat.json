@@ -14,7 +14,7 @@
   "features": [],
   "guiPresentation": {
     "$type": "GuiPresentation, Assembly-CSharp",
-    "hidden": true,
+    "hidden": false,
     "title": "Feat/&FeatGroupTwoHandedCombatTitle",
     "description": "Follow Up Strike, Forestalling Strength, Mighty Blow, Polearm Master, Revenant Blade",
     "spriteReference": {

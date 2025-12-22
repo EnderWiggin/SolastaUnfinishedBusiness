@@ -167,7 +167,7 @@
     "$type": "GuiPresentation, Assembly-CSharp",
     "hidden": true,
     "title": "Shortbow",
-    "description": "Feature/&FeatureWeaponMasteryVexDescription",
+    "description": "Feature/&FeatureWeaponMasteryCleaveDescription",
     "spriteReference": {
       "$type": "UnityEngine.AddressableAssets.AssetReferenceSprite, Unity.Addressables",
       "m_AssetGUID": "",

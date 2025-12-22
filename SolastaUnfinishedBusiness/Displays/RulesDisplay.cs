@@ -43,9 +43,16 @@ internal static class RulesDisplay
 
             intValue = Main.Settings.MaxAllowedClasses;
             if (UI.Slider(Gui.Localize("ModUi/&MaxAllowedClasses"), ref intValue,
-                    2, MulticlassContext.MaxClasses, MulticlassContext.DefaultClasses, "", UI.AutoWidth()))
+                    MulticlassContext.MinClasses, MulticlassContext.MaxClasses, MulticlassContext.DefaultClasses,
+                    "", UI.AutoWidth()))
             {
-                Main.Settings.MaxAllowedClasses = intValue;
+                //For some reason Math.Clamp is not available
+                Main.Settings.MaxAllowedClasses = intValue switch
+                {
+                    < MulticlassContext.MinClasses => MulticlassContext.MinClasses,
+                    > MulticlassContext.MaxClasses => MulticlassContext.MaxClasses,
+                    _ => intValue
+                };
             }
 
             UI.Label();
@@ -138,6 +145,23 @@ internal static class RulesDisplay
             Main.Settings.UseOfficialFlankingRulesAlsoForRanged = false;
         }
 
+        toggle = Main.Settings.EnableSmiteSpells2024;
+        if (UI.Toggle(Gui.Localize("ModUi/&EnableSmiteSpells2024"), ref toggle, UI.AutoWidth()))
+        {
+            Main.Settings.EnableSmiteSpells2024 = toggle;
+            SmiteSpells2024Context.SwitchSmiteSpells();
+        }
+
+        if (Main.Settings.EnableSmiteSpells2024)
+        {
+            toggle = Main.Settings.AddPaladinSmiteToggle;
+            if (UI.Toggle(" + " + Gui.Localize("ModUi/&AddPaladinSmiteToggle"), ref toggle, UI.AutoWidth()))
+            {
+                Main.Settings.AddPaladinSmiteToggle = toggle;
+                Global.RefreshControlledCharacter();
+            }
+        }
+
         toggle = Main.Settings.UseAlternateSpellPointsSystem;
         if (UI.Toggle(Gui.Localize("ModUi/&UseAlternateSpellPointsSystem"), ref toggle, UI.AutoWidth()))
         {
@@ -159,6 +183,13 @@ internal static class RulesDisplay
 
         if (Main.Settings.UseWeaponMasterySystem)
         {
+            toggle = Main.Settings.UseWeaponMasteryMonkWayOfBlade;
+            if (UI.Toggle(Gui.Localize("ModUi/&UseWeaponMasteryMonkWayOfBlade"), ref toggle, UI.AutoWidth()))
+            {
+                Main.Settings.UseWeaponMasteryMonkWayOfBlade = toggle;
+                Tabletop2024Context.SwitchWayOfBladeWeaponMastery();
+            }
+
             toggle = Main.Settings.UseWeaponMasterySystemAddWeaponTag;
             if (UI.Toggle(Gui.Localize("ModUi/&UseWeaponMasterySystemAddWeaponTag"), ref toggle, UI.AutoWidth()))
             {
@@ -185,11 +216,20 @@ internal static class RulesDisplay
                 Main.Settings.UseWeaponMasterySystemNickExtraAttackTriggersMastery = toggle;
             }
 
+            toggle = Main.Settings.UseWeaponMasterySystemNickDualFlurry;
+            if (UI.Toggle(Gui.Localize("ModUi/&UseWeaponMasterySystemNickDualFlurry"), ref toggle,
+                    UI.AutoWidth()))
+            {
+                Main.Settings.UseWeaponMasterySystemNickDualFlurry = toggle;
+            }
+
             toggle = Main.Settings.UseWeaponMasterySystemPushSave;
             if (UI.Toggle(Gui.Localize("ModUi/&UseWeaponMasterySystemPushSave"), ref toggle, UI.AutoWidth()))
             {
                 Main.Settings.UseWeaponMasterySystemPushSave = toggle;
             }
+
+            Tabletop2024Context.DisplayWeaponMasteryCustomization();
         }
 
         toggle = Main.Settings.UseOfficialFlankingRules;
@@ -240,6 +280,13 @@ internal static class RulesDisplay
             {
                 Main.Settings.UseOfficialFlankingRulesButAddAttackModifier = toggle;
             }
+
+            toggle = Main.Settings.UseOldOfficialFlankingRules;
+            if (UI.Toggle(Gui.Localize("ModUi/&UseOldOfficialFlankingRules"), ref toggle,
+                    UI.AutoWidth()))
+            {
+                Main.Settings.UseOldOfficialFlankingRules = toggle;
+            }
         }
 
         toggle = Main.Settings.EnableInitiativeRollOnEveryRoundStart;
@@ -265,6 +312,7 @@ internal static class RulesDisplay
             Main.Settings.OfficialObscurementRulesCancelAdvDisPairs = toggle;
             Main.Settings.OfficialObscurementRulesHeavilyObscuredAsProjectileBlocker = false;
             Main.Settings.OfficialObscurementRulesMagicalDarknessAsProjectileBlocker = false;
+            Main.Settings.EnableChanceToPerceiveCloseRange = false;
             Main.Settings.OfficialObscurementRulesTweakMonsters = toggle;
             LightingAndObscurementContext.SwitchOfficialObscurementRules();
         }
@@ -310,6 +358,12 @@ internal static class RulesDisplay
                 LightingAndObscurementContext.SwitchMonstersOnObscurementRules();
             }
 
+            toggle = Main.Settings.EnableChanceToPerceiveCloseRange;
+            if (UI.Toggle(Gui.Localize("ModUI/&EnableChanceToPerceiveCloseRange"), ref toggle, UI.AutoWidth()))
+            {
+                Main.Settings.EnableChanceToPerceiveCloseRange = toggle;
+            }
+
             if (Main.Settings.OfficialObscurementRulesTweakMonsters)
             {
                 UI.Label(Gui.Localize("ModUi/&OfficialObscurementRulesTweakMonstersHelp"));
@@ -317,13 +371,6 @@ internal static class RulesDisplay
         }
 
         UI.Label();
-
-        toggle = Main.Settings.KeepStealthOnHeroIfPerceivedDuringSurpriseAttack;
-        if (UI.Toggle(Gui.Localize("ModUi/&KeepStealthOnHeroIfPerceivedDuringSurpriseAttack"), ref toggle,
-                UI.AutoWidth()))
-        {
-            Main.Settings.KeepStealthOnHeroIfPerceivedDuringSurpriseAttack = toggle;
-        }
 
         toggle = Main.Settings.StealthDoesNotBreakWithSubtle;
         if (UI.Toggle(Gui.Localize("ModUi/&StealthDoesNotBreakWithSubtle"), ref toggle, UI.AutoWidth()))
@@ -363,6 +410,20 @@ internal static class RulesDisplay
         if (UI.Toggle(Gui.Localize("ModUi/&StealthBreaksWhenCastingSomatic"), ref toggle, UI.AutoWidth()))
         {
             Main.Settings.StealthBreaksWhenCastingSomatic = toggle;
+        }
+
+        toggle = Main.Settings.StealthBreaksWhenMoving;
+        if (UI.Toggle(Gui.Localize("ModUi/&StealthBreaksWhenMoving"), ref toggle, UI.AutoWidth()))
+        {
+            Main.Settings.StealthBreaksWhenMoving = toggle;
+        }
+
+        UI.Label();
+
+        toggle = Main.Settings.StealthRollForBreak;
+        if (UI.Toggle(Gui.Localize("ModUi/&StealthRollForBreak"), ref toggle, UI.AutoWidth()))
+        {
+            Main.Settings.StealthRollForBreak = toggle;
         }
 
         UI.Label();

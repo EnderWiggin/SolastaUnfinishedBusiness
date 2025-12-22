@@ -259,20 +259,11 @@ public static class RulesetImplementationManagerLocationPatcher
         {
             var conditionDefinitionMethod = typeof(ConditionForm).GetMethod("get_ConditionDefinition");
             var myConditionDefinitionMethod =
-                new Func<ConditionForm, ConditionDefinition>(MyConditionDefinition).Method;
+                new Func<ConditionForm, ConditionDefinition>(LightingAndObscurementContext.CheckForDarknessCondition).Method;
 
             return instructions.ReplaceCalls(conditionDefinitionMethod,
                 "RulesetImplementationManagerLocation.ApplyCounterForm",
                 new CodeInstruction(OpCodes.Call, myConditionDefinitionMethod));
-        }
-
-        private static ConditionDefinition MyConditionDefinition(ConditionForm conditionForm)
-        {
-            return conditionForm.ConditionDefinition.Name
-                is ConditionDarkness
-                or "ConditionBlindedByDarkness"
-                ? DatabaseHelper.ConditionDefinitions.ConditionDarkness
-                : conditionForm.ConditionDefinition;
         }
     }
 
@@ -286,52 +277,98 @@ public static class RulesetImplementationManagerLocationPatcher
         private static readonly List<RulesetEffectSpell> SpellsCastByMe = [];
 
         [UsedImplicitly]
-        public static void Prefix(RulesetImplementationDefinitions.ApplyFormsParams formsParams)
-        {
-            var source = formsParams.sourceCharacter;
-
-            //BUGFIX: allow Druids to keep concentration on spells / powers with proxy summon forms
-            SpellsCastByMe.SetRange(source.SpellsCastByMe);
-            source.SpellsCastByMe.Clear();
-
-            PowersUsedByMe.SetRange(source.PowersUsedByMe);
-            source.PowersUsedByMe.Clear();
-            //END BUGFIX
-        }
-
-        [UsedImplicitly]
-        public static void Postfix(
-            RulesetImplementationManagerLocation __instance,
+        public static bool Prefix(RulesetImplementationManagerLocation __instance, EffectForm effectForm,
             RulesetImplementationDefinitions.ApplyFormsParams formsParams)
         {
-            var source = formsParams.sourceCharacter;
+            ApplyShapeChangeForm(__instance, effectForm, formsParams);
+            return false;
+        }
 
-            __instance.TryFindSubstituteOfCharacter(
-                formsParams.targetCharacter as RulesetCharacter, out var characterMonster);
+        private static void ApplyShapeChangeForm(RulesetImplementationManagerLocation manager,
+            EffectForm effectForm,
+            RulesetImplementationDefinitions.ApplyFormsParams formsParams)
+        {
+            //Mostly original code, except for PATCHES
+            
+            var targetCharacter = (RulesetCharacter)formsParams.targetCharacter;
+            var sourceCharacter = formsParams.sourceCharacter;
 
-            //BUGFIX: allow Druids to keep concentration on spells / powers with proxy summon forms
-            //TODO: do I need to add them back to source?
-            source.SpellsCastByMe.SetRange(SpellsCastByMe);
-            source.PowersUsedByMe.SetRange(PowersUsedByMe);
+            //PATCH: allow Druids to keep concentration on spells / powers with proxy summon forms
 
-            characterMonster.SpellsCastByMe.SetRange(SpellsCastByMe);
-            characterMonster.PowersUsedByMe.SetRange(PowersUsedByMe);
-            //END BUGFIX
+            // foreach (var rulesetEffect in targetCharacter.SpellsCastByMe)
+            // {
+            //     if (rulesetEffect.TrackedLightSourceGuids.Count > 0)
+            //     {
+            //         rulesetEffect.Terminate(false);
+            //     }
+            //
+            //     if (rulesetEffect.TrackedSummonedItemGuids.Count > 0)
+            //     {
+            //         rulesetEffect.Terminate(false);
+            //     }
+            // }
+            //
+            // foreach (var rulesetEffect in targetCharacter.PowersUsedByMe)
+            // {
+            //     if (rulesetEffect.TrackedLightSourceGuids.Count > 0)
+            //     {
+            //         rulesetEffect.Terminate(false);
+            //     }
+            //
+            //     if (rulesetEffect.TrackedSummonedItemGuids.Count > 0)
+            //     {
+            //         rulesetEffect.Terminate(false);
+            //     }
+            // }
+
+            //END PATCH
+
+            var service = ServiceRepository.GetService<IGameLocationCharacterService>();
+            var entityImplementation = (GameLocationCharacter)targetCharacter.EntityImplementation;
+            var targetSubstitute = formsParams.targetSubstitute;
+            var creatureSex = targetCharacter.Sex == CreatureSex.Female
+                ? GadgetDefinitions.CreatureSex.Female
+                : GadgetDefinitions.CreatureSex.Male;
+            var spawnOverrides = new SpawnOverrides();
+            var rulesetMonster = new RulesetCharacterMonster(targetSubstitute, 0, spawnOverrides,
+                creatureSex, targetCharacter, effectForm.ShapeChangeForm.KeepMentalAbilityScores);
+            var sourceFaction = sourceCharacter.CurrentFaction.Name ?? string.Empty;
+            var sourceAbilityBonus = formsParams.activeEffect.ComputeSourceAbilityBonus(sourceCharacter);
+            var proficiencyBonus = formsParams.activeEffect.ComputeSourceProficiencyBonus(sourceCharacter);
+
+            targetCharacter.InflictCondition(ConditionShapeChanged, DurationType.Permanent, 0,
+                TurnOccurenceType.EndOfTurn, AttributeDefinitions.TagConjure, sourceCharacter.Guid,
+                sourceFaction, formsParams.effectLevel, string.Empty, 0, sourceAbilityBonus, proficiencyBonus);
+            var condition = rulesetMonster.InflictCondition(
+                effectForm.ShapeChangeForm.SpecialSubstituteDefinition?.Name ?? ConditionSubstituteForm,
+                DurationType.Round, formsParams.activeEffect.RemainingRounds, formsParams.endOfEffect,
+                AttributeDefinitions.TagConjure, sourceCharacter.Guid, sourceFaction, formsParams.effectLevel,
+                string.Empty, 0, sourceAbilityBonus, proficiencyBonus);
+            formsParams.activeEffect.TrackCondition(sourceCharacter, sourceCharacter.Guid, rulesetMonster,
+                rulesetMonster.Guid, condition, AttributeDefinitions.TagConjure);
+            var character = service.CreateCharacter(entityImplementation.ControllerId, rulesetMonster,
+                entityImplementation.Side, entityImplementation.BehaviourPackage);
+            ServiceRepository.GetService<IGameLocationPositioningService>().PlaceCharacter(character,
+                entityImplementation.LocationPosition, entityImplementation.Orientation);
+            character.SetupFromShapeChangedCharacter(entityImplementation);
+            character.RefreshActionPerformances();
+            service.RevealCharacter(character);
+            service.ReplaceCharacter(entityImplementation, character);
 
             //PATCH: enforces concentration on shape change spell
             if (formsParams.activeEffect is RulesetEffectSpell rulesetEffectSpell &&
                 rulesetEffectSpell.SpellDefinition.Name == SpellBuilders.ShapechangeName)
             {
-                characterMonster.concentratedSpell = rulesetEffectSpell;
+                rulesetMonster.concentratedSpell = rulesetEffectSpell;
             }
 
             //PATCH: allows shape changers to get bonuses effects defined in features / feats / etc.
-            var sourceAbilityBonus = formsParams.activeEffect.ComputeSourceAbilityBonus(source);
-            var proficiencyBonus = formsParams.activeEffect.ComputeSourceProficiencyBonus(source);
+            sourceAbilityBonus = formsParams.activeEffect.ComputeSourceAbilityBonus(sourceCharacter);
+            proficiencyBonus = formsParams.activeEffect.ComputeSourceProficiencyBonus(sourceCharacter);
             var creatureTags = formsParams.targetSubstitute.CreatureTags;
 
-            foreach (var summoningAffinity in source
-                         .GetFeaturesByType<FeatureDefinitionSummoningAffinity>()
+            foreach (var summoningAffinity in sourceCharacter
+                         .FeaturesByType<FeatureDefinitionSummoningAffinity>()
                          .Where(x => creatureTags.Contains(x.RequiredMonsterTag)))
             {
                 foreach (var addedCondition in summoningAffinity.AddedConditions)
@@ -343,45 +380,41 @@ public static class RulesetImplementationManagerLocationPatcher
                     {
                         case ConditionDefinition.OriginOfAmount.SourceHalfHitPoints:
                             sourceAmount = addedCondition.BaseAmount +
-                                           (source.TryGetAttributeValue(AttributeDefinitions.HitPoints) / 2);
+                                           (sourceCharacter.TryGetAttributeValue(AttributeDefinitions.HitPoints) / 2);
                             break;
                         case ConditionDefinition.OriginOfAmount.SourceSpellCastingAbility:
-                            var num1 = source.SpellRepertoires
+                            sourceAmount = sourceCharacter.SpellRepertoires
                                 .Select(spellRepertoire => AttributeDefinitions.ComputeAbilityScoreModifier(
-                                    source.TryGetAttributeValue(spellRepertoire.SpellCastingAbility)))
+                                    sourceCharacter.TryGetAttributeValue(spellRepertoire.SpellCastingAbility)))
                                 .Prepend(0)
                                 .Max();
-
-                            sourceAmount = num1;
                             break;
                         case ConditionDefinition.OriginOfAmount.SourceSpellAttack:
-                            var num2 = source.SpellRepertoires
+                            sourceAmount = sourceCharacter.SpellRepertoires
                                 .Select(spellRepertoire => spellRepertoire.SpellAttackBonus)
                                 .Prepend(0)
                                 .Max();
-
-                            sourceAmount = num2;
                             break;
                     }
 
-                    characterMonster.InflictCondition(
+                    rulesetMonster.InflictCondition(
                         addedCondition.Name,
                         formsParams.durationType,
                         formsParams.durationParameter,
                         formsParams.endOfEffect,
                         AttributeDefinitions.TagEffect,
-                        source.Guid,
-                        source.CurrentFaction.Name,
+                        sourceCharacter.Guid,
+                        sourceCharacter.CurrentFaction.Name,
                         formsParams.effectLevel,
                         string.Empty, sourceAmount,
                         sourceAbilityBonus,
                         proficiencyBonus);
 
                     // we need to re-assign max hit points as we're on a postfix
-                    characterMonster.currentHitPoints =
-                        characterMonster.GetAttribute(AttributeDefinitions.HitPoints).MaxValue;
+                    rulesetMonster.currentHitPoints =
+                        rulesetMonster.GetAttribute(AttributeDefinitions.HitPoints).MaxValue;
 
-                    characterMonster.RefreshAll();
+                    rulesetMonster.RefreshAll();
                 }
             }
         }

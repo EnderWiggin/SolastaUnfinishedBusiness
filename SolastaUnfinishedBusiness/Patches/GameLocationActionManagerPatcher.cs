@@ -8,6 +8,7 @@ using SolastaUnfinishedBusiness.Behaviors;
 using SolastaUnfinishedBusiness.Behaviors.Specific;
 using SolastaUnfinishedBusiness.CustomUI;
 using SolastaUnfinishedBusiness.Interfaces;
+using TA.AI;
 using static RuleDefinitions;
 
 namespace SolastaUnfinishedBusiness.Patches;
@@ -49,6 +50,21 @@ public static class GameLocationActionManagerPatcher
             __instance.AddInterruptRequest(new ReactionRequestWarcaster(reactionParams));
 
             return false;
+        }
+    }
+
+    [HarmonyPatch(typeof(GameLocationActionManager), nameof(GameLocationActionManager.ReactForReadiedAction))]
+    [SuppressMessage("Minor Code Smell", "S101:Types should be named in PascalCase", Justification = "Patch")]
+    [UsedImplicitly]
+    public static class ReactForReadiedAction_Patch
+    {
+        [UsedImplicitly]
+        public static void Prefix(GameLocationActionManager __instance, CharacterActionParams reactionParams)
+        {
+            //PATCH: mark this attack as not AoO, so Sentinel movement stop won't trigger
+            reactionParams.AttackMode?.AddAttackTagAsNeeded(AttacksOfOpportunity.NotAoOTag);
+            //PATCH: mark as a reaction, so Attack After Magic Effect won't check for attack validity, since it was already checked prior to triggering the reaction
+            reactionParams.IsReactionEffect = true;
         }
     }
 

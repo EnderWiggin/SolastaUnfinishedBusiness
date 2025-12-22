@@ -679,12 +679,11 @@ internal static class GambitsBuilders
             .Create($"Condition{name}")
             .SetGuiPresentation(name, Category.Feature, ConditionDefinitions.ConditionHeraldOfBattle)
             .SetPossessive()
-            .SetFeatures(
-                FeatureDefinitionAttributeModifierBuilder
-                    .Create($"AttributeModifier{name}")
-                    .SetGuiPresentation(name, Category.Feature)
-                    .SetAddConditionAmount(AttributeDefinitions.ArmorClass)
-                    .AddToDB())
+            .SetFeatures(FeatureDefinitionAttributeModifierBuilder
+                .Create($"AttributeModifier{name}")
+                .SetGuiPresentation(name, Category.Feature)
+                .SetAddConditionAmount(AttributeDefinitions.ArmorClass)
+                .AddToDB())
             .SetAmountOrigin(ExtraOriginOfAmount.SourceGambitDieRoll)
             .AddToDB();
 
@@ -695,13 +694,11 @@ internal static class GambitsBuilders
             .AddCustomSubFeatures(ModifyPowerFromInvocation.Marker, hasGambitDice)
             .SetUniqueInstance()
             .SetSharedPool(ActivationTime.NoCost, GambitPool)
-            .SetEffectDescription(
-                EffectDescriptionBuilder
-                    .Create()
-                    .SetTargetingData(Side.Ally, RangeType.Self, 0, TargetType.Self)
-                    .SetDurationData(DurationType.Round)
-                    .SetEffectForms(EffectFormBuilder.ConditionForm(conditionElusiveMovement))
-                    .Build())
+            .SetEffectDescription(EffectDescriptionBuilder.Create()
+                .SetTargetingData(Side.Ally, RangeType.Self, 0, TargetType.Self)
+                .SetDurationData(DurationType.Round, 1, TurnOccurenceType.StartOfTurn)
+                .SetEffectForms(EffectFormBuilder.ConditionForm(conditionElusiveMovement))
+                .Build())
             .AddToDB();
 
         conditionElusiveMovement.AddCustomSubFeatures(new ElusiveMovement(power));

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
@@ -205,6 +205,26 @@ public static class RulesetCharacterPatcher
                         defenderAlreadyAttackedByAttackerThisTurn, attackModifier,
                         __instance.FeaturesOrigin[featureDefinition], distance);
                 }
+            }
+
+            foreach (var affinity in defender.GetSubFeaturesByType<CombatAffinityOnMyAttacker>()
+                         .Select(x => x.Affinity))
+            {
+                var contextParams = new RulesetImplementationDefinitions.SituationalContextParams(
+                    affinity!.SituationalContext,
+                    __instance,
+                    defender,
+                    implementationService.FindSourceIdOfFeature(defender, affinity),
+                    affinity.RequiredCondition,
+                    attackModifier.Proximity == AttackProximity.Range,
+                    null);
+
+                if (!implementationService.IsSituationalContextValid(contextParams)) { continue; }
+
+                var origin = new FeatureOrigin(FeatureSourceType.CharacterFeature, affinity.name, affinity,
+                    affinity.ParseSpecialFeatureTags());
+                affinity.ComputeAttackModifier(__instance, defender, attackMode, attackModifier,
+                    origin, 0, distance);
             }
 
             var flag = attackModifier.AttacktoHitTrends.Any(attackToHitTrend =>
@@ -491,10 +511,26 @@ public static class RulesetCharacterPatcher
 
             var characterService = ServiceRepository.GetService<IGameLocationCharacterService>();
 
-            foreach (var targetRulesetCharacter in characterService.AllValidEntities
-                         .Select(x => x.RulesetActor)
-                         .OfType<RulesetCharacter>()
-                         .ToArray())
+            List<RulesetCharacter> allCharacters = [];
+            if (characterService != null)
+            {
+                allCharacters.AddRange(characterService.AllValidEntities
+                    .Select(x => x.RulesetActor)
+                    .OfType<RulesetCharacter>());
+            }
+            else
+            {
+                var party = ServiceRepository.GetService<IGameService>().Game.GameCampaign.Party;
+
+                allCharacters.AddRange(party.CharactersList
+                    .Select(x => x.RulesetCharacter));
+
+                //Not sure if we need to check guests - most likely these things are hero-only
+                allCharacters.AddRange(party.GuestCharactersList
+                    .Select(x => x.RulesetCharacter));
+            }
+
+            foreach (var targetRulesetCharacter in allCharacters)
             {
                 // need ToArray to avoid enumerator issues with RemoveCondition
                 foreach (var rulesetCondition in targetRulesetCharacter.ConditionsByCategory
@@ -756,16 +792,24 @@ public static class RulesetCharacterPatcher
             ref bool result,
             ref string failure)
         {
-            if (result || spell.MaterialComponentType != MaterialComponentType.Specific)
-            {
-                return;
-            }
+            if (spell.MaterialComponentType != MaterialComponentType.Specific) { return; }
 
+            var onlyCurrentlyEquipped = false;
             var materialTag = spell.SpecificMaterialComponentTag;
             var requiredCost = spell.SpecificMaterialComponentCostGp;
-            var items = new List<RulesetItem>();
 
-            caster.CharacterInventory.EnumerateAllItems(items);
+            if (materialTag == TagsDefinitions.WeaponTagMelee)
+            {
+                onlyCurrentlyEquipped = true;
+                result = false;
+                failure = Gui.Format(SpellAndPowersDefinitions.FailureFlagMaterialComponentMissingSpecific,
+                    Gui.FormatTag(materialTag), Gui.FormatCostGp(requiredCost));
+            }
+
+            if (result) { return; }
+
+            var items = new List<RulesetItem>();
+            caster.CharacterInventory.EnumerateAllItems(items, !onlyCurrentlyEquipped, onlyCurrentlyEquipped);
 
             var tagsMap = new Dictionary<string, TagsDefinitions.Criticity>();
 
@@ -777,7 +821,7 @@ public static class RulesetCharacterPatcher
                 var itemItemDefinition = rulesetItem.ItemDefinition;
                 var costInGold = EquipmentDefinitions.GetApproximateCostInGold(itemItemDefinition.Costs);
 
-                if (tagsMap.ContainsKey(materialTag) && costInGold >= requiredCost)
+                if (!tagsMap.ContainsKey(materialTag) || costInGold < requiredCost)
                 {
                     continue;
                 }
@@ -852,6 +896,7 @@ public static class RulesetCharacterPatcher
         }
     }
 
+
     [HarmonyPatch(typeof(RulesetCharacter), nameof(RulesetCharacter.IsSubjectToAttackOfOpportunity))]
     [SuppressMessage("Minor Code Smell", "S101:Types should be named in PascalCase", Justification = "Patch")]
     [UsedImplicitly]
@@ -865,15 +910,18 @@ public static class RulesetCharacterPatcher
             //PATCH: allows custom exceptions for attack of opportunity triggering
             //Mostly for Sentinel feat
             __result = AttacksOfOpportunity.IsSubjectToAttackOfOpportunity(__instance, attacker, __result, distance);
-
-            var locationAttacker = GameLocationCharacter.GetFromActor(attacker);
-            var locationDefender = GameLocationCharacter.GetFromActor(__instance);
-
-            if (__result &&
-                Main.Settings.BlindedConditionDontAllowAttackOfOpportunity &&
-                !locationAttacker.CanPerceiveTarget(locationDefender))
+            
+            //PATCH: Swashbuckler Panache prevents AoO against allies
+            if (__result && attacker.TryGetConditionOfCategoryAndType(
+                AttributeDefinitions.TagEffect,
+                "ConditionRoguishSwashbucklerPanache",
+                out var panacheCondition))
             {
-                __result = false;
+                var source = EffectHelpers.GetCharacterByGuid(panacheCondition.SourceGuid);
+                if (source != null && __instance != source && __instance.Side == source.Side)
+                {
+                    __result = false;
+                }
             }
         }
     }
@@ -951,6 +999,79 @@ public static class RulesetCharacterPatcher
         }
     }
 
+    [HarmonyPatch(typeof(RulesetCharacter), nameof(RulesetCharacter.ActivePowerTerminatedSelf))]
+    [SuppressMessage("Minor Code Smell", "S101:Types should be named in PascalCase", Justification = "Patch")]
+    [UsedImplicitly]
+    public static class ActivePowerTerminatedSelf_Patch
+    {
+        [UsedImplicitly]
+        public static void Prefix(RulesetCharacter __instance, RulesetEffect activeEffect)
+        {
+            //PATCH: fixes aura powers breaking on location change - root cause is UB changes that make auto-powers refresh on RefreshAll to allow for validation on those powers 
+            __instance.autoActivatingPower = true;
+        }
+
+        [UsedImplicitly]
+        public static void Postfix(RulesetCharacter __instance, RulesetEffect activeEffect)
+        {
+            //PATCH: fixes aura powers breaking on location change - root cause is UB changes that make auto-powers refresh on RefreshAll to allow for validation on those powers 
+            __instance.autoActivatingPower = false;
+        }
+    }
+
+
+    [HarmonyPatch(typeof(RulesetCharacter), nameof(RulesetCharacter.UpdatePermanentPowersAsNeeded))]
+    [SuppressMessage("Minor Code Smell", "S101:Types should be named in PascalCase", Justification = "Patch")]
+    [UsedImplicitly]
+    public static class UpdatePermanentPowersAsNeeded_Patch
+    {
+        [UsedImplicitly]
+        public static bool Prefix(RulesetCharacter __instance)
+        {
+            //PATCH: allow power use validators to work on permanent (aura) powers
+            DoUpdatePermanentPowersAsNeeded(__instance);
+            return false;
+        }
+
+        private static void DoUpdatePermanentPowersAsNeeded(RulesetCharacter character)
+        {
+            if (character.Guid == 0UL || character.autoActivatingPower) { return; }
+
+            //PATCH: fixes aura powers breaking on location change - root cause is UB changes that make auto-powers refresh on RefreshAll to allow for validation on those powers 
+            if (!ServiceRepository.GetService<IGameLocationService>().LocationIsReady) { return; }
+
+            foreach (var usablePower in character.UsablePowers)
+            {
+                bool valid;
+                if (character.autoActivatingPower) { break; }
+
+                if (usablePower.PowerDefinition.ActivationTime == ActivationTime.Permanent)
+                {
+                    valid = character.CanUsePower(usablePower.PowerDefinition, false);
+                }
+                else if (usablePower.PowerDefinition.ActivationTime == ActivationTime.PermanentUnlessIncapacitated)
+                {
+                    valid = !character.IsIncapacitated && character.CanUsePower(usablePower.PowerDefinition, false);
+                }
+                else
+                {
+                    continue;
+                }
+
+                var powerIsActive = character.IsPowerActive(usablePower);
+
+                if (!powerIsActive && valid)
+                {
+                    character.AutoactivatePower(usablePower);
+                }
+                else if (powerIsActive && !valid)
+                {
+                    character.TerminatePower(character.GetActivePowerFromUsablePower(usablePower));
+                }
+            }
+        }
+    }
+
     [HarmonyPatch(typeof(RulesetCharacter), nameof(RulesetCharacter.UsePower))]
     [SuppressMessage("Minor Code Smell", "S101:Types should be named in PascalCase", Justification = "Patch")]
     [UsedImplicitly]
@@ -985,6 +1106,22 @@ public static class RulesetCharacterPatcher
         }
     }
 
+    [HarmonyPatch(typeof(RulesetCharacter), nameof(RulesetCharacter.RecoverMissingSlots))]
+    [SuppressMessage("Minor Code Smell", "S101:Types should be named in PascalCase", Justification = "Patch")]
+    [UsedImplicitly]
+    public static class RecoverMissingSlots_Patch
+    {
+        [UsedImplicitly]
+        public static void Prefix(RulesetCharacter __instance, Dictionary<int, int> recoveredSlots)
+        {
+            if (__instance.IsSpellPointsEnabled())
+            {
+                __instance.AddSpellPoints(recoveredSlots.Sum(e =>
+                    SpellPointsContext.SpellCostByLevel[e.Key] * e.Value));
+            }
+        }
+    }
+    
     [HarmonyPatch(typeof(RulesetCharacter), nameof(RulesetCharacter.RefreshAttributeModifiersFromConditions))]
     [SuppressMessage("Minor Code Smell", "S101:Types should be named in PascalCase", Justification = "Patch")]
     [UsedImplicitly]
@@ -1051,6 +1188,9 @@ public static class RulesetCharacterPatcher
             RulesetAttribute attribute, RulesetCharacter me, RulesetCharacter target, BaseDefinition attackMethod)
         {
             var current = attribute.CurrentValue;
+
+            //target was a gadget, skip
+            if (target is null) { return current; }
 
             me.GetSubFeaturesByType<IModifyAttackCriticalThreshold>().ForEach(m =>
                 current = m.GetCriticalThreshold(current, me, target, attackMethod));
@@ -1459,7 +1599,7 @@ public static class RulesetCharacterPatcher
             for (var i = 1; i <= sharedSpellLevel; i++)
             {
                 slots.TryAdd(i, 0);
-                slots[i] += Main.Settings.UseAlternateSpellPointsSystem
+                slots[i] += hero.IsSpellPointsEnabled()
                     ? SpellPointsContext.SpellPointsFullCastingSlots[sharedCasterLevel - 1].Slots[i - 1]
                     : SharedSpellsContext.FullCastingSlots[sharedCasterLevel - 1].Slots[i - 1];
             }
@@ -1496,81 +1636,19 @@ public static class RulesetCharacterPatcher
             ActionType actionType,
             bool canOnlyUseCantrips)
         {
-            if (__result)
-            {
-                return;
-            }
+            if (__result) { return; }
 
-            if (actionType == ActionType.Bonus &&
-                (__instance.GetOriginalHero()?.HasAnyFeature(PatronEldritchSurge.FeatureBlastReload) ?? false))
+            if (actionType != ActionType.Bonus) { return; }
+
+            if (__instance.GetOriginalHero() is not { } hero) { return; }
+
+            if (!canOnlyUseCantrips && hero.HasSmites())
             {
                 __result = true;
-
-                return;
             }
-
-            //PATCH: update usage for power pools
-            foreach (var invocation in __instance.Invocations)
+            else if (hero.HasAnyFeature(PatronEldritchSurge.FeatureBlastReload))
             {
-                var definition = invocation.InvocationDefinition;
-
-                if (definition is not InvocationDefinitionCustom)
-                {
-                    continue;
-                }
-
-                var spell = definition.GrantedSpell;
-
-                if (!spell)
-                {
-                    continue;
-                }
-
-                if (canOnlyUseCantrips && spell.spellLevel > 0)
-                {
-                    continue;
-                }
-
-                var isValid = definition
-                    .GetAllSubFeaturesOfType<IsInvocationValidHandler>()
-                    .All(v => v(__instance, definition));
-
-                if (definition.HasSubFeatureOfType<ModifyInvocationVisibility>() || !isValid)
-                {
-                    continue;
-                }
-
-                var battleActionId = spell.BattleActionId;
-
-                // ReSharper disable once SwitchStatementHandlesSomeKnownEnumValuesWithDefault
-                switch (actionType)
-                {
-                    case ActionType.Main:
-                        if (battleActionId != Id.CastMain)
-                        {
-                            continue;
-                        }
-
-                        break;
-                    case ActionType.Bonus:
-                        if (battleActionId != Id.CastBonus)
-                        {
-                            continue;
-                        }
-
-                        break;
-                    default:
-                        continue;
-                }
-
-                if (!invocation.IsAvailable(__instance))
-                {
-                    continue;
-                }
-
                 __result = true;
-
-                return;
             }
         }
     }
@@ -1720,7 +1798,7 @@ public static class RulesetCharacterPatcher
                     __instance.UsedRagePoints--;
                 }
 
-                __instance.recoveredFeatures.Add(__instance.GetFeaturesByType<FeatureDefinitionAttributeModifier>()
+                __instance.recoveredFeatures.Add(__instance.FeaturesByType<FeatureDefinitionAttributeModifier>()
                     .FirstOrDefault(attributeModifier =>
                         attributeModifier.ModifiedAttribute == AttributeDefinitions.RagePoints));
             }
@@ -1775,16 +1853,26 @@ public static class RulesetCharacterPatcher
                 var usablePower = PowerProvider.Get(PowerDruidWildShape, __instance);
                 var maxUses = __instance.GetMaxUsesOfPower(usablePower);
                 var remainingUses = __instance.GetRemainingUsesOfPower(usablePower);
+                var recover = remainingUses < maxUses;
 
-                if (remainingUses < maxUses)
+                if (recover && !simulate)
                 {
-                    if (!simulate)
-                    {
-                        usablePower.remainingUses++; // cannot call RepayUse() here as a dynamic pool
-                    }
+                    usablePower.remainingUses++; // cannot call RepayUse() here as a dynamic pool
                 }
 
-                __instance.recoveredFeatures.Add(PowerDruidWildShape);
+                //recover one Starry Form use
+                if (!simulate && __instance.GetSubclassLevel(Druid, CircleOfTheCosmos.Name) >= 3)
+                {
+                    usablePower = PowerProvider.Get(CircleOfTheCosmos.PowerStarryForm, __instance);
+                    maxUses = __instance.GetMaxUsesOfPower(usablePower);
+                    remainingUses = __instance.GetRemainingUsesOfPower(usablePower);
+                    if (remainingUses < maxUses) { usablePower.remainingUses++; }
+                }
+
+                if (recover)
+                {
+                    __instance.recoveredFeatures.Add(PowerDruidWildShape);
+                }
             }
         }
 
@@ -1989,6 +2077,30 @@ public static class RulesetCharacterPatcher
         }
     }
 
+    [HarmonyPatch(typeof(RulesetCharacter), nameof(RulesetCharacter.RefreshJumpRules))]
+    [SuppressMessage("Minor Code Smell", "S101:Types should be named in PascalCase", Justification = "Patch")]
+    [UsedImplicitly]
+    public static class RefreshJumpRules_Patch
+    {
+        [UsedImplicitly]
+        public static void Postfix(RulesetCharacter __instance)
+        {
+            try
+            {
+                if (Main.Settings.ModifyJumpRulesForArmorAndEncumberance)
+                {
+                    //adjust for encumbrance
+                    __instance.ComputeEncumbranceThresholds(out _, out _, out float maxEncumbrance);
+                    var carriedWeight = __instance.CharacterInventory.ComputeCarriedWeight();
+                    __instance.maxJumpRange = 1 + (int)Math.Floor(__instance.maxJumpRange * (1 - carriedWeight / maxEncumbrance));
+
+                }
+            }
+            catch //error happens inside computeencumrancethreshholds, we can't override maxjumprange using encumberance
+            { }
+        }
+    }
+
     [HarmonyPatch(typeof(RulesetCharacter), nameof(RulesetCharacter.RefreshUsablePower))]
     [SuppressMessage("Minor Code Smell", "S101:Types should be named in PascalCase", Justification = "Patch")]
     [UsedImplicitly]
@@ -2067,6 +2179,23 @@ public static class RulesetCharacterPatcher
         }
     }
 
+    [HarmonyPatch(typeof(RulesetCharacter), nameof(RulesetCharacter.ComputeSaveDC))]
+    [SuppressMessage("Minor Code Smell", "S101:Types should be named in PascalCase", Justification = "Patch")]
+    [UsedImplicitly]
+    public static class ComputeSaveDC_Patch
+    {
+        [UsedImplicitly]
+        public static bool Prefix(RulesetCharacter __instance, RulesetSpellRepertoire spellRepertoire, ref int __result)
+        {
+            //PATCH: fixes crash when using some custom spell scrolls
+            if (spellRepertoire != null) { return true; }
+
+            __result = 8 + __instance.TryGetProficiencyBonus();
+
+            return false;
+        }
+    }
+
     //PATCH: supports `IModifyScribeCostAndDuration`
     [HarmonyPatch(typeof(RulesetCharacter), nameof(RulesetCharacter.ComputeScribeCosts))]
     [SuppressMessage("Minor Code Smell", "S101:Types should be named in PascalCase", Justification = "Patch")]
@@ -2078,7 +2207,7 @@ public static class RulesetCharacterPatcher
         {
             EquipmentDefinitions.ComputeStandardScribeCosts(spellDefinition, costs);
 
-            foreach (var definitionMagicAffinity in __instance.GetFeaturesByType<FeatureDefinitionMagicAffinity>())
+            foreach (var definitionMagicAffinity in __instance.FeaturesByType<FeatureDefinitionMagicAffinity>())
             {
                 var costMultiplier = definitionMagicAffinity.ScribeCostMultiplier;
 
@@ -2111,7 +2240,7 @@ public static class RulesetCharacterPatcher
         {
             var scribeDurationSeconds = EquipmentDefinitions.ComputeStandardScribeDurationSeconds(spellDefinition);
 
-            foreach (var definitionMagicAffinity in __instance.GetFeaturesByType<FeatureDefinitionMagicAffinity>())
+            foreach (var definitionMagicAffinity in __instance.FeaturesByType<FeatureDefinitionMagicAffinity>())
             {
                 var durationMultiplier = definitionMagicAffinity.ScribeDurationMultiplier;
 
@@ -2246,6 +2375,39 @@ public static class RulesetCharacterPatcher
         }
     }
 
+    [HarmonyPatch(typeof(RulesetCharacter), nameof(RulesetCharacter.TerminateAllSpellsAndEffects))]
+    [SuppressMessage("Minor Code Smell", "S101:Types should be named in PascalCase", Justification = "Patch")]
+    [UsedImplicitly]
+    public static class TerminateAllSpellsAndEffects_Patch
+    {
+        [UsedImplicitly]
+        public static bool Prefix(RulesetCharacter __instance)
+        {
+            //PATCH: fixed possibility of collection being modified while iterated upon
+            TerminateAllSpellsAndEffects(__instance);
+            return false;
+        }
+
+        private static void TerminateAllSpellsAndEffects(RulesetCharacter character)
+        {
+            var spellsTopTerminate = character.SpellsCastByMe.ToList();
+            character.spellsCastByMe.Clear();
+
+            var powersToTerminate = character.powersUsedByMe.ToList();
+            character.powersUsedByMe.Clear();
+
+            foreach (var activeSpell in spellsTopTerminate)
+            {
+                character.TerminateSpell(activeSpell, false);
+            }
+
+            foreach (var activePower in powersToTerminate)
+            {
+                character.TerminatePower(activePower, false);
+            }
+        }
+    }
+
     //PATCH: implement IPreventRemoveConcentrationOnPowerUse
     [HarmonyPatch(typeof(RulesetCharacter), nameof(RulesetCharacter.TerminatePower))]
     [SuppressMessage("Minor Code Smell", "S101:Types should be named in PascalCase", Justification = "Patch")]
@@ -2283,31 +2445,8 @@ public static class RulesetCharacterPatcher
             //PATCH: support adding required power to keep a tab on spell points (SPELL_POINTS)
             SpellPointsContext.GrantPowerSpellPoints(hero);
 
-            //PATCH: support adding required action affinities to classes that can use toggles
-            if (hero.ClassesHistory.Contains(Paladin))
-            {
-                var tag = AttributeDefinitions.GetClassTag(Paladin, 1);
-
-                switch (Main.Settings.AddPaladinSmiteToggle)
-                {
-                    case true:
-                        if (!hero.HasAnyFeature(CampaignsContext.ActionAffinityPaladinSmiteToggle))
-                        {
-                            hero.ActiveFeatures[tag].Add(CampaignsContext.ActionAffinityPaladinSmiteToggle);
-                            hero.EnableToggle((Id)ExtraActionId.PaladinSmiteToggle);
-                        }
-
-                        break;
-                    case false:
-                        if (hero.HasAnyFeature(CampaignsContext.ActionAffinityPaladinSmiteToggle))
-                        {
-                            hero.ActiveFeatures[tag].Remove(CampaignsContext.ActionAffinityPaladinSmiteToggle);
-                        }
-
-                        hero.EnableToggle((Id)ExtraActionId.PaladinSmiteToggle);
-                        break;
-                }
-            }
+            //PATCH: support for 2024 Smite spells
+            Tabletop2024Context.UpdatePaladinSmite(hero);
 
             //PATCH: fix scenarios where hero doesn't have an instance of a usable power
             var featureDefinitionPowers = hero.ActiveFeatures
@@ -2642,7 +2781,7 @@ public static class RulesetCharacterPatcher
             if (effectLevel > 0)
             {
                 foreach (var featureDefinition in __instance
-                             .GetFeaturesByType<ISpellCastingAffinityProvider>()
+                             .FeaturesByType<ISpellCastingAffinityProvider>()
                              .Where(featureDefinition =>
                                  featureDefinition.PreserveSlotRoll &&
                                  featureDefinition.PreserveSlotLevelCap >= effectLevel))

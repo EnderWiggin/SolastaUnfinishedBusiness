@@ -214,6 +214,10 @@ internal static class FlankingAndHigherGround
                 new RuleDefinitions.TrendInfo(1, RuleDefinitions.FeatureSourceType.Unknown, "Feedback/&FlankingAttack",
                     null));
         }
+        else if (Main.Settings.UseOldOfficialFlankingRules)
+        {
+            actionModifier.AttackRollModifier += 2;
+        }
         else
         {
             actionModifier.AttackAdvantageTrends.Add(

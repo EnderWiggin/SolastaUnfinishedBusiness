@@ -14,7 +14,7 @@ Feature/&FeatureWeaponMasteryCleaveDescription=If you hit a creature with a mele
 Feature/&FeatureWeaponMasteryCleaveTitle=Cleave
 Feature/&FeatureWeaponMasteryGrazeDescription=If your attack roll with this weapon misses a creature, you can deal damage to that creature equal to the ability modifier you used to make the attack roll. This damage is the same type dealt by the weapon, and the damage can be increased only by increasing the ability modifier.
 Feature/&FeatureWeaponMasteryGrazeTitle=Graze
-Feature/&FeatureWeaponMasteryNickDescription=When you make the extra attack of the light property, you can make it as part of the attack action instead of as a bonus action. You can make this extra attack only once per turn.
+Feature/&FeatureWeaponMasteryNickDescription=When you make the attack with the main hand weapon and have a weapon with the Nick mastery equipped in any hand, your off-hand attack becomes free action. Works only if you have not made an off-hand attack this turn.
 Feature/&FeatureWeaponMasteryNickTitle=Nick
 Feature/&FeatureWeaponMasteryPushDescription=If you hit a creature with this weapon, you can push the creature up to 10 feet straight away from yourself if it is Large or smaller.
 Feature/&FeatureWeaponMasteryPushTitle=Push
@@ -47,4 +47,7 @@ Tooltip/&TagSapTitle=Sap
 Tooltip/&TagSlowTitle=Slow
 Tooltip/&TagToppleTitle=Topple
 Tooltip/&TagVexTitle=Vex
+Tooltip/&TagDeadlyTitle=Deadly
+Feature/&FeatureWeaponMasteryDeadlyDescription=On critical hits, the additional damage die is upgraded to the next die type.
+Feedback/&WeaponMasteryDeadlyTriggered={0} triggered {1}, upgrading {2} to {3} for {4} damage {5} + {4} = {6}
 UI/&CustomFeatureSelectionTooltipTypeWeaponMastery=Weapon Mastery Property

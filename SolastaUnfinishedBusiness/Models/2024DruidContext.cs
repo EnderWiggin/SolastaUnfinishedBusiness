@@ -28,7 +28,7 @@ using static SolastaUnfinishedBusiness.Api.DatabaseHelper;
 
 namespace SolastaUnfinishedBusiness.Models;
 
-internal static partial class Tabletop2024Context
+public static partial class Tabletop2024Context
 {
     private const string ElementalFury = "ElementalFury";
 
@@ -243,7 +243,7 @@ internal static partial class Tabletop2024Context
         var powers = new List<FeatureDefinitionPower>();
         var powerPrimalStrike = FeatureDefinitionPowerBuilder
             .Create("PowerDruidElementalFury")
-            .SetGuiPresentation(Category.Feature, hidden: true)
+            .SetGuiPresentation(Category.Feature)
             .SetShowCasting(false)
             .SetEffectDescription(
                 EffectDescriptionBuilder
@@ -253,7 +253,10 @@ internal static partial class Tabletop2024Context
                     .Build())
             .AddToDB();
 
-        powerPrimalStrike.AddCustomSubFeatures(new CustomBehaviorElementalFury(powerPrimalStrike));
+        powerPrimalStrike.AddCustomSubFeatures(
+            new CustomBehaviorElementalFury(powerPrimalStrike),
+            ModifyPowerVisibility.Hidden
+        );
 
         // ReSharper disable once LoopCanBeConvertedToQuery
         foreach (var (damageType, effect) in damageTypes)
@@ -277,6 +280,7 @@ internal static partial class Tabletop2024Context
                 .SetGuiPresentationNoContent(true)
                 .SetSilent(Silent.WhenAddedOrRemoved)
                 .SetFeatures(additionalDamageElementalFury)
+                .SetSpecialInterruptions(ConditionInterruption.Attacks)
                 .AddToDB();
 
             var damageTitle = Gui.Localize($"Tooltip/&Tag{damageType}Title");
@@ -418,6 +422,7 @@ internal static partial class Tabletop2024Context
             PowerDruidWildShape.activationTime = ActivationTime.BonusAction;
             PowerDruidWildShape.rechargeRate = RechargeRate.LongRest;
             PowerDruidWildShape.GuiPresentation.description = "Feature/&PowerDruidWildShapeAlternateDescription";
+            CircleOfTheCosmos.PowerStarryForm.rechargeRate = RechargeRate.LongRest;
         }
         else
         {
@@ -425,6 +430,7 @@ internal static partial class Tabletop2024Context
             PowerDruidWildShape.activationTime = ActivationTime.Action;
             PowerDruidWildShape.rechargeRate = RechargeRate.ShortRest;
             PowerDruidWildShape.GuiPresentation.description = "Feature/&PowerDruidWildShapeDescription";
+            CircleOfTheCosmos.PowerStarryForm.rechargeRate = RechargeRate.ShortRest;
         }
     }
 
@@ -516,23 +522,8 @@ internal static partial class Tabletop2024Context
     }
 
     private sealed class CustomBehaviorElementalFury(FeatureDefinitionPower powerElementalFury)
-        : IPhysicalAttackBeforeHitConfirmedOnEnemy, IMagicEffectBeforeHitConfirmedOnEnemy
+        : IPhysicalAttackBeforeHitConfirmedOnEnemy
     {
-        public IEnumerator OnMagicEffectBeforeHitConfirmedOnEnemy(
-            GameLocationBattleManager battleManager,
-            GameLocationCharacter attacker,
-            GameLocationCharacter defender,
-            ActionModifier actionModifier,
-            RulesetEffect rulesetEffect,
-            List<EffectForm> actualEffectForms,
-            bool firstTarget, bool criticalHit)
-        {
-            if (rulesetEffect.EffectDescription.NeedsToRollDie())
-            {
-                yield return HandleReaction(attacker, battleManager);
-            }
-        }
-
         public IEnumerator OnPhysicalAttackBeforeHitConfirmedOnEnemy(
             GameLocationBattleManager battleManager,
             GameLocationCharacter attacker,
@@ -545,10 +536,12 @@ internal static partial class Tabletop2024Context
             bool firstTarget,
             bool criticalHit)
         {
-            if (ValidatorsWeapon.IsMelee(attackMode))
+            if (attackMode?.SourceDefinition is ItemDefinition item && ValidatorsWeapon.IsUnarmed(item))
             {
-                yield return HandleReaction(attacker, battleManager);
+                yield break;
             }
+
+            yield return HandleReaction(attacker, battleManager);
         }
 
         private IEnumerator HandleReaction(GameLocationCharacter attacker, GameLocationBattleManager battleManager)

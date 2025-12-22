@@ -301,7 +301,7 @@
     "$type": "GuiPresentation, Assembly-CSharp",
     "hidden": false,
     "title": "Spell/&HuntersMarkTitle",
-    "description": "Spell/&HuntersMarkDescription",
+    "description": "Spell/&HuntersMarkExtendedDescription",
     "spriteReference": {
       "$type": "UnityEngine.AddressableAssets.AssetReferenceSprite, Unity.Addressables",
       "m_AssetGUID": "0c473f4bc671a1c48b9da157557c4d7d",

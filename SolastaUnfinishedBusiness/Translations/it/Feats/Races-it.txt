@@ -64,7 +64,7 @@ Feature/&PowerFeatOrcishAggressionTitle=Aggressione degli Orchi
 Feedback/&AdditionalDamageOrcishFuryFormat=Furia Orchesca
 Feedback/&AdditionalDamageOrcishFuryLine=La furia degli orchi infligge +{2} danni extra!
 Feedback/&BountifulLuckAttackToHitRoll={0} ha usato {1} e tira un {2} per sostituire {3} nel tiro di attacco
-Feedback/&BountifulLuckCheckToHitRoll={0} ha usato {1} e tira un {2} per sostituire {3} nel tiro di controllo
+Feedback/&BountifulLuckCheckToHitRoll={0} ha usato {1} e tira un {2} per sostituire {3} nel tiro di controllo: {4}
 Feedback/&BountifulLuckSavingToHitRoll={0} ha usato {1} e tira un {2} per sostituire {3} nel tiro salvezza
 Feedback/&DwarvenFortitudeHitDieRolled={0} ha tirato un {2} e ha curato {3} = {4}.
 Feedback/&FlamesOfPhlegethosReroll={0} usa Fiamme di Flegeto per rilanciare un dado danno magico {1} da {2} a {3}.

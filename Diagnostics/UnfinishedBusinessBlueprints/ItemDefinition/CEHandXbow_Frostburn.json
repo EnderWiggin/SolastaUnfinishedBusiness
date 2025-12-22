@@ -59,7 +59,8 @@
       "Light",
       "Range",
       "Loading",
-      "Ammunition"
+      "Ammunition",
+      "Vex"
     ],
     "effectDescription": {
       "$type": "EffectDescription, Assembly-CSharp",

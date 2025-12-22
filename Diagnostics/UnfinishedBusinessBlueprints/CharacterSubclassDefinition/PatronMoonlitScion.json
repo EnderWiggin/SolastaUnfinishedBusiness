@@ -4,12 +4,12 @@
     {
       "$type": "FeatureUnlockByLevel, Assembly-CSharp",
       "featureDefinition": "Definition:MagicAffinityMoonlitScionExpandedSpells:62150503-18fb-56b2-8c65-40ddab1868f9",
-      "level": 1
+      "level": 3
     },
     {
       "$type": "FeatureUnlockByLevel, Assembly-CSharp",
       "featureDefinition": "Definition:FeatureSetMoonlitScionLunarCloak:886aa625-0ca0-5394-a0b9-ebcd9aecae9a",
-      "level": 1
+      "level": 3
     },
     {
       "$type": "FeatureUnlockByLevel, Assembly-CSharp",

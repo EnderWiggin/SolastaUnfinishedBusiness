@@ -284,7 +284,7 @@ internal static partial class UI
     }
 
     [UsedImplicitly]
-    public static void DangerousActionButton(string title, string warning, ref bool areYouSureState, Action action)
+    public static void DangerousActionButton(string title, [CanBeNull] string warning, ref bool areYouSureState, Action action)
     {
         using (HorizontalScope())
         {
@@ -295,11 +295,18 @@ internal static partial class UI
                 Space(25f);
                 Label("Are you sure?".Yellow());
                 Space(25f);
-                ActionButton("YES".Yellow().Bold(), action);
+                ActionButton("YES".Yellow().Bold(), () =>
+                {
+                    areYouSure = false;
+                    action.Invoke();
+                });
                 Space(10f);
                 ActionButton("NO".Green(), () => areYouSure = false);
-                Space(25f);
-                Label(warning.Orange());
+                if (warning != null)
+                {
+                    Space(25f);
+                    Label(warning.Orange());
+                }
             }
 
             areYouSureState = areYouSure;
@@ -507,7 +514,7 @@ internal static partial class UI
             using (VerticalScope(AutoWidth()))
             {
                 Space((float)(SliderTop - 0).Point());
-                ActionButton("Reset", () => { newValue = defaultValue; }, AutoWidth());
+                ActionButton(Gui.Localize("ModUi/&Reset"), () => { newValue = defaultValue; }, AutoWidth());
                 Space((float)SliderBottom.Point());
             }
         }

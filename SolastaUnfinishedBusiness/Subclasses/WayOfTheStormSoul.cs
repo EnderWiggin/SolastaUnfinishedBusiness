@@ -305,7 +305,7 @@ public sealed class WayOfTheStormSoul : AbstractSubclass
                 yield break;
             }
 
-            var attackModeOff = actingCharacter.FindActionAttackMode(Id.AttackOff);
+            var attackModeOff = actingCharacter.FindActionAttackMode(Id.AttackOff)?.Clone();
 
             if (attackModeOff == null)
             {
@@ -323,6 +323,8 @@ public sealed class WayOfTheStormSoul : AbstractSubclass
                     attackModeOff,
                     new ActionModifier());
             }
+
+            attackModeOff.Return();
         }
     }
 

@@ -18,8 +18,8 @@ namespace SolastaUnfinishedBusiness.Api.Helpers;
 
 internal static class LevelUpHelper
 {
-    internal const string ExtraClassTag = ""; //""@Class";
-    internal const string ExtraSubclassTag = ""; //""@Subclass";
+    internal const string ExtraClassTag = "@Class";
+    internal const string ExtraSubclassTag = "@Subclass";
 
     // keeps a tab on all heroes leveling up
     private static readonly Dictionary<RulesetCharacterHero, LevelUpData> LevelUpTab = new();
@@ -435,7 +435,7 @@ internal static class LevelUpHelper
             return;
         }
 
-        foreach (var feature in hero.GetFeaturesByType<FeatureDefinitionAutoPreparedSpells>())
+        foreach (var feature in hero.FeaturesByType<FeatureDefinitionAutoPreparedSpells>())
         {
             var maxLevel = GetMaxAutoPrepSpellsLevel(hero, feature);
 

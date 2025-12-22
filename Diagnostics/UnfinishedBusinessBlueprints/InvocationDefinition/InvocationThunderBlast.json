@@ -1,7 +1,7 @@
 {
   "$type": "InvocationDefinition, Assembly-CSharp",
   "requiredKnownSpell": "Definition:EldritchBlast:1bc808c50803d9841be7af7314327d6d",
-  "requiredLevel": 1,
+  "requiredLevel": 2,
   "requiredPact": null,
   "grantedFeature": "Definition:FeatureInvocationThunderBlast:fd07a5eb-23d7-5ee0-9086-d18da6bb97e1",
   "grantedSpell": null,
@@ -10,7 +10,7 @@
   "overrideMaterialComponent": true,
   "guiPresentation": {
     "$type": "GuiPresentation, Assembly-CSharp",
-    "hidden": true,
+    "hidden": false,
     "title": "Invocation/&InvocationThunderBlastTitle",
     "description": "Invocation/&InvocationThunderBlastDescription",
     "spriteReference": {

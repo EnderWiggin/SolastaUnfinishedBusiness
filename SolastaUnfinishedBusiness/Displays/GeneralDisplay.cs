@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using System.Linq;
 using SolastaUnfinishedBusiness.Api.ModKit;
 using SolastaUnfinishedBusiness.Models;
@@ -141,7 +142,15 @@ internal static class ToolsDisplay
 
         using (UI.HorizontalScope())
         {
-            UI.ActionButton(Gui.Localize("ModUi/&Update"), () => UpdateContext.UpdateMod(), width);
+            if (UpdateContext.InProgress)
+            {
+                UI.ActionButton($"{UpdateContext.Progress}%", () => { }, width);
+            }
+            else
+            {
+                UI.ActionButton(Gui.Localize("ModUi/&Update"), () => UpdateContext.UpdateMod(), width);
+            }
+
             UI.ActionButton(Gui.Localize("ModUi/&Rollback"), UpdateContext.DisplayRollbackMessage, width);
             UI.ActionButton(Gui.Localize("ModUi/&Changelog"), UpdateContext.OpenChangeLog, width);
 
@@ -329,6 +338,13 @@ internal static class ToolsDisplay
 
         if (Main.Settings.UseWeaponMasterySystem)
         {
+            toggle = Main.Settings.UseWeaponMasteryMonkWayOfBlade;
+            if (UI.Toggle(Gui.Localize("ModUi/&UseWeaponMasteryMonkWayOfBlade"), ref toggle, UI.AutoWidth()))
+            {
+                Main.Settings.UseWeaponMasteryMonkWayOfBlade = toggle;
+                Tabletop2024Context.SwitchWayOfBladeWeaponMastery();
+            }
+
             toggle = Main.Settings.UseWeaponMasterySystemAddWeaponTag;
             if (UI.Toggle(Gui.Localize("ModUi/&UseWeaponMasterySystemAddWeaponTag"), ref toggle, UI.AutoWidth()))
             {
@@ -355,11 +371,20 @@ internal static class ToolsDisplay
                 Main.Settings.UseWeaponMasterySystemNickExtraAttackTriggersMastery = toggle;
             }
 
+            toggle = Main.Settings.UseWeaponMasterySystemNickDualFlurry;
+            if (UI.Toggle(Gui.Localize("ModUi/&UseWeaponMasterySystemNickDualFlurry"), ref toggle,
+                    UI.AutoWidth()))
+            {
+                Main.Settings.UseWeaponMasterySystemNickDualFlurry = toggle;
+            }
+
             toggle = Main.Settings.UseWeaponMasterySystemPushSave;
             if (UI.Toggle(Gui.Localize("ModUi/&UseWeaponMasterySystemPushSave"), ref toggle, UI.AutoWidth()))
             {
                 Main.Settings.UseWeaponMasterySystemPushSave = toggle;
             }
+
+            Tabletop2024Context.DisplayWeaponMasteryCustomization();
         }
 
         UI.Label();
@@ -738,6 +763,13 @@ internal static class ToolsDisplay
             Tabletop2024Context.SwitchPaladinSpellCastingAtOne();
         }
 
+        toggle = Main.Settings.EnablePaladinAnyFightingStyle2024;
+        if (UI.Toggle(Gui.Localize("ModUi/&EnablePaladinAnyFightingStyle2024"), ref toggle, UI.AutoWidth()))
+        {
+            Main.Settings.EnablePaladinAnyFightingStyle2024 = toggle;
+            Tabletop2024Context.SwitchPaladinAnyFightingStyle();
+        }
+
         toggle = Main.Settings.EnablePaladinChannelDivinity2024;
         if (UI.Toggle(Gui.Localize("ModUi/&EnablePaladinChannelDivinity2024"), ref toggle, UI.AutoWidth()))
         {
@@ -749,6 +781,17 @@ internal static class ToolsDisplay
         if (UI.Toggle(Gui.Localize("ModUi/&EnablePaladinSmite2024"), ref toggle, UI.AutoWidth()))
         {
             Main.Settings.EnablePaladinSmite2024 = toggle;
+            Tabletop2024Context.SwitchPaladinDivineSmite();
+        }
+
+        if (Main.Settings.EnablePaladinSmite2024)
+        {
+            toggle = Main.Settings.EnableSmiteSpells2024;
+            if (UI.Toggle(" + " + Gui.Localize("ModUi/&EnableSmiteSpells2024"), ref toggle, UI.AutoWidth()))
+            {
+                Main.Settings.EnableSmiteSpells2024 = toggle;
+                SmiteSpells2024Context.SwitchSmiteSpells();
+            }
         }
 
         toggle = Main.Settings.EnablePaladinLayOnHands2024;
@@ -831,6 +874,13 @@ internal static class ToolsDisplay
         {
             Main.Settings.EnableRangerTireless2024 = toggle;
             Tabletop2024Context.SwitchRangerTireless();
+        }
+
+        toggle = Main.Settings.EnableRangerAnyFightingStyle2024;
+        if (UI.Toggle(Gui.Localize("ModUi/&EnableRangerAnyFightingStyle2024"), ref toggle, UI.AutoWidth()))
+        {
+            Main.Settings.EnableRangerAnyFightingStyle2024 = toggle;
+            Tabletop2024Context.SwitchRangerAnyFightingStyle();
         }
 
         toggle = Main.Settings.RemoveRangerPrimevalAwareness2024;
@@ -940,6 +990,13 @@ internal static class ToolsDisplay
             Tabletop2024Context.SwitchSorcererSorcerousRestorationAtLevel5();
         }
 
+        toggle = Main.Settings.EnableSorcererDraconicBloodlineAC2024;
+        if (UI.Toggle(Gui.Localize("ModUi/&EnableSorcererDraconicBloodlineAC2024"), ref toggle, UI.AutoWidth()))
+        {
+            Main.Settings.EnableSorcererDraconicBloodlineAC2024 = toggle;
+            Tabletop2024Context.SwitchSorcererDraconicBloodlineAC();
+        }
+
         UI.Label();
         UI.Label("<color=#F0DAA0>" + Gui.Localize("Class/&WarlockTitle") + ":</color>");
         UI.Label();
@@ -1030,6 +1087,20 @@ internal static class ToolsDisplay
             Tabletop2024Context.SwitchOneDndSpellBarkskin();
         }
 
+        toggle = Main.Settings.EnableOneDndBladeWardCantrip;
+        if (UI.Toggle(Gui.Localize("ModUi/&EnableOneDndBladeWardCantrip"), ref toggle, UI.AutoWidth()))
+        {
+            Main.Settings.EnableOneDndBladeWardCantrip = toggle;
+            Tabletop2024Context.SwitchOneDndCantripBladeWard();
+        }
+
+        toggle = Main.Settings.EnableOneDndChillTouchCantrip;
+        if (UI.Toggle(Gui.Localize("ModUi/&EnableOneDndChillTouchCantrip"), ref toggle, UI.AutoWidth()))
+        {
+            Main.Settings.EnableOneDndChillTouchCantrip = toggle;
+            Tabletop2024Context.SwitchOneDndCantripChillTouch();
+        }
+
         toggle = Main.Settings.EnableOneDndDamagingSpellsUpgrade;
         if (UI.Toggle(Gui.Localize("ModUi/&EnableOneDndDamagingSpellsUpgrade"), ref toggle, UI.AutoWidth()))
         {
@@ -1049,6 +1120,23 @@ internal static class ToolsDisplay
         {
             Main.Settings.EnableOneDndDivineFavorSpell = toggle;
             Tabletop2024Context.SwitchOneDndSpellDivineFavor();
+        }
+
+        toggle = Main.Settings.EnableSmiteSpells2024;
+        if (UI.Toggle(Gui.Localize("ModUi/&EnableSmiteSpells2024"), ref toggle, UI.AutoWidth()))
+        {
+            Main.Settings.EnableSmiteSpells2024 = toggle;
+            SmiteSpells2024Context.SwitchSmiteSpells();
+        }
+
+        if (Main.Settings.EnableSmiteSpells2024)
+        {
+            toggle = Main.Settings.AddPaladinSmiteToggle;
+            if (UI.Toggle(" + " + Gui.Localize("ModUi/&AddPaladinSmiteToggle"), ref toggle, UI.AutoWidth()))
+            {
+                Main.Settings.AddPaladinSmiteToggle = toggle;
+                Global.RefreshControlledCharacter();
+            }
         }
 
         toggle = Main.Settings.EnableOneDndGuidanceSpell;
@@ -1114,6 +1202,13 @@ internal static class ToolsDisplay
             Tabletop2024Context.SwitchOneDndSpellStoneSkin();
         }
 
+        toggle = Main.Settings.EnableOneDndWitchBoltSpell;
+        if (UI.Toggle(Gui.Localize("ModUi/&EnableOneDndWitchBoltSpell"), ref toggle, UI.AutoWidth()))
+        {
+            Main.Settings.EnableOneDndWitchBoltSpell = toggle;
+            Tabletop2024Context.SwitchOneDndSpellWitchBolt();
+        }
+
         toggle = Main.Settings.EnableOneDndTrueStrikeCantrip;
         if (UI.Toggle(Gui.Localize("ModUi/&EnableOneDndTrueStrikeCantrip"), ref toggle, UI.AutoWidth()))
         {
@@ -1143,6 +1238,12 @@ internal static class ToolsDisplay
         {
             Main.Settings.SwapEvocationPotentCantripAndSculptSpell = toggle;
             WizardEvocation.SwapEvocationPotentCantripAndSculptSpell();
+        }
+
+        toggle = Main.Settings.EvocationSculptSpellNoPerception;
+        if (UI.Toggle(Gui.Localize("ModUi/&EvocationSculptSpellNoPerception"), ref toggle, UI.AutoWidth()))
+        {
+            Main.Settings.EvocationSculptSpellNoPerception = toggle;
         }
 
         toggle = Main.Settings.EnableMartialChampion2024;
@@ -1191,9 +1292,16 @@ internal static class ToolsDisplay
 
             var intValue = Main.Settings.MaxAllowedClasses;
             if (UI.Slider(Gui.Localize("ModUi/&MaxAllowedClasses"), ref intValue,
-                    2, MulticlassContext.MaxClasses, MulticlassContext.DefaultClasses, "", UI.AutoWidth()))
+                    MulticlassContext.MinClasses, MulticlassContext.MaxClasses, MulticlassContext.DefaultClasses,
+                    "", UI.AutoWidth()))
             {
-                Main.Settings.MaxAllowedClasses = intValue;
+                //For some reason Math.Clamp is not available
+                Main.Settings.MaxAllowedClasses = intValue switch
+                {
+                    < MulticlassContext.MinClasses => MulticlassContext.MinClasses,
+                    > MulticlassContext.MaxClasses => MulticlassContext.MaxClasses,
+                    _ => intValue
+                };
             }
 
             UI.Label();
@@ -1284,6 +1392,7 @@ internal static class ToolsDisplay
             Main.Settings.OfficialObscurementRulesCancelAdvDisPairs = toggle;
             Main.Settings.OfficialObscurementRulesHeavilyObscuredAsProjectileBlocker = false;
             Main.Settings.OfficialObscurementRulesMagicalDarknessAsProjectileBlocker = false;
+            Main.Settings.EnableChanceToPerceiveCloseRange = false;
             Main.Settings.OfficialObscurementRulesTweakMonsters = toggle;
             LightingAndObscurementContext.SwitchOfficialObscurementRules();
         }
@@ -1313,6 +1422,12 @@ internal static class ToolsDisplay
                 LightingAndObscurementContext.SwitchMonstersOnObscurementRules();
             }
 
+            toggle = Main.Settings.EnableChanceToPerceiveCloseRange;
+            if (UI.Toggle(Gui.Localize("ModUI/&EnableChanceToPerceiveCloseRange"), ref toggle, UI.AutoWidth()))
+            {
+                Main.Settings.EnableChanceToPerceiveCloseRange = toggle;
+            }
+
             if (Main.Settings.OfficialObscurementRulesTweakMonsters)
             {
                 UI.Label(Gui.Localize("ModUi/&OfficialObscurementRulesTweakMonstersHelp"));
@@ -1320,13 +1435,6 @@ internal static class ToolsDisplay
         }
 
         UI.Label();
-
-        toggle = Main.Settings.KeepStealthOnHeroIfPerceivedDuringSurpriseAttack;
-        if (UI.Toggle(Gui.Localize("ModUi/&KeepStealthOnHeroIfPerceivedDuringSurpriseAttack"), ref toggle,
-                UI.AutoWidth()))
-        {
-            Main.Settings.KeepStealthOnHeroIfPerceivedDuringSurpriseAttack = toggle;
-        }
 
         toggle = Main.Settings.StealthDoesNotBreakWithSubtle;
         if (UI.Toggle(Gui.Localize("ModUi/&StealthDoesNotBreakWithSubtle"), ref toggle, UI.AutoWidth()))
@@ -1352,6 +1460,20 @@ internal static class ToolsDisplay
         if (UI.Toggle(Gui.Localize("ModUi/&StealthBreaksWhenCastingVerbose"), ref toggle, UI.AutoWidth()))
         {
             Main.Settings.StealthBreaksWhenCastingVerbose = toggle;
+        }
+
+        toggle = Main.Settings.StealthBreaksWhenMoving;
+        if (UI.Toggle(Gui.Localize("ModUi/&StealthBreaksWhenMoving"), ref toggle, UI.AutoWidth()))
+        {
+            Main.Settings.StealthBreaksWhenMoving = toggle;
+        }
+
+        UI.Label();
+
+        toggle = Main.Settings.StealthRollForBreak;
+        if (UI.Toggle(Gui.Localize("ModUi/&StealthRollForBreak"), ref toggle, UI.AutoWidth()))
+        {
+            Main.Settings.StealthRollForBreak = toggle;
         }
 
         UI.Label();

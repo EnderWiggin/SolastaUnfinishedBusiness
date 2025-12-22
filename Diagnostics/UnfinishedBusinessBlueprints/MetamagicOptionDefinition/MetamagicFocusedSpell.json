@@ -8,7 +8,7 @@
   "boundFeature": null,
   "guiPresentation": {
     "$type": "GuiPresentation, Assembly-CSharp",
-    "hidden": true,
+    "hidden": false,
     "title": "Feature/&MetamagicFocusedSpellTitle",
     "description": "Feature/&MetamagicFocusedSpellDescription",
     "spriteReference": {

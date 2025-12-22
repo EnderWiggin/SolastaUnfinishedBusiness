@@ -287,7 +287,8 @@ public sealed class WizardEvocation : AbstractSubclass
             var hasAlly = false;
 
             foreach (var ally in targets
-                         .Where(x => !x.IsOppositeSide(attacker.Side) && attacker.CanPerceiveTarget(x))
+                         .Where(x => !x.IsOppositeSide(attacker.Side) 
+                             && (Main.Settings.EvocationSculptSpellNoPerception || attacker.CanPerceiveTarget(x)))
                          .ToArray())
             {
                 hasAlly = true;

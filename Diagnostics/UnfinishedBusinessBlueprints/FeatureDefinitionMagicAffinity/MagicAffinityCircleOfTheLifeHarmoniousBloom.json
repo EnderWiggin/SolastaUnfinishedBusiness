@@ -38,7 +38,10 @@
     "MassHealingWord",
     "MassCureWounds",
     "Heal",
-    "Regenerate"
+    "Regenerate",
+    "RescueTheDying",
+    "MassHeal",
+    "PowerWordHeal"
   ],
   "counterspellAffinity": "None",
   "spellsCounterAffinity": "None",

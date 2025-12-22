@@ -169,8 +169,10 @@ public static class CharacterActionUsePowerPatcher
 
             var actingCharacter = actionUsePower.ActingCharacter;
             var rulesetCharacter = actingCharacter.RulesetCharacter;
-            var actionParams = actionUsePower.ActionParams.TargetAction.ActionParams;
+            var actionParams = actionUsePower.ActionParams;
             var actionModifier = actionParams.ActionModifiers[0];
+            var targetAction = actionParams.TargetAction;
+            var targetActionParams = targetAction.ActionParams;
 
             foreach (var effectForm in actionParams.RulesetEffect.EffectDescription.EffectForms)
             {
@@ -180,13 +182,13 @@ public static class CharacterActionUsePowerPatcher
                 }
 
                 var counterForm = effectForm.CounterForm;
-                var counteredSpell = actionParams.TargetAction.ActionParams.RulesetEffect as RulesetEffectSpell;
+                var counteredSpell = targetActionParams.RulesetEffect as RulesetEffectSpell;
                 var counteredSpellDefinition = counteredSpell!.SpellDefinition;
                 var slotLevel = counteredSpell.SlotLevel;
 
                 if (counterForm.AutomaticSpellLevel >= slotLevel)
                 {
-                    actionUsePower.ActionParams.TargetAction.Countered = true;
+                    targetAction.Countered = true;
                 }
                 else if (counterForm.CheckBaseDC != 0)
                 {
@@ -244,7 +246,7 @@ public static class CharacterActionUsePowerPatcher
                         proficiencyName = "ForcedProficiency";
                     }
 
-                    var abilityCheckRoll = actingCharacter.RollAbilityCheck(
+                    var abilityCheckRoll = actingCharacter.RollAbilityCheckEx(
                         abilityScoreName,
                         proficiencyName,
                         checkDC,
@@ -254,6 +256,7 @@ public static class CharacterActionUsePowerPatcher
                         0,
                         out var outcome,
                         out var successDelta,
+                        out var rawRoll,
                         true);
 
                     var abilityCheckData = new AbilityCheckData
@@ -266,7 +269,7 @@ public static class CharacterActionUsePowerPatcher
                     };
 
                     yield return TryAlterOutcomeAttributeCheck
-                        .HandleITryAlterOutcomeAttributeCheck(actingCharacter, abilityCheckData);
+                        .HandleITryAlterOutcomeAttributeCheck(actingCharacter, abilityCheckData, rawRoll);
 
                     actionUsePower.AbilityCheckRoll = abilityCheckData.AbilityCheckRoll;
                     actionUsePower.AbilityCheckRollOutcome = abilityCheckData.AbilityCheckRollOutcome;
@@ -274,11 +277,11 @@ public static class CharacterActionUsePowerPatcher
 
                     if (counterAction.AbilityCheckRollOutcome == RollOutcome.Success)
                     {
-                        actionUsePower.ActionParams.TargetAction.Countered = true;
+                        targetAction.Countered = true;
                     }
                 }
 
-                if (!actionParams.TargetAction.Countered ||
+                if (!targetAction.Countered ||
                     rulesetCharacter.SpellCounter == null)
                 {
                     continue;
@@ -288,9 +291,9 @@ public static class CharacterActionUsePowerPatcher
 
                 rulesetCharacter.SpellCounter(
                     rulesetCharacter,
-                    actionUsePower.ActionParams.TargetAction.ActingCharacter.RulesetCharacter,
+                    targetAction.ActingCharacter.RulesetCharacter,
                     counteredSpellDefinition,
-                    actionUsePower.ActionParams.TargetAction.Countered,
+                    targetAction.Countered,
                     unknown);
             }
         }

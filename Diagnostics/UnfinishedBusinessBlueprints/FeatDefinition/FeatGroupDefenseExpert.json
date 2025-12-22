@@ -14,7 +14,7 @@
   "features": [],
   "guiPresentation": {
     "$type": "GuiPresentation, Assembly-CSharp",
-    "hidden": true,
+    "hidden": false,
     "title": "Feat/&FeatGroupDefenseExpertTitle",
     "description": "Increase one of your mental attributes by 1, to a maximum of 20.\nWhile you are not wearing any armor, your AC is equal to 10 + your Dexterity modifier + the selected mental attribute modifier.",
     "spriteReference": {

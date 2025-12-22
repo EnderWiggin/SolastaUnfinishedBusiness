@@ -57,7 +57,8 @@
     "closeRange": 5,
     "maxRange": 5,
     "weaponTags": [
-      "Light"
+      "Light",
+      "Slow"
     ],
     "effectDescription": {
       "$type": "EffectDescription, Assembly-CSharp",

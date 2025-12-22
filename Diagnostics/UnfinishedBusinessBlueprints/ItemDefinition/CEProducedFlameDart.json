@@ -47,7 +47,8 @@
     "maxRange": 12,
     "weaponTags": [
       "Finesse",
-      "Thrown"
+      "Thrown",
+      "Cleave"
     ],
     "effectDescription": {
       "$type": "EffectDescription, Assembly-CSharp",

@@ -128,7 +128,7 @@ internal static class SharedSpellsContext
     {
         var warlockLevel = GetWarlockCasterLevel(rulesetCharacterHero);
         var warlockAdditionalSlots = rulesetCharacterHero
-            .GetFeaturesByType<FeatureDefinitionMagicAffinity>()
+            .FeaturesByType<FeatureDefinitionMagicAffinity>()
             .Where(x => x == DatabaseHelper.FeatureDefinitionMagicAffinitys
                 .MagicAffinityChitinousBoonAdditionalSpellSlot)
             .SelectMany(x => x.AdditionalSlots)
@@ -199,7 +199,7 @@ internal static class SharedSpellsContext
     {
         var sharedCasterLevel = GetSharedCasterLevel(rulesetCharacterHero);
 
-        if (Main.Settings.UseAlternateSpellPointsSystem)
+        if (rulesetCharacterHero.IsSpellPointsEnabled())
         {
             return sharedCasterLevel > 0
                 ? SpellPointsContext.SpellPointsFullCastingSlots[sharedCasterLevel - 1].Slots.IndexOf(0)

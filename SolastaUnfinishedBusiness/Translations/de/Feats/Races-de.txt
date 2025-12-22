@@ -64,7 +64,7 @@ Feature/&PowerFeatOrcishAggressionTitle=Orkische Aggression
 Feedback/&AdditionalDamageOrcishFuryFormat=Orkische Wut
 Feedback/&AdditionalDamageOrcishFuryLine=Orcish Fury verursacht zusätzlichen +{2} Schaden!
 Feedback/&BountifulLuckAttackToHitRoll={0} hat {1} verwendet und würfelt eine {2}, um {3} beim Angriffswurf zu ersetzen.
-Feedback/&BountifulLuckCheckToHitRoll={0} hat {1} verwendet und würfelt eine {2}, um {3} beim Kontrollwurf zu ersetzen.
+Feedback/&BountifulLuckCheckToHitRoll={0} hat {1} verwendet und würfelt eine {2}, um {3} beim Kontrollwurf zu ersetzen: {4}.
 Feedback/&BountifulLuckSavingToHitRoll={0} hat {1} verwendet und würfelt beim Rettungswurf eine {2}, um {3} zu ersetzen
 Feedback/&DwarvenFortitudeHitDieRolled={0} hat eine {2} gewürfelt und {3} = {4} geheilt.
 Feedback/&FlamesOfPhlegethosReroll={0} verwendet die Flammen des Phlegethos, um einen {1} magischen Schadenswürfel von {2} auf {3} neu zu würfeln.

@@ -81,4 +81,15 @@ internal static class CustomizedSubFeatureDefinitions
     {
         return definition.GetFirstSubFeatureOfType<T>() != null;
     }
+
+    internal static void SetSubFeatureOfType<T>(this BaseDefinition definition, [CanBeNull] object feature)
+        where T : class
+    {
+        var features = feature == null ? GetForKey(definition) : GetOrCreateForKey(definition);
+
+        //first try removing all existing features of this type
+        features?.RemoveAll(x => x.GetType() == typeof(T));
+        //try adding new one
+        if (feature != null) { features?.Add(feature); }
+    }
 }

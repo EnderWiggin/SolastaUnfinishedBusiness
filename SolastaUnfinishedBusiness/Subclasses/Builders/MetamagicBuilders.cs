@@ -528,7 +528,8 @@ internal static class MetamagicBuilders
         {
             var rulesetHelper = helper.RulesetCharacter;
 
-            if (action.AttackRollOutcome is not (RollOutcome.Failure or RollOutcome.CriticalFailure) ||
+            if (rulesetEffect == null ||
+                action.AttackRollOutcome is not (RollOutcome.Failure or RollOutcome.CriticalFailure) ||
                 helper != attacker ||
                 !helper.IsActionOnGoing(ActionDefinitions.Id.MetamagicToggle) ||
                 rulesetHelper.RemainingSorceryPoints < 2)

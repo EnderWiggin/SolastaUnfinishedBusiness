@@ -4,17 +4,17 @@
     {
       "$type": "FeatureUnlockByLevel, Assembly-CSharp",
       "featureDefinition": "Definition:FeatureSetSorcerousSorrAkkathDeceptiveHeritage:18a1678e-0ddf-5f83-b90c-11897aaf8f58",
-      "level": 1
+      "level": 3
     },
     {
       "$type": "FeatureUnlockByLevel, Assembly-CSharp",
       "featureDefinition": "Definition:AutoPreparedSpellsSorcerousSorrAkkath:69e68551-b66c-58c9-b55f-1901861ebc0d",
-      "level": 1
+      "level": 3
     },
     {
       "$type": "FeatureUnlockByLevel, Assembly-CSharp",
       "featureDefinition": "Definition:AdditionalDamageSorcerousSorrAkkathSpellSneakAttack:119433d7-d2fd-5f8f-a842-fdf14bb65ab7",
-      "level": 1
+      "level": 3
     },
     {
       "$type": "FeatureUnlockByLevel, Assembly-CSharp",

@@ -7,6 +7,16 @@ namespace SolastaUnfinishedBusiness.Api.GameExtensions;
 
 internal static class EffectDescriptionExtensions
 {
+    public static EffectForm WithSavingThrow(this EffectForm effect, EffectSavingThrowType savingThrowAffinity,
+        TurnOccurenceType saveOccurence = TurnOccurenceType.EndOfTurn, bool canSaveToCancel = false)
+    {
+        effect.HasSavingThrow = true;
+        effect.SavingThrowAffinity = savingThrowAffinity;
+        effect.SaveOccurence = saveOccurence;
+        effect.CanSaveToCancel = canSaveToCancel;
+        return effect;
+    }
+
     public static DamageForm FindFirstNonNegatedDamageFormOfType(this EffectDescription effect, bool canForceHalfDamage,
         List<string> types)
     {

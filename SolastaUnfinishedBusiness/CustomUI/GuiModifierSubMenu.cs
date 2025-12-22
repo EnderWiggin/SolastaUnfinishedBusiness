@@ -24,21 +24,22 @@ internal class GuiModifierSubMenu : GuiModifier
 
         _header = table.GetChild(num - 1).GetComponent<RectTransform>();
         _headerSize = _header.sizeDelta;
-        _headerPosition = _header.position;
+        _headerPosition = _header.localPosition;
         _maxHeaderWidth = headerWidth;
 
         for (var i = 0; i < table.childCount - 1; i++)
         {
-            _itemPositions.Add(table.GetChild(i).GetComponent<RectTransform>().position);
+            _itemPositions.Add(table.GetChild(i).GetComponent<RectTransform>().localPosition);
         }
     }
 
     public override void InterpolateAndApply(float ratio)
     {
-        var headerWidth = Mathf.Lerp(_headerSize.x, _maxHeaderWidth, (float)Math.Sqrt(ratio));
+        var sqrt = (float)Math.Sqrt(ratio);
+        var headerWidth = Mathf.Lerp(_headerSize.x, _maxHeaderWidth, sqrt);
 
         _header.sizeDelta = new Vector2(headerWidth, _headerSize.y);
-        _header.position = _headerPosition + new Vector3((_headerSize.x - headerWidth) / 2, 0, 0);
+        _header.localPosition = _headerPosition + new Vector3((_headerSize.x - headerWidth) / 2, 0);
 
         var num = _featTable.childCount;
 
@@ -48,10 +49,10 @@ internal class GuiModifierSubMenu : GuiModifier
             var rect = _featTable.GetChild(i).GetComponent<RectTransform>();
             var pos = _itemPositions[i];
 
-            rect.position = new Vector3(pos.x, Mathf.Lerp(_headerPosition.y, pos.y, r), 0);
+            rect.localPosition = new Vector3(pos.x, Mathf.Lerp(_headerPosition.y, pos.y, r));
         }
 
-        _background.color = new Color(0, 0, 0, 0.65f * ratio);
+        _background.color = new Color(0, 0, 0, 0.85f * sqrt);
     }
 
 

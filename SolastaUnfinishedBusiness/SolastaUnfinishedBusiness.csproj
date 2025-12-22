@@ -1,12 +1,12 @@
-<Project Sdk="Microsoft.NET.Sdk" InitialTargets="CheckEnvironmentVars">
+﻿<Project Sdk="Microsoft.NET.Sdk" InitialTargets="CheckEnvironmentVars">
 
   <PropertyGroup>
     <LangVersion>13</LangVersion>
     <TargetFramework>net481</TargetFramework>
-    <AssemblyVersion>1.5.97.45</AssemblyVersion>
+    <AssemblyVersion>1.5.97.118</AssemblyVersion>
     <RepositoryUrl>https://github.com/SolastaMods/SolastaUnfinishedBusiness</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
-    <Configurations>Debug Install;Release Install</Configurations>
+    <Configurations>Debug Install;Release Install;Release Workflow</Configurations>
     <EnforceCodeStyleInBuild>True</EnforceCodeStyleInBuild>
     <EnableNETAnalyzers>True</EnableNETAnalyzers>
     <AnalysisLevel>latest</AnalysisLevel>
@@ -18,15 +18,24 @@
   </PropertyGroup>
 
   <Target Name="CheckEnvironmentVars">
-    <Error Text="Please set the SolastaInstallDir environment variable." Condition="'$(SolastaInstallDir)' == ''" ContinueOnError="false"/>
+    <Error Text="Please set the SolastaInstallDir environment variable." Condition="'$(SolastaInstallDir)' == ''" ContinueOnError="false" />
   </Target>
 
   <Target Name="Publicise" AfterTargets="Clean">
     <ItemGroup>
-      <PubliciseInputAssemblies Include="$(SolastaInstallDir)/Solasta_Data/Managed/Assembly-CSharp.dll"/>
+      <PubliciseInputAssemblies Include="$(SolastaInstallDir)/Solasta_Data/Managed/Assembly-CSharp.dll" />
     </ItemGroup>
-    <Publicise AssemblyPath="@(PubliciseInputAssemblies)" OutputPath="$(SolutionDir)lib/"/>
+    <Publicise AssemblyPath="@(PubliciseInputAssemblies)" OutputPath="$(SolutionDir)lib/" />
+    <Copy SourceFiles="$(SolutionDir)lib/Assembly-CSharp_public.dll" DestinationFiles="$(ProjectDir)/Assembly-CSharp.dll" />
   </Target>
+
+  <ItemGroup>
+    <Compile Remove="Subclasses\MartialShadeKnight.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Subclasses\MartialShadeKnight.cs" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Publicise.MSBuild.Task" Version="1.6.0">
@@ -49,7 +58,7 @@
     <DebugType>full</DebugType>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Install|AnyCPU'">
+  <PropertyGroup Condition="('$(Configuration)'=='Release Install' or '$(Configuration)'=='Release Workflow')">
     <Optimize>true</Optimize>
     <DefineConstants>$(DefineConstants);RELEASE</DefineConstants>
     <PlatformTarget>x64</PlatformTarget>
@@ -57,10 +66,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Reference Include="System.Collections"/>
-    <Reference Include="System.IO.Compression"/>
-    <Reference Include="System.Web"/>
-    <Reference Include="System.Web.Extensions"/>
+    <Reference Include="System.Collections" />
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
     <Reference Include="0Harmony">
       <HintPath>$(SolastaInstallDir)/Solasta_Data/Managed/UnityModManager/0Harmony.dll</HintPath>
       <Private>false</Private>
@@ -127,6 +136,10 @@
     </Reference>
     <Reference Include="UnityEngine.AssetBundleModule">
       <HintPath>$(SolastaInstallDir)/Solasta_Data/Managed/UnityEngine.AssetBundleModule.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="UnityEngine.AnimationModule">
+      <HintPath>$(SolastaInstallDir)/Solasta_Data/Managed/UnityEngine.AnimationModule.dll</HintPath>
       <Private>false</Private>
     </Reference>
     <Reference Include="UnityEngine.AudioModule">
@@ -237,18 +250,23 @@
       <HintPath>$(SolastaInstallDir)/Solasta_Data/Managed/Cinemachine.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="System.Net.Http">
+      <HintPath>$(SolastaInstallDir)/Solasta_Data/Managed/System.Net.Http.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
   </ItemGroup>
 
-  <Target Name="ZipTranslations" BeforeTargets="Build;Clean">
-    <ZipDirectory Overwrite="true" SourceDirectory="$(ProjectDir)/Translations/" DestinationFile="$(ProjectDir)/Resources/Translations.zip"/>
+  <Target Name="ZipTranslations" BeforeTargets="PreBuildEvent" Condition="('$(Configuration)' == 'Release' Or '$(Configuration)' == 'Release Install' Or '$(Configuration)' == 'Release Workflow')">
+<!--    <Exec Command="call ApplyTranslations.bat" />-->
+    <ZipDirectory Overwrite="true" SourceDirectory="$(ProjectDir)/Translations/" DestinationFile="$(ProjectDir)/Resources/Translations.zip" />
   </Target>
 
-  <ItemGroup Condition="('$(Configuration)|$(Platform)' == 'Release|AnyCPU' Or '$(Configuration)|$(Platform)' == 'Release Install|AnyCPU')">
-    <Compile Remove="Api/DatabaseHelper.cs"/>
+  <ItemGroup Condition="('$(Configuration)' == 'Release' Or '$(Configuration)' == 'Release Install' Or '$(Configuration)' == 'Release Workflow')">
+    <Compile Remove="Api/DatabaseHelper.cs" />
   </ItemGroup>
 
-  <ItemGroup Condition="('$(Configuration)|$(Platform)' == 'Debug|AnyCPU' Or '$(Configuration)|$(Platform)' == 'Debug Install|AnyCPU')">
-    <Compile Remove="Api/DatabaseHelper-RELEASE.cs"/>
+  <ItemGroup Condition="('$(Configuration)' == 'Debug' Or '$(Configuration)' == 'Debug Install')">
+    <Compile Remove="Api/DatabaseHelper-RELEASE.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -286,4 +304,12 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
+
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent" Condition="('$(Configuration)|$(Platform)' == 'Release|AnyCPU' Or '$(Configuration)|$(Platform)' == 'Release Install|AnyCPU')">
+    <Exec Command="call ZipRelease.bat" />
+  </Target>
+
+  <Target Name="PreBuild" BeforeTargets="PreBuildEvent" Condition=" Exists('obj\Release Install\SolastaUnfinishedBusiness.zip') ">
+    <Exec Command="del &quot;obj\Release Install\SolastaUnfinishedBusiness.zip&quot;" />
+  </Target>
 </Project>

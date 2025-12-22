@@ -6,10 +6,15 @@ ModUi/&AddCustomIconsToOfficialItems=Add custom icons to official game items <i>
 ModUi/&AddDarknessPerceptiveToDarkRaces=Enable <color=#D89555>Darkness Perceptive</color> on <color=#D89555>Darkelf</color>, <color=#D89555>Dark Kobold</color>, and <color=#D89555>Gray Dwarf</color> <i><color=#F0DAA0>\n[grants advantage on perception checks when unlit or under magical darkness]</color></i>
 ModUi/&AddDexModifierToEnemiesInitiativeRoll=Add DEX modifier to enemies <color=#D89555>Initiative Roll</color>
 ModUi/&AddHumanoidFavoredEnemyToRanger=Enable <color=#D89555>Humanoid</color> preferred enemies <b><i><color=#C04040E0>[Requires Restart]</color></i></b>
+ModUi/&AddNewScrollsToShops=Add scrolls for new spells to appropriate shops <b><i><color=#C04040E0>[Requires Restart]</color></i></b>
+ModUi/&AddNewScrollsToTreasure=Add scrolls for new spells to appropriate treasure packs <b><i><color=#C04040E0>[Requires Restart]</color></i></b>
 ModUi/&AddNewWeaponsAndRecipesToShops=Add new weapons and recipes to shops <i><color=#F0DAA0>[hand wraps, halberds, pikes, long maces, hand crossbows]</color></i> <b><i><color=#C04040E0>[Requires Restart]</color></i></b>
-ModUi/&AddPaladinSmiteToggle=Add a toggle to allow <color=#D89555>Paladins</color> to only enable smites on critical hits <i><color=#F0DAA0>[useful to minimize reaction prompts]</color></i>
+ModUi/&NewWeaponsAndRecipesBaseInsteadOfPrimed=<i>+ Use base weapons and armor as ingredients instead of Primed versions</i> <b><i><color=#C04040E0>[Requires Restart]</color></i></b>
+ModUi/&NewWeaponsAndRecipesSimplified=<i>+ Use simple all-in-one recipes <color=#F0DAA0>[base ingredients only, does not affect custom items from campaigns]</color></i> <b><i><color=#C04040E0>[Requires Restart]</color></i></b>
+ModUi/&AddPaladinSmiteToggle=Add a toggle to allow <color=#D89555>Divine Smite</color> to only trigger on critical hits <i><color=#F0DAA0>[minimizes reaction prompts, applies to smite spells if 2024 smite spells are enabled]</color></i>
 ModUi/&AddPickPocketableLoot=Add pickpocketable loot <i><color=#F0DAA0>[suggested if <color=#D89555>Pickpocket</color> feat is enabled]</color></i>
-ModUi/&AddToStore=Add {0}
+ModUi/&EnemySpellcastersDropScribedSpellbooks=Enemy spellcasters drop scribed spellbooks <i><color=#F0DAA0>[contains their known spells from the wizard list]</color></i>
+ModUi/&AddToStore=Add {0} 
 ModUi/&Advanced=<color=#F0DAA0>Advanced:</color> <b><i><color=#C04040E0>[Requires Restart]</color></i></b>
 ModUi/&AdvancedHelp=• <b><color=#C04040E0>ATTENTION:</color></b> These settings will require the player to have this mod installed
 ModUi/&AllowAllPlayersOnNarrativeSequences=<i>+ Allow all players on narrative sequences</i>
@@ -34,7 +39,7 @@ ModUi/&BackgroundsAndRaces=Backgrounds & Races
 ModUi/&Basic=<color=#F0DAA0>Basic:</color>
 ModUi/&Bestiary=Bestiary
 ModUi/&BestowCurseNoConcentrationRequiredForSlotLevel5OrAbove=<color=#D89555>Bestow Curse</color> does not require concentration when cast with a L5+ spell slot
-ModUi/&BlindedConditionDontAllowAttackOfOpportunity=Enable no attacks of opportunity when <color=#D89555>Blinded</color> or if target is <color=#D89555>Invisible</color>
+ModUi/&BlindedConditionDontAllowAttackOfOpportunity=Prevent attacks of opportunity when target is not perceived
 ModUi/&Blueprints=Blueprints
 ModUi/&Campaigns=Campaigns
 ModUi/&Category=Category
@@ -56,6 +61,7 @@ ModUi/&CriticalOption0=<color=#D89555><b>0</b></color>: game default, roll any d
 ModUi/&CriticalOption1=<color=#D89555><b>1</b></color>: sum the maximum result for the damage dice and add it to the attack's damage <i><color=#F0DAA0>[XdY+(X*Y)+Z]</color></i>
 ModUi/&CriticalOption2=<color=#D89555><b>2</b></color>: keep re-rolling any damage dice that roll the highest possible result and add it to the total damage
 ModUi/&CriticalOption3=<color=#D89555><b>3</b></color>: Double your attack's total damage instead of rolling additional dice. <i><color=#F0DAA0>[(XdY+Z)*2]</color></i>
+ModUI/&EnableCriticalHitsMissesAt10=Enable critical hits and misses when the difference between the AC and modified attack roll result is 10 or greater
 ModUi/&DisableAutoEquip=Disable auto-equip of items in inventory
 ModUi/&DisableCastSpellPreRequisitesOnModFeats=Disable cast spell pre-requisites on mod <color=#D89555>feats</color> <b><i><color=#C04040E0>[Requires Restart]</color></i></b>
 ModUi/&DisableClassPrerequisitesOnModFeats=Disable level pre-requisites on <color=#D89555>feats</color>
@@ -134,7 +140,7 @@ ModUi/&EnableDruidWildshape2024=Swap <color=#D89555>Wild Shape</color> with 2024
 ModUi/&EnableDungeonMakerModdedContent=Enable Dungeon Maker Pro\n<i><color=#F0DAA0>[include flat rooms, 150x150 & 200x200 dungeon sizes and no frills mixing assets from all environments]</color></i>
 ModUi/&EnableElevationCameraToStayAtPosition=<i>+ Enable elevation camera during battle to stay at position after disabled and triple its range</i>
 ModUi/&EnableEpicPointsAndArray=Enable an epic 35 points buy system and array <i><color=#F0DAA0>[17,15,13,12,10,8]</color></i> <b><i><color=#C04040E0>[Requires Restart]</color></i></b>
-ModUi/&EnableExtendedProficienciesPanelDisplay=Enable extended proficiencies panel display <i><color=#F0DAA0>[Arcane Shots, Infusions, Maneuvers, and Versatilities]</color></i>\n<b><i><color=#C04040E0>[performance hit on character inspection. use at your own risk]</color></i></b>
+ModUi/&EnableExtendedProficienciesPanelDisplay=Enable extended proficiencies panel display <i><color=#F0DAA0>[{0}]</color></i>\n<b><i><color=#C04040E0>[performance hit on character inspection. use at your own risk]</color></i></b>
 ModUi/&EnableFeatsAtEvenLevels=Enable <color=#D89555>feats</color> selection at levels 2, 10 and 18
 ModUi/&EnableFeatsAtEvenLevelsMiddle=Enable <color=#D89555>feats</color> selection at levels 6 and 14
 ModUi/&EnableFighterIndomitableSaving2024=Swap <color=#D89555>Indomitable Resistance</color> with 5e 2024 version <i><color=#F0DAA0>[add the class level as a bonus to the saving throw reroll]</color></i>
@@ -173,7 +179,10 @@ ModUi/&EnableMonkStunningStrike2024=Swap <color=#D89555>Stunning Strike</color> 
 ModUi/&EnableMonkSuperiorDefense2024=Enable <color=#D89555>Superior Defense</color> to replace <color=#D89555>Empty Body</color> at level 18 <i><color=#F0DAA0>[resistance to damage]</color></i>
 ModUi/&EnableMonkUncannyMetabolism2024=Enable <color=#D89555>Uncanny Metabolism</color> at level 2 <i><color=#F0DAA0>[recover Ki and HP on initiative roll]</color></i>
 ModUi/&EnableMulticlass=Enable <color=#D89555>multiclass</color> <b><i><color=#C04040E0>[Requires Restart]</color></i></b>
+ModUI/&SwapShineCantrip=Enable Shine DC 15
 ModUi/&EnableOneDndBarkskinSpell=Enable <color=#D89555>Barkskin</color> 5e 2024 spell version <i><color=#F0DAA0>[bonus action, no concentration, AC set to 17]</color></i>
+ModUi/&EnableOneDndBladeWardCantrip=Enable <color=#D89555>Blade Ward</color> cantrip 5e 2024 version <i><color=#F0DAA0>[1 minute concentration, attackers subtract 1d4 from attack rolls]</color></i>
+ModUi/&EnableOneDndChillTouchCantrip=Enable <color=#D89555>Chill Touch</color> 5e 2024 cantrip version <i><color=#F0DAA0>[damage die D10 instead of D8, melee hit instead of 24 range]</color></i>
 ModUi/&EnableOneDndDamagingSpellsUpgrade=Enable <color=#D89555>Arcane Sword</color>, <color=#D89555>Circle of Death</color>, <color=#D89555>Flame Strike</color>, <color=#D89555>Ice Storm</color>, <color=#D89555>Prismatic Spray</color>. and <color=#D89555>Vicious Mockery</color> 5e 2024 spells version <i><color=#F0DAA0>[better damage]</color></i>
 ModUi/&EnableOneDndDivineFavorSpell=Enable <color=#D89555>Divine Favor</color> 5e 2024 spell version <i><color=#F0DAA0>[no concentration]</color></i>
 ModUi/&EnableOneDndGuidanceSpell=Enable <color=#D89555>Guidance</color> 5e 2024 spell version <i><color=#F0DAA0>[choose one skill at casting and get bonus for up to 1 minute]</color></i>
@@ -187,13 +196,16 @@ ModUi/&EnableOneDndSpareTheDyingSpell=Enable <color=#D89555>Spare the Dying</col
 ModUi/&EnableOneDndSpiderClimbSpell=Enable <color=#D89555>Spider Climb</color> 5e 2024 spell version <i><color=#F0DAA0>[+1 target per upcast]</color></i>
 ModUi/&EnableOneDndStoneSkinSpell=Enable <color=#D89555>Stone Skin</color> 5e 2024 spell version <i><color=#F0DAA0>[provides resistance to magical B/P/S as well]</color></i>
 ModUi/&EnableOneDndTrueStrikeCantrip=Enable <color=#D89555>True Strike</color> 5e 2024 cantrip version <b><i><color=#C04040E0>[Requires Restart]</color></i></b>\n<i><color=#F0DAA0>[attack uses your spellcasting ability for the attack roll and damage bonus, and additional radiant damage from level 5]</color></i>
+ModUi/&EnableOneDndWitchBoltSpell=Enable <color=#D89555>Witch Bolt</color> 5e 2024 spell version <i><color=#F0DAA0>[Bonus Action to re-apply damage]</color></i>
 ModUi/&EnablePaladinAbjureFoes2024=Enable <color=#D89555>Abjure Foes</color> at level 9
 ModUi/&EnablePaladinChannelDivinity2024=Swap <color=#D89555>Channel Divinity</color> with 5e 2024 version <i><color=#F0DAA0>[different usages]</color></i>
 ModUi/&EnablePaladinLayOnHands2024=Swap <color=#D89555>Lay on Hands</color> with 5e 2024 version <i><color=#F0DAA0>[bonus action]</color></i>
 ModUi/&EnablePaladinRestoreLevel20Feature=Enable <color=#D89555>Level 20</color> subclass powers to recharge with a level 5 slot
 ModUi/&EnablePaladinRestoringTouch2024=Enable <color=#D89555>Restoring Touch</color> to replace <color=#D89555>Cleansing Touch</color> at level 14
-ModUi/&EnablePaladinSmite2024=Swap <color=#D89555>Divine Smite</color> with 5e 2024 version <i><color=#F0DAA0>[bonus action]</color></i>
+ModUi/&EnablePaladinSmite2024=Swap <color=#D89555>Divine Smite</color> with 5e 2024 version <i><color=#F0DAA0>[bonus action spell that triggers on hit]</color></i>
+ModUi/&EnableSmiteSpells2024=Swap Smite Spells with 5e 2024 version <i><color=#F0DAA0>[trigger on hit and not require concentration]</color></i>
 ModUi/&EnablePaladinSpellCastingAtLevel1=Enable <color=#D89555>spellcasting</color> at level 1 instead of 2
+ModUi/&EnablePaladinAnyFightingStyle2024=Enable <color=#D89555>Paladin</color> to choose any fighting style <i><color=#F0DAA0>[adds Archery and Two-Weapon Fighting]</color></i>
 ModUi/&EnablePcgRandom=Enable a better random generator algorithm <i><color=#F0DAA0>[https://www.pcg-random.org]</color></i>
 ModUi/&EnablePoisonsBonusAction2024=Enable applying <color=#D89555>Poisons</color> to weapons as a bonus action
 ModUi/&EnablePotionsBonusAction2024=Enable drinking <color=#D89555>Potions</color> as a bonus action
@@ -212,6 +224,7 @@ ModUi/&EnableRangerRelentlessHunter2024AsNoConcentration=<i>+ Remove concentrati
 ModUi/&EnableRangerRoving2024=Enable <color=#D89555>Roving</color> at level 6 <i><color=#F0DAA0>[get 10ft movement when not using Heavy Armor, and same climb speed]</color></i>
 ModUi/&EnableRangerSpellCastingAtLevel1=Enable <color=#D89555>spellcasting</color> at level 1 instead of 2
 ModUi/&EnableRangerTireless2024=Enable <color=#D89555>Tireless</color> to replace <color=#D89555>Hide in Plain Sight</color> at level 10 <i><color=#F0DAA0>[get temporary hit points]</color></i>
+ModUi/&EnableRangerAnyFightingStyle2024=Enable <color=#D89555>Ranger</color> to choose any fighting style <i><color=#F0DAA0>[adds Great Weapon Fighting and Protection]</color></i>
 ModUi/&EnableRelearnSpells=Enable selection of cantrips or spells already learned from other sources
 ModUi/&EnableRespecAction=Enable the <color=#D89555>RESPEC</color> after rest action <i><color=#F0DAA0>[don't use RESPEC during a multiplayer session]</color></i>
 ModUi/&EnableRitualOnAllCasters2024=Enable <color=#D89555>Ritual</color> casting on all casters
@@ -224,6 +237,7 @@ ModUi/&EnableRogueStrSaving=Enable <b>Hoodlum</b> DEX or STR modifiers on <color
 ModUi/&EnableScimitarSpecialization=Grant Scimitar <color=#D89555>Weapon Specialization</color>
 ModUi/&EnableSignatureSpellsRelearn=Enable <color=#D89555>Signature Spells</color> to be prepared every long rest <i><color=#F0DAA0>[instead of once at level 20]</color></i>
 ModUi/&EnableSorcererArcaneApotheosis2024=Enable <color=#D89555>Arcane Apotheosis</color> to replace <color=#D89555>Sorcerous Restoration</color> at level 20
+ModUi/&EnableSorcererDraconicBloodlineAC2024=Enable 2024 version of <color=#D89555>Draconic Resilience</color> from <color=#D89555>Draconic Bloodline</color>  <i><color=#F0DAA0>[10+DEX+CHA instead of 13+DEX]</color></i>
 ModUi/&EnableSorcererInnateSorcery2024=Enable <color=#D89555>Innate Sorcery</color> and <color=#D89555>Sorcery Incarnate</color> at levels 1 and 7
 ModUi/&EnableSorcererMagicalGuidance=Enable <color=#D89555>Magical Guidance</color> at level 5
 ModUi/&EnableSorcererMetamagic2024=Enable <color=#D89555>Metamagic</color> at level 2 instead of 3
@@ -259,6 +273,7 @@ ModUi/&EnablesAsiAndFeat=Enable both attribute scores increase and <color=#D8955
 ModUi/&EncounterPercentageChance=<color=white>Set random encounters percentage chances</color>
 ModUi/&Encounters=Encounters
 ModUi/&EnemiesAlwaysRollInitiative=<i>+ Enemies always roll initiative instead of a forced value <color=#F0DAA0>[i.e: Sorak Assassin]</color></i>
+ModUi/&EvocationSculptSpellNoPerception=Make <b>Evoker</b> <color=#D89555>Sculpt Spells</color> not require perceiving allies
 ModUi/&ExpandAll=Expand All
 ModUi/&FactionHelp=<color=#C04040E0>Load an official campaign game to modify faction relations...</color>
 ModUi/&FactionRelations=<color=#F0DAA0>Factions:</color>
@@ -286,6 +301,7 @@ ModUi/&General=<color=#F0DAA0>General:</color>
 ModUi/&GeneralMenu=General
 ModUi/&GridSelectedColor=Change the movement <b><color=$$$$$$>grid color</color></b>
 ModUi/&HideExitAndTeleporterGizmosIfNotDiscovered=Hide exits and teleporters visual effects if not discovered yet
+ModUi/&EnableOutOfCombatTargetingSightLines=Enable sight lines towards visible enemies when targeting out-of-combat
 ModUi/&HideMonsterHitPoints=Display Monsters' health in steps of 25% / 50% / 75% / 100% instead of exact hit points
 ModUi/&HideQuickenedActionWhenMetamagicOff=<i>+ Hide this action when metamagic toggle is off</i>
 ModUi/&HighContrastTargetingAoeColor=Change AoE creatures <b><color=$$$$$$>highlight select color</color></b>
@@ -300,7 +316,6 @@ ModUi/&Items=<color=#F0DAA0>Items:</color>
 ModUi/&ItemsHelp1=<color=#C04040E0>Open the character inspection screen to add items to heroes...</color>
 ModUi/&ItemsHelp2=<b>Press + to add items to the ground container</b>
 ModUi/&KeepInvisibilityWhenUsingItems=Enable item usage not breaking <color=#D89555>Invisibility</color>
-ModUi/&KeepStealthOnHeroIfPerceivedDuringSurpriseAttack=Update stealth on hero after attack if perceived on surprise round <i><color=#F0DAA0>[first hero only]</color></i>
 ModUi/&MakeAllMagicStaveArcaneFoci=Make all magic staves arcane foci <i><color=#F0DAA0>[except for <color=#D89555>Staff of Healing</color> which is Universal]</color></i>
 ModUi/&MarkInvisibleTeleportersOnLevelMap=<i>+ Also mark the location of invisible teleporters on level map after discovery</i>
 ModUi/&MaxAllowedClasses=<color=white>Max allowed classes</color>
@@ -320,6 +335,7 @@ ModUi/&OfficialObscurementRulesInvisibleCreaturesCanBeTarget=<i>+ <color=#D89555
 ModUi/&OfficialObscurementRulesMagicalDarknessAsProjectileBlocker=<i>+ Change <color=#D89555>magically obscured</color> areas to be projectile blockers <color=#F0DAA0>[any source of the <color=#D89555>Darkness</color> spell effect]</color></i>
 ModUi/&OfficialObscurementRulesTweakMonsters=<i>+ Add <color=#D89555>Darkvision</color>, <color=#D89555>BlindSight</color>, and <color=#D89555>TrueSight</color> to monsters and NPCs whenever appropriate</i>
 ModUi/&OfficialObscurementRulesTweakMonstersHelp=<i><color=#F0DAA0>[settings' collections <b>MonstersThatShouldHaveDarkvision</b>, <b>MonstersThatShouldHaveTrueSight</b>, <b>MonstersThatShouldHaveBlindSight</b>]</color></i>
+ModUI/&EnableChanceToPerceiveCloseRange=<i>+ Will roll for perception for targets within 10 feet when non-perceived</i>
 ModUi/&OneDnd=<color=#F0DAA0>Tabletop <i>[5e 2024]</i>:</color>
 ModUi/&OnlyShowMostPowerfulUpcastConjuredElementalOrFey=<i>+ Only show the most powerful creatures in the conjuration list</i>
 ModUi/&OutlineGridWidthModifier=<color=white>Multiply the outline grid width by</color> <color=#C04040E0>[%]</color>
@@ -381,6 +397,8 @@ ModUi/&StealthBreaksWhenCastingMaterial=Enable stealth loss when casting <color=
 ModUi/&StealthBreaksWhenCastingSomatic=Enable stealth loss when casting <color=#D89555>Somatic</color> <i><color=#F0DAA0>[any non attack spell with target ALL or ENEMY]</color></i>
 ModUi/&StealthBreaksWhenCastingVerbose=Enable stealth loss when casting <color=#D89555>Verbal</color> <i><color=#F0DAA0>[any non attack spell with target ALL or ENEMY]</color></i>
 ModUi/&StealthDoesNotBreakWithSubtle=Enable stealth not rolling if <color=#D89555>Subtle Metamagic</color> and no <b>Material</b> component
+ModUi/&StealthRollForBreak=Enable stealth rolling for break (if stealth loss is enabled above) <b><i><color=#C04040E0>[Requires Restart]</color></i></b>
+ModUi/&StealthBreaksWhenMoving=Enable stealth loss when moving. Stealthy feat will have advantage, normal enemies have disadvantage <b><i><color=#C04040E0>[Requires Restart]</color></i></b>
 ModUi/&StockGorimStoreWithAllNonMagicalClothing=Stock Gorim's store with all non-magical clothing <b><i><color=#C04040E0>[Requires Restart]</color></i></b>
 ModUi/&StockGorimStoreWithAllNonMagicalInstruments=Stock Gorim's store with all non-magical musical instruments <b><i><color=#C04040E0>[Requires Restart]</color></i></b>
 ModUi/&StockHugoStoreWithAdditionalFoci=Stock Hugo's store with <color=#D89555>Arcane Staff</color>, <color=#D89555>Druid Neck</color>, <color=#D89555>Staff</color> and <color=#D89555>Club</color> set as foci items
@@ -388,6 +406,7 @@ ModUi/&Subclasses=<color=#F0DAA0>Subclasses</color>
 ModUi/&Subraces=<color=#F0DAA0>Subraces</color>
 ModUi/&SwapAbjurationSavant=Swap <b>Abjurer</b> <color=#D89555>Abjuration Savant</color> with 5e 2024 version <i><color=#F0DAA0>[learn 2 school spells when acquired, learn 1 more every time you gain a slot level]</color></i>
 ModUi/&SwapCraftedItemAndRecipeIcons=<i>+ Swap recipe and crafted item icons in shop</i>
+ModUi/&LearnAllScrollRecipes=Learn all base game scroll crafting recipes <i><color=#F0DAA0>[scroll kit proficiency and knowing the spell are still required to craft]</color></i>
 ModUi/&SwapEvocationPotentCantripAndSculptSpell=Swap <b>Evoker</b> <color=#D89555>Sculpt Spells</color> and <color=#D89555>Potent Cantrip</color> on progression
 ModUi/&SwapEvocationSavant=Swap <b>Evoker</b> <color=#D89555>Evocation Savant</color> with 5e 2024 version <i><color=#F0DAA0>[learn 2 school spells when acquired, learn 1 more every time you gain a slot level]</color></i>
 ModUi/&SwapMartialChampion=Swap <b>Martial Champion</b> with 5e 2024 version
@@ -403,6 +422,36 @@ ModUi/&TotalFeatsGrantedFirstLevel=<color=white>Total <color=#D89555>feats</colo
 ModUi/&Translate=Translate
 ModUi/&TranslateCancel=Cancel {0} at {1}
 ModUi/&Translations=<color=#F0DAA0>Translations:</color>
+ModUi/&TranslationService=Translation Service
+ModUi/&TranslationServiceNotConfigured={0} is not configured!
+ModUi/&OpenAISettings=<color=#F0DAA0>OpenAI Settings:</color>
+ModUi/&OpenAIAdvancedSettings=<color=#F0DAA0>Advanced Settings:</color>
+ModUi/&OpenAIEndpoint=Endpoint URL
+ModUi/&OpenAIApiKey=API Key
+ModUi/&OpenAIModel=Model
+ModUi/&OpenAITemperature=Temperature
+ModUi/&OpenAITopP=Top P
+ModUi/&OpenAITopK=Top K
+ModUi/&OpenAISystemPrompt=System Prompt
+ModUi/&OpenAISystemPromptHelp=<i><color=#F0DAA0>[Use {targetLanguage} as placeholder for the target language name]</color></i>
+ModUi/&OpenAIDefaultSystemPrompt=You are a professional translator. Translate the following text to {targetLanguage}. Keep the original formatting, preserve any special characters or markup. Only output the translated text, nothing else.
+ModUi/&Reset=Reset
+ModUi/&Pause=Pause
+ModUi/&Resume=Resume
+ModUi/&Cancel=Cancel
+ModUi/&RetryFailed=Retry Failed
+ModUi/&TranslationProgress=Progress
+ModUi/&TranslationPaused=Paused
+ModUi/&TranslationCompleted=Completed
+ModUi/&TranslationCompletedWithErrors=Completed (with errors)
+ModUi/&TranslationCancelled=Cancelled
+ModUi/&TranslationFailed=Failed
+ModUi/&TranslationGoogleSettings=Google API Settings
+ModUi/&TranslationGoogleLegacyMode=Use Legacy Mode to request translations from Google Translate API
+ModUi/&ShowCategoryProgress=Show Category Progress
+ModUi/&ShowTranslationPreview=Show Recent Translations
+ModUi/&TranslatingConcurrent=Translating
+ModUi/&TranslationConcurrency=Concurrency
 ModUi/&UnityExplorer=<b><color=#D89555>Unity Explorer UI</color></b>
 ModUi/&UnleashEnemyAsNpc=Allow monsters to be selected on NPC gadgets
 ModUi/&UnleashNpcAsEnemy=Unlock monsters selection
@@ -417,14 +466,29 @@ ModUi/&UseOfficialFlankingRules=Enable <color=#D89555>flanking</color> rules <i>
 ModUi/&UseOfficialFlankingRulesAlsoForRanged=<i>+ Also enable for ranged attacks <color=#F0DAA0>[disable precise math]</color></i>
 ModUi/&UseOfficialFlankingRulesAlsoForReach=<i>+ Also enable for reach attacks <color=#F0DAA0>[disable precise math]</color></i>
 ModUi/&UseOfficialFlankingRulesButAddAttackModifier=<i>+ Instead of advantage grant +1 to attack roll</i>
+ModUi/&UseOldOfficialFlankingRules=<i>+ The old flanking rule was just +2 to attack roll. Above flanking plus modifier rule take precedence</i>
 ModUi/&UseOfficialFoodRationsWeight=Enable <color=#D89555>food ration</color> weight of 2 pounds
 ModUi/&UseOfficialObscurementRules=Enable <color=#D89555>lighting, obscurement, and vision</color> combat rules
 ModUi/&UseOfficialObscurementRulesHelp=<i><color=#F0DAA0>[attacker who perceive defender who cannot perceive it gets ADV, and attacker who doesn't perceive defender who can perceive it gets DIS\n heavily obscured areas inflict blinded condition, where attack rolls against the creature have ADV, and the creature's attack rolls have DIS\n all distance spells targeting individuals cannot be cast if attacker has no sight, except for the ones that clearly don't state sight is required]</color></i>
 ModUi/&UseOfficialSmallRacesDisWithHeavyWeapons=Enable <color=#D89555>small races</color> have disadvantage when wielding heavy weapons
 ModUi/&UseWeaponMasterySystem=Enable <color=#D89555>Weapon Mastery</color> rules
+ModUi/&UseWeaponMasteryMonkWayOfBlade=<i>+ Grant 2 weapon mastery picks to Way of Blade Monk subclass</i>
 ModUi/&UseWeaponMasterySystemAddCleaveDamage=<i>+ Cleave mastery add attribute score modifier to second attack damage</i>
 ModUi/&UseWeaponMasterySystemAddWeaponTag=<i>+ Add mastery tag to all game weapons</i>
 ModUi/&UseWeaponMasterySystemFlurryTriggersMastery=<i>+ Dual Flurry extra attack can trigger another mastery</i>
 ModUi/&UseWeaponMasterySystemNickExtraAttackTriggersMastery=<i>+ Nick mastery extra attack can trigger another mastery</i>
+ModUi/&UseWeaponMasterySystemNickDualFlurry=<i>+ Nick mastery extra attack can trigger Dual Flurry</i>
 ModUi/&UseWeaponMasterySystemPushSave=<i>+ Push mastery requires the creature to make a Strength saving throw (DC 8 + attack roll ability modifier + Proficiency Bonus)</i>
+ModUi/&UseWeaponMasterySystemAlternateProperties=<i>+ Alternate weapon properties to represent real-life properties from a little research. "Vex" on shortbow makes no sense <b><i><color=#C04040E0>[Requires Restart]</color></i></b></i>
 ModUi/&WildSurgeDieRollThreshold=<color=white>Set <color=#D89555>Sorcerer Wild Magic</color> chance die threshold:</color>\n<i><color=#F0DAA0>[wild surge triggers if rolls less or equal threshold]</color></i>
+ModUI/&ModifyJumpRulesForArmorAndEncumberance=Apply encumbrance and armor penalties to jump range
+ModUI/&ModifyThrowingRulesForStrength=Apply throwing penalties to range for lack of strength
+ModUI/&ModVersionControl=-Unfinished Business MOD Version Settings-
+ModUI/&RoleplaySettings=Roleplay
+ModUI/&RoleplaySettingsDescription=These settings tweak the balance of the game in favor of life simulation or roleplay by adding complexity and increased chance of success and failure
+ModUI/&EnableDamageOnFailedJumpCheck=Applies 1d4 damage on failed jump checks
+ModUi/&LegendaryTweaksTitle=<color=#F0DAA0>Legendary tweaks:</color>
+ModUi/&LegendaryTweaksDetails=Here you can change weapon type of legendary weapons. For safety do this while weapon is unequipped.
+ModUi/&WeaponMasterySystemCustomizeToggle=Customize weapon mastery properties
+ModUi/&WeaponMasterySystemCustomizeResetAll=Reset All
+ModUi/&WeaponMasterySystemCustomizeResetAllWarning=Will reset all weapon mastery properties to default

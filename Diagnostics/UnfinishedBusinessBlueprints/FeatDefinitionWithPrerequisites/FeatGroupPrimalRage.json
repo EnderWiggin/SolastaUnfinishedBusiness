@@ -14,7 +14,7 @@
   "features": [],
   "guiPresentation": {
     "$type": "GuiPresentation, Assembly-CSharp",
-    "hidden": true,
+    "hidden": false,
     "title": "Feat/&FeatGroupPrimalRageTitle",
     "description": "Increase your Strength or Constitution by 1, to a maximum of 20. You gain one additional Rage usage between rests.",
     "spriteReference": {

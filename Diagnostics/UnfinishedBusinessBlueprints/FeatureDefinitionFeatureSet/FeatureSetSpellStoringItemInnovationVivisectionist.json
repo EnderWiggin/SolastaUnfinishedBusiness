@@ -3,8 +3,7 @@
   "featureSet": [
     "Definition:PowerCreateSpellStoringWandOfBless:97fee108-4ac3-594b-be0b-3a15fde72094",
     "Definition:PowerCreateSpellStoringWandOfInflictWounds:d90aa315-68ba-5591-be23-6c9685e4e087",
-    "Definition:PowerCreateSpellStoringWandOfEnhanceAbility:6b586704-ffaf-5d38-ab50-115568e8f9b1",
-    "Definition:PowerCreateSpellStoringWandOfLesserRestoration:72634009-0f53-5c41-b95b-e26908526297"
+    "Definition:PowerCreateSpellStoringWandOfEnhanceAbility:6b586704-ffaf-5d38-ab50-115568e8f9b1"
   ],
   "mode": "Union",
   "ancestryDamageTypeMap": [],

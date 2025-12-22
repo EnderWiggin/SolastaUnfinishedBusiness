@@ -14,7 +14,7 @@
   "features": [],
   "guiPresentation": {
     "$type": "GuiPresentation, Assembly-CSharp",
-    "hidden": true,
+    "hidden": false,
     "title": "Feat/&FeatGroupElementalAdeptTitle",
     "description": "When you gain this feat, choose one of the following damage types: acid, cold, fire, lightning, or thunder. Spells you cast ignore resistance to the chosen damage type. In addition, when you roll damage for a spell you cast that deals damage of that type, you can reroll any 1s.",
     "spriteReference": {

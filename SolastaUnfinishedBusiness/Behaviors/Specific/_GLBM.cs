@@ -7,7 +7,6 @@ using SolastaUnfinishedBusiness.Interfaces;
 using SolastaUnfinishedBusiness.Models;
 using SolastaUnfinishedBusiness.Subclasses;
 using SolastaUnfinishedBusiness.Subclasses.Builders;
-using SolastaUnfinishedBusiness.Validators;
 using UnityEngine;
 using static SolastaUnfinishedBusiness.Api.DatabaseHelper.FeatureDefinitionAdditionalDamages;
 
@@ -64,17 +63,21 @@ internal static class GLBM
 
     internal static RuleDefinitions.RollOutcome GetAttackResult(int rawRoll, int modifier, RulesetCharacter defender)
     {
-        if (rawRoll == RuleDefinitions.DiceMaxValue[(int)RuleDefinitions.DieType.D20])
+        var defenderArmorClass = defender.TryGetAttributeValue(AttributeDefinitions.ArmorClass);
+        if (rawRoll == RuleDefinitions.DiceMaxValue[(int)RuleDefinitions.DieType.D20]
+            || Main.Settings.EnableCriticalHitsMissesAt10
+            && rawRoll + modifier - defenderArmorClass >=10)
         {
             return RuleDefinitions.RollOutcome.CriticalSuccess;
         }
 
-        if (rawRoll == RuleDefinitions.DiceMinValue[(int)RuleDefinitions.DieType.D20])
+        if (rawRoll == RuleDefinitions.DiceMinValue[(int)RuleDefinitions.DieType.D20]
+            || Main.Settings.EnableCriticalHitsMissesAt10
+            && rawRoll + modifier - defenderArmorClass <=-10)
         {
             return RuleDefinitions.RollOutcome.CriticalFailure;
         }
-
-        var defenderArmorClass = defender.TryGetAttributeValue(AttributeDefinitions.ArmorClass);
+        
         return rawRoll + modifier >= defenderArmorClass
             ? RuleDefinitions.RollOutcome.Success
             : RuleDefinitions.RollOutcome.Failure;
@@ -763,6 +766,9 @@ internal static class GLBM
         bool criticalHit,
         bool firstTarget)
     {
+        //Should be first, so effects from smite spells will apply before enumerating damage features
+        yield return SmiteSpells2024Context.OnAttackHitConfirmed(instance, attacker, defender, attackMode, criticalHit, rangedAttack);
+
         instance.triggeredAdditionalDamageTags.Clear();
         attacker.RulesetCharacter.EnumerateFeaturesToBrowse<IAdditionalDamageProvider>(
             instance.featuresToBrowseReaction);
@@ -988,20 +994,26 @@ internal static class GLBM
                             NotificationTag: "DivineSmite"
                         };
 
-                        // Dnd 2014 don't allow thrown smites except if Oath of Thunder attack
-                        if (!Main.Settings.EnablePaladinSmite2024 &&
-                            !OathOfThunder.IsOathOfThunderWeapon(attackMode, null, attacker.RulesetCharacter) &&
-                            attackMode.thrown)
-                        {
-                            break;
-                        }
+                        //Skip divine smites when 2024 smite rules are enabled - it is processed earlier with spells
+                        if (isDivineSmite && Main.Settings.EnablePaladinSmite2024) { continue; }
 
-                        // One DnD only allow smites as bonus action
-                        if (Main.Settings.EnablePaladinSmite2024 &&
-                            isDivineSmite &&
-                            !ValidatorsCharacter.HasAvailableBonusAction(attacker.RulesetCharacter))
+                        if (isDivineSmite && rangedAttack)
                         {
-                            break;
+                            if (attackMode.Thrown)
+                            {
+                                // Dnd 2014 don't allow thrown smites except if Oath of Thunder attack
+                                if (!OathOfThunder.IsOathOfThunderWeapon(attackMode, null,
+                                        attacker.RulesetCharacter))
+                                {
+                                    break;
+                                }
+                            }
+                            //Skip non-thrown ranged attacks if not Demon Hunter weapon attack
+                            else if (!OathOfDemonHunter.IsOathOfDemonHunterWeapon(attackMode, null,
+                                         attacker.RulesetCharacter))
+                            {
+                                break;
+                            }
                         }
 
                         if (!criticalHit &&
@@ -1069,12 +1081,6 @@ internal static class GLBM
 
                             validTrigger = reactionParams.ReactionValidated;
 
-                            // One DnD only allow smites as bonus action
-                            if (Main.Settings.EnablePaladinSmite2024 && isDivineSmite && validTrigger)
-                            {
-                                attacker.SpendActionType(ActionDefinitions.ActionType.Bonus);
-                            }
-
                             /*
                              * ######################################
                              * [CE] EDIT START
@@ -1083,9 +1089,8 @@ internal static class GLBM
 
                             //TODO: convert this to a proper interface to change number of smite dice
                             if (validTrigger && isDivineSmite &&
-                                hero.GetSubclassLevel(
-                                    DatabaseHelper.CharacterClassDefinitions.Paladin,
-                                    OathOfDemonHunter.Name) == 20)
+                                hero.GetSubclassLevel(DatabaseHelper.CharacterClassDefinitions.Paladin,
+                                    OathOfThunder.Name) == 20)
                             {
                                 reactionParams.intParameter++;
                             }
@@ -1194,7 +1199,8 @@ internal static class GLBM
                         ExtraAdditionalDamageTriggerCondition.TargetIsDuelingWithYou:
                     {
                         validTrigger = RoguishDuelist
-                            .TargetIsDuelingWithRoguishDuelist(attacker, defender, advantageType);
+                            .TargetIsDuelingWithRoguishDuelist(attacker, defender, advantageType) ||
+                            RoguishSwashbuckler.IsRakishAudacity1v1Valid(attacker, defender, advantageType);
                         break;
                     }
 

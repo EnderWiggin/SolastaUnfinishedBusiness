@@ -14,7 +14,7 @@
   "features": [],
   "guiPresentation": {
     "$type": "GuiPresentation, Assembly-CSharp",
-    "hidden": true,
+    "hidden": false,
     "title": "Feat/&FeatGroupPiercerTitle",
     "description": "Increase your Strength or Dexterity by 1, to a maximum of 20.\nWhen you hit a creature with an attack that deals piercing damage, you can re-roll dice when you roll a 1, and you must use the new roll. When you score a critical hit you can roll one additional damage die when determining the extra piercing damage the target takes.",
     "spriteReference": {

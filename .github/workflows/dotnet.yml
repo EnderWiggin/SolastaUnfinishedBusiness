@@ -1,0 +1,62 @@
+# This workflow will build a .NET project
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
+
+name: .NET
+
+on:
+  push:
+      tags:
+        - '*'
+env:
+  SolastaInstallDir: ../SolastaFiles
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 9.0.x
+      - name: Restore dependencies
+        run: dotnet restore SolastaUnfinishedBusiness.sln
+      - name: Clean
+        run: dotnet clean SolastaUnfinishedBusiness.sln
+      - name: Build
+        run: dotnet build SolastaUnfinishedBusiness.sln --no-restore -c "Release Workflow"
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          make_latest: true
+          draft: true
+      - name: Zip Files
+        uses: vimtor/action-zip@v1.2
+        with:
+          files: ./SolastaFiles/Mods/
+          recursive: true
+          dest: SolastaUnfinishedBusiness.zip
+      - name: Upload Info.json
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./SolastaFiles/Mods/SolastaUnfinishedBusiness/Info.json
+          asset_name: Info.json
+          asset_content_type: application/json
+      - name: Upload Zip File
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: SolastaUnfinishedBusiness.zip
+          asset_name: SolastaUnfinishedBusiness.zip
+          asset_content_type: application/zip

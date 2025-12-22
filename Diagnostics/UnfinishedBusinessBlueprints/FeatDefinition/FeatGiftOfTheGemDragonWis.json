@@ -17,7 +17,7 @@
   ],
   "guiPresentation": {
     "$type": "GuiPresentation, Assembly-CSharp",
-    "hidden": true,
+    "hidden": false,
     "title": "Feat/&FeatGiftOfTheGemDragonWisTitle",
     "description": "Feat/&FeatGiftOfTheGemDragonWisDescription",
     "spriteReference": {

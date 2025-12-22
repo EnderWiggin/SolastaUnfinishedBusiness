@@ -293,9 +293,11 @@
     <OverridePartySize>4</OverridePartySize>
     <AllowAllPlayersOnNarrativeSequences>false</AllowAllPlayersOnNarrativeSequences>
     <AddPickPocketableLoot>false</AddPickPocketableLoot>
+    <EnemySpellcastersDropScribedSpellbooks>false</EnemySpellcastersDropScribedSpellbooks>
     <AltOnlyHighlightItemsInPartyFieldOfView>false</AltOnlyHighlightItemsInPartyFieldOfView>
     <EnableAdditionalIconsOnLevelMap>false</EnableAdditionalIconsOnLevelMap>
     <HideExitsAndTeleportersGizmosIfNotDiscovered>false</HideExitsAndTeleportersGizmosIfNotDiscovered>
+    <EnableOutOfCombatTargetingSightLines>false</EnableOutOfCombatTargetingSightLines>
     <EnableLogDialoguesToConsole>false</EnableLogDialoguesToConsole>
     <EnableSpeech>false</EnableSpeech>
     <EnableSpeechOnNpcs>false</EnableSpeechOnNpcs>
@@ -628,9 +630,12 @@
     <ShowCraftingRecipeInDetailedTooltips>false</ShowCraftingRecipeInDetailedTooltips>
     <ShowCraftedItemOnRecipeIcon>false</ShowCraftedItemOnRecipeIcon>
     <SwapCraftedItemAndRecipeIcons>false</SwapCraftedItemAndRecipeIcons>
+    <LearnAllScrollRecipes>false</LearnAllScrollRecipes>
     <RecipeCost>200</RecipeCost>
     <TotalCraftingTimeModifier>0</TotalCraftingTimeModifier>
     <AddNewWeaponsAndRecipesToShops>false</AddNewWeaponsAndRecipesToShops>
+    <NewWeaponsAndRecipesBaseInsteadOfPrimed>false</NewWeaponsAndRecipesBaseInsteadOfPrimed>
+    <NewWeaponsAndRecipesSimplified>false</NewWeaponsAndRecipesSimplified>
     <CraftingInStore/>
     <EnableLoggingInvalidReferencesInUserCampaigns>false</EnableLoggingInvalidReferencesInUserCampaigns>
     <EnableSortingDungeonMakerAssets>false</EnableSortingDungeonMakerAssets>

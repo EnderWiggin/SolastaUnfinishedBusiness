@@ -15,11 +15,12 @@ using static SolastaUnfinishedBusiness.Api.DatabaseHelper.FeatureDefinitionActio
 using static SolastaUnfinishedBusiness.Api.DatabaseHelper.FeatureDefinitionFeatureSets;
 using static SolastaUnfinishedBusiness.Api.DatabaseHelper.FeatureDefinitionPowers;
 using static SolastaUnfinishedBusiness.Api.DatabaseHelper.SpellDefinitions;
+using static SolastaUnfinishedBusiness.Api.DatabaseHelper.FeatureDefinitionFightingStyleChoices;
 using static SolastaUnfinishedBusiness.Builders.Features.AutoPreparedSpellsGroupBuilder;
 
 namespace SolastaUnfinishedBusiness.Models;
 
-internal static partial class Tabletop2024Context
+public static partial class Tabletop2024Context
 {
     private static readonly FeatureDefinitionFeatureSet FeatureSetRangerDeftExplorer =
         FeatureDefinitionFeatureSetBuilder
@@ -315,6 +316,20 @@ internal static partial class Tabletop2024Context
         }
 
         Ranger.FeatureUnlocks.Sort(Sorting.CompareFeatureUnlock);
+    }
+
+    internal static void SwitchRangerAnyFightingStyle()
+    {
+        var fightingStyles = FightingStyleRanger.FightingStyles;
+        
+        fightingStyles.Remove("GreatWeapon");
+        fightingStyles.Remove("Protection");
+
+        if (Main.Settings.EnableRangerAnyFightingStyle2024)
+        {
+            fightingStyles.TryAdd("GreatWeapon");
+            fightingStyles.TryAdd("Protection");
+        }
     }
 
     private sealed class CustomBehaviorTireless : IModifyEffectDescription

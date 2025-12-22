@@ -91,7 +91,7 @@
     "$type": "GuiPresentation, Assembly-CSharp",
     "hidden": false,
     "title": "Feature/&PowerBardCountercharmTitle",
-    "description": "Feature/&PowerBardCountercharmDescription",
+    "description": "Feature/&PowerBardCountercharmExtendedDescription",
     "spriteReference": {
       "$type": "UnityEngine.AddressableAssets.AssetReferenceSprite, Unity.Addressables",
       "m_AssetGUID": "24356fafbbd392a4e80c8b62cfd27f78",

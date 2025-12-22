@@ -9,6 +9,7 @@
 import os
 import codecs
 from deep_translator import GoogleTranslator
+import argparse
 
 CHARS_MAX = 4500
 
@@ -50,20 +51,20 @@ def readRecord(filename):
                     term, text = unpack_record(record)
                     dic[term] = text
     except FileNotFoundError:
-        print("ERROR")
+        if not args.s:print("ERROR")
 
     return dic
 
 def sync_file(input_file, output_file, code):
     inputDict = readRecord(input_file)
     outputDict = readRecord(output_file)
-    print(f"sync\t{output_file}\tfrom\t{input_file}")
+    print(f"sync\t{output_file}\tfrom\t{input_file}",flush=True)
     # compare
     for key, value in inputDict.items():
         if key not in outputDict:
             # outputDict[key] = value
             outputDict[key] = translate_text(value, code)
-            print(f"\t+ {output_file} add：{key}={value}")
+            if not args.s:print(f"\t+ {output_file} add：{key}={value}")
     # write
     with open(output_file, "wt", encoding="utf-8") as f:
         for key, value in outputDict.items():
@@ -71,7 +72,7 @@ def sync_file(input_file, output_file, code):
     # compare
     for key, value in outputDict.items():
         if key not in inputDict:
-            print(f"\t- {output_file} needless：{key}={value}")
+            if not args.s:print(f"\t- {output_file} needless：{key}={value}")
     # sort
     with open(output_file, "rt", encoding="utf-8") as f:
         data = f.readlines()
@@ -79,7 +80,8 @@ def sync_file(input_file, output_file, code):
     with open(output_file, "wt", encoding="utf-8") as f:
         f.writelines(data)
 
-def sync_folder(root_folder_name, folder_name, code):
+def sync_folder(root_folder_name, folder_name, code, hasDepth=False):
+    if not hasDepth : print(f"Translating folder {code}", flush=True)
     root_output_name = code if code != "pt" else "pt-BR"
     for filename in os.listdir(folder_name):
         input_file = os.path.join(folder_name, filename)
@@ -87,11 +89,15 @@ def sync_folder(root_folder_name, folder_name, code):
             output_file = f"{root_output_name}\\{input_file[3:-7]}-{root_output_name}.txt"
             sync_file(input_file, output_file, code)
         else:
-            sync_folder(root_folder_name, input_file, code)
-
-
+            sync_folder(root_folder_name, input_file, code, True)
+args=False
 def main():
     # sync cn language
+    parser = argparse.ArgumentParser("translateAutoSynch")
+    parser.add_argument("-s", help="A bool to give console output verbosely.", action="store_true")
+    global args 
+    args = parser.parse_args()
+
     sync_folder("en", "en", "zh-CN")
     sync_folder("en", "en", "ko")
     sync_folder("en", "en", "ja")

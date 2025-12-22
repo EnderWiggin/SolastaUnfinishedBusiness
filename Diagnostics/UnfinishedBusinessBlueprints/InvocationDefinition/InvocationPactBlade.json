@@ -10,9 +10,9 @@
   "overrideMaterialComponent": true,
   "guiPresentation": {
     "$type": "GuiPresentation, Assembly-CSharp",
-    "hidden": true,
+    "hidden": false,
     "title": "Feature/&FeatureSetPactBladeTitle",
-    "description": "Feature/&FeatureSetPactBladeDescription",
+    "description": "Feature/&FeatureSetPactBladeAlternateDescription",
     "spriteReference": {
       "$type": "UnityEngine.AddressableAssets.AssetReferenceSprite, Unity.Addressables",
       "m_AssetGUID": "",

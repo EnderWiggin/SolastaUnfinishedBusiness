@@ -14,7 +14,7 @@
   "features": [],
   "guiPresentation": {
     "$type": "GuiPresentation, Assembly-CSharp",
-    "hidden": true,
+    "hidden": false,
     "title": "Feat/&FeatGroupChefTitle",
     "description": "Increase your Wisdom or Constitution by 1, to a maximum of 20.\nYou can spend 1 hour to cook a meal to heal you and your companions for 1d8 HP.\nOnce a day, you may spend an hour to cook a number of treats equal to your proficiency bonus that provide 5 temporary HP when eaten.",
     "spriteReference": {

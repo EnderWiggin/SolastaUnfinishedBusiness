@@ -27,7 +27,7 @@ using static SolastaUnfinishedBusiness.Api.DatabaseHelper.FeatureDefinitionDamag
 
 namespace SolastaUnfinishedBusiness.Models;
 
-internal static partial class Tabletop2024Context
+public static partial class Tabletop2024Context
 {
     private const string BrutalStrike = "BarbarianBrutalStrike";
     private static ConditionDefinition _conditionBrutalStrike;
@@ -798,6 +798,7 @@ internal static partial class Tabletop2024Context
 
         public IEnumerator OnTryAlterAttributeCheck(
             GameLocationBattleManager battleManager,
+            int rawRoll,
             AbilityCheckData abilityCheckData,
             GameLocationCharacter defender,
             GameLocationCharacter helper)
@@ -806,7 +807,7 @@ internal static partial class Tabletop2024Context
             var strength = rulesetHelper.TryGetAttributeValue(AttributeDefinitions.Strength);
             var strMod = AttributeDefinitions.ComputeAbilityScoreModifier(strength);
 
-            if (abilityCheckData.AbilityCheckRoll == 0 ||
+            if (rawRoll == 0 ||
                 abilityCheckData.AbilityCheckRollOutcome != RollOutcome.Failure ||
                 abilityCheckData.AbilityCheckSuccessDelta < -strMod ||
                 helper != defender ||
@@ -835,6 +836,7 @@ internal static partial class Tabletop2024Context
                         PointPoolBarbarianPrimalKnowledge));
 
                 abilityCheckModifier.AbilityCheckModifier += strMod;
+                abilityCheckData.AbilityCheckRoll += strMod;
                 abilityCheckData.AbilityCheckSuccessDelta += strMod;
 
                 if (abilityCheckData.AbilityCheckSuccessDelta >= 0)

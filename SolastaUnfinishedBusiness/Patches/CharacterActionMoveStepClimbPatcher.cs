@@ -4,6 +4,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using HarmonyLib;
 using JetBrains.Annotations;
+using SolastaUnfinishedBusiness.Api.GameExtensions;
 using SolastaUnfinishedBusiness.Interfaces;
 using UnityEngine;
 using Coroutine = TA.Coroutine;
@@ -83,7 +84,7 @@ public static class CharacterActionMoveStepClimbPatcher
                     {
                         const RuleDefinitions.AdvantageType BASE_AFFINITY = RuleDefinitions.AdvantageType.None;
 
-                        var abilityCheckRoll = actingCharacter.RollAbilityCheck(
+                        var abilityCheckRoll = actingCharacter.RollAbilityCheckEx(
                             AttributeDefinitions.Strength,
                             SkillDefinitions.Athletics,
                             action.dc,
@@ -93,6 +94,7 @@ public static class CharacterActionMoveStepClimbPatcher
                             -1,
                             out var outcome,
                             out var successDelta,
+                            out var rawRoll,
                             true);
 
                         var abilityCheckData = new AbilityCheckData
@@ -105,7 +107,7 @@ public static class CharacterActionMoveStepClimbPatcher
                         };
 
                         yield return TryAlterOutcomeAttributeCheck
-                            .HandleITryAlterOutcomeAttributeCheck(actingCharacter, abilityCheckData);
+                            .HandleITryAlterOutcomeAttributeCheck(actingCharacter, abilityCheckData, rawRoll);
 
                         action.AbilityCheckRoll = abilityCheckData.AbilityCheckRoll;
                         action.AbilityCheckRollOutcome = abilityCheckData.AbilityCheckRollOutcome;

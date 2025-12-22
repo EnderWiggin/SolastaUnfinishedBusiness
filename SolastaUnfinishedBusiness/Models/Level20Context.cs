@@ -1124,6 +1124,7 @@ internal static class Level20Context
 
         public IEnumerator OnTryAlterAttributeCheck(
             GameLocationBattleManager battleManager,
+            int rawRoll,
             AbilityCheckData abilityCheckData,
             GameLocationCharacter defender,
             GameLocationCharacter helper)
@@ -1149,7 +1150,7 @@ internal static class Level20Context
 
             void ReactionValidated()
             {
-                abilityCheckData.AbilityCheckRoll = 20;
+                abilityCheckData.AbilityCheckRoll += 20 - rawRoll;
                 abilityCheckData.AbilityCheckSuccessDelta = 0;
                 abilityCheckData.AbilityCheckRollOutcome = RollOutcome.CriticalSuccess;
             }

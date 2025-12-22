@@ -2,7 +2,10 @@
   "$type": "FeatureDefinitionFeatureSet, Assembly-CSharp",
   "featureSet": [
     "Definition:AdditionalDamagePatronMountainIceboundSoul:2216b39e-ffbc-5a72-a9de-b42a6751a428",
-    "Definition:DamageAffinityColdImmunity:de8ec1fc795a48a41b7cece77d95bc1c"
+    "Definition:DamageAffinityColdImmunity:de8ec1fc795a48a41b7cece77d95bc1c",
+    "Definition:ConditionAffinityWeatherChilledImmunity:bc4e3a662c267ae498bb1f3c1d754980",
+    "Definition:ConditionAffinityWeatherChilledInsteadOfFrozenImmunity:b63fc74bef7f98047b90c40a724a4f10",
+    "Definition:ConditionAffinityWeatherFrozenImmunity:6eedca541acbb494fa8aea97c7ff074a"
   ],
   "mode": "Union",
   "ancestryDamageTypeMap": [],

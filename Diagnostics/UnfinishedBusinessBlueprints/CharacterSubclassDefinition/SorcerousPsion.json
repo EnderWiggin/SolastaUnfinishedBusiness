@@ -4,17 +4,17 @@
     {
       "$type": "FeatureUnlockByLevel, Assembly-CSharp",
       "featureDefinition": "Definition:AutoPreparedSpellsSorcerousPsion:6f5b1703-7014-57c3-9a7e-fa72f599d0a9",
-      "level": 1
+      "level": 3
     },
     {
       "$type": "FeatureUnlockByLevel, Assembly-CSharp",
       "featureDefinition": "Definition:DamageAffinitySorcerousPsionPsionicMind:bb8ab691-9b8f-52c8-b79f-30733790b50b",
-      "level": 1
+      "level": 3
     },
     {
       "$type": "FeatureUnlockByLevel, Assembly-CSharp",
       "featureDefinition": "Definition:FeatureSetSorcerousPsionPsychokinesis:e0e1d56e-3077-5983-a302-91e46e609d76",
-      "level": 1
+      "level": 3
     },
     {
       "$type": "FeatureUnlockByLevel, Assembly-CSharp",

@@ -14,7 +14,7 @@
   "features": [],
   "guiPresentation": {
     "$type": "GuiPresentation, Assembly-CSharp",
-    "hidden": true,
+    "hidden": false,
     "title": "Feat/&FeatGroupToxicologistTitle",
     "description": "Increase one of your mental attributes by 1, to a maximum of 20.\nYou gain proficiency with poisoner's kit and Nature, or expertise if already proficient.",
     "spriteReference": {

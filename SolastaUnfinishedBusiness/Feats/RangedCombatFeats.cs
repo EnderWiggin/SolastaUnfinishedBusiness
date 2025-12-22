@@ -109,6 +109,7 @@ internal static class RangedCombatFeats
             .Create(ActionAffinitySorcererMetamagicToggle, "ActionAffinityDeadEyeToggle")
             .SetGuiPresentationNoContent(true)
             .SetAuthorizedActions((Id)ExtraActionId.DeadEyeToggle)
+            .AddCustomSubFeatures(new ValidateDefinitionApplication(ValidatorsCharacter.HasDeadeyeRangedWeapon))
             .AddToDB();
 
         var featDeadeye = FeatDefinitionBuilder

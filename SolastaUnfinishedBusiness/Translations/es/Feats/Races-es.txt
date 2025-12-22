@@ -64,7 +64,7 @@ Feature/&PowerFeatOrcishAggressionTitle=Agresión orca
 Feedback/&AdditionalDamageOrcishFuryFormat=Furia orca
 Feedback/&AdditionalDamageOrcishFuryLine=¡Furia orca inflige +{2} de daño adicional!
 Feedback/&BountifulLuckAttackToHitRoll={0} usó {1} y lanza un {2} para reemplazar a {3} en la tirada de ataque
-Feedback/&BountifulLuckCheckToHitRoll={0} usó {1} y saca un {2} para reemplazar a {3} en la tirada de verificación
+Feedback/&BountifulLuckCheckToHitRoll={0} usó {1} y saca un {2} para reemplazar a {3} en la tirada de verificación: {4}
 Feedback/&BountifulLuckSavingToHitRoll={0} usó {1} y saca un {2} para reemplazar a {3} en la tirada de salvación
 Feedback/&DwarvenFortitudeHitDieRolled={0} sacó un {2} y curó a {3} = {4}.
 Feedback/&FlamesOfPhlegethosReroll={0} usa Llamas de Phlegethos para repetir un dado de daño mágico {1} de {2} a {3}.

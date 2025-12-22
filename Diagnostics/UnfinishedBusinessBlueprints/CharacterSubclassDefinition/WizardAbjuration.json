@@ -3,18 +3,23 @@
   "featureUnlocks": [
     {
       "$type": "FeatureUnlockByLevel, Assembly-CSharp",
-      "featureDefinition": "Definition:MagicAffinityWizardAbjurationScriber:6ef73067-f72a-56b4-a405-eb1b4fdc5784",
-      "level": 2
+      "featureDefinition": "Definition:MagicAffinityWizardAbjurationSavant2024:8e168709-4820-57e2-b341-df07d8b814c8",
+      "level": 3
     },
     {
       "$type": "FeatureUnlockByLevel, Assembly-CSharp",
       "featureDefinition": "Definition:PowerWizardAbjurationArcaneWard:a39f1fde-05ec-5204-bb0c-9f28b345b754",
-      "level": 2
+      "level": 3
     },
     {
       "$type": "FeatureUnlockByLevel, Assembly-CSharp",
       "featureDefinition": "Definition:PowerWizardAbjurationRechargeArcaneWard:c0673e0e-8ccb-5096-9925-39df946bea31",
-      "level": 2
+      "level": 3
+    },
+    {
+      "$type": "FeatureUnlockByLevel, Assembly-CSharp",
+      "featureDefinition": "Definition:MagicAffinityWizardAbjurationSavant2024Progression:3dd0e8f0-e507-5d16-a1aa-febbc8064c42",
+      "level": 5
     },
     {
       "$type": "FeatureUnlockByLevel, Assembly-CSharp",
@@ -23,13 +28,48 @@
     },
     {
       "$type": "FeatureUnlockByLevel, Assembly-CSharp",
+      "featureDefinition": "Definition:MagicAffinityWizardAbjurationSavant2024Progression:3dd0e8f0-e507-5d16-a1aa-febbc8064c42",
+      "level": 7
+    },
+    {
+      "$type": "FeatureUnlockByLevel, Assembly-CSharp",
+      "featureDefinition": "Definition:MagicAffinityWizardAbjurationSavant2024Progression:3dd0e8f0-e507-5d16-a1aa-febbc8064c42",
+      "level": 9
+    },
+    {
+      "$type": "FeatureUnlockByLevel, Assembly-CSharp",
       "featureDefinition": "Definition:FeatureSetWizardAbjurationImprovedAbjuration:dcd1c6ce-fc2e-5f54-9c07-3feed1d2e74b",
       "level": 10
     },
     {
       "$type": "FeatureUnlockByLevel, Assembly-CSharp",
+      "featureDefinition": "Definition:MagicAffinityWizardAbjurationSavant2024Progression:3dd0e8f0-e507-5d16-a1aa-febbc8064c42",
+      "level": 11
+    },
+    {
+      "$type": "FeatureUnlockByLevel, Assembly-CSharp",
+      "featureDefinition": "Definition:MagicAffinityWizardAbjurationSavant2024Progression:3dd0e8f0-e507-5d16-a1aa-febbc8064c42",
+      "level": 13
+    },
+    {
+      "$type": "FeatureUnlockByLevel, Assembly-CSharp",
       "featureDefinition": "Definition:FeatureSetWizardAbjurationSpellResistance:b8ea5c10-5f8f-5fe6-877b-e5b6b126d281",
       "level": 14
+    },
+    {
+      "$type": "FeatureUnlockByLevel, Assembly-CSharp",
+      "featureDefinition": "Definition:MagicAffinityWizardAbjurationSavant2024Progression:3dd0e8f0-e507-5d16-a1aa-febbc8064c42",
+      "level": 15
+    },
+    {
+      "$type": "FeatureUnlockByLevel, Assembly-CSharp",
+      "featureDefinition": "Definition:MagicAffinityWizardAbjurationSavant2024Progression:3dd0e8f0-e507-5d16-a1aa-febbc8064c42",
+      "level": 17
+    },
+    {
+      "$type": "FeatureUnlockByLevel, Assembly-CSharp",
+      "featureDefinition": "Definition:MagicAffinityWizardAbjurationSavant2024Progression:3dd0e8f0-e507-5d16-a1aa-febbc8064c42",
+      "level": 19
     }
   ],
   "personalityFlagOccurences": [],

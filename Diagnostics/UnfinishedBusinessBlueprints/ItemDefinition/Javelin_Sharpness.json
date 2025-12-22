@@ -57,7 +57,8 @@
     "closeRange": 6,
     "maxRange": 24,
     "weaponTags": [
-      "Thrown"
+      "Thrown",
+      "Slow"
     ],
     "effectDescription": {
       "$type": "EffectDescription, Assembly-CSharp",

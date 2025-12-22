@@ -1,3 +1,371 @@
+1.5.97.118:
+- buttons to loot gold, ingredients or scrolls would only be visible if there's at least one of the matching items in loot pile
+- added option for 2024 version `Draconic Resilience` from `Draconic Bloodline` Sorcerer subclass
+
+1.5.97.117:
+- made `One with Blade` attack visible only during battle
+- fixed not being able to cast 2024 Smites for warlocks when Spell Points are enabled
+- re-added `Weapon Mastery` feat
+- `Enemy Spellcasters Drop Scribed Spellbooks` - now they have used pages and drop decided not on monster load, but on monster death
+- added buttons to loot gold, ingredients and scrolls to loot popup
+
+1.5.97.116:
+- added option to make enemy spellcasters drop scribed spellbooks (Gameplay -> Campaigns) (PR by andragor)
+- added option to show targeting sight lines out of combat (Gameplay -> Campaigns) (PR by andragor)
+- improved several tooltips and log messages for `Eldritch Surge` Warlock patron
+
+1.5.97.115:
+- fixed `Panache` from `Swashbuckler` having missing text in level progression
+- added option to enable `Way of Blade` having Weapon Mastery selection
+- added option to enable older way of requesting translations from Google API
+
+1.5.97.114:
+- reworked `Nick` mastery to make off-hand attack a free action after main hand attack
+- added option to allow `Nick` weapon mastery to trigger extra attack from `Dual Flurry` feat
+
+1.5.97.113:
+- fixed several crashes related to `Eldritch Surge` warlock patron
+- updated description of Nick mastery
+
+1.5.97.112:
+- Improvements to Campaign Translator tool:
+  - Limited max concurrency to 10
+  - do not allow translation if service is not configured
+  - display error message when translation fails (still need to wait for whole process to finish)
+- added icon to the `Bloody` infusion
+- Dual Flurry: compare actual items and not item definitions - fixes edge case when dual-wielding same type of weapon and having BA attack with main hand from somewhere
+- Customized attack button name for Monk's `Flurry of Blows` and `One with the Blade` from `Way of B
+- reworked `Nick` mastery to auto-attack with off-hand when attacking with main hand instead of granting extra Bonus Action for attack
+
+1.5.97.111:
+- fixed crash if `SourceRageStop` condition interruption is triggered during travel
+- Added option to learn all scroll crafting recipes (PR by andragor)
+- Reworked User Campaign translation tool (PR by magicskysword)
+
+1.5.97.110:
+- merged nickabbey's PR with `Swashbuckler` Rogue subclass
+- added option for 2024 `Chill Touch` cantrip
+- added option for 2024 `Witch Bolt` spell
+- added option to disable requirement to perceive allies for `Sculpt Spells`
+- updated translations
+
+1.5.97.109:
+- merged Andragor's PR with simplified crafting settings (Crafting & Items > Crafting, under "Add new weapons and recipes to shops")
+- fixed 2024 Smites not triggering if you don't have Bonus Action spell available to cast
+- fixed 2024 Paladin's `Restoring Touch` triggering before level 14
+
+1.5.97.108:
+- tweaked description of `Oath of the Demon Hunter` to include ability to cast Smite spells through crossbow attacks
+- fixed crash when trying to start campaign with character that as created when `Bonus Action Potions/Poisons` enabled when this option is disabled
+- fixed crashes in auto-translated campaigns caused by translated monster id and other DB-related parameters - does not fix already broken campaigns
+
+1.5.97.107:
+- fixed potential crash when switching weapon config to 'Lighting' with empty main hand and usable device in off-hand with no torch equipped
+
+1.5.97.106:
+- fixed tags for Battle Smiths extra spells
+- fixed tooltip for `Momentum` from `Weapon Master` subclass in action-switching
+- fixed Smites 2024 getting triggered on Bonus Action attacks
+- fixed `Oath of the Demon Hunter` getting extra smite dice on level 20 instead of `Oath of Thunder`
+- merged PR with remaster of `Oath of the Demon Hunter` - old version is still present, but will be removed at later date
+- merged PR with added 2024 Fighting Style settings for Ranger and Paladin
+
+1.5.97.105:
+- merged PR with updated zh-CN localization from MagicSkySword
+- fixed potential crash related to custom portraits and wild shape
+- fixed concentration spells not terminating properly when stopping concentration after wild-shaping
+- fixed Divine Smite 2024 using wrong slot level and having wrong number of dice
+
+1.5.97.104:
+- fixed damage of Branding Smite being 1 dice bigger than intended
+- fixed smite spells 2024 slot level selection using wrong spell slots
+- fixed potential crash related to effect proxies
+
+1.5.97.103:
+- fixed crash when opening spell selection panel 
+
+1.5.97.102:
+- Merged several Pull Requests:
+  - fixes for spell and cantrip tooltip translations (fix by Jack)
+  - fixed default selected formation when using formation reset button (fix by Jack)
+  - fixed Starry Wisp cantrip not preventing invisibility on target (fix by Zappa)
+  - fixed crash when cancelling Weapon mastery re-learn (fix by Zappa)
+
+1.5.97.101:
+- fixed patch for illusionary spells against creatures with True Sight should automatically save being broken by recent changes
+- fixed selected or disabled Fighting Styles not updating in Fighting Initiate feat on game startup, only on option change
+- fixed `Wild Surge` `Fly` condition
+
+1.5.97.100:
+- fixed input handling for Feat selection modal for feat groups
+- fixed (again) being able to interact with the game world below Feat selection modal for feat groups
+
+1.5.97.99:
+- fixed Grappler feat prompting grapple for creatures that are too big
+- fixed crash when casting Illusion spells/cantrips on gadgets with `Illusion spells automatically fail against targets with True Sight` enabled
+- fixed Feat selection modal for feat groups not blocking clicks on environment
+- fixed Feat selection modal for feat groups background size on some resolutions not fully covering screen
+
+1.5.97.98:
+- fixed `Tides of Chaos` reaction to missed attack consuming 2 charges
+- fixed `Tides of Chaos` reaction triggering if you have less than 0 charges
+
+1.5.97.97:
+- fixed crash when trying to hover over `Relentless Hex` invocation outside of level-up
+- fixed Tides of Chaos not spending its uses on reaction
+- fixed large creatures sometimes receiving AoO when moving without moving out of reach
+- made `Infectious Fury` from `Path of the Beast` barbarian trigger off unarmed attacks
+- updated description of `Infectious Fury` from `Path of the Beast` barbarian to state that it only works during your turn and elaborate on exact mechanics of marking and then using free actions to consume the mark
+
+1.5.97.96:
+- fixed readied `True Strike` 2024 version triggering without any effect in some cases
+- fixed material component validation for blade cantrips to properly require melee weapon in currently active equipment slots
+- fixed cantrips from some custom sub-classes (like Druid cantrips from `Nature Domain` Clerics) not being learned if 2024 rules for sub-class on level 3 are enabled
+- hide smite spells from spell panel so you can't manually cast them outside of battle
+
+1.5.97.95:
+- added option to make `Blade Ward` cantrip into 2024 version
+- fixed free version of `Step of the Wind` from 2024 Monk granting doubled jump distance
+
+1.5.97.94:
+- fixed several instances where dice re-rolls from Lucky feat or similar sources were not respecting attributes and other modifiers
+- removed `Will apply attack modifier penalties for ranged attacks on non-perceived` setting as it has issues and is really redundant on top of disadvantage
+- fixed game breaking if several characters detect trap on location load
+
+1.5.97.93:
+- Dungeon Maker: turn ConditionForms that add Prone condition into MovementForm of FallProne type. This fixes custom monsters that inflict Prone.
+- Dungeon Maker: if attack definition is not overriden - use raw base definition. This makes possible for custom monsters to reuse their base attacks that may have effects that are not damage or condition - like some wolves that have prone.
+
+1.5.97.92:
+- again removed duplicate `Mire the Mind` invocation
+- fixed Attacks of Opportunity not working
+- fixed Attacks of Opportunity highlight not being accurate in case some tiles near enemy have different visibility
+- renamed `Enable no attacks of opportunity when Blinded or if target is Invisible` setting to `Prevent attacks of opportunity when target is not perceived`
+
+1.5.97.91:
+- fixed Bardic Inspiration animation using weapon instead of instrument
+
+1.5.97.90:
+- fixed rare cases when `Max Allowed Classes` on multiclass can be 0
+- fixed 2024 ritual casting for all casters not working on some subclasses
+- removed `Update stealth on hero after attack if perceived on surprise round [first hero only]` setting as it was completely breaking stealth
+- made tweaks to Attack of Opportunity checks to fix rare cases of moving within enemy reach provoking AoO
+
+1.5.97.89:
+- fixed Divine Smite not dealing damage if cast with level 1 slot
+- fixed Oath of Demon Hunter not being able to use Divine Smite with crossbows
+
+1.5.97.88:
+- Smite Spells 2024: allow only attacks with melee weapons or unarmed (can be thrown melee weapon)
+- Smite Spells 2024: do not show smite popup if character has no spell slots to cast spell
+
+1.5.97.87:
+- fixed Divine Smite 2024 description and hide 2014 Divine Smite if 2024 Smite is enabled
+- fixed no Divine Smite prompts if 2024 rules enabled and you have no bonus action spells prepared
+- implemented 2024 Divine Smite free use once per long rest
+
+1.5.97.86:
+- fixed `Gift of the Ever-Living Ones` and similar healing-maximization effects not applying to some forms of healing
+- fixed Sentinel's movement stopping triggering for readied attacks
+- removed duplicate Mire the Mind invocation
+
+1.5.97.85:
+- changed `Evasive Footwork` maneuver to last until start of next turn, not end of current turn - as per PHB24
+- changed extra claw attack of `Path of the Beast` Barbarian to always add ability bonus and not consume Reaction
+
+1.5.97.84:
+- fixed crash on Linux related to generated speech fix
+- fixed 2024 ritual casting for all casters not working on `Spellblade`, `Arcane Scoundrel`, `Shadowcaster` and `Eldritch Knight` subclasses
+
+1.5.97.83:
+- merged Sheep-y's PR for smoother respec process
+- fixed audio disappearing or having wrong levels when using generated speech
+
+1.5.97.82:
+- fixed Disengage sometimes re-triggering when another character acts if it was confirmed by movement, not Confirm button
+- made Wrathful Smite deal Psychic damage and be Evocation school if 2024 Smite Spell changes disabled, and deal Necrotic and be Necromancy school if enabled
+- fixed Sentinel reaction attack and Blizzard Conduit from Way of the Elements barbarian sometimes making enemy attack not consume action
+- fixed error when `Circle of Wildfire` druid summons it's spirit while wildshaped
+
+1.5.97.81:
+- fixed potential crash with Spell Points system
+- show Spell Points and point cost on reactions that spend spell slots
+- changed 2024 Divine Smite Toggle to make it a spell, not just consume BA
+- added setting to turn Smite spells (Wrathful, Branding, Thunderous, Searing, Staggering, Banishing and Blinding) to 5e 2024 - no concentration, trigger on hit while still using Bonus Action
+
+1.5.97.80:
+- fixed aura powers breaking on location change
+- fixed `Ensnaring Strike` and `Wrathful Smite` damage being negated by successful saving throw
+- made Cunning Action (Rogue) and Fast Hands (Thief) enable respective Bonus Action actions (Dash/Disengage/Hide/Use Item etc.) instead of adding actions that would grant new BA with those new actions enabled
+- fixed Nick weapon mastery interaction with Cunning Action
+
+1.5.97.79:
+- fixed `Change magically obscured areas to be projectile blockers` not affecting Darkness from `Way of Shadows` monk and `Maddening Darkness` spell
+- fixed interaction between Darknesses from several `Way of Shadows` monks
+- allow `Way of Shadows` monk to shoot projectiles inside own darkness even if projectile blocking is enabled for magical darkness
+- Made Kobold's Draconic Cry distract for a full round + fixed area not extending up and down
+
+1.5.97.78:
+- fixed `Pact of the Tome` granting extra cantrips if you go back after selecting it and re-select it
+- made `Way of Shadow` monk see anyone inside Darkness that is created by monk ability
+
+1.5.97.77:
+- removed 13 DEX requirement from `Dual Wielder` feat as it is not present in 5e 2014
+- fixed `Sprite's Ability` from `Abilities of the Chain Master` invocation giving disadvantage to user, not to enemies and fixed its AC modifier being tied to Barkskin
+- Lighting and Obscurement - do not allow to see targets in the magical darkness without proper senses like blind sight, true sight or tremor sense
+
+1.5.97.76:
+- fixed Dragon's Breath DC when cast not on players
+
+1.5.97.75:
+- fixed displaying of Save Proficiency features in some cases (e.g. Iron Mind from Gloomstalker)
+- fixed `Honed Bear` of `Totem Warrior` applying its effect to barbarian, instead of enemies
+- fixed `Magic Counter` of `Hive Patron` warlock not working
+
+1.5.97.74:
+- fixed Sanctuary rolling saving throw for each projectile in a spell, not once per target per spell
+- updated description of Sanctuary to better reflect recent changes
+- fixed Seeking Spell metamagic triggering for missed attacks
+- fixed Command: Grovel and Command: Approach not properly ending target's turn
+
+1.5.97.73:
+- fixed crash when using some custom spell scrolls (like Sanctuary)
+- reworked how Sanctuary works - now it aborts attack action or makes target immune to magic effect in case of failed throw
+
+1.5.97.72:
+- fixed and improved mod update
+
+1.5.97.71:
+- fixed Moon Druid's primal Strike not working on unarmed beast attacks
+- fixed potential crash related to `Lighting and Obscurement` rules and effect proxies like Flaming Sphere
+- reworked Topple mastery to try and fix enemies continuing movement after being toppled
+
+1.5.97.70:
+- fixed multiplayer crash related to powers with sub-powers
+
+1.5.97.69:
+- re-fixed crash in cases when enemy with multi-attack loses ability to attack between chained attacks
+
+1.5.97.68:
+- fixed crash in cases when enemy with multi-attack loses ability to attack between chained attacks
+
+1.5.97.67:
+- Flexible Backgrounds: generate suggested skills description instead of relying on manually defined texts
+- tweaked skills for Militia background
+- tweaked how some of the weapon masteries are reported
+
+1.5.97.66:
+- fixed perception of large and bigger creatures when Light and Obscurement rules are enabled
+- merged PR from Hierot with tweaks for Eldritch Versatilities
+
+1.5.97.65:
+- removed `Deadly` weapon mastery as it was severely bugged
+- removed `alternative weapon masteries` setting
+- added ability to customize weapon masteries
+- fixed feature unlock sorting for classes with enabled weapon mastery choices
+- fixed known Arcane Shots not shown when `Enable extended proficiencies panel display` is turned on
+- show known Weapon Mastery when `Enable extended proficiencies panel display` is turned on
+- ModUI: generate list of stuff enabled by `Enable extended proficiencies panel display` dynamically
+
+1.5.97.64:
+- added `Show Logs` button to `Mod Error Warning` popup
+- show full path to Player.log file in `Mod Error Warning` popup
+- fixed `Starry Form` from `Circle of Stars` not restoring 1 charge on short rest when 2024 Wild Shape changes are enabled
+- fixed Cast Bonus Spell button that shows no spells present if non-caster selects Fey Teleportation feat 
+
+1.5.97.63:
+- fixed crash with 'Apply throwing penalties to range for lack of strength' setting enabled if creature had no main attack available
+- fixed Circle of Stars Starry Form having wrong amount of charges with 2024 Wild Shape changes
+- fixed 2024 Druid's Primal Strike triggers:
+  - no longer trigger on magic effects
+  - triggers on all attacks except non-beast unarmed
+- reworked Archer form from `Circle of Stars` to use custom actions instead of powers
+- fixed custom actions that use powers not showing proper targeting cursor
+- added option to show weapon type in tooltip (Game Settings -> GUI, enabled by default)
+- added DC to tooltips of poisons and poisoned ammunition
+- Mod UI: added folding to general item settings
+- added option to change weapon type of legendary weapons from Palace of Ice (ModUI -> Gameplay -> Crafting and Items)
+
+1.5.97.62:
+- fixed Way of Storm's `Tempest Fury` AoE attack using wrong attack mode
+- fixed crash when using Scroll of Wither and Bloom
+- fixed formatting of UB scroll usage in the game log
+- show tooltip for used item and resulting spell in game log
+
+1.5.97.61:
+- added option to show spell icon with spell tooltip on that scrolls (Game Settings->GUI, enabled by default)
+- added option to add scrolls for all UB spells to appropriate shops (ModUI->General->Items&Crafting and also ModUI->Character->Spells) 
+- added option to add scrolls for all UB spells to appropriate treasure packs (ModUI->General->Items&Crafting and also ModUI->Character->Spells)
+- fixed Martial Spellblade not having access to Enchantment spells 
+
+1.5.97.60:
+- preview push from Tempest Domain's Thunderous Strike if motion preview is enabled
+- Grappling: do not allow to grapple immune creatures - prevents Grappling status from being stuck on the grappler
+
+1.5.97.59:
+- merged PR from BShennette: `Change cast time from Action -> Bonus Action as per TT version of the "Guardian of Nature" spell.`
+- merged updated Russian localization from Kranay
+
+1.5.97.58:
+- added space to comma list separator for better look
+- slightly improved check for target size for push mastery
+- preview push from weapon mastery if motion preview is enabled
+- with motion preview on show line down to where creature will fall after push/pull creature
+- tweaked how Aasimar's `Angelic Flight` condition is reported for better looking log
+- reworked `Burst of Radiance` cantrip to be AoE in stead of 8 targets
+- several improvements to Spell Points optional rule:
+ - Arcane Surge now works with it - gives 2 points per spell slot recovered
+ - properly report Spell points recovery on rest
+- fixed crash if character with replace attack by cantrip has no attack modes
+- fixed improper copying of usable device description in item builder 
+- hide Deadeye toggle if no appropriate weapon is equipped
+- reworked 2024 poison and potion used as Bonus Action:
+ - when right-clicking in inventory it shows separate buttons for Main and Bonus action use
+ - properly consumes Main action if Main action option is chosen
+- Mod UI: added ability to search items by name
+- fixed interaction between Darkness and Daylight and Windwall and clouds
+- lighting, obscurement, and vision rules toggle: fixed Darkvision and Superior Darkvision being ignored for regular darkness and made Truesight allow seeing through invisibility
+
+1.5.97.57:
+- improvements to auto-update
+
+1.5.97.56:
+- work in progress on GitHub actions build 
+
+1.5.97.55:
+- added feedback tooltip for shot in the dark
+- fixed nasty bug with "chance to perceive at close range" option
+
+1.5.97.54:
+- added optional jump check fail 1d4 damage. 
+- added optional disadvantaged jump check roll for wearing armor
+- removed the armor wearing jump distance modification (bad idea)
+
+1.5.97.53:
+- moved roleplay options in to its own display
+- updated the version control updater to point to the new repository
+
+1.5.97.52:
+- added option to modify jumping rules for encumberance and armor category
+- added option to modify throwing rules for range vs strength
+
+1.5.97.51:
+- added Deadly weapon mastery (From Pathfinder)
+- updated Longbow and LongMace types with deadly for alternate weapon mastery properties
+- added option for critical hits and misses to happen when attack result is 10 under or over the AC
+- fixed the cleave on ranged weapons to have a maximum effectiveness of 16
+
+1.5.97.50:
+- fixed bad bug with shot in the dark
+
+1.5.97.49:
+- changed Shine to be effective (DC 15 fixed save)
+- added Sorr-Akkath to have darkvision 
+- added a chance to perceive characters that are < 11 distance
+- added ranged and throw for non-perceived targets to be literally a shot in the dark, especially > 10 distance
+- added zipping the mod on realease install build.
+- fixed monsters to have the right vision when it comes to UB light and obscurement rules
+
 1.5.97.46:
 
 - added Domain Order subclass

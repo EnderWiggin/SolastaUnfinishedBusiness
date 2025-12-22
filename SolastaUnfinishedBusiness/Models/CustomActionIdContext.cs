@@ -56,7 +56,13 @@ public static class CustomActionIdContext
         (Id)ExtraActionId.TacticalMasterToggle,
         (Id)ExtraActionId.ThunderousStrikeToggle,
         (Id)ExtraActionId.WeaponMasteryToggle,
-        (Id)ExtraActionId.ZenShotToggle
+        (Id)ExtraActionId.ZenShotToggle,
+        (Id)ExtraActionId.OathOfDemonHunterTrialMarkToggle,
+    ];
+
+    internal static readonly List<Id> ExtraActionIdReverseToggles =
+    [
+        (Id)ExtraActionId.PaladinSmiteToggle
     ];
 
     private static readonly List<Id> ExtraActionIdPowers =
@@ -68,6 +74,8 @@ public static class CustomActionIdContext
         (Id)ExtraActionId.BondOfTheTalismanTeleport,
         (Id)ExtraActionId.CoordinatedAssaultToggle,
         (Id)ExtraActionId.DestructiveWrathToggle,
+        (Id)ExtraActionId.DruidStarsArcherAttack,
+        (Id)ExtraActionId.DruidStarsArcherAttackFree,
         (Id)ExtraActionId.FarStep,
         (Id)ExtraActionId.ForcePoweredStrikeToggle,
         (Id)ExtraActionId.ImpishWrathToggle,
@@ -98,6 +106,20 @@ public static class CustomActionIdContext
         BuildFarStepAction();
         BuildPrioritizeAction();
         BuildProxyActions();
+        BuildNickAction();
+    }
+
+    private static void BuildNickAction()
+    {
+        ActionDefinitionBuilder.Create(AttackFree, "ActionNickMasteryAttack")
+            .SetGuiPresentation("Feature/&FeatureWeaponMasteryNickTitle", AttackFree.GuiPresentation.Description,
+                AttackFree.GuiPresentation.spriteReference)
+            .SetActionId(ExtraActionId.NickMasteryAttack)
+            .SetFormType(ActionFormType.Large)
+            .SetActionType(ActionType.NoCost)
+            .RequiresAuthorization(false)
+            .SetSortOrder(0)
+            .AddToDB();
     }
 
     private static void BuildProxyActions()
@@ -254,14 +276,17 @@ public static class CustomActionIdContext
     {
         var powerNdx = actions.FindIndex(x => x == Id.Cautious);
 
-        if (powerNdx < 0)
+        if (powerNdx >= 0)
         {
-            return;
+            foreach (var id in ExtraActionIdToggles.Where(actions.Contains))
+            {
+                DoReorder(id);
+            }
         }
 
-        foreach (var id in ExtraActionIdToggles.Where(actions.Contains))
+        if (actions.Contains((Id)ExtraActionId.NickMasteryAttack))
         {
-            DoReorder(id);
+            DoReorder((Id)ExtraActionId.NickMasteryAttack, 0);
         }
 
         return;
@@ -382,7 +407,6 @@ public static class CustomActionIdContext
         ActionDefinitionBuilder
             .Create(MetamagicToggle, "PaladinSmiteToggle")
             .SetOrUpdateGuiPresentation(Category.Action)
-            .RequiresAuthorization()
             .SetActionId(ExtraActionId.PaladinSmiteToggle)
             .OverrideClassName("Toggle")
             .AddToDB();
@@ -560,6 +584,15 @@ public static class CustomActionIdContext
         // ReSharper disable once SwitchStatementMissingSomeEnumCasesNoDefault
         switch (actionId)
         {
+            case (Id)ExtraActionId.NickMasteryAttack:
+            {
+                result = locationCharacter.GetSpecialFeatureUses(Tabletop2024Context.WeaponMasteryNick) == 1
+                         && locationCharacter.FindNickAttackMode() != null
+                    ? ActionStatus.Available
+                    : ActionStatus.Unavailable;
+
+                return;
+            }
             case (Id)ExtraActionId.CombatWildShape:
             {
                 var power = character.GetPowerFromDefinition(action.ActivatedPower);
@@ -629,6 +662,11 @@ public static class CustomActionIdContext
                 result = CanUseActionQuickened(locationCharacter, scope);
                 return;
             }
+            case (Id)ExtraActionId.PaladinSmiteToggle:
+                result = character.HasSmites()
+                    ? ActionStatus.Available
+                    : ActionStatus.Unavailable;
+                return;
         }
 
         var isInvocationAction = IsInvocationActionId(actionId);
@@ -775,7 +813,7 @@ public static class CustomActionIdContext
                IsEldritchVersatilityId(id);
     }
 
-    private static bool IsPowerUseActionId(Id id)
+    internal static bool IsPowerUseActionId(Id id)
     {
         return ExtraActionIdPowers.Contains(id);
     }
@@ -783,6 +821,11 @@ public static class CustomActionIdContext
     internal static bool IsToggleId(Id id)
     {
         return ExtraActionIdToggles.Contains(id);
+    }
+
+    internal static bool IsReverseToggleId(Id id)
+    {
+        return ExtraActionIdReverseToggles.Contains(id);
     }
 
     private static ActionStatus CanUseActionQuickened(GameLocationCharacter glc, ActionScope scope)

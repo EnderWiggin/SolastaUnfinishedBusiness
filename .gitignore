@@ -305,6 +305,12 @@ paket-files/
 __pycache__/
 *.pyc
 
+# Linux direnv  files
+.envrc
+
+# Environment files with sensitive data
+Scripts/.env
+
 # Cake - Uncomment if you are using it
 # tools/**
 # !tools/packages.config
@@ -336,3 +342,5 @@ ASALocalRun/
 # MFractors (Xamarin productivity tool) working folder 
 .mfractor/
 
+/SolastaUnfinishedBusiness.7z
+/SolastaUnfinishedBusiness/Assembly-CSharp.dll

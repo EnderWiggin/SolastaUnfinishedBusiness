@@ -59,7 +59,8 @@
     "maxRange": 12,
     "weaponTags": [
       "Thrown",
-      "Versatile"
+      "Versatile",
+      "Vex"
     ],
     "effectDescription": {
       "$type": "EffectDescription, Assembly-CSharp",

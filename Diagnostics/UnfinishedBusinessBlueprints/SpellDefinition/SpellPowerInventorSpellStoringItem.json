@@ -2,13 +2,16 @@
   "$type": "SpellDefinition, Assembly-CSharp",
   "spellsBundle": false,
   "subspellsList": [
+    "Definition:SpellPowerCreateSpellStoringWandOfCausticZap:463561ed-0f78-576e-9c24-bf335e8ffd07",
     "Definition:SpellPowerCreateSpellStoringWandOfCureWounds:266af657-efd7-52ff-9e78-17ac1538ca14",
     "Definition:SpellPowerCreateSpellStoringWandOfDetectMagic:445d8d95-70c2-58f8-b594-e7e64699a380",
     "Definition:SpellPowerCreateSpellStoringWandOfFaerieFire:87a7f66d-7441-5302-aeaf-7917e4859b08",
     "Definition:SpellPowerCreateSpellStoringWandOfFalseLife:a7ba596a-c1c3-5ff4-be37-9e5f4b403bb5",
     "Definition:SpellPowerCreateSpellStoringWandOfGrease:950f86e9-f52f-5706-aef0-2ec4cbf1ce24",
     "Definition:SpellPowerCreateSpellStoringWandOfJump:2a1c6a52-abf3-5eb4-b05c-1dd1d51f73ad",
-    "Definition:SpellPowerCreateSpellStoringWandOfLongstrider:75212485-bfb8-5fa1-987d-cc85d4c45515"
+    "Definition:SpellPowerCreateSpellStoringWandOfLongstrider:75212485-bfb8-5fa1-987d-cc85d4c45515",
+    "Definition:SpellPowerCreateSpellStoringWandOfRadiantMotes:94c5cb8d-ee0c-5fb9-b114-1a8a4c0db3c8",
+    "Definition:SpellPowerCreateSpellStoringWandOfVileBrew:15ddfd42-9933-515a-b7b5-23ebc6c8a67b"
   ],
   "compactSubspellsTooltip": false,
   "implemented": true,

@@ -7,6 +7,7 @@ using SolastaUnfinishedBusiness.Api.GameExtensions;
 using SolastaUnfinishedBusiness.Behaviors.Specific;
 using SolastaUnfinishedBusiness.Interfaces;
 using SolastaUnfinishedBusiness.Spells;
+using SolastaUnfinishedBusiness.Subclasses;
 using SolastaUnfinishedBusiness.Validators;
 using UnityEngine;
 using static RuleDefinitions;
@@ -96,6 +97,13 @@ public static class CharacterActionAttackPatcher
             var target = targets[0];
             var rulesetDefender = target.RulesetActor;
             var defenderWasConscious = !rulesetDefender.IsDeadOrDyingOrUnconscious;
+
+            //PATCH: handle target under Sanctuary spell
+            if (!SpellBuilders.CheckSanctuary(actingCharacter.RulesetCharacter, target.RulesetCharacter))
+            {
+                __instance.Abort(CharacterAction.InterruptionType.Failed);
+                yield break;
+            }
 
             // Check if the attack is possible, and compute modifiers
             var attackParams = new BattleDefinitions.AttackEvaluationParams();
@@ -922,7 +930,8 @@ public static class CharacterActionAttackPatcher
                 battleManager, actingCharacter, target, attackMode, null, damageReceived);
 
             //PATCH: supports smite spell scenarios
-            if (attackHasDamaged && !rangeAttack)
+            // Allow Oath of Demon Hunter to trigger smite concentration end with crossbows
+            if (attackHasDamaged && (!rangeAttack || OathOfDemonHunter.IsEnergyCrossbowBoltActive(rulesetCharacter, attackMode.sourceObject as RulesetItem, attackMode)))
             {
                 rulesetCharacter.ProcessConditionsMatchingInterruption(
                     (ConditionInterruption)ExtraConditionInterruption.AttacksWithMeleeAndDamages, damageReceived);

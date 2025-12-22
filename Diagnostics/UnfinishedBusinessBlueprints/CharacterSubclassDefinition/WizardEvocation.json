@@ -3,13 +3,18 @@
   "featureUnlocks": [
     {
       "$type": "FeatureUnlockByLevel, Assembly-CSharp",
-      "featureDefinition": "Definition:MagicAffinityWizardEvocationSavant:2dbbbedb-dd0a-5a39-8059-fdd05d148c18",
-      "level": 2
+      "featureDefinition": "Definition:MagicAffinityWizardEvocationSavant2024:465191d8-230c-5e3c-bd16-b3c87f969bb6",
+      "level": 3
     },
     {
       "$type": "FeatureUnlockByLevel, Assembly-CSharp",
       "featureDefinition": "Definition:FeatureWizardEvocationSculptSpells:f6634f1c-0f87-5369-98ab-c610c0bd24bf",
-      "level": 2
+      "level": 3
+    },
+    {
+      "$type": "FeatureUnlockByLevel, Assembly-CSharp",
+      "featureDefinition": "Definition:MagicAffinityWizardEvocationSavant2024Progression:3753adf2-f9ae-5cf2-adef-53cd799f0356",
+      "level": 5
     },
     {
       "$type": "FeatureUnlockByLevel, Assembly-CSharp",
@@ -18,13 +23,48 @@
     },
     {
       "$type": "FeatureUnlockByLevel, Assembly-CSharp",
+      "featureDefinition": "Definition:MagicAffinityWizardEvocationSavant2024Progression:3753adf2-f9ae-5cf2-adef-53cd799f0356",
+      "level": 7
+    },
+    {
+      "$type": "FeatureUnlockByLevel, Assembly-CSharp",
+      "featureDefinition": "Definition:MagicAffinityWizardEvocationSavant2024Progression:3753adf2-f9ae-5cf2-adef-53cd799f0356",
+      "level": 9
+    },
+    {
+      "$type": "FeatureUnlockByLevel, Assembly-CSharp",
       "featureDefinition": "Definition:FeatureWizardEvocationEmpoweredEvocation:4ff4b221-498d-5cdb-a882-ebd551626bd1",
       "level": 10
     },
     {
       "$type": "FeatureUnlockByLevel, Assembly-CSharp",
+      "featureDefinition": "Definition:MagicAffinityWizardEvocationSavant2024Progression:3753adf2-f9ae-5cf2-adef-53cd799f0356",
+      "level": 11
+    },
+    {
+      "$type": "FeatureUnlockByLevel, Assembly-CSharp",
+      "featureDefinition": "Definition:MagicAffinityWizardEvocationSavant2024Progression:3753adf2-f9ae-5cf2-adef-53cd799f0356",
+      "level": 13
+    },
+    {
+      "$type": "FeatureUnlockByLevel, Assembly-CSharp",
       "featureDefinition": "Definition:FeatureSetWizardEvocationOverChannel:720b1e2a-dc47-5f5a-bc9d-5ef848795cc9",
       "level": 14
+    },
+    {
+      "$type": "FeatureUnlockByLevel, Assembly-CSharp",
+      "featureDefinition": "Definition:MagicAffinityWizardEvocationSavant2024Progression:3753adf2-f9ae-5cf2-adef-53cd799f0356",
+      "level": 15
+    },
+    {
+      "$type": "FeatureUnlockByLevel, Assembly-CSharp",
+      "featureDefinition": "Definition:MagicAffinityWizardEvocationSavant2024Progression:3753adf2-f9ae-5cf2-adef-53cd799f0356",
+      "level": 17
+    },
+    {
+      "$type": "FeatureUnlockByLevel, Assembly-CSharp",
+      "featureDefinition": "Definition:MagicAffinityWizardEvocationSavant2024Progression:3753adf2-f9ae-5cf2-adef-53cd799f0356",
+      "level": 19
     }
   ],
   "personalityFlagOccurences": [],

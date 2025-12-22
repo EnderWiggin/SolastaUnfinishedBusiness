@@ -301,7 +301,7 @@
     "$type": "GuiPresentation, Assembly-CSharp",
     "hidden": true,
     "title": "Long Mace",
-    "description": "Feature/&FeatureWeaponMasterySapDescription",
+    "description": "Feature/&FeatureWeaponMasteryDeadlyDescription",
     "spriteReference": {
       "$type": "UnityEngine.AddressableAssets.AssetReferenceSprite, Unity.Addressables",
       "m_AssetGUID": "",

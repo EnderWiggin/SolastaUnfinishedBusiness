@@ -10,16 +10,6 @@
   "featureUnlocks": [
     {
       "$type": "FeatureUnlockByLevel, Assembly-CSharp",
-      "featureDefinition": "Definition:AttributeModifierOligathStrengthAbilityScoreIncrease:9c0290d6-3f02-5069-9864-d5f629004c60",
-      "level": 1
-    },
-    {
-      "$type": "FeatureUnlockByLevel, Assembly-CSharp",
-      "featureDefinition": "Definition:AttributeModifierOligathConstitutionAbilityScoreIncrease:188a254c-13bd-5d2e-a799-235e24674bcd",
-      "level": 1
-    },
-    {
-      "$type": "FeatureUnlockByLevel, Assembly-CSharp",
       "featureDefinition": "Definition:DamageAffinityOligathHotBlooded:49794b8d-bffb-5cdc-8d10-54789fb7ebce",
       "level": 1
     },
@@ -52,6 +42,16 @@
       "$type": "FeatureUnlockByLevel, Assembly-CSharp",
       "featureDefinition": "Definition:PowerOligathStoneEndurance:aedeb1f8-1203-5fd3-8e13-4a32a06a6dc4",
       "level": 1
+    },
+    {
+      "$type": "FeatureUnlockByLevel, Assembly-CSharp",
+      "featureDefinition": "Definition:PointPoolAbilityScore3:6045e81f-0b72-5085-8243-234da1816050",
+      "level": 1
+    },
+    {
+      "$type": "FeatureUnlockByLevel, Assembly-CSharp",
+      "featureDefinition": "Definition:PointPoolBonusFeat:c3eef96a911e20a40ab0e8a61c7463e1",
+      "level": 1
     }
   ],
   "subRaces": [],
@@ -83,7 +83,16 @@
     "femaleNameOptions": [],
     "hasSurName": true,
     "surNameTitle": "Race/&ElfSurNameTitle",
-    "surNameOptions": [],
+    "surNameOptions": [
+      "Sulzar",
+      "Runnern",
+      "Zaztej",
+      "Akssoj",
+      "Traaktem",
+      "Gekssurt",
+      "Thruntar",
+      "Vazred"
+    ],
     "availableMorphotypeCategories": [
       "FaceShape",
       "Skin",
@@ -98,7 +107,8 @@
       "Pronoun",
       "BodyDecorationColor",
       "Scars",
-      "Musculature"
+      "Musculature",
+      "Eye"
     ],
     "needBeard": false,
     "defaultMusculature": 0,
@@ -260,7 +270,7 @@
   },
   "guiPresentation": {
     "$type": "GuiPresentation, Assembly-CSharp",
-    "hidden": true,
+    "hidden": false,
     "title": "Race/&RaceOligathTitle",
     "description": "Race/&RaceOligathDescription",
     "spriteReference": {

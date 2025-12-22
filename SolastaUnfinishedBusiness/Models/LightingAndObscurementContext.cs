@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Text.RegularExpressions;
 using SolastaUnfinishedBusiness.Api.GameExtensions;
 using SolastaUnfinishedBusiness.Api.Helpers;
 using SolastaUnfinishedBusiness.Api.LanguageExtensions;
@@ -47,7 +48,8 @@ internal static class LightingAndObscurementContext
         "DLC3_Elven_Suspect_05_Guard_Traitor",
         "DLC3_Elven_06_Guard",
         "SRD_DLC3_Archmage",
-        "Generic_ShockArcanist"
+        "Generic_ShockArcanist",
+        "Sorr-Akkath*"
     ];
 
     private static string[] MonstersThatShouldHaveTrueSight { get; } =
@@ -361,6 +363,23 @@ internal static class LightingAndObscurementContext
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    private static bool IsInMagicalDarkness(RulesetActor target, RulesetActor sensor)
+    {
+        return target != null
+               && target.HasConditionOfType(ConditionInMagicalDarknessName)
+               && !SensorCanSeeTargetThroughDarkness(target, sensor);
+    }
+    
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    internal static bool SensorCanSeeTargetThroughDarkness(RulesetActor target, RulesetActor sensor)
+    {
+        return sensor != null
+               && target != null
+               && target.AllConditions
+                   .Any(c => c.SourceGuid == sensor.Guid && c.conditionDefinition == ConditionSourceCanSeeMark);
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private static bool IsBlindNotFromDarkness(RulesetActor actor)
     {
         return
@@ -380,7 +399,8 @@ internal static class LightingAndObscurementContext
         GameLocationCharacter sensor,
         GameLocationCharacter target = null,
         LightingState additionalBlockedLightingState = LightingState.Darkness,
-        bool requireLineOfSight = false)
+        bool requireLineOfSight = false,
+        bool useCellPos = false)
     {
         // gadgets cannot perceive anything
         if (sensor.RulesetActor is RulesetGadget)
@@ -389,32 +409,29 @@ internal static class LightingAndObscurementContext
         }
 
         // if a proxy need to perceive from controller
-        var finalSensor = sensor;
-
         if (sensor.RulesetCharacter is RulesetCharacterEffectProxy effectProxy)
         {
             var controller = EffectHelpers.GetCharacterByGuid(effectProxy.ControllerGuid);
+            var locationController = GameLocationCharacter.GetFromActor(controller);
 
-            if (controller != null)
+            if (locationController == null)
             {
-                var locationController = GameLocationCharacter.GetFromActor(controller);
-
-                if (locationController != null)
-                {
-                    finalSensor = locationController;
-                }
+                //Couldn't find controller - can't check if this proxy can perceive target
+                return false;
             }
+
+            sensor = locationController;
         }
 
         //check line of sight
         if ((requireLineOfSight || !Main.Settings.UseOfficialLightingObscurementAndVisionRules)
-            && !instance.IsCellPerceivedByCharacter(cellPosition, finalSensor))
+            && !instance.IsCellPerceivedByCharacter(cellPosition, sensor))
         {
             return false;
         }
 
         // use the improved lighting state detection to diff between darkness and heavily obscured
-        var targetLightingState = ComputeLightingStateOnTargetPosition(finalSensor, cellPosition);
+        var targetLightingState = ComputeLightingStateOnTargetPosition(sensor, cellPosition);
 
         // use vanilla if setting is off but still supporting additionalBlockedLightingState logic
         if (!Main.Settings.UseOfficialLightingObscurementAndVisionRules)
@@ -425,23 +442,42 @@ internal static class LightingAndObscurementContext
         }
 
         // determine constraints
-        var finalCellPosition = target != null ? DistanceCalculation.GetPositionCenter(target) : cellPosition;
+        var finalCellPosition = useCellPos || target == null
+            ? cellPosition
+            : DistanceCalculation.GetPositionCenter(target);
         // must use vanilla distance calculation here
-        var distance = int3.Distance(finalSensor.LocationPosition, finalCellPosition);
-        var sensorCharacter = finalSensor.RulesetCharacter;
+        var distance = int3.Distance(sensor.LocationPosition, finalCellPosition);
+        var sensorCharacter = sensor.RulesetCharacter;
         var sourceIsBlindFromDarkness = IsBlindFromDarkness(sensorCharacter);
         var sourceIsBlindNotFromDarkness = IsBlindNotFromDarkness(sensorCharacter);
         var targetIsNotTouchingGround = target != null && !target.RulesetActor.IsTouchingGround();
+        var targetIsInMagicalDarkness = target != null && IsInMagicalDarkness(target.RulesetCharacter, sensorCharacter);
         var targetIsInvisible =
             target != null && target.RulesetActor.HasConditionOfTypeOrSubType(ConditionInvisibleBase.Name);
 
         var senseModesToPrevent = new List<SenseMode.Type>();
 
+        if (Main.Settings.OfficialObscurementRulesTweakMonsters)
+        {
+            if (MonstersThatShouldHaveBlindSight
+                .Any(m => Regex.IsMatch(sensorCharacter.Name, m, RegexOptions.IgnoreCase)))
+                sensorCharacter.SenseModes.Add(new SenseMode(SenseMode.Type.Blindsight, 10, 1));
+            if (MonstersThatShouldHaveDarkvision
+                .Any(m => Regex.IsMatch(sensorCharacter.Name, m, RegexOptions.IgnoreCase)))
+                sensorCharacter.SenseModes.Add(new SenseMode(SenseMode.Type.Darkvision, 60, 1));
+            if (MonstersThatShouldHaveTrueSight
+                .Any(m => Regex.IsMatch(sensorCharacter.Name, m, RegexOptions.IgnoreCase)))
+                sensorCharacter.SenseModes.Add(new SenseMode(SenseMode.Type.Truesight, 60, 1));
+            if (MonstersThatShouldNotHaveTremorSense
+                .Any(m => Regex.IsMatch(sensorCharacter.Name, m, RegexOptions.IgnoreCase)))
+                sensorCharacter.SenseModes.Add(new SenseMode(SenseMode.Type.Tremorsense, 60, 1));
+        }
+
         if (target != null)
         {
             foreach (var modifier in target.RulesetActor.GetSubFeaturesByType<IPreventEnemySenseMode>())
             {
-                senseModesToPrevent.AddRange(modifier.PreventedSenseModes(finalSensor, target.RulesetCharacter));
+                senseModesToPrevent.AddRange(modifier.PreventedSenseModes(sensor, target.RulesetCharacter));
             }
         }
 
@@ -457,14 +493,14 @@ internal static class LightingAndObscurementContext
 
             var senseType = senseMode.SenseType;
 
-            // UNLIT
+            // UNLIT 
             if (targetLightingState is LightingState.Unlit && senseType is SenseMode.Type.NormalVision)
             {
                 continue;
             }
 
             // MAGICAL DARKNESS
-            if (sourceIsBlindFromDarkness && senseType is
+            if ((sourceIsBlindFromDarkness || targetIsInMagicalDarkness) && senseType is
                     SenseMode.Type.DetectInvisibility or
                     SenseMode.Type.NormalVision or
                     SenseMode.Type.Darkvision or
@@ -475,9 +511,7 @@ internal static class LightingAndObscurementContext
 
             if (targetLightingState is LightingState.Darkness && senseType is
                     SenseMode.Type.DetectInvisibility or
-                    SenseMode.Type.NormalVision or
-                    SenseMode.Type.Darkvision or
-                    SenseMode.Type.SuperiorDarkvision)
+                    SenseMode.Type.NormalVision)
             {
                 continue;
             }
@@ -516,16 +550,70 @@ internal static class LightingAndObscurementContext
                     SenseMode.Type.NormalVision or
                     SenseMode.Type.Darkvision or
                     SenseMode.Type.SuperiorDarkvision or
-                    SenseMode.Type.Truesight or
                     WayOfShadow.SenseModeDarkness)
             {
                 continue;
+            }
+
+            //consider this a successful perception roll as the sensor has skills to perceive
+            if (Main.Settings.EnableChanceToPerceiveCloseRange && sensor != null && target != null)
+            {
+                if (!Global.RolledPerceptionThisTurn.ContainsKey(sensor))
+                    Global.RolledPerceptionThisTurn.Add(sensor, []);
+
+                if (!Global.RolledPerceptionThisTurn[sensor].ContainsKey(target))
+                    Global.RolledPerceptionThisTurn[sensor].Add(target, RuleDefinitions.RollOutcome.Success);
             }
 
             // Silhouette Step is the only one using additionalBlockedLightingState as it requires to block BRIGHT
             return additionalBlockedLightingState == LightingState.Darkness ||
                    targetLightingState != additionalBlockedLightingState;
         }
+
+        if (Main.Settings.EnableChanceToPerceiveCloseRange
+            && distance < 11
+            && sensor != null
+            && target != null
+            && !targetIsInvisible
+            && !sourceIsBlindFromDarkness)
+        {
+            var sensorAllowedToRoll = false;
+            var advantage = RuleDefinitions.AdvantageType.None;
+            if (targetLightingState is LightingState.Darkness
+                || targetLightingState is (LightingState)MyLightingState.HeavilyObscured
+                || sourceIsBlindNotFromDarkness) advantage = RuleDefinitions.AdvantageType.Disadvantage;
+
+            if (!Global.RolledPerceptionThisTurn.TryGetValue(sensor, out var targets))
+            {
+                targets = [];
+                Global.RolledPerceptionThisTurn[sensor] = targets;
+                sensorAllowedToRoll = true;
+            } else if (!targets.ContainsKey(target))
+            {
+                sensorAllowedToRoll = true;
+            }
+
+            RuleDefinitions.RollOutcome sensorOutcome;
+            if (sensorAllowedToRoll)
+            {
+                sensor.RollAbilityCheck(AttributeDefinitions.Wisdom, SkillDefinitions.Perception, (int)distance + 10,
+                    advantage, new ActionModifier(), false, 0, out _, out _, out _, out _, out sensorOutcome, out _,
+                    true);
+
+                 targets[target] = sensorOutcome;
+            }
+            else if (!targets.TryGetValue(target, out sensorOutcome))
+            {
+                sensorOutcome = RuleDefinitions.RollOutcome.Failure;
+            }
+
+            if (sensorOutcome == RuleDefinitions.RollOutcome.Success)
+            {
+                return additionalBlockedLightingState == LightingState.Darkness ||
+                       targetLightingState != additionalBlockedLightingState;
+            }
+        }
+
 
         return false;
     }
@@ -774,7 +862,24 @@ internal static class LightingAndObscurementContext
         .Create(ConditionBlinded, "ConditionBlindedByDarkness")
         .SetGuiPresentation(Gui.Format(BlindTitle, Darkness.FormatTitle()), BlindDescription, ConditionBlinded)
         .SetParentCondition(ConditionBlinded)
+        .SetSilent(Silent.WhenRefreshed)
         .SetFeatures()
+        .AddToDB();
+
+    private const string ConditionInMagicalDarknessName = "ConditionInMagicalDarkness";
+
+    private static readonly ConditionDefinition ConditionInMagicalDarkness = ConditionDefinitionBuilder
+        .Create(ConditionBlinded, ConditionInMagicalDarknessName)
+        .SetGuiPresentationNoContent(true)
+        .SetFeatures()
+        .AddToDB();
+
+    //Source of this condition can see actor that has this condition through magical darkness
+    internal static readonly ConditionDefinition ConditionSourceCanSeeMark = ConditionDefinitionBuilder
+        .Create("ConditionSourceCanSeeMark")
+        .SetGuiPresentationNoContent(true)
+        .SetSilent(Silent.Always)
+        .AllowMultipleInstances()
         .AddToDB();
 
     private static readonly ConditionDefinition ConditionBlindedByCloudKill = ConditionDefinitionBuilder
@@ -855,6 +960,17 @@ internal static class LightingAndObscurementContext
         SwitchOfficialObscurementRules();
     }
 
+    //used by patches to check if condition is ConditionDarkness, return it for similar conditions
+    internal static ConditionDefinition CheckForDarknessCondition(ConditionForm conditionForm)
+    {
+        return conditionForm.ConditionDefinition.Name
+            is RuleDefinitions.ConditionDarkness
+            or "ConditionBlindedByDarkness"
+            or "ConditionVeil"
+            ? ConditionDarkness
+            : conditionForm.ConditionDefinition;
+    }
+
     internal static void SwitchOfficialObscurementRules()
     {
         var searchTerm = Main.Settings.UseOfficialLightingObscurementAndVisionRules
@@ -891,6 +1007,7 @@ internal static class LightingAndObscurementContext
 
             PowerDefilerDarkness.EffectDescription.EffectForms[1].ConditionForm.ConditionDefinition =
                 ConditionBlindedByDarkness;
+            AddInMagicDarkness(PowerDefilerDarkness);
 
             // >> ConditionDarkness
             // ConditionAffinityInvocationDevilsSight
@@ -901,9 +1018,12 @@ internal static class LightingAndObscurementContext
 
             WayOfShadow.SpellDarkness.EffectDescription.EffectForms[1].ConditionForm.ConditionDefinition =
                 ConditionBlindedByDarkness;
+            AddInMagicDarkness(WayOfShadow.SpellDarkness);
             Darkness.EffectDescription.EffectForms[1].ConditionForm.ConditionDefinition = ConditionBlindedByDarkness;
+            AddInMagicDarkness(Darkness);
             SpellsContext.MaddeningDarkness.EffectDescription.EffectForms[1].ConditionForm.ConditionDefinition =
                 ConditionBlindedByDarkness;
+            AddInMagicDarkness(SpellsContext.MaddeningDarkness);
 
             // >> ConditionHeavilyObscured
             // FogCloud
@@ -957,6 +1077,7 @@ internal static class LightingAndObscurementContext
             ConditionAffinityVeilImmunity.conditionType = ConditionVeil.Name;
 
             PowerDefilerDarkness.EffectDescription.EffectForms[1].ConditionForm.ConditionDefinition = ConditionVeil;
+            RemoveInMagicDarkness(PowerDefilerDarkness);
 
             // >> ConditionDarkness
             // ConditionAffinityInvocationDevilsSight
@@ -970,9 +1091,12 @@ internal static class LightingAndObscurementContext
 
             WayOfShadow.SpellDarkness.EffectDescription.EffectForms[1].ConditionForm.ConditionDefinition =
                 ConditionDarkness;
+            RemoveInMagicDarkness(WayOfShadow.SpellDarkness);
             Darkness.EffectDescription.EffectForms[1].ConditionForm.ConditionDefinition = ConditionDarkness;
+            RemoveInMagicDarkness(Darkness);
             SpellsContext.MaddeningDarkness.EffectDescription.EffectForms[1].ConditionForm.ConditionDefinition =
                 ConditionDarkness;
+            RemoveInMagicDarkness(SpellsContext.MaddeningDarkness);
 
             // >> ConditionHeavilyObscured
             // FogCloud
@@ -1009,6 +1133,19 @@ internal static class LightingAndObscurementContext
             CombatAffinityHeavilyObscuredSelf.nullifiedBySenses = [];
             CombatAffinityHeavilyObscuredSelf.nullifiedBySelfSenses =
                 [SenseMode.Type.Truesight, SenseMode.Type.Blindsight];
+        }
+
+        return;
+
+        void AddInMagicDarkness(IMagicEffect eff)
+        {
+            eff.EffectDescription.EffectForms.Add(EffectFormBuilder.AddConditionForm(ConditionInMagicalDarkness));
+        }
+
+        void RemoveInMagicDarkness(IMagicEffect eff)
+        {
+            eff.EffectDescription.EffectForms
+                .RemoveAll(x => x.ConditionForm is { conditionDefinition.Name: ConditionInMagicalDarknessName });
         }
     }
 
@@ -1063,11 +1200,15 @@ internal static class LightingAndObscurementContext
         {
             PowerDefilerDarkness.EffectDescription.EffectForms.TryAdd(FormProjectileBlocker);
             Darkness.EffectDescription.EffectForms.TryAdd(FormProjectileBlocker);
+            WayOfShadow.SpellDarkness.EffectDescription.EffectForms.TryAdd(FormProjectileBlocker);
+            SpellsContext.MaddeningDarkness.EffectDescription.EffectForms.TryAdd(FormProjectileBlocker);
         }
         else
         {
             PowerDefilerDarkness.EffectDescription.EffectForms.Remove(FormProjectileBlocker);
             Darkness.EffectDescription.EffectForms.Remove(FormProjectileBlocker);
+            WayOfShadow.SpellDarkness.EffectDescription.EffectForms.Remove(FormProjectileBlocker);
+            SpellsContext.MaddeningDarkness.EffectDescription.EffectForms.Remove(FormProjectileBlocker);
         }
     }
 
@@ -1079,7 +1220,7 @@ internal static class LightingAndObscurementContext
 
             if (Main.Settings.OfficialObscurementRulesTweakMonsters)
             {
-                if (MonstersThatShouldHaveDarkvision.Contains(name))
+                if (MonstersThatShouldHaveDarkvision.Any(m => Regex.IsMatch(name, m, RegexOptions.IgnoreCase)))
                 {
                     monster.Features.TryAdd(SenseDarkvision);
                 }

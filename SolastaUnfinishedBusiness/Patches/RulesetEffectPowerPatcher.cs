@@ -9,6 +9,8 @@ using SolastaUnfinishedBusiness.Api.Helpers;
 using SolastaUnfinishedBusiness.Behaviors;
 using SolastaUnfinishedBusiness.Behaviors.Specific;
 using static RuleDefinitions;
+using static RuleDefinitions.RechargeRate;
+using static RuleDefinitions.UsesDetermination;
 
 namespace SolastaUnfinishedBusiness.Patches;
 
@@ -209,6 +211,45 @@ public static class RulesetEffectPowerPatcher
             {
                 __result = repertoire.MagicAttackTrends;
             }
+        }
+    }
+
+
+    [HarmonyPatch(typeof(RulesetEffectPower), nameof(RulesetEffectPower.SerializeElements))]
+    [SuppressMessage("Minor Code Smell", "S101:Types should be named in PascalCase", Justification = "Patch")]
+    [UsedImplicitly]
+    public static class SerializeElements_Patch
+    {
+        [UsedImplicitly]
+        public static IEnumerable<CodeInstruction> Transpiler([NotNull] IEnumerable<CodeInstruction> instructions)
+        {
+            var method = typeof(RulesetUsablePower).GetMethod(nameof(RulesetUsablePower.Recharge));
+            var custom = new Action<RulesetUsablePower, RulesetEffectPower>(Recharge).Method;
+
+            //PATCH: Fix for UB-introduced cases where during MP serialization bundle powers may have no attribute
+            return instructions.ReplaceCalls(method, "RulesetEffectPower.SerializeElements",
+                new CodeInstruction(OpCodes.Ldarg_0),
+                new CodeInstruction(OpCodes.Call, custom));
+        }
+
+        private static void Recharge(RulesetUsablePower usablePower, RulesetEffectPower effect)
+        {
+            var power = usablePower.PowerDefinition;
+
+            //power has no attribute, but requires it
+            if (usablePower.UsesAttribute == null
+                && (power.RechargeRate is ChannelDivinity or HealingPool
+                    || power.UsesDetermination is AbilityBonusPlusFixed or ProficiencyBonus))
+            {
+                //try getting attribute from pool master power
+                if (power is FeatureDefinitionPowerSharedPool poolPower)
+                {
+                    var pool = effect.User?.UsablePowers.Find(x => x.PowerDefinition == poolPower.SharedPool);
+                    usablePower.UsesAttribute = pool?.UsesAttribute;
+                }
+            }
+
+            usablePower.Recharge();
         }
     }
 }

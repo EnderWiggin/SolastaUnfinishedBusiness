@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using SolastaUnfinishedBusiness.Api.GameExtensions;
 using SolastaUnfinishedBusiness.Behaviors;
@@ -18,7 +19,7 @@ namespace SolastaUnfinishedBusiness.Models;
 
 internal static class SpellPointsContext
 {
-    private static readonly List<int> SpellCostByLevel = [0, 2, 3, 5, 6, 7, 9, 10, 11, 13];
+    internal static readonly List<int> SpellCostByLevel = [0, 2, 3, 5, 6, 7, 9, 10, 11, 13];
 
     internal static readonly List<SlotsByLevelDuplet> SpellPointsFullCastingSlots = [];
     private static readonly List<SlotsByLevelDuplet> SpellPointsHalfCastingSlots = [];
@@ -47,7 +48,7 @@ internal static class SpellPointsContext
                 SpellPointsOneThirdCastingSlots)
         ];
 
-    private static readonly FeatureDefinitionPower PowerSpellPoints = FeatureDefinitionPowerBuilder
+    internal static readonly FeatureDefinitionPower PowerSpellPoints = FeatureDefinitionPowerBuilder
         .Create("PowerSpellPoints")
         .SetGuiPresentationNoContent(true)
         .SetUsesFixed(ActivationTime.NoCost, RechargeRate.LongRest, 1, 0)
@@ -98,25 +99,34 @@ internal static class SpellPointsContext
         return remaining >= SpellCostByLevel[level];
     }
 
-    private static int GetMaxSpellPoints(RulesetCharacter rulesetCharacter)
+    internal static bool IsSpellPointsEnabled(this RulesetCharacter character)
     {
-        var usablePower = PowerProvider.Get(PowerSpellPoints, rulesetCharacter);
-        var maxUsesOfPower = rulesetCharacter.GetMaxUsesOfPower(usablePower);
-
-        return maxUsesOfPower;
+        return Main.Settings.UseAlternateSpellPointsSystem && character is RulesetCharacterHero;
     }
 
-    private static int GetRemainingSpellPoints(RulesetCharacter rulesetCharacter)
+    internal static int GetMaxSpellPoints(this RulesetCharacter rulesetCharacter)
     {
         var usablePower = PowerProvider.Get(PowerSpellPoints, rulesetCharacter);
-        var remainingUsesOfPower = rulesetCharacter.GetRemainingUsesOfPower(usablePower);
 
-        return remainingUsesOfPower;
+        return rulesetCharacter.GetMaxUsesOfPower(usablePower);
+    }
+
+    internal static int GetRemainingSpellPoints(this RulesetCharacter rulesetCharacter)
+    {
+        var usablePower = PowerProvider.Get(PowerSpellPoints, rulesetCharacter);
+
+        return rulesetCharacter.GetRemainingUsesOfPower(usablePower);
+    }
+
+    internal static void AddSpellPoints(this RulesetCharacter rulesetCharacter, int points)
+    {
+        var usablePower = PowerProvider.Get(PowerSpellPoints, rulesetCharacter);
+        usablePower.remainingUses = Math.Min(usablePower.remainingUses + points, rulesetCharacter.GetMaxSpellPoints());
     }
 
     internal static void HideSpellSlots(RulesetCharacter character, RectTransform table)
     {
-        if (!Main.Settings.UseAlternateSpellPointsSystem ||
+        if (!character.IsSpellPointsEnabled() ||
             (character is RulesetCharacterHero hero &&
              SharedSpellsContext.GetWarlockSpellRepertoire(hero) != null))
         {
@@ -135,7 +145,7 @@ internal static class SpellPointsContext
     internal static void DisplayRemainingSpellPointsOnCastActions(GuiCharacterAction guiCharacterAction,
         RectTransform useSlotsTable, GuiLabel highSlotNumber, GuiLabel attackNumber)
     {
-        if (!Main.Settings.UseAlternateSpellPointsSystem || !guiCharacterAction.ActionDefinition.IsCastSpellAction())
+        if (!guiCharacterAction.ActingCharacter.RulesetCharacter.IsSpellPointsEnabled() || !guiCharacterAction.ActionDefinition.IsCastSpellAction())
         {
             return;
         }
@@ -169,7 +179,7 @@ internal static class SpellPointsContext
             var repertoireTitle = child.GetChild(1).GetChild(1).GetComponent<TextMeshProUGUI>();
             var spellRepertoire = __instance.InspectedCharacter.RulesetCharacterHero.SpellRepertoires[i];
 
-            if (Main.Settings.UseAlternateSpellPointsSystem &&
+            if (heroCharacter.IsSpellPointsEnabled() &&
                 (SharedSpellsContext.IsMulticaster(heroCharacter) ||
                  SharedSpellsContext.GetWarlockSpellRepertoire(heroCharacter) == null) &&
                 spellRepertoire.SpellCastingFeature.SpellCastingOrigin

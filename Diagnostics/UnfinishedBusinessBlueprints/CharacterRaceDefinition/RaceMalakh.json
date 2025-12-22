@@ -10,11 +10,6 @@
   "featureUnlocks": [
     {
       "$type": "FeatureUnlockByLevel, Assembly-CSharp",
-      "featureDefinition": "Definition:FeatureSetMalakhAbilityScoreIncrease:6bc8a9b5-a509-5ecf-ac3b-1a092197a00b",
-      "level": 1
-    },
-    {
-      "$type": "FeatureUnlockByLevel, Assembly-CSharp",
       "featureDefinition": "Definition:FeatureMalakhAngelicForm:7e10a87e-79b3-5105-893e-5ee9f0930754",
       "level": 1
     },
@@ -57,6 +52,16 @@
       "$type": "FeatureUnlockByLevel, Assembly-CSharp",
       "featureDefinition": "Definition:CustomInvocationPoolMalakhAngelicForm:89a4a18c-0d51-526b-aecf-1b7ff85e2bae",
       "level": 3
+    },
+    {
+      "$type": "FeatureUnlockByLevel, Assembly-CSharp",
+      "featureDefinition": "Definition:PointPoolAbilityScore3:6045e81f-0b72-5085-8243-234da1816050",
+      "level": 1
+    },
+    {
+      "$type": "FeatureUnlockByLevel, Assembly-CSharp",
+      "featureDefinition": "Definition:PointPoolBonusFeat:c3eef96a911e20a40ab0e8a61c7463e1",
+      "level": 1
     }
   ],
   "subRaces": [],
@@ -137,7 +142,8 @@
       "Backstory",
       "Pronoun",
       "BodyDecorationColor",
-      "Scars"
+      "Scars",
+      "Eye"
     ],
     "needBeard": false,
     "defaultMusculature": 0,
@@ -330,7 +336,7 @@
   },
   "guiPresentation": {
     "$type": "GuiPresentation, Assembly-CSharp",
-    "hidden": true,
+    "hidden": false,
     "title": "Race/&RaceMalakhTitle",
     "description": "Race/&RaceMalakhDescription",
     "spriteReference": {

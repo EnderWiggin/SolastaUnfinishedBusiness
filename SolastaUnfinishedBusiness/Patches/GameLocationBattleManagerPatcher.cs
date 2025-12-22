@@ -18,6 +18,7 @@ using SolastaUnfinishedBusiness.Spells;
 using SolastaUnfinishedBusiness.Subclasses;
 using SolastaUnfinishedBusiness.Validators;
 using TA;
+using static BattleDefinitions;
 using static RuleDefinitions;
 
 namespace SolastaUnfinishedBusiness.Patches;
@@ -135,7 +136,7 @@ public static class GameLocationBattleManagerPatcher
     public static class IsValidAttackForReadiedAction_Patch
     {
         [UsedImplicitly]
-        public static void Postfix(ref bool __result, BattleDefinitions.AttackEvaluationParams attackParams)
+        public static void Postfix(ref bool __result, AttackEvaluationParams attackParams)
         {
             //PATCH: Checks if attack cantrip is valid to be cast as readied action on a target
             // Used to properly check if melee cantrip can hit target when used for readied action
@@ -247,8 +248,8 @@ public static class GameLocationBattleManagerPatcher
                 AbilityCheckActionModifier = actionModifier,
                 Action = action
             };
-
-            yield return TryAlterOutcomeAttributeCheck.HandleITryAlterOutcomeAttributeCheck(checker, abilityCheckData);
+            var rawRoll = action.AbilityCheckRoll;//TODO: this is actually dirty roll with ability bonuses - find a raw roll somehow
+            yield return TryAlterOutcomeAttributeCheck.HandleITryAlterOutcomeAttributeCheck(checker, abilityCheckData, rawRoll);
 
             action.AbilityCheckRoll = abilityCheckData.AbilityCheckRoll;
             action.AbilityCheckRollOutcome = abilityCheckData.AbilityCheckRollOutcome;
@@ -402,7 +403,7 @@ public static class GameLocationBattleManagerPatcher
             //                           || defender.PerceivedAllies.Contains(attacker);
 
             foreach (var feature in defenderCharacter
-                         .GetFeaturesByType<FeatureDefinitionReduceDamage>())
+                         .FeaturesByType<FeatureDefinitionReduceDamage>())
             {
                 var isValid = defenderCharacter.IsValid(feature.GetAllSubFeaturesOfType<IsCharacterValidHandler>());
 
@@ -521,9 +522,32 @@ public static class GameLocationBattleManagerPatcher
     public static class CanAttack_Patch
     {
         [UsedImplicitly]
+        public static bool Prefix(AttackEvaluationParams attackParams)
+        {
+            if (Main.Settings.ModifyThrowingRulesForStrength)
+            {
+                var attacker = attackParams.attacker;
+                var target = attackParams.defender;
+                var attackMode = attackParams.attackMode;
+                if (attackMode == null) { return true; }
+
+                if (attackMode.Thrown) //adjust for strength
+                {
+                    int actualDistance = (int)int3.Distance(attacker.LocationPosition, target.LocationPosition);
+                    if (actualDistance > attacker.RulesetCharacter.GetAttribute(AttributeDefinitions.Strength).CurrentValue)
+                    {
+                        attackParams.attackModifier.FailureFlags.Add("Failure/&FailureFlagTargetOutOfRangeStrength");
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
+
+        [UsedImplicitly]
         public static void Postfix(
             bool __result,
-            BattleDefinitions.AttackEvaluationParams attackParams)
+            AttackEvaluationParams attackParams)
         {
             //PATCH: support for features removing ranged attack disadvantage
             RemoveRangedAttackInMeleeDisadvantage.CheckToRemoveRangedDisadvantage(attackParams);
@@ -549,9 +573,34 @@ public static class GameLocationBattleManagerPatcher
 
             //PATCH: add modifier or advantage/disadvantage for physical and spell attack
             ApplyCustomModifiers(attackParams);
+            
         }
 
-        private static void ApplyCustomModifiers(BattleDefinitions.AttackEvaluationParams attackParams)
+        [NotNull]
+        [UsedImplicitly]
+        public static IEnumerable<CodeInstruction> Transpiler([NotNull] IEnumerable<CodeInstruction> instructions)
+        {
+            var oldIsProjBlocked = typeof(IGameLocationPositioningService)
+                .GetMethod(nameof(IGameLocationPositioningService.IsProjectileBlocked));
+            var newIsProjBlocked = new Func<IGameLocationPositioningService, int3, int3, AttackEvaluationParams,
+                bool>(CustomIsProjectileBlocked).Method;
+
+            //PATCH: allow `Way of Shadows` monk to shoot projectiles through own darkness
+            return instructions.ReplaceCalls(oldIsProjBlocked,
+                "GameLocationBattleManager.CanAttack.IsProjectileBlocked",
+                new CodeInstruction(OpCodes.Ldarg_1),
+                new CodeInstruction(OpCodes.Call, newIsProjBlocked));
+        }
+
+        private static bool CustomIsProjectileBlocked(IGameLocationPositioningService service, int3 origin,
+            int3 destination, AttackEvaluationParams attackParams)
+        {
+            return service.IsProjectileBlocked(origin, destination)
+                   && !LightingAndObscurementContext.SensorCanSeeTargetThroughDarkness(
+                       attackParams.defender.RulesetCharacter, attackParams.attacker.RulesetCharacter);
+        }
+
+        private static void ApplyCustomModifiers(AttackEvaluationParams attackParams)
         {
             var attacker = attackParams.attacker.RulesetCharacter;
             var defender = attackParams.defender.RulesetCharacter;
@@ -571,6 +620,29 @@ public static class GameLocationBattleManagerPatcher
                     attackParams.effectName,
                     ref attackParams.attackModifier);
             }
+        }
+    }
+
+    [HarmonyPatch(typeof(GameLocationBattleManager),
+        nameof(GameLocationBattleManager.CanPerformOpportunityAttackOnCharacter))]
+    [SuppressMessage("Minor Code Smell", "S101:Types should be named in PascalCase", Justification = "Patch")]
+    [UsedImplicitly]
+    public static class CanPerformOpportunityAttackOnCharacter_Patch
+    {
+        [UsedImplicitly]
+        public static bool Prefix(GameLocationBattleManager __instance, out bool __result,
+            GameLocationCharacter character,
+            GameLocationCharacter movingTarget,
+            int3 movingTargetSourcePosition,
+            int3 movingTargetDestinationPosition,
+            out RulesetAttackMode attackMode)
+        {
+            //PATCH: replace vanilla check with more robust custom one
+            __result = character.CanPerformOpportunityAttackOnCharacter(movingTarget,
+                movingTargetSourcePosition, movingTargetDestinationPosition,
+                out attackMode, out __instance.actionModifierBefore, true, __instance);
+
+            return false;
         }
     }
 
@@ -746,12 +818,13 @@ public static class GameLocationBattleManagerPatcher
                 if (rulesetEffect is { SourceDefinition: SpellDefinition spellDefinition })
                 {
                     //PATCH: illusionary spells against creatures with True Sight should automatically save
+                    var rulesetDefender = defender.RulesetCharacter;
                     if (Main.Settings.IllusionSpellsAutomaticallyFailAgainstTrueSightInRange &&
+                        rulesetDefender != null &&
                         spellDefinition.SchoolOfMagic == SchoolIllusion &&
                         spellDefinition.EffectDescription.TargetSide == Side.Enemy &&
                         spellDefinition != DatabaseHelper.SpellDefinitions.Silence)
                     {
-                        var rulesetDefender = defender.RulesetCharacter;
                         var senseMode =
                             rulesetDefender.SenseModes.FirstOrDefault(x => x.SenseType == SenseMode.Type.Truesight);
 

@@ -69,6 +69,7 @@ public static class RulesetImplementationManagerPatcher
             List<int> rolledValues,
             bool canRerollDice)
         {
+            //crunchycrits
             var dieType = useVersatileDamage ? damageForm.VersatileDieType : damageForm.DieType;
             var diceMaxValue = DiceMaxValue[(int)damageForm.dieType];
 
@@ -149,7 +150,8 @@ public static class RulesetImplementationManagerPatcher
         {
             var diceType = useVersatileDamage ? damageForm.VersatileDieType : damageForm.DieType;
 
-            if (damageForm.OverrideWithBardicInspirationDie && rulesetActor is RulesetCharacterHero hero &&
+            if (damageForm.OverrideWithBardicInspirationDie &&
+                rulesetActor is RulesetCharacterHero hero &&
                 hero.GetBardicInspirationDieValue() != DieType.D1)
             {
                 diceType = hero.GetBardicInspirationDieValue();
@@ -185,13 +187,14 @@ public static class RulesetImplementationManagerPatcher
         {
             var diceType = useVersatileDamage ? damageForm.VersatileDieType : damageForm.DieType;
 
-            if (damageForm.OverrideWithBardicInspirationDie && rulesetActor is RulesetCharacterHero hero &&
+            if (damageForm.OverrideWithBardicInspirationDie &&
+                rulesetActor is RulesetCharacterHero hero&&
                 hero.GetBardicInspirationDieValue() != DieType.D1)
             {
                 diceType = hero.GetBardicInspirationDieValue();
             }
 
-            // different than original game code we roll usual dices and multiply result by 2
+            // different from original game code we roll usual dices and multiply result by 2
             var totalDamage = rulesetActor.RollDiceAndSum(
                 diceType,
                 attackModeDamage
@@ -898,6 +901,7 @@ public static class RulesetImplementationManagerPatcher
         {
             //PATCH: illusionary spells against creatures with True Sight should automatically save
             if (!Main.Settings.IllusionSpellsAutomaticallyFailAgainstTrueSightInRange ||
+                target is not RulesetCharacter targetCharacter ||
                 sourceDefinition is not
                     SpellDefinition { SchoolOfMagic: SchoolIllusion, EffectDescription.TargetSide: Side.Enemy } ||
                 sourceDefinition == DatabaseHelper.SpellDefinitions.Silence)
@@ -906,14 +910,14 @@ public static class RulesetImplementationManagerPatcher
             }
 
             var glCaster = GameLocationCharacter.GetFromActor(caster);
-            var glTarget = GameLocationCharacter.GetFromActor(target);
+            var glTarget = GameLocationCharacter.GetFromActor(targetCharacter);
 
             if (glCaster == null || glTarget == null)
             {
                 return true;
             }
 
-            var senseMode = glTarget.RulesetCharacter.SenseModes
+            var senseMode = targetCharacter.SenseModes
                 .FirstOrDefault(x => x.SenseType == SenseMode.Type.Truesight);
 
             return senseMode == null || !glTarget.IsWithinRange(glCaster, senseMode.SenseRange);

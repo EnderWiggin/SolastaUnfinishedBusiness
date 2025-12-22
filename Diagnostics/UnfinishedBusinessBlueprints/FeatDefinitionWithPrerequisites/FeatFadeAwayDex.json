@@ -17,7 +17,7 @@
   ],
   "guiPresentation": {
     "$type": "GuiPresentation, Assembly-CSharp",
-    "hidden": true,
+    "hidden": false,
     "title": "Feat/&FeatFadeAwayDexTitle",
     "description": "Feat/&FeatFadeAwayDexDescription",
     "spriteReference": {

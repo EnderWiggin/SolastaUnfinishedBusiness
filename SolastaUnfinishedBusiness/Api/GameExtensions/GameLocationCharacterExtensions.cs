@@ -462,8 +462,8 @@ public static class GameLocationCharacterExtensions
     }
 
     // consolidate all checks if a character can perceive another
-    public static bool CanPerceiveTarget(
-        this GameLocationCharacter __instance, GameLocationCharacter target)
+    public static bool CanPerceiveTarget(this GameLocationCharacter __instance,
+        GameLocationCharacter target, int3? targetPosition = null)
     {
         if (__instance == target)
         {
@@ -482,7 +482,23 @@ public static class GameLocationCharacterExtensions
         // can only perceive targets on cells that can be perceived
         var visibilityService = ServiceRepository.GetService<IGameLocationVisibilityService>();
 
-        return visibilityService.MyIsCellPerceivedByCharacter(target.LocationPosition, __instance, target);
+        var size = target.RulesetActor.sizeParams;
+        var targetPos = targetPosition ?? target.LocationPosition;
+        if (size.IsSmallest)
+        {
+            return visibilityService.MyIsCellPerceivedByCharacter(targetPos, __instance, target);
+        }
+
+        var box = new BoxInt(targetPos + size.minExtent, targetPos + size.maxExtent);
+        foreach (var pos in box.EnumerateAllPositionsWithin())
+        {
+            if (visibilityService.MyIsCellPerceivedByCharacter(pos, __instance, target, useCellPos: true))
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     internal static (RulesetAttackMode mode, ActionModifier modifier) GetFirstMeleeModeThatCanAttack(
@@ -555,25 +571,30 @@ public static class GameLocationCharacterExtensions
     }
 
     /**
-     * Finds first attack mode that can attack target on positionBefore, but can't on positionAfter
+     * Finds first attack mode that can attack the target on positionBefore, but is out of reach on positionAfter
      */
-    internal static bool CanPerformOpportunityAttackOnCharacter(
-        this GameLocationCharacter instance,
+    internal static bool CanPerformOpportunityAttackOnCharacter(this GameLocationCharacter instance,
         GameLocationCharacter target,
         int3? positionBefore,
         int3? positionAfter,
         out RulesetAttackMode attackMode,
         out ActionModifier attackModifier,
-        bool allowRange = false,
+        bool accountAoOImmunity,
         IGameLocationBattleService service = null,
-        bool accountAoOImmunity = false,
-        IsWeaponValidHandler weaponValidator = null)
+        IsWeaponValidHandler weaponValidator = null,
+        bool allowRange = false)
     {
         service ??= ServiceRepository.GetService<IGameLocationBattleService>();
         attackMode = null;
         attackModifier = null;
 
         if (accountAoOImmunity && !service.IsValidAttackerForOpportunityAttackOnCharacter(instance, target))
+        {
+            return false;
+        }
+
+        if (Main.Settings.BlindedConditionDontAllowAttackOfOpportunity &&
+            !instance.CanPerceiveTarget(target, positionBefore))
         {
             return false;
         }
@@ -585,7 +606,7 @@ public static class GameLocationCharacterExtensions
                 continue;
             }
 
-            if (!(weaponValidator?.Invoke(mode, null, instance.RulesetCharacter) ?? true))
+            if (weaponValidator?.Invoke(mode, null, instance.RulesetCharacter) == false)
             {
                 continue;
             }
@@ -612,13 +633,9 @@ public static class GameLocationCharacterExtensions
 
             if (positionAfter != null)
             {
-                var paramsAfter = new BattleDefinitions.AttackEvaluationParams();
-
-                paramsAfter.FillForPhysicalReachAttack(instance, instance.LocationPosition, mode,
-                    target, positionAfter.Value, new ActionModifier());
-
-                // skip if attack is still possible after move - target hasn't left reach yet
-                if (service.CanAttack(paramsAfter))
+                // skip if the target hasn't left reach yet
+                if (DistanceCalculation.GetDistanceFromCharacters(instance, target, positionAfter)
+                    <= (mode.Ranged ? mode.MaxRange : mode.ReachRange))
                 {
                     continue;
                 }
@@ -751,8 +768,7 @@ public static class GameLocationCharacterExtensions
             return false;
         }
 
-        ActionStatus? mainSpell = null;
-        ActionStatus? bonusSpell = null;
+        ActionType? actionType = null;
 
         foreach (var invocation in character.Invocations)
         {
@@ -786,33 +802,14 @@ public static class GameLocationCharacterExtensions
                 {
                     isValid = false;
                 }
-                else
+                else if (scope == ActionScope.Battle)
                 {
-                    var spellActionId = grantedSpell.BattleActionId;
+                    actionType ??= ServiceRepository.GetService<IGameLocationActionService>()
+                        .AllActionDefinitions[actionId].ActionType;
 
-                    // ReSharper disable once SwitchStatementMissingSomeEnumCasesNoDefault
-                    switch (spellActionId)
+                    if (definition.GetActionType() != actionType)
                     {
-                        case Id.CastMain:
-                            mainSpell ??= scope == ActionScope.Battle
-                                ? instance.GetActionStatus(spellActionId, scope)
-                                : ActionStatus.Available;
-                            if (mainSpell != ActionStatus.Available)
-                            {
-                                isValid = false;
-                            }
-
-                            break;
-                        case Id.CastBonus:
-                            bonusSpell ??= scope == ActionScope.Battle
-                                ? instance.GetActionStatus(spellActionId, scope)
-                                : ActionStatus.Available;
-                            if (bonusSpell != ActionStatus.Available)
-                            {
-                                isValid = false;
-                            }
-
-                            break;
+                        isValid = false;
                     }
                 }
             }
@@ -850,9 +847,13 @@ public static class GameLocationCharacterExtensions
     {
         var performanceFilters = instance.actionPerformancesByType[ActionType.Main];
 
-        var maxAttacks = instance.RulesetCharacter.AttackModes
+        var mainAttacks = instance.RulesetCharacter.AttackModes
             .Where(mode => mode.ActionType == ActionType.Main)
-            .Max(mode => mode.AttacksNumber);
+            .ToList();
+
+        var maxAttacks = mainAttacks.Count > 0
+            ? mainAttacks.Max(mode => mode.AttacksNumber)
+            : 0;
 
         var maxAllowedAttacks = index >= performanceFilters.Count ? -1 : performanceFilters[index].MaxAttacksNumber;
 
@@ -913,5 +914,37 @@ public static class GameLocationCharacterExtensions
 
         instance.CurrentActionRankByType[ActionType.Bonus]++;
         instance.UsedBonusAttacks = 0;
+    }
+
+    internal static int RollAbilityCheckEx(this GameLocationCharacter instance,
+        string abilityScoreName,
+        string proficiencyName,
+        int checkDC,
+        RuleDefinitions.AdvantageType baseAffinity,
+        ActionModifier checkModifier,
+        bool passive,
+        int minRoll,
+        out RuleDefinitions.RollOutcome outcome,
+        out int successDelta,
+        out int rawRoll,
+        bool rollDie,
+        bool notify = true,
+        bool displayDieOutcome = true)
+    {
+        var abilityCheckBonus = instance.RulesetCharacter.ComputeBaseAbilityCheckBonus(abilityScoreName,
+            checkModifier.AbilityCheckModifierTrends, proficiencyName);
+        var contextField = (int)RuleDefinitions.AbilityCheckContext.None;
+        if (instance.RulesetCharacter != null && !instance.RulesetCharacter.IsWearingHeavyArmor())
+        {
+            contextField |= (int)RuleDefinitions.AbilityCheckContext.NotWearingHeavyArmor;
+        }
+
+        instance.PrepareActionModifier(abilityScoreName, proficiencyName, baseAffinity, checkModifier, contextField);
+        var result = instance.RulesetCharacter.RollAbilityCheck(abilityCheckBonus, abilityScoreName, proficiencyName,
+            checkModifier.AbilityCheckModifierTrends, checkModifier.AbilityCheckAdvantageTrends,
+            checkModifier.AbilityCheckModifier, checkDC, passive, minRoll, out rawRoll, out var firstRoll,
+            out var secondRoll, out outcome, out successDelta, rollDie, notify, displayDieOutcome);
+
+        return result;
     }
 }

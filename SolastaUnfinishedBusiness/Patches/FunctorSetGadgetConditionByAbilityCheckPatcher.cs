@@ -4,6 +4,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using HarmonyLib;
 using JetBrains.Annotations;
+using SolastaUnfinishedBusiness.Api.GameExtensions;
 using SolastaUnfinishedBusiness.Interfaces;
 using UnityEngine;
 
@@ -20,6 +21,12 @@ public static class FunctorSetGadgetConditionByAbilityCheckPatcher
     [UsedImplicitly]
     public static class Execute_Patch
     {
+        //Used to pass value out of IEnumerator method
+        private class CheckStatus
+        {
+            internal bool Result;
+        }
+
         [UsedImplicitly]
         public static bool Prefix(ref IEnumerator __result, FunctorParametersDescription functorParameters)
         {
@@ -34,6 +41,8 @@ public static class FunctorSetGadgetConditionByAbilityCheckPatcher
             {
                 yield break;
             }
+
+            var status = new CheckStatus();
 
             if (functorParameters.AbilityCheck.ProficiencyName == SkillDefinitions.Perception)
             {
@@ -51,20 +60,22 @@ public static class FunctorSetGadgetConditionByAbilityCheckPatcher
                         break;
                     }
 
-                    yield return ExecuteCheckOnCharacter(functorParameters, actingCharacter);
+                    yield return ExecuteCheckOnCharacter(functorParameters, actingCharacter, status);
+                    if (status.Result) { yield break; }
                 }
             }
             else
             {
                 var actingCharacter = functorParameters.ActingCharacters[0];
 
-                yield return ExecuteCheckOnCharacter(functorParameters, actingCharacter);
+                yield return ExecuteCheckOnCharacter(functorParameters, actingCharacter, status);
             }
         }
 
         private static IEnumerator ExecuteCheckOnCharacter(
             FunctorParametersDescription functorParameters,
-            GameLocationCharacter actingCharacter)
+            GameLocationCharacter actingCharacter,
+            CheckStatus status)
         {
             var isPerceptionCheck = functorParameters.AbilityCheck.ProficiencyName == SkillDefinitions.Perception;
             var ulongList = !isPerceptionCheck || !actingCharacter.AlertPerception
@@ -154,7 +165,7 @@ public static class FunctorSetGadgetConditionByAbilityCheckPatcher
 
             if (rollOutcome == RuleDefinitions.RollOutcome.Neutral)
             {
-                var abilityCheckRoll = actingCharacter.RollAbilityCheck(
+                var abilityCheckRoll = actingCharacter.RollAbilityCheckEx(
                     functorParameters.AbilityCheck.AbilityScoreName,
                     functorParameters.AbilityCheck.ProficiencyName,
                     checkDC,
@@ -164,6 +175,7 @@ public static class FunctorSetGadgetConditionByAbilityCheckPatcher
                     minRoll,
                     out rollOutcome,
                     out var successDelta,
+                    out var rawRoll,
                     !functorParameters.AbilityCheck.Silent,
                     !functorParameters.AbilityCheck.Silent);
 
@@ -178,7 +190,7 @@ public static class FunctorSetGadgetConditionByAbilityCheckPatcher
                 };
 
                 yield return TryAlterOutcomeAttributeCheck
-                    .HandleITryAlterOutcomeAttributeCheck(actingCharacter, abilityCheckData);
+                    .HandleITryAlterOutcomeAttributeCheck(actingCharacter, abilityCheckData, rawRoll);
 
                 rollOutcome = abilityCheckData.AbilityCheckRollOutcome;
             }
@@ -196,6 +208,7 @@ public static class FunctorSetGadgetConditionByAbilityCheckPatcher
                     conditionIndex,
                     functorParameters.TargetConditionState.state, functorParameters.ActingCharacters);
 
+                status.Result = true;
                 yield break;
             }
 

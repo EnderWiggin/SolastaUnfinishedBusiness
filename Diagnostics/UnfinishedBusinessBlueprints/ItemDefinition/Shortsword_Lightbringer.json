@@ -58,7 +58,8 @@
     "maxRange": 5,
     "weaponTags": [
       "Finesse",
-      "Light"
+      "Light",
+      "Graze"
     ],
     "effectDescription": {
       "$type": "EffectDescription, Assembly-CSharp",

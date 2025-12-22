@@ -363,7 +363,7 @@ internal static partial class SpellBuilders
                     .Create($"CombatAffinity{NAME}")
                     .SetGuiPresentation($"Condition{NAME}", Category.Condition, Gui.NoLocalization)
                     .SetMyAttackModifierSign(AttackModifierSign.Substract)
-                    .SetMyAttackModifierDieType(DieType.D6)
+                    .SetMyAttackModifierDie(DieType.D6)
                     .AddToDB(),
                 FeatureDefinitionAbilityCheckAffinityBuilder
                     .Create($"AbilityCheckAffinity{NAME}")
@@ -471,6 +471,10 @@ internal static partial class SpellBuilders
                     .SetParticleEffectParameters(Banishment)
                     .Build())
             .AddToDB();
+
+        SmiteSpells2024Context.SmiteSpells.Add(spell);
+        SmiteSpells2024Context.SmiteDamages.Add(additionalDamageBanishingSmite);
+        SmiteSpells2024Context.SmiteConditions.Add(conditionBanishingSmite);
 
         return spell;
     }
@@ -757,7 +761,7 @@ internal static partial class SpellBuilders
                 var hasSkill =
                     hero.SkillProficiencies.Contains(skill.Name) ||
                     hero.TrainedSkills.Contains(skill) ||
-                    hero.GetFeaturesByType<FeatureDefinitionProficiency>()
+                    hero.FeaturesByType<FeatureDefinitionProficiency>()
                         .Any(x =>
                             x.ProficiencyType == ProficiencyType.Skill &&
                             x.Proficiencies.Contains(skillName));

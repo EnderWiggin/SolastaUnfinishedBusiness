@@ -378,10 +378,9 @@ internal static class InvocationsBuilders
 
     internal static InvocationDefinition BuildStasis()
     {
-        const string NAME = "InvocationStasis";
-
+        //Kept for compatibility
         return InvocationDefinitionBuilder
-            .Create(NAME)
+            .Create("InvocationStasis")
             .SetGuiPresentation(Category.Invocation, Slow)
             .SetRequirements(5)
             .SetGrantedSpell(Slow, false, true)
@@ -921,9 +920,16 @@ internal static class InvocationsBuilders
             .Create("ConditionAbilitySprite")
             .SetGuiPresentation(Category.Condition, ConditionDefinitions.ConditionPactChainSprite)
             .AddFeatures(
-                FeatureDefinitionAttributeModifiers.AttributeModifierBarkskin,
-                FeatureDefinitionCombatAffinitys.CombatAffinityBlinded)
+                FeatureDefinitionAttributeModifierBuilder.Create("AttributeModifierAbilitySprite")
+                    .SetGuiPresentation(Gui.NoLocalization, "Feature/&AttributeModifier{0}Description")
+                    .SetModifier(AttributeModifierOperation.ForceIfBetter, AttributeDefinitions.ArmorClass, 16)
+                    .AddToDB(),
+                FeatureDefinitionCombatAffinityBuilder.Create("CombatAffinityAbilitySprite")
+                    .SetGuiPresentationNoContent()
+                    .SetAttackOnMeAdvantage(AdvantageType.Disadvantage)
+                    .AddToDB())
             .SetSilent(Silent.WhenAddedOrRemoved)
+            .SetPossessive()
             .AddToDB();
 
         var conditionAbilityImp = ConditionDefinitionBuilder
@@ -1230,8 +1236,8 @@ internal static class InvocationsBuilders
         var hasMalediction = hero.SpellRepertoires.Any(x => x.HasKnowledgeOfSpell(Malediction));
         var hasBestowCurse = hero.SpellRepertoires.Any(x => x.HasKnowledgeOfSpell(BestowCurse));
         var hasSignIllOmen = hero.TrainedInvocations.Any(x => x == InvocationDefinitions.SignIllOmen)
-                             || hero.GetHeroBuildingData().LevelupTrainedInvocations.Any(x =>
-                                 x.Value.Any(y => y == InvocationDefinitions.SignIllOmen));
+                             || hero.buildingData?.LevelupTrainedInvocations.Any(x =>
+                                 x.Value.Any(y => y == InvocationDefinitions.SignIllOmen)) == true;
         var isSoulblade = hero.GetSubclassLevel(CharacterClassDefinitions.Warlock, PatronSoulBlade.FullName) > 0;
         var hasHex = hasMalediction || hasBestowCurse || hasSignIllOmen || isSoulblade;
 

@@ -12,6 +12,7 @@ using SolastaUnfinishedBusiness.Api.Helpers;
 using SolastaUnfinishedBusiness.Behaviors;
 using SolastaUnfinishedBusiness.Interfaces;
 using SolastaUnfinishedBusiness.Models;
+using SolastaUnfinishedBusiness.Spells;
 using static RuleDefinitions;
 
 namespace SolastaUnfinishedBusiness.Patches;
@@ -226,7 +227,7 @@ public static class CharacterActionCastSpellPatcher
                         proficiencyName = "ForcedProficiency";
                     }
 
-                    var abilityCheckRoll = actingCharacter.RollAbilityCheck(
+                    var abilityCheckRoll = actingCharacter.RollAbilityCheckEx(
                         characterActionCastSpell.activeSpell.SpellRepertoire.SpellCastingAbility,
                         proficiencyName,
                         checkDC,
@@ -236,6 +237,7 @@ public static class CharacterActionCastSpellPatcher
                         0,
                         out var outcome,
                         out var successDelta,
+                        out var rawRoll,
                         true);
 
                     var abilityCheckData = new AbilityCheckData
@@ -248,7 +250,7 @@ public static class CharacterActionCastSpellPatcher
                     };
 
                     yield return TryAlterOutcomeAttributeCheck
-                        .HandleITryAlterOutcomeAttributeCheck(actingCharacter, abilityCheckData);
+                        .HandleITryAlterOutcomeAttributeCheck(actingCharacter, abilityCheckData, rawRoll);
 
                     characterActionCastSpell.AbilityCheckRoll = abilityCheckData.AbilityCheckRoll;
                     characterActionCastSpell.AbilityCheckRollOutcome = abilityCheckData.AbilityCheckRollOutcome;
@@ -275,6 +277,19 @@ public static class CharacterActionCastSpellPatcher
                     targetAction.Countered,
                     unknown);
             }
+        }
+    }
+
+    [HarmonyPatch(typeof(CharacterActionCastSpell), nameof(CharacterActionCastSpell.HandleTargetImmunity))]
+    [UsedImplicitly]
+    public static class HandleTargetImmunity_Patch
+    {
+        [UsedImplicitly]
+        public static bool Prefix([NotNull] CharacterActionMagicEffect __instance,
+            GameLocationCharacter targetCharacter, out bool isImmune)
+        {
+            //PATCH: Used for making Saving Throw when affecting target under Sanctuary
+            return SpellBuilders.CheckSanctuaryForMagicEffect(__instance, targetCharacter, out isImmune);
         }
     }
 }

@@ -46,7 +46,7 @@ public class AddPBToSummonCheck(int multiplier, params string[] abilities)
         }
 
         if (summoner.HasSubFeatureOfType<AddPBToSummonCheckOnlyIfSummonerIsProficient>() &&
-            !summoner.GetFeaturesByType<FeatureDefinitionProficiency>().Any(x =>
+            !summoner.FeaturesByType<FeatureDefinitionProficiency>().Any(x =>
                 x.ProficiencyType == RuleDefinitions.ProficiencyType.SavingThrow &&
                 x.Proficiencies.Contains(proficiency)))
         {

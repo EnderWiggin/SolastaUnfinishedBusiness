@@ -68,7 +68,7 @@ public sealed class CircleOfTheNight : AbstractSubclass
             .AddCustomSubFeatures(
                 new AddTagToWeaponWeaponAttack(
                     TagsDefinitions.MagicalWeapon,
-                    ValidatorsWeapon.IsMelee,
+                    ValidatorsWeapon.IsMeleeOrUnarmed,
                     ValidatorsCharacter.HasAnyOfConditions(ConditionWildShapeSubstituteForm)))
             .AddToDB();
 

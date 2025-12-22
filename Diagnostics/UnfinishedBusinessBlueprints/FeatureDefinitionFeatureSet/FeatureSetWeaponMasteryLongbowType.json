@@ -1,8 +1,8 @@
 {
   "$type": "FeatureDefinitionFeatureSet, Assembly-CSharp",
   "featureSet": [
-    "Definition:ActionAffinityWeaponMasteryToggle:de43d4da-8e63-50ad-a60b-8336602da181",
-    "Definition:FeatureWeaponMasterySlow:656ecf35-2c95-593d-a1b4-96f4b4b245c2"
+    "Definition:FeatureWeaponMasteryDeadly:c51587e1-067f-5c35-8965-08c51a323cba",
+    "Definition:ActionAffinityWeaponMasteryToggle:de43d4da-8e63-50ad-a60b-8336602da181"
   ],
   "mode": "Union",
   "ancestryDamageTypeMap": [],

@@ -1,4 +1,5 @@
-﻿using JetBrains.Annotations;
+﻿using System.Collections.Generic;
+using JetBrains.Annotations;
 using UnityEngine;
 
 namespace SolastaUnfinishedBusiness;
@@ -15,6 +16,8 @@ internal static class Global
 
     // last level up hero name to allow an easier level up on characters pool with less mouse clicks
     internal static string LastLevelUpHeroName { get; set; }
+
+    internal static readonly Dictionary<GameLocationCharacter, Dictionary<GameLocationCharacter, RuleDefinitions.RollOutcome>> RolledPerceptionThisTurn = [];
 
     // level up hero
     [CanBeNull]

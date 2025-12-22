@@ -1,7 +1,7 @@
 {
   "$type": "InvocationDefinitionWithPrerequisites, SolastaUnfinishedBusiness",
   "requiredKnownSpell": null,
-  "requiredLevel": 1,
+  "requiredLevel": 2,
   "requiredPact": null,
   "grantedFeature": "Definition:PowerInvocationBurningHex:8acc2786-b2ae-5f89-b7a2-dc9e9e3b0467",
   "grantedSpell": null,
@@ -10,7 +10,7 @@
   "overrideMaterialComponent": true,
   "guiPresentation": {
     "$type": "GuiPresentation, Assembly-CSharp",
-    "hidden": true,
+    "hidden": false,
     "title": "Invocation/&InvocationBurningHexTitle",
     "description": "Invocation/&InvocationBurningHexDescription",
     "spriteReference": {

@@ -10,6 +10,7 @@ using SolastaUnfinishedBusiness.Builders;
 using SolastaUnfinishedBusiness.Builders.Features;
 using SolastaUnfinishedBusiness.CustomUI;
 using SolastaUnfinishedBusiness.Interfaces;
+using SolastaUnfinishedBusiness.Models;
 using SolastaUnfinishedBusiness.Properties;
 using TA;
 using UnityEngine.AddressableAssets;
@@ -150,6 +151,10 @@ internal static partial class SpellBuilders
                     .SetParticleEffectParameters(DivineFavor)
                     .Build())
             .AddToDB();
+
+        SmiteSpells2024Context.SmiteSpells.Add(spell);
+        SmiteSpells2024Context.SmiteDamages.Add(additionalDamageBlindingSmite);
+        SmiteSpells2024Context.SmiteConditions.Add(conditionBlindingSmite);
 
         return spell;
     }

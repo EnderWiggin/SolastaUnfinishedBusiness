@@ -19,7 +19,8 @@ internal enum Silent
     WhenRemoved = 2,
     WhenRefreshed = 4,
     WhenAddedOrRemoved = WhenAdded | WhenRemoved,
-    WhenRefreshedOrRemoved = WhenRefreshed | WhenRemoved
+    WhenRefreshedOrRemoved = WhenRefreshed | WhenRemoved,
+    Always = WhenAdded | WhenRemoved | WhenRefreshed
 }
 
 [UsedImplicitly]
@@ -285,7 +286,6 @@ internal class ConditionDefinitionBuilder
         return this;
     }
 
-#if false
     internal ConditionDefinitionBuilder AddSpecialInterruptions(params ExtraConditionInterruption[] value)
     {
         Definition.SpecialInterruptions.AddRange(value.Select(v => (RuleDefinitions.ConditionInterruption)v));
@@ -298,6 +298,7 @@ internal class ConditionDefinitionBuilder
         return this;
     }
 
+#if false
     internal ConditionDefinitionBuilder SetInterruptionDamageThreshold(int value)
     {
         Definition.interruptionDamageThreshold = value;

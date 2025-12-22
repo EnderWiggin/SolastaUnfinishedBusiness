@@ -17,7 +17,7 @@
   ],
   "guiPresentation": {
     "$type": "GuiPresentation, Assembly-CSharp",
-    "hidden": true,
+    "hidden": false,
     "title": "Feat/&FeatWeaponMasterDexTitle",
     "description": "Feat/&FeatWeaponMasterDexDescription",
     "spriteReference": {

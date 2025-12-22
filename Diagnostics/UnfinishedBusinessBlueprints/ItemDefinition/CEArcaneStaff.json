@@ -1,6 +1,6 @@
 {
   "$type": "ItemDefinition, Assembly-CSharp",
-  "inDungeonEditor": false,
+  "inDungeonEditor": true,
   "merchantCategory": "Weapon",
   "weight": 4.0,
   "slotTypes": [
@@ -49,7 +49,8 @@
     "closeRange": 5,
     "maxRange": 5,
     "weaponTags": [
-      "Versatile"
+      "Versatile",
+      "Topple"
     ],
     "effectDescription": {
       "$type": "EffectDescription, Assembly-CSharp",
@@ -506,7 +507,7 @@
   "clueSuspectPairs": [],
   "guiPresentation": {
     "$type": "GuiPresentation, Assembly-CSharp",
-    "hidden": true,
+    "hidden": false,
     "title": "Item/&CEArcaneStaffTitle",
     "description": "Item/&CEArcaneStaffDescription",
     "spriteReference": {

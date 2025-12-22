@@ -5,6 +5,7 @@ using JetBrains.Annotations;
 using SolastaUnfinishedBusiness.Behaviors;
 using SolastaUnfinishedBusiness.Behaviors.Specific;
 using SolastaUnfinishedBusiness.Models;
+using SolastaUnfinishedBusiness.Subclasses;
 
 namespace SolastaUnfinishedBusiness.Patches;
 
@@ -24,6 +25,9 @@ public static class RulesetItemPatcher
         {
             var item = __instance.itemDefinition;
 
+            //PATCH: add weapon mastery tags
+            Tabletop2024Context.TryAddWeaponMasteryTags(context as RulesetCharacter, __instance, tagsMap);
+
             //PATCH: add custom tags from sub-features
             AddTagToWeapon.TryAddTags(context as RulesetCharacter, __instance, tagsMap);
 
@@ -35,6 +39,9 @@ public static class RulesetItemPatcher
 
             //PATCH: removes `Loading` and `Ammunition` tags from appropriate weapons
             RepeatingShot.ModifyTags(__instance, tagsMap);
+
+            //PATCH: removes `Loading` tag for Oath of Demon Hunter crossbows
+            OathOfDemonHunter.IgnoreCrossbowLoadingProperty.ModifyTags(__instance, context as RulesetCharacter, tagsMap);
 
             //PATCH: adds `Unfinished Business` tag to all CE items 
             CeContentPackContext.AddCeTag(item, tagsMap);

@@ -7,6 +7,7 @@ using SolastaUnfinishedBusiness.Builders;
 using SolastaUnfinishedBusiness.Builders.Features;
 using SolastaUnfinishedBusiness.CustomUI;
 using SolastaUnfinishedBusiness.Interfaces;
+using SolastaUnfinishedBusiness.Models;
 using SolastaUnfinishedBusiness.Properties;
 using SolastaUnfinishedBusiness.Validators;
 using static ActionDefinitions;
@@ -44,6 +45,7 @@ public sealed class WayOfShadow : AbstractSubclass
     internal static readonly SpellDefinition SpellDarkness = SpellDefinitionBuilder
         .Create(Darkness, SpellDarknessName)
         .SetMaterialComponent(MaterialComponentType.None)
+        .AddEffectForm(EffectFormBuilder.AddConditionForm(LightingAndObscurementContext.ConditionSourceCanSeeMark))
         .AddToDB();
 
     public WayOfShadow()

@@ -1065,6 +1065,9 @@ internal static partial class DatabaseHelper
         internal static FeatureDefinitionActionAffinity ActionAffinitySorcererMetamagicToggle { get; } =
             GetDefinition<FeatureDefinitionActionAffinity>("ActionAffinitySorcererMetamagicToggle");
 
+        internal static FeatureDefinitionActionAffinity ActionAffinityThiefFastHands { get; } =
+            GetDefinition<FeatureDefinitionActionAffinity>("ActionAffinityThiefFastHands");
+
         internal static FeatureDefinitionActionAffinity ActionAffinityUncannyDodge { get; } =
             GetDefinition<FeatureDefinitionActionAffinity>("ActionAffinityUncannyDodge");
     }
@@ -1284,6 +1287,9 @@ internal static partial class DatabaseHelper
 
         internal static FeatureDefinitionAttributeModifier AttributeModifierMonkUnarmoredDefense { get; } =
             GetDefinition<FeatureDefinitionAttributeModifier>("AttributeModifierMonkUnarmoredDefense");
+
+        internal static FeatureDefinitionAttributeModifier AttributeModifierSorcererDraconicResilienceAC { get; } =
+            GetDefinition<FeatureDefinitionAttributeModifier>("AttributeModifierSorcererDraconicResilienceAC");
 
         internal static FeatureDefinitionAttributeModifier AttributeModifierSorcererSorceryPointsBase { get; } =
             GetDefinition<FeatureDefinitionAttributeModifier>("AttributeModifierSorcererSorceryPointsBase");
@@ -1701,6 +1707,9 @@ internal static partial class DatabaseHelper
         internal static FeatureDefinitionFeatureSet FeatureSetSorcererDraconicChoice { get; } =
             GetDefinition<FeatureDefinitionFeatureSet>("FeatureSetSorcererDraconicChoice");
 
+        internal static FeatureDefinitionFeatureSet FeatureSetSorcererDraconicResilience { get; } =
+            GetDefinition<FeatureDefinitionFeatureSet>("FeatureSetSorcererDraconicResilience");
+
         internal static FeatureDefinitionFeatureSet FeatureSetTieflingHellishResistance { get; } =
             GetDefinition<FeatureDefinitionFeatureSet>("FeatureSetTieflingHellishResistance");
 
@@ -1766,6 +1775,9 @@ internal static partial class DatabaseHelper
 
         internal static FeatureDefinitionMovementAffinity MovementAffinityConditionDashing { get; } =
             GetDefinition<FeatureDefinitionMovementAffinity>("MovementAffinityConditionDashing");
+
+        internal static FeatureDefinitionMovementAffinity MovementAffinityConditionDashingBonus { get; } =
+            GetDefinition<FeatureDefinitionMovementAffinity>("MovementAffinityConditionDashingBonus");
 
         internal static FeatureDefinitionMovementAffinity MovementAffinityBarbarianFastMovement { get; } =
             GetDefinition<FeatureDefinitionMovementAffinity>("MovementAffinityBarbarianFastMovement");
@@ -2585,6 +2597,9 @@ internal static partial class DatabaseHelper
 
         internal static FeatureDefinitionSavingThrowAffinity SavingThrowAffinityCreedOfArun { get; } =
             GetDefinition<FeatureDefinitionSavingThrowAffinity>("SavingThrowAffinityCreedOfArun");
+        
+        internal static FeatureDefinitionSavingThrowAffinity SavingThrowAffinityCreedOfEinar { get; } =
+            GetDefinition<FeatureDefinitionSavingThrowAffinity>("SavingThrowAffinityCreedOfEinar");
 
         internal static FeatureDefinitionSavingThrowAffinity SavingThrowAffinityCreedOfMaraike { get; } =
             GetDefinition<FeatureDefinitionSavingThrowAffinity>("SavingThrowAffinityCreedOfMaraike");
@@ -3016,6 +3031,40 @@ internal static partial class DatabaseHelper
         internal static ItemDefinition DaggerPlus2 { get; } = GetDefinition<ItemDefinition>("Dagger+2");
         internal static ItemDefinition Dart { get; } = GetDefinition<ItemDefinition>("Dart");
         internal static ItemDefinition DivineBladeWeapon { get; } = GetDefinition<ItemDefinition>("DivineBladeWeapon");
+
+        internal static ItemDefinition DLC3_Legendary_Battleaxe_Skullcleaver { get; } =
+            GetDefinition<ItemDefinition>("DLC3_Legendary_Battleaxe_Skullcleaver");
+
+        internal static ItemDefinition DLC3_Legendary_Dagger_SuddenDeath { get; } =
+            GetDefinition<ItemDefinition>("DLC3_Legendary_Dagger_SuddenDeath");
+
+        internal static ItemDefinition DLC3_Legendary_Greataxe_Imperator { get; } =
+            GetDefinition<ItemDefinition>("DLC3_Legendary_Greataxe_Imperator");
+
+        internal static ItemDefinition DLC3_Legendary_HeavyCrossbow_Driller { get; } =
+            GetDefinition<ItemDefinition>("DLC3_Legendary_HeavyCrossbow_Driller");
+
+        internal static ItemDefinition DLC3_Legendary_LightCrossbow_Decadence { get; } =
+            GetDefinition<ItemDefinition>("DLC3_Legendary_LightCrossbow_Decadence");
+
+        internal static ItemDefinition DLC3_Legendary_Longsword_Anvil { get; } =
+            GetDefinition<ItemDefinition>("DLC3_Legendary_Longsword_Anvil");
+
+        internal static ItemDefinition DLC3_Legendary_Quarterstaff_Purity { get; } =
+            GetDefinition<ItemDefinition>("DLC3_Legendary_Quarterstaff_Purity");
+
+        internal static ItemDefinition DLC3_Legendary_Shortsword_Grievance { get; } =
+            GetDefinition<ItemDefinition>("DLC3_Legendary_Shortsword_Grievance");
+
+        internal static ItemDefinition DLC3_Legendary_Warhammer_Glacier { get; } =
+            GetDefinition<ItemDefinition>("DLC3_Legendary_Warhammer_Glacier");
+        
+        internal static ItemDefinition DLC3_Magic_Morningstar_Guardian_Complete { get; } =
+            GetDefinition<ItemDefinition>("DLC3_Magic_Morningstar_Guardian_Complete");
+        
+        internal static ItemDefinition DLC3_Magic_Shortsword_Sovereign { get; } =
+            GetDefinition<ItemDefinition>("DLC3_Magic_Shortsword_Sovereign");
+        
         internal static ItemDefinition DruidicFocus { get; } = GetDefinition<ItemDefinition>("DruidicFocus");
         internal static ItemDefinition DungeoneerPack { get; } = GetDefinition<ItemDefinition>("DungeoneerPack");
         internal static ItemDefinition ElvenChain { get; } = GetDefinition<ItemDefinition>("ElvenChain");
@@ -3252,10 +3301,18 @@ internal static partial class DatabaseHelper
         internal static ItemDefinition Longbow { get; } = GetDefinition<ItemDefinition>("Longbow");
         internal static ItemDefinition LongbowPlus1 { get; } = GetDefinition<ItemDefinition>("Longbow+1");
         internal static ItemDefinition LongbowPlus2 { get; } = GetDefinition<ItemDefinition>("Longbow+2");
+        internal static ItemDefinition LongbowPlus3 { get; } = GetDefinition<ItemDefinition>("Longbow+3");
         internal static ItemDefinition Longsword { get; } = GetDefinition<ItemDefinition>("Longsword");
         internal static ItemDefinition LongswordPlus2 { get; } = GetDefinition<ItemDefinition>("Longsword+2");
         internal static ItemDefinition Mace { get; } = GetDefinition<ItemDefinition>("Mace");
         internal static ItemDefinition MacePlus2 { get; } = GetDefinition<ItemDefinition>("Mace+2");
+
+        internal static ItemDefinition Magic_Dagger_Cheater { get; } =
+            GetDefinition<ItemDefinition>("Magic_Dagger_Cheater");
+
+        internal static ItemDefinition Magic_Shortbow_Truth { get; } =
+            GetDefinition<ItemDefinition>("Magic_Shortbow_Truth");
+
         internal static ItemDefinition Maul { get; } = GetDefinition<ItemDefinition>("Maul");
         internal static ItemDefinition MaulPlus2 { get; } = GetDefinition<ItemDefinition>("Maul+2");
         internal static ItemDefinition MonkArmor { get; } = GetDefinition<ItemDefinition>("MonkArmor");
@@ -3344,6 +3401,7 @@ internal static partial class DatabaseHelper
         internal static ItemDefinition ScaleMailPlus2 { get; } = GetDefinition<ItemDefinition>("ScaleMail+2");
         internal static ItemDefinition Scimitar { get; } = GetDefinition<ItemDefinition>("Scimitar");
         internal static ItemDefinition ScimitarPlus2 { get; } = GetDefinition<ItemDefinition>("Scimitar+2");
+        internal static ItemDefinition ScimitarPlus3 { get; } = GetDefinition<ItemDefinition>("Scimitar+3");
         internal static ItemDefinition ScrollFly { get; } = GetDefinition<ItemDefinition>("ScrollFly");
         internal static ItemDefinition Shield { get; } = GetDefinition<ItemDefinition>("Shield");
         internal static ItemDefinition Shield_Wooden { get; } = GetDefinition<ItemDefinition>("Shield_Wooden");

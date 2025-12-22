@@ -7,6 +7,7 @@ using SolastaUnfinishedBusiness.Builders;
 using SolastaUnfinishedBusiness.Builders.Features;
 using SolastaUnfinishedBusiness.CustomUI;
 using SolastaUnfinishedBusiness.Interfaces;
+using SolastaUnfinishedBusiness.Models;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using static ActionDefinitions;
@@ -302,6 +303,10 @@ internal static partial class SpellBuilders
                     .SetEffectEffectParameters(new AssetReference())
                     .Build())
             .AddToDB();
+
+        SmiteSpells2024Context.SmiteSpells.Add(spell);
+        SmiteSpells2024Context.SmiteDamages.Add(additionalDamageStaggeringSmite);
+        SmiteSpells2024Context.SmiteConditions.Add(conditionStaggeringSmite);
 
         return spell;
     }
@@ -1327,7 +1332,7 @@ internal static partial class SpellBuilders
             .SetGuiPresentation(Category.Spell)
             .SetSchoolOfMagic(SchoolOfMagicDefinitions.SchoolTransmutation)
             .SetSpellLevel(4)
-            .SetCastingTime(ActivationTime.Action)
+            .SetCastingTime(ActivationTime.BonusAction)
             .SetMaterialComponent(MaterialComponentType.None)
             .SetSomaticComponent(false)
             .SetVerboseComponent(true)
@@ -1363,7 +1368,7 @@ internal static partial class SpellBuilders
             .SetGuiPresentation(Category.Spell)
             .SetSchoolOfMagic(SchoolOfMagicDefinitions.SchoolTransmutation)
             .SetSpellLevel(4)
-            .SetCastingTime(ActivationTime.Action)
+            .SetCastingTime(ActivationTime.BonusAction)
             .SetMaterialComponent(MaterialComponentType.None)
             .SetSomaticComponent(false)
             .SetVerboseComponent(true)
@@ -1399,7 +1404,7 @@ internal static partial class SpellBuilders
             .SetGuiPresentation(Category.Spell, Sprites.GetSprite(NAME, Resources.ForestGuardian, 128))
             .SetSchoolOfMagic(SchoolOfMagicDefinitions.SchoolTransmutation)
             .SetSpellLevel(4)
-            .SetCastingTime(ActivationTime.Action)
+            .SetCastingTime(ActivationTime.BonusAction)
             .SetMaterialComponent(MaterialComponentType.None)
             .SetSomaticComponent(false)
             .SetVerboseComponent(true)

@@ -622,7 +622,7 @@ public sealed class SorcerousWildMagic : AbstractSubclass
 
             if (action.AttackRollOutcome is not (RollOutcome.Failure or RollOutcome.CriticalFailure) ||
                 helper != attacker ||
-                rulesetHelper.GetRemainingUsesOfPower(usablePower) == 0)
+                rulesetHelper.GetRemainingUsesOfPower(usablePower) <= 0)
             {
                 yield break;
             }
@@ -641,10 +641,6 @@ public sealed class SorcerousWildMagic : AbstractSubclass
 
             void ReactionValidated()
             {
-                // this is an exception to rule and only happens
-                // as powers added at 1st level from subclasses won't have a class assigned
-                usablePower.Consume();
-
                 List<TrendInfo> advantageTrends =
                     [new(1, FeatureSourceType.CharacterFeature, PowerTidesOfChaos.Name, PowerTidesOfChaos)];
 
@@ -714,6 +710,7 @@ public sealed class SorcerousWildMagic : AbstractSubclass
 
         public IEnumerator OnTryAlterAttributeCheck(
             GameLocationBattleManager battleManager,
+            int rawRoll,
             AbilityCheckData abilityCheckData,
             GameLocationCharacter defender,
             GameLocationCharacter helper)
@@ -723,7 +720,7 @@ public sealed class SorcerousWildMagic : AbstractSubclass
 
             if (abilityCheckData.AbilityCheckRollOutcome is not (RollOutcome.Failure or RollOutcome.CriticalFailure) ||
                 helper != defender ||
-                rulesetHelper.GetRemainingUsesOfPower(usablePower) == 0)
+                rulesetHelper.GetRemainingUsesOfPower(usablePower) <= 0)
             {
                 yield break;
             }
@@ -749,8 +746,10 @@ public sealed class SorcerousWildMagic : AbstractSubclass
                 var dieRoll = rulesetHelper.RollDie(
                     DieType.D20, RollContext.None, false, AdvantageType.Advantage, out _, out _);
 
-                abilityCheckData.AbilityCheckSuccessDelta += dieRoll - abilityCheckData.AbilityCheckRoll;
-                abilityCheckData.AbilityCheckRoll = dieRoll;
+                var delta = dieRoll - rawRoll;
+
+                abilityCheckData.AbilityCheckSuccessDelta += delta;
+                abilityCheckData.AbilityCheckRoll += delta;
                 abilityCheckData.AbilityCheckRollOutcome = abilityCheckData.AbilityCheckSuccessDelta >= 0
                     ? RollOutcome.Success
                     : RollOutcome.Failure;
@@ -776,7 +775,7 @@ public sealed class SorcerousWildMagic : AbstractSubclass
 
             if (savingThrowData.SaveOutcome is not RollOutcome.Failure ||
                 helper != defender ||
-                rulesetHelper.GetRemainingUsesOfPower(usablePower) == 0)
+                rulesetHelper.GetRemainingUsesOfPower(usablePower) <= 0)
             {
                 yield break;
             }
@@ -836,7 +835,7 @@ public sealed class SorcerousWildMagic : AbstractSubclass
 
             if (helper == attacker ||
                 !helper.CanReact() ||
-                rulesetHelper.GetRemainingUsesOfPower(usablePower) == 0 ||
+                rulesetHelper.GetRemainingUsesOfPower(usablePower) <= 0 ||
                 Math.Abs(action.AttackSuccessDelta) > 4)
             {
                 yield break;
@@ -937,6 +936,7 @@ public sealed class SorcerousWildMagic : AbstractSubclass
 
         public IEnumerator OnTryAlterAttributeCheck(
             GameLocationBattleManager battleManager,
+            int rawRoll,
             AbilityCheckData abilityCheckData,
             GameLocationCharacter defender,
             GameLocationCharacter helper)
@@ -946,7 +946,7 @@ public sealed class SorcerousWildMagic : AbstractSubclass
 
             if (helper == defender ||
                 !helper.CanReact() ||
-                rulesetHelper.GetRemainingUsesOfPower(usablePower) == 0 ||
+                rulesetHelper.GetRemainingUsesOfPower(usablePower) <= 0 ||
                 Math.Abs(abilityCheckData.AbilityCheckSuccessDelta) > 4)
             {
                 yield break;
@@ -1063,7 +1063,7 @@ public sealed class SorcerousWildMagic : AbstractSubclass
 
             if (helper == defender ||
                 !helper.CanReact() ||
-                rulesetHelper.GetRemainingUsesOfPower(usablePower) == 0 ||
+                rulesetHelper.GetRemainingUsesOfPower(usablePower) <= 0 ||
                 Math.Abs(savingThrowData.SaveOutcomeDelta) > 4)
             {
                 yield break;
@@ -1240,9 +1240,8 @@ public sealed class SorcerousWildMagic : AbstractSubclass
             case 3:
                 EffectHelpers.StartVisualEffect(
                     caster, caster, CureWounds, EffectHelpers.EffectType.Effect);
-                rulesetCaster.ReceiveHealing(
-                    rulesetCaster.RollDiceAndSum(DieType.D10, RollContext.HealValueRoll, 2, [], false),
-                    true, rulesetCaster.Guid);
+                rulesetCaster.ReceiveHealing(rulesetCaster.RollDiceAndSum(DieType.D10, RollContext.HealValueRoll, 2,
+                    maximumDamage: rulesetCaster.ReceivesMaximizedHealing()), true, rulesetCaster.Guid);
                 break;
 
             // each creature within 20 feet of you (including you) catches on fire
@@ -1304,7 +1303,7 @@ public sealed class SorcerousWildMagic : AbstractSubclass
             // A random creature within 60 feet of you (other than you) can fly for one minute.
             case 11:
                 InflictConditionOnRandomCreatureWithinRange(
-                    caster, RuleDefinitions.ConditionFlying,
+                    caster, "ConditionFlying12",
                     DurationType.Minute, 1, TurnOccurenceType.EndOfTurn, PowerSorcererManaPainterDrain, 12);
                 break;
 
