@@ -335,8 +335,11 @@ public static partial class Tabletop2024Context
             string effectName,
             ref ActionModifier attackModifier)
         {
-            if (attackProximity is not
-                (BattleDefinitions.AttackProximity.MagicRange or BattleDefinitions.AttackProximity.MagicReach))
+            if (attackProximity is
+                    not (BattleDefinitions.AttackProximity.MagicRange
+                    or BattleDefinitions.AttackProximity.MagicReach) &&
+                (attackMode is null ||
+                 !attackMode.AttackTags.Contains(AttackAfterMagicEffect.AttackAfterMagicEffectTag)))
             {
                 return;
             }
