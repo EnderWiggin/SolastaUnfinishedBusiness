@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using JetBrains.Annotations;
@@ -164,6 +164,23 @@ internal sealed class AttackAfterMagicEffect(AttackAfterMagicEffect.AttackType a
             if (!actionParams.ActingCharacter.RulesetCharacter.HasSubFeatureOfType<IAttackReplaceWithCantrip>())
             {
                 attackMode.AddAttackTagAsNeeded(AttackAfterMagicEffectTag);
+            }
+
+            //handle interaction with Potent Spell Caster feat and blade cantrips to add source ability as add damage
+            var character = actionParams.ActingCharacter.RulesetCharacter;
+            var hero = character.GetOriginalHero();
+
+            if (hero != null &&
+                hero.TrainedFeats.Any(x => x.Name.StartsWith("FeatPotentSpellcaster")) &&
+                actionMagicEffect.ActionParams.activeEffect.SourceDefinition is SpellDefinition { SpellLevel: 0 })
+            {
+                var damage = attackMode.EffectDescription.FindFirstDamageForm();
+                var attribute = actionMagicEffect.ActionParams.activeEffect.SourceAbility;
+                var bonus = AttributeDefinitions.ComputeAbilityScoreModifier(character.TryGetAttributeValue(attribute));
+
+                damage.BonusDamage += bonus;
+                damage.DamageBonusTrends.Add(
+                    new TrendInfo(bonus, FeatureSourceType.CharacterFeature, String.Empty, null));
             }
 
             // always use free attack
