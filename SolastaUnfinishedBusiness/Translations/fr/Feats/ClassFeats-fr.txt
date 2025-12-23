@@ -31,6 +31,7 @@ Feat/&FeatHardyStrTitle=Hardy [Str]
 Feat/&FeatPoisonerDescription=Vous avez une compréhension approfondie de la façon de manipuler les poisons :\n• Vous gagnez la maîtrise du kit d'empoisonneur, ou une expertise si vous le maîtrisez déjà.\n• Vous gagnez la capacité d'appliquer un poison sur votre arme en tant qu'action bonus.\n• Lorsque vous effectuez un jet de dégâts, vous ignorez la résistance aux dégâts de poison.
 Feat/&FeatPoisonerTitle=Empoisonneur
 Feat/&FeatPotentSpellcasterDescription=Vous pouvez ajouter votre modificateur d'attribut de lanceur de sorts aux dégâts que vous infligez avec n'importe quel {0} cantrip de votre répertoire.
+Feat/&FeatPotentSpellcasterTitle1=Puissant lanceur de sorts
 Feat/&FeatPotentSpellcasterTitle=Puissant lanceur de sorts [{0}]
 Feat/&FeatPrimalRageConDescription=Augmentez votre Constitution de 1, jusqu'à un maximum de 20. Vous gagnez une utilisation de Rage supplémentaire entre les repos.
 Feat/&FeatPrimalRageConTitle=Rage primordiale [Con]

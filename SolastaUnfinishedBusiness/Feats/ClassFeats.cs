@@ -681,8 +681,29 @@ internal static class ClassFeats
 
     internal sealed class CustomBehaviorFeatPotentSpellcaster(
         BaseDefinition baseDefinition,
-        CharacterClassDefinition castingClass) : IModifyEffectDescription, IModifyWeaponAttackMode
+        CharacterClassDefinition castingClass) : IModifyEffectDescription, IModifyWeaponAttackMode,
+        IMagicEffectBeforeHitConfirmedOnEnemy
     {
+        private const string Title = "Feat/&FeatPotentSpellcasterTitle1";
+
+        public IEnumerator OnMagicEffectBeforeHitConfirmedOnEnemy(
+            GameLocationBattleManager battleManager,
+            GameLocationCharacter attacker,
+            GameLocationCharacter defender,
+            ActionModifier actionModifier,
+            RulesetEffect rulesetEffect,
+            List<EffectForm> actualEffectForms,
+            bool firstTarget,
+            bool criticalHit)
+        {
+            if (rulesetEffect.SourceDefinition is SpellDefinition { SpellLevel: 0 })
+            {
+                attacker.RulesetCharacter.LogCharacterActivatesAbility(Title);
+            }
+
+            yield break;
+        }
+
         public bool IsValid(
             BaseDefinition definition,
             RulesetCharacter character,
@@ -702,23 +723,22 @@ internal static class ClassFeats
             RulesetCharacter character,
             RulesetEffect rulesetEffect)
         {
-            // this might not be correct if same spell is learned from different classes
-            // if we follow other patches we should ideally identify all repertoires that can cast spell
-            // and use the one with the highest attribute. will revisit if this ever becomes a thing
             if (definition is not SpellDefinition spell)
             {
                 return effectDescription;
             }
 
             var spellRepertoire =
-                character.SpellRepertoires.FirstOrDefault(x => x.HasKnowledgeOfSpell(spell));
+                character.SpellRepertoires.FirstOrDefault(x =>
+                    x.SpellCastingClass == castingClass && x.HasKnowledgeOfSpell(spell));
 
             if (spellRepertoire == null)
             {
                 if (SpellsContext.SpellsChildMaster.TryGetValue(spell, out var parentSpell))
                 {
                     spellRepertoire =
-                        character.SpellRepertoires.FirstOrDefault(x => x.HasKnowledgeOfSpell(parentSpell));
+                        character.SpellRepertoires.FirstOrDefault(x =>
+                            x.SpellCastingClass == castingClass && x.HasKnowledgeOfSpell(parentSpell));
                 }
 
                 if (spellRepertoire == null)
@@ -763,7 +783,8 @@ internal static class ClassFeats
             }
 
             var spellRepertoire =
-                character.SpellRepertoires.FirstOrDefault(x => x.HasKnowledgeOfSpell(ProduceFlame));
+                character.SpellRepertoires.FirstOrDefault(x =>
+                    x.SpellCastingClass == castingClass && x.HasKnowledgeOfSpell(ProduceFlame));
 
             if (spellRepertoire == null)
             {
@@ -776,6 +797,31 @@ internal static class ClassFeats
             damage.BonusDamage += bonus;
             damage.DamageBonusTrends.Add(
                 new TrendInfo(bonus, FeatureSourceType.CharacterFeature, baseDefinition.Name, baseDefinition));
+            character.LogCharacterActivatesAbility(Title);
+        }
+
+        internal static void HandleBladeCantrips(
+            GameLocationCharacter character,
+            CharacterActionMagicEffect actionMagicEffect,
+            RulesetAttackMode attackMode)
+        {
+            var hero = character.RulesetCharacter.GetOriginalHero();
+
+            if (hero == null ||
+                !hero.TrainedFeats.Any(x => x.Name.StartsWith("FeatPotentSpellcaster")) ||
+                actionMagicEffect.ActionParams.activeEffect.SourceDefinition is not SpellDefinition { SpellLevel: 0 })
+            {
+                return;
+            }
+
+            var damage = attackMode.EffectDescription.FindFirstDamageForm();
+            var attribute = actionMagicEffect.ActionParams.activeEffect.SourceAbility;
+            var bonus = AttributeDefinitions.ComputeAbilityScoreModifier(hero.TryGetAttributeValue(attribute));
+
+            damage.BonusDamage += bonus;
+            damage.DamageBonusTrends.Add(
+                new TrendInfo(bonus, FeatureSourceType.CharacterFeature, string.Empty, null));
+            character.RulesetCharacter.LogCharacterActivatesAbility(Title);
         }
     }
 
@@ -851,21 +897,20 @@ internal static class ClassFeats
                                 .AddToDB()))
                         .Build())
                 .AddCustomSubFeatures(
-                    new ValidatorsValidatePowerUse(
-                        c =>
-                        {
-                            var remaining = 0;
+                    new ValidatorsValidatePowerUse(c =>
+                    {
+                        var remaining = 0;
 
-                            c.GetClassSpellRepertoire(Ranger)?
-                                .GetSlotsNumber(a, out remaining, out _);
+                        c.GetClassSpellRepertoire(Ranger)?
+                            .GetSlotsNumber(a, out remaining, out _);
 
-                            var noCondition = !c.HasAnyConditionOfType(
-                                "ConditionFeatSlayTheEnemies1",
-                                "ConditionFeatSlayTheEnemies2",
-                                "ConditionFeatSlayTheEnemies3");
+                        var noCondition = !c.HasAnyConditionOfType(
+                            "ConditionFeatSlayTheEnemies1",
+                            "ConditionFeatSlayTheEnemies2",
+                            "ConditionFeatSlayTheEnemies3");
 
-                            return remaining > 0 && noCondition;
-                        }))
+                        return remaining > 0 && noCondition;
+                    }))
                 .AddToDB();
 
             powerPoolList.Add(powerGainSlot);

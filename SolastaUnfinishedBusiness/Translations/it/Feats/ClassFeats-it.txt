@@ -31,6 +31,7 @@ Feat/&FeatHardyStrTitle=Resistente [Str]
 Feat/&FeatPoisonerDescription=Hai una profonda comprensione di come manipolare i veleni:\n• Ottieni competenza con il kit dell'avvelenatore, o competenza se sei già competente.\n• Ottieni la capacità di applicare un veleno alla tua arma come azione bonus.\n• Quando effettui un tiro per i danni, ignori la resistenza ai danni da veleno.
 Feat/&FeatPoisonerTitle=Avvelenatore
 Feat/&FeatPotentSpellcasterDescription=Puoi aggiungere il modificatore degli attributi dell'incantatore al danno che infliggi con qualsiasi trucchetto {0} nel tuo repertorio.
+Feat/&FeatPotentSpellcasterTitle1=Potente incantatore
 Feat/&FeatPotentSpellcasterTitle=Potente incantatore [{0}]
 Feat/&FeatPrimalRageConDescription=Aumenta la tua Costituzione di 1, fino a un massimo di 20. Ottieni un utilizzo di Furia aggiuntivo tra un riposo e l'altro.
 Feat/&FeatPrimalRageConTitle=Rabbia Primordiale [Contro]

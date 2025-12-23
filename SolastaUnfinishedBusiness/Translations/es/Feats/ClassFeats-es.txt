@@ -31,6 +31,7 @@ Feat/&FeatHardyStrTitle=Resistente [Fuerza]
 Feat/&FeatPoisonerDescription=Tienes un profundo conocimiento sobre cómo manipular venenos:\n• Obtienes competencia con el equipo del envenenador, o experiencia si ya eres competente.\n• Obtienes la capacidad de aplicar un veneno a tu arma como acción adicional.\n• Cuando haces una tirada de daño, ignoras la resistencia al daño por veneno.
 Feat/&FeatPoisonerTitle=Envenenador
 Feat/&FeatPotentSpellcasterDescription=Puedes añadir tu modificador de atributo de lanzador de conjuros al daño que infliges con cualquier truco {0} en tu repertorio.
+Feat/&FeatPotentSpellcasterTitle1=Potente lanzador de conjuros
 Feat/&FeatPotentSpellcasterTitle=Potente lanzador de conjuros [{0}]
 Feat/&FeatPrimalRageConDescription=Aumenta tu Constitución en 1, hasta un máximo de 20. Obtienes un uso de Furia adicional entre descansos.
 Feat/&FeatPrimalRageConTitle=Furia primaria [Con]

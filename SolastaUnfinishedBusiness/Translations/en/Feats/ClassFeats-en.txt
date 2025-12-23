@@ -32,6 +32,7 @@ Feat/&FeatPoisonerDescription=You have a profound understanding on how to manipu
 Feat/&FeatPoisonerTitle=Poisoner
 Feat/&FeatPotentSpellcasterDescription=You can add your spellcaster attribute modifier to the damage you deal with any {0} cantrip in your repertoire.
 Feat/&FeatPotentSpellcasterTitle=Potent Spellcaster [{0}]
+Feat/&FeatPotentSpellcasterTitle1=Potent Spellcaster
 Feat/&FeatPrimalRageConDescription=Increase your Constitution by 1, to a maximum of 20. You gain one additional Rage usage between rests.
 Feat/&FeatPrimalRageConTitle=Primal Rage [Con]
 Feat/&FeatPrimalRageStrDescription=Increase your Strength by 1, to a maximum of 20. You gain one additional Rage usage between rests.

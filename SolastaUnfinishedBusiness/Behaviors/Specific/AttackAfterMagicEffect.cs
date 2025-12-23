@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using JetBrains.Annotations;
 using SolastaUnfinishedBusiness.Api.GameExtensions;
+using SolastaUnfinishedBusiness.Feats;
 using SolastaUnfinishedBusiness.Interfaces;
 using static RuleDefinitions;
 
@@ -165,6 +166,9 @@ internal sealed class AttackAfterMagicEffect(AttackAfterMagicEffect.AttackType a
             {
                 attackMode.AddAttackTagAsNeeded(AttackAfterMagicEffectTag);
             }
+
+            //handle interaction with Potent Spell Caster feat and blade cantrips
+            ClassFeats.CustomBehaviorFeatPotentSpellcaster.HandleBladeCantrips(caster, actionMagicEffect, attackMode);
 
             // always use free attack
             var attackActionParams =

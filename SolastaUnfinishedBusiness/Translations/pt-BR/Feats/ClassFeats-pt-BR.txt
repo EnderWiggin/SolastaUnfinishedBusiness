@@ -31,6 +31,7 @@ Feat/&FeatHardyStrTitle=Resistente [Str]
 Feat/&FeatPoisonerDescription=Você tem um profundo conhecimento sobre como manipular venenos:\n• Você ganha proficiência com o kit de envenenamento, ou perícia se já for proficiente.\n• Você ganha a habilidade de aplicar um veneno à sua arma como uma ação bônus.\n• Quando você faz uma jogada de dano, você ignora a resistência a dano de veneno.
 Feat/&FeatPoisonerTitle=Envenenador
 Feat/&FeatPotentSpellcasterDescription=Você pode adicionar seu modificador de atributo de conjurador ao dano que você causa com qualquer truque {0} em seu repertório.
+Feat/&FeatPotentSpellcasterTitle1=Conjurador Potente
 Feat/&FeatPotentSpellcasterTitle=Conjurador Potente [{0}]
 Feat/&FeatPrimalRageConDescription=Aumente sua Constituição em 1, até um máximo de 20. Você ganha um uso adicional de Fúria entre descansos.
 Feat/&FeatPrimalRageConTitle=Fúria Primordial [Con]

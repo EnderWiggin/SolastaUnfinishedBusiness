@@ -31,6 +31,7 @@ Feat/&FeatHardyStrTitle=ハーディ[Str]
 Feat/&FeatPoisonerDescription=毒の操作方法について深い理解が得られます。\n• 毒殺者のキットの熟練度、またはすでに熟練している場合は専門知識を獲得します。\n• ボーナス アクションとして武器に毒を適用する能力を獲得します。\n• あなたがダメージ ロールを行うとき、あなたは毒ダメージに対する耐性を無視します。
 Feat/&FeatPoisonerTitle=毒殺者
 Feat/&FeatPotentSpellcasterDescription=レパートリー内の任意の {0} キャントリップで与えるダメージに術者属性修正を追加できます。
+Feat/&FeatPotentSpellcasterTitle1=強力な魔法使い
 Feat/&FeatPotentSpellcasterTitle=強力な魔法使い[{0}]
 Feat/&FeatPrimalRageConDescription=あなたの体質を 1 増やして、最大 20 まで増やします。休憩の間にさらに 1 回の怒りの使用量を獲得します。
 Feat/&FeatPrimalRageConTitle=プライマルレイジ [短所]

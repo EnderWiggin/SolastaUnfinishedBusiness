@@ -31,6 +31,7 @@ Feat/&FeatHardyStrTitle=Robust [Str]
 Feat/&FeatPoisonerDescription=Sie verfügen über tiefgreifende Kenntnisse im Umgang mit Giften:\n• Sie erlangen Kenntnisse im Umgang mit dem Giftmischer-Set oder Fachwissen, wenn Sie bereits Kenntnisse besitzen.\n• Sie erlangen die Fähigkeit, als Bonusaktion ein Gift auf Ihre Waffe aufzutragen.\n• Wenn Sie einen Schadenswurf machen, ignorieren Sie die Resistenz gegen Giftschäden.
 Feat/&FeatPoisonerTitle=Giftmörder
 Feat/&FeatPotentSpellcasterDescription=Sie können Ihren Zauberer-Attributmodifikator zu dem Schaden hinzufügen, den Sie mit jedem {0}-Zauber in Ihrem Repertoire verursachen.
+Feat/&FeatPotentSpellcasterTitle1=Starker Zauberer
 Feat/&FeatPotentSpellcasterTitle=Mächtiger Zauberer [{0}]
 Feat/&FeatPrimalRageConDescription=Erhöhen Sie Ihre Konstitution um 1 bis zu einem Maximum von 20. Sie erhalten eine zusätzliche Wutnutzung zwischen den Pausen.
 Feat/&FeatPrimalRageConTitle=Urwut [Kon]
