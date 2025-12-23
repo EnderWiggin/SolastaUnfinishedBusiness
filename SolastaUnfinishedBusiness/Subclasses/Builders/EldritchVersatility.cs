@@ -872,6 +872,8 @@ internal static class EldritchVersatilityBuilders
                     out var successDelta,
                     out var rawRoll,
                     true);
+                
+                
 
                 //PATCH: support for Bardic Inspiration roll off battle and ITryAlterOutcomeAttributeCheck
                 var abilityCheckData = new AbilityCheckData

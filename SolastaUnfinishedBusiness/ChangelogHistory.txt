@@ -1,3 +1,7 @@
+1.5.97.119:
+- fixed Katanas receiving only attack bonus from `Blade Mastery` feat, but not AC bonus
+- fixed `Innate Sorcery` interaction with blade cantrips (PR by Zappa)
+
 1.5.97.118:
 - buttons to loot gold, ingredients or scrolls would only be visible if there's at least one of the matching items in loot pile
 - added option for 2024 version `Draconic Resilience` from `Draconic Bloodline` Sorcerer subclass
