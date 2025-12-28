@@ -31,6 +31,7 @@ Feat/&FeatHardyStrTitle=结实【力量】
 Feat/&FeatPoisonerDescription=你对如何操纵毒药有深刻的了解：\n• 你获得毒药工具熟练项，如果已有熟练项，则获得专精。\n• 作为附赠动作，你将能够在武器上使用毒药。\n• 当你进行伤害检定时，你会忽略对毒素伤害的抗性。
 Feat/&FeatPoisonerTitle=制毒专家
 Feat/&FeatPotentSpellcasterDescription=你可以将你的施法者属性调整值添加到你施展的 {0} 戏法伤害中。
+Feat/&FeatPotentSpellcasterTitle1=强力施法者
 Feat/&FeatPotentSpellcasterTitle=强力施法者 [{0}]
 Feat/&FeatPrimalRageConDescription=你的体质 +1，上限为 20。你在短休后获得 1 次额外的狂暴次数。
 Feat/&FeatPrimalRageConTitle=原始狂暴【体质】
