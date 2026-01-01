@@ -1,3 +1,6 @@
+1.5.97.120:
+- fixed interaction between Potent Spell Caster feat and blade cantrips (PR by Zappa)
+
 1.5.97.119:
 - fixed Katanas receiving only attack bonus from `Blade Mastery` feat, but not AC bonus
 - fixed `Innate Sorcery` interaction with blade cantrips (PR by Zappa)
