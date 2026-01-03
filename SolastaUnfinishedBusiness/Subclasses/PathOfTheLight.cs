@@ -349,7 +349,9 @@ public sealed class PathOfTheLight : AbstractSubclass
             }
 
             var levels = conditionSource.GetClassLevel(CharacterClassDefinitions.Barbarian);
-            var amountHealed = (levels + 1) / 2;
+            if (levels < 6) { return; } //feature becomes active at level 6
+
+            var amountHealed = levels / 2;
 
             conditionSource.ReceiveHealing(amountHealed, true, sourceGuid);
         }
