@@ -105,6 +105,7 @@ internal static class FixesContext
         AddTitlesToCreedSaves();
         ChangeCunningActions();
         FixMonsterAttacks();
+        FixPatronTreeOneWithTree();
 
         // avoid soft lock scenarios with game UI on any affinity that prevents movement
         foreach (var actionAffinity in DatabaseRepository.GetDatabase<FeatureDefinitionActionAffinity>()
@@ -697,6 +698,18 @@ internal static class FixesContext
         {
             spell.EffectDescription.EffectAdvancement.alteredDuration = AdvancementDuration.None;
         }
+    }
+
+    private static void FixPatronTreeOneWithTree()
+    {
+        //BUGFIX: `One with the Tree` from Warlock's Tree Patron states that you have half-cover against ranged attack,
+        //but mistakenly subtracts 2 from your ranged attacks
+        var feature = GetDefinition<FeatureDefinitionCombatAffinity>("CombatAffinityPatronTreeOneWithTheTree");
+
+        //Do not affect own attacks
+        feature.myAttackModifierValueDetermination = CombatAffinityValueDetermination.None;
+        //Grant permanent half-cover instead
+        feature.permanentCover = CoverType.Half;
     }
 
     private static void FixMonsterAttacks()
