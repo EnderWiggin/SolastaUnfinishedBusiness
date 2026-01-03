@@ -1,3 +1,6 @@
+1.5.97.121:
+- add monster portraits from EoModeras's mod on Nexus
+
 1.5.97.120:
 - fixed interaction between Potent Spell Caster feat and blade cantrips (PR by Zappa)
 
