@@ -1,3 +1,10 @@
+1.5.97.122:
+- fixed `One with the Tree` from Warlock's Tree Patron giving your ranged attacks -2 to hit instead of granting permanent half-cover bonus to you
+- fixed `Light's Protection` from Barbarian's `Path of Light` healing triggering before level 6 of Barbarian and also mabe it round down, as most half-level features do
+- fixed `Baleful Scion` trying to apply to gadgets on AoE spells
+- made `Power Surge` from War Magic Wizard school to not trigger on gadgets or friendlies and waste the effect
+- updated description of `Power Surge` from War Magic Wizard to mention damage being negated if target saves against the spell
+
 1.5.97.121:
 - add monster portraits from EoModeras's mod on Nexus (PR by Zappa)
 
