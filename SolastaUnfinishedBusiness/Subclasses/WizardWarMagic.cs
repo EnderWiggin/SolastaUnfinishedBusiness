@@ -303,8 +303,9 @@ public sealed class WizardWarMagic : AbstractSubclass
             bool firstTarget,
             bool criticalHit)
         {
-            if (rulesetEffect.EffectDescription.TargetType is TargetType.Individuals or TargetType.IndividualsUnique &&
-                !firstTarget)
+            if (rulesetEffect is not RulesetEffectSpell
+                || defender.RulesetActor is not RulesetCharacter
+                || !defender.IsOppositeSide(attacker.Side))
             {
                 yield break;
             }
@@ -350,41 +351,28 @@ public sealed class WizardWarMagic : AbstractSubclass
                 rulesetAttacker.IsToggleEnabled((Id)ExtraActionId.PowerSurgeToggle) &&
                 rulesetAttacker.GetRemainingUsesOfPower(usablePower) > 0;
 
-            if (shouldTrigger && !alreadyTriggered)
-            {
-                attacker.UsedSpecialFeatures.TryAdd(powerSurge.Name, 0);
-                rulesetAttacker.UsePower(usablePower);
-                rulesetAttacker.InflictCondition(
-                    conditionSurgeMark.Name,
-                    DurationType.Round,
-                    0,
-                    TurnOccurenceType.EndOfSourceTurn,
-                    AttributeDefinitions.TagEffect,
-                    rulesetAttacker.guid,
-                    rulesetAttacker.CurrentFaction.Name,
-                    1,
-                    conditionSurgeMark.Name,
-                    0,
-                    0,
-                    0);
-            }
+            if (!shouldTrigger || alreadyTriggered) { return; }
 
-            switch (alreadyTriggered)
-            {
-                case false when !shouldTrigger:
-                    return;
-                case true:
-                    rulesetAttacker.LogCharacterUsedPower(powerSurge);
-                    break;
-            }
+            attacker.UsedSpecialFeatures.TryAdd(powerSurge.Name, 0);
+            rulesetAttacker.UsePower(usablePower);
+            rulesetAttacker.InflictCondition(
+                conditionSurgeMark.Name,
+                DurationType.Round,
+                0,
+                TurnOccurenceType.EndOfSourceTurn,
+                AttributeDefinitions.TagEffect,
+                rulesetAttacker.guid,
+                rulesetAttacker.CurrentFaction.Name,
+                1,
+                conditionSurgeMark.Name,
+                0,
+                0,
+                0);
 
             var index = actualEffectForms.IndexOf(damageForm);
             var classLevel = rulesetAttacker.GetClassLevel(CharacterClassDefinitions.Wizard);
-            var effectForm = EffectFormBuilder
-                .Create()
-                .HasSavingThrow(EffectSavingThrowType.Negates)
-                .SetDamageForm(DamageTypeForce, 0, DieType.D1, classLevel)
-                .Build();
+            var effectForm = EffectFormBuilder.DamageForm(DamageTypeForce, bonusDamage: classLevel)
+                .WithSavingThrow(EffectSavingThrowType.Negates);
 
             actualEffectForms.Insert(index + 1, effectForm);
         }
