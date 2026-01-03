@@ -93,6 +93,7 @@ internal static class CreditsDisplay
         ("Digital Primus", "sample portraits"),
         ("frost", "sample portraits"),
         ("nat", "sample portraits"),
+        ("EoModeras", "monster portraits"),
 
         ("team-waldo", "korean translations"),
         ("Dovel", "russian translations"),
