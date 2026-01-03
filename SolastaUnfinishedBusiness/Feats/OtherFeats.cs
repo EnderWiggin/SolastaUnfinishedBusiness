@@ -1426,7 +1426,7 @@ internal static class OtherFeats
             bool firstTarget,
             bool criticalHit)
         {
-            if (!firstTarget ||
+            if (defender.RulesetActor is not RulesetCharacter ||
                 !rulesetEffect.EffectDescription.HasFormOfType(EffectForm.EffectFormType.Damage))
             {
                 yield break;
