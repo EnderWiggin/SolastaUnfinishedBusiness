@@ -233,6 +233,7 @@
     <DisplayAllKnownSpellsDuringLevelUp>true</DisplayAllKnownSpellsDuringLevelUp>
     <DisplayPactSlotsOnSpellSelectionPanel>true</DisplayPactSlotsOnSpellSelectionPanel>
     <EnableMinInOutAttributes>false</EnableMinInOutAttributes>
+    <AlwaysSpendPactSlotsFirst>false</AlwaysSpendPactSlotsFirst>
     <EnableActionSwitching>true</EnableActionSwitching>
     <DontEndTurnAfterReady>true</DontEndTurnAfterReady>
     <EnableProneAction>true</EnableProneAction>

@@ -1284,6 +1284,7 @@ internal static class ToolsDisplay
             Main.Settings.EnableMinInOutAttributes = true;
             Main.Settings.DisplayAllKnownSpellsDuringLevelUp = true;
             Main.Settings.DisplayPactSlotsOnSpellSelectionPanel = true;
+            Main.Settings.AlwaysSpendPactSlotsFirst = true;
         }
 
         if (Main.Settings.EnableMulticlass)
@@ -1324,8 +1325,17 @@ internal static class ToolsDisplay
                 Main.Settings.EnableMinInOutAttributes = toggle;
             }
 
-            UI.Label();
-            UI.Label(Gui.Localize("ModUi/&MulticlassKeyHelp"));
+            toggle = Main.Settings.AlwaysSpendPactSlotsFirst;
+            if (UI.Toggle(Gui.Localize("ModUi/&AlwaysSpendPactSlotsFirst"), ref toggle, UI.AutoWidth()))
+            {
+                Main.Settings.AlwaysSpendPactSlotsFirst = toggle;
+            }
+
+            if (!Main.Settings.AlwaysSpendPactSlotsFirst)
+            {
+                UI.Label();
+                UI.Label(Gui.Localize("ModUi/&MulticlassKeyHelp"));    
+            }
         }
 
         UI.Label();
