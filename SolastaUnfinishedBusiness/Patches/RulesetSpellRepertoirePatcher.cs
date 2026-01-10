@@ -189,7 +189,9 @@ public static class RulesetSpellRepertoirePatcher
             var pactUsedSlots = SharedSpellsContext.GetWarlockUsedSlots(hero);
 
             var warlockSpellLevel = SharedSpellsContext.GetWarlockSpellLevel(hero);
-            var canConsumePactSlot = pactMaxSlots - pactUsedSlots > 0 && slotLevel <= warlockSpellLevel;
+            var canConsumePactSlot = pactMaxSlots - pactUsedSlots > 0 &&
+                                     (!Main.Settings.AlwaysSpendPactSlotsFirst && slotLevel <= warlockSpellLevel ||
+                                        slotLevel == warlockSpellLevel);
 
             __instance.GetSlotsNumber(slotLevel, out var totalRemainingSlots, out var totalMaxSlots);
 
@@ -203,6 +205,7 @@ public static class RulesetSpellRepertoirePatcher
 
             // determine if a pact slot should be forced
             var forceConsumePactSlot = sharedUsedSlots == sharedMaxSlots ||
+                                       Main.Settings.AlwaysSpendPactSlotsFirst ||
                                        (__instance.SpellCastingClass !=
                                            DatabaseHelper.CharacterClassDefinitions.Warlock && wasShiftPressed) ||
                                        (__instance.SpellCastingClass ==
