@@ -64,7 +64,7 @@ public static class CharacterBuildingManagerPatcher
                 return;
             }
 
-            var hero = __instance.CurrentLocalHeroCharacter;
+            var hero = heroBuildingData.HeroCharacter;
 
             __instance.GetLastAssignedClassAndLevel(hero, out var classDefinition, out var level);
 
@@ -117,7 +117,7 @@ public static class CharacterBuildingManagerPatcher
             return;
         }
 
-        var hero = __instance.CurrentLocalHeroCharacter;
+        var hero = heroBuildingData.HeroCharacter;
 
         __instance.GetLastAssignedClassAndLevel(hero, out var classDefinition, out var level);
 
@@ -1058,7 +1058,8 @@ public static class CharacterBuildingManagerPatcher
                     continue;
                 }
 
-                var hero = __instance.CurrentLocalHeroCharacter;
+                
+                var hero = heroBuildingData.HeroCharacter;
 
                 __instance.GetLastAssignedClassAndLevel(hero, out var classDefinition, out var level);
 
@@ -1100,7 +1101,7 @@ public static class CharacterBuildingManagerPatcher
                     continue;
                 }
 
-                var hero = __instance.CurrentLocalHeroCharacter;
+                var hero = heroBuildingData.HeroCharacter;
 
                 __instance.GetLastAssignedClassAndLevel(hero, out var classDefinition, out var level);
 
@@ -1146,7 +1147,7 @@ public static class CharacterBuildingManagerPatcher
                     continue;
                 }
 
-                var hero = __instance.CurrentLocalHeroCharacter;
+                var hero = heroBuildingData.HeroCharacter;
 
                 __instance.GetLastAssignedClassAndLevel(hero, out var classDefinition, out var level);
 

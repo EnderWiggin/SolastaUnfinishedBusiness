@@ -507,8 +507,8 @@ internal class CustomInvocationSelectionPanel : CharacterStagePanel
         }
 
         var poolTag = GetClassTag();
-        var characterBuildingService = ServiceRepository.GetService<ICharacterBuildingService>();
-        var hero = characterBuildingService.CurrentLocalHeroCharacter;
+        
+        var hero = currentHero;
 
         if (hero == null)
         {

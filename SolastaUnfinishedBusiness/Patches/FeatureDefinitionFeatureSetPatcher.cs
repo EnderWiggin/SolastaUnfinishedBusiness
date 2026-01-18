@@ -38,7 +38,7 @@ public static class FeatureDefinitionFeatureSetPatcher
     }
 #endif
 
-    //PATCH: Support ancestries custom selection UI that grant them trough invocations
+    //PATCH: Support ancestries custom selection UI that grant them through invocations
     [HarmonyPatch(typeof(FeatureDefinitionFeatureSet),
         nameof(FeatureDefinitionFeatureSet.TryGetAncestryFeatureFromFeatureSetAndHeroAncestry))]
     [SuppressMessage("Minor Code Smell", "S101:Types should be named in PascalCase", Justification = "Patch")]
@@ -50,6 +50,7 @@ public static class FeatureDefinitionFeatureSetPatcher
         {
             var characterBuildingService = ServiceRepository.GetService<ICharacterBuildingService>();
             var currentHero = characterBuildingService.CurrentLocalHeroCharacter;
+            if(currentHero == null) { return; }
 
             //TODO: consider recursive dive into FeatureSets if ever required
             alreadyOwnedFeatures.AddRange(currentHero.TrainedInvocations.Select(x => x.GrantedFeature));

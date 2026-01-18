@@ -130,7 +130,7 @@ internal static class InvocationsContext
     {
         if (active && Main.Settings.EnableSameWidthInvocationSelection)
         {
-            var hero = Global.LevelUpHero;
+            var hero = panel.InspectedCharacter;
             var buildingData = hero?.GetHeroBuildingData();
 
             if (buildingData == null)

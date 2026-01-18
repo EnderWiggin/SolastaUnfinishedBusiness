@@ -290,7 +290,7 @@ internal static class FeatsContext
 
         if (active && Main.Settings.EnableSameWidthFeatSelection)
         {
-            var hero = Global.LevelUpHero;
+            var hero = panel.InspectedCharacter;
             var buildingData = hero?.GetHeroBuildingData();
 
             if (buildingData == null)

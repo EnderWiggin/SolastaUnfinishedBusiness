@@ -284,7 +284,7 @@ internal class SubFeatSelectionModal : GuiGameScreen
         component.CurrentPoolType = _baseItem.CurrentPoolType;
         component.gameObject.SetActive(true);
 
-        UpdateFeatState(component);
+        UpdateFeatState(component, _character);
 
         component.Tooltip.Anchor = _baseItem.Tooltip.Anchor;
         component.Tooltip.AnchorMode = _baseItem.Tooltip.AnchorMode;
@@ -292,13 +292,12 @@ internal class SubFeatSelectionModal : GuiGameScreen
         component.RectTransform.sizeDelta = new Vector2(FeatsContext.Width, FeatsContext.Height);
     }
 
-    private static void UpdateFeatState(FeatItem item)
+    private static void UpdateFeatState(FeatItem item, RulesetCharacterHero hero)
     {
         var feat = item.GuiFeatDefinition.FeatDefinition;
         var currentPoolType = item.CurrentPoolType;
         var service = ServiceRepository.GetService<ICharacterBuildingService>();
-        var localHeroCharacter = service.CurrentLocalHeroCharacter;
-        var buildingData = localHeroCharacter?.GetHeroBuildingData();
+        var buildingData = hero.GetHeroBuildingData();
         var pool = service.GetPointPoolOfTypeAndTag(buildingData, item.CurrentPoolType, item.StageTag);
         var restrictedChoices = pool.RestrictedChoices;
         var color = item.GuiFeatDefinition.FeatDefinition.HasSubFeatureOfType<IGroupedFeat>()
@@ -309,8 +308,7 @@ internal class SubFeatSelectionModal : GuiGameScreen
 
         var isSameFamily = false;
 
-        if (localHeroCharacter != null
-            && (service.IsFeatKnownOrTrained(buildingData, feat) || localHeroCharacter.TrainedFeats.Contains(feat)))
+        if (service.IsFeatKnownOrTrained(buildingData, feat) || hero.TrainedFeats.Contains(feat))
         {
             interactiveMode = ProficiencyBaseItem.InteractiveMode.Static;
         }

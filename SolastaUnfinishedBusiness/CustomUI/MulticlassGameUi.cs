@@ -481,7 +481,7 @@ internal static class MulticlassGameUi
         TooltipDefinitions.AnchorMode anchorMode,
         CharacterStageSpellSelectionPanel panel)
     {
-        var localHeroCharacter = characterBuildingService.CurrentLocalHeroCharacter;
+        var localHeroCharacter = panel.currentHero;
         var heroBuildingData = localHeroCharacter.GetHeroBuildingData();
         var pointPool = GetCurrentPool(panel, heroBuildingData);
 
