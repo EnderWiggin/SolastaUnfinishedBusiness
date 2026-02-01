@@ -2950,7 +2950,7 @@ internal static partial class SpellBuilders
         WitchBoltPower = FeatureDefinitionPowerBuilder
             .Create($"Power{NAME}")
             .SetGuiPresentation(NAME, Category.Spell, LightningBolt)
-            .SetUsesFixed(ActivationTime.BonusAction)
+            .SetUsesFixed(ActivationTime.BonusAction, RechargeRate.TurnStart)
             .SetEffectDescription(EffectDescriptionBuilder.Create()
                 .SetTargetingData(Side.Enemy, RangeType.Distance, 6, TargetType.IndividualsUnique)
                 .SetEffectForms(EffectFormBuilder.DamageForm(DamageTypeLightning, 1, DieType.D12))
@@ -2991,20 +2991,7 @@ internal static partial class SpellBuilders
             .AddToDB();
 
         var witchBoltDuration = ComputeRoundsDuration(DurationType.Minute, 1);
-        WitchBoltPower.AddCustomSubFeatures(
-            new CustomBehaviorWitchBolt(spell, WitchBoltPower, conditionWitchBolt),
-            new ModifyPowerVisibility((character, power, _) =>
-            {
-                if (power.activationTime == ActivationTime.BonusAction) { return true; }
-
-                if (character.TryGetConditionOfCategoryAndType(AttributeDefinitions.TagEffect,
-                        conditionWitchBoltSelf.Name, out var condition))
-                {
-                    return condition.RemainingRounds < witchBoltDuration;
-                }
-
-                return true;
-            }));
+        WitchBoltPower.AddCustomSubFeatures(new CustomBehaviorWitchBolt(WitchBoltPower, conditionWitchBolt));
 
         conditionWitchBolt.AddCustomSubFeatures(
             new ActionFinishedByMeWitchBoltEnemy(spell, conditionWitchBolt));
@@ -3018,11 +3005,9 @@ internal static partial class SpellBuilders
 
     private sealed class CustomBehaviorWitchBolt(
         // ReSharper disable once SuggestBaseTypeForParameterInConstructor
-        SpellDefinition spellWitchBolt,
-        // ReSharper disable once SuggestBaseTypeForParameterInConstructor
         FeatureDefinitionPower powerWitchBolt,
         // ReSharper disable once SuggestBaseTypeForParameterInConstructor
-        ConditionDefinition conditionWitchBolt) : IFilterTargetingCharacter, IModifyEffectDescription
+        ConditionDefinition conditionWitchBolt) : IFilterTargetingCharacter
     {
         public bool EnforceFullSelection => false;
 
@@ -3047,21 +3032,6 @@ internal static partial class SpellBuilders
         public bool IsValid(BaseDefinition definition, RulesetCharacter character, EffectDescription effectDescription)
         {
             return definition == powerWitchBolt;
-        }
-
-        public EffectDescription GetEffectDescription(
-            BaseDefinition definition,
-            EffectDescription effectDescription,
-            RulesetCharacter character,
-            RulesetEffect rulesetEffect)
-        {
-            if (character.ConcentratedSpell != null &&
-                character.ConcentratedSpell.SpellDefinition == spellWitchBolt)
-            {
-                effectDescription.EffectForms[0].DamageForm.DiceNumber = 1;
-            }
-
-            return effectDescription;
         }
     }
 
@@ -3089,6 +3059,7 @@ internal static partial class SpellBuilders
                 case CharacterActionCastSpell actionCastSpell when
                     actionCastSpell.activeSpell.SpellDefinition == spellWitchBolt:
                     action.ActingCharacter.UsedSpecialFeatures.TryAdd(powerWitchBolt.Name, 0);
+                    action.ActingCharacter.RulesetCharacter.UpdateUsageForPower(powerWitchBolt, 1);
                     yield break;
             }
 
