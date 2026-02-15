@@ -36,6 +36,22 @@ public static class CursorLocationBattleFriendlyTurnPatcher
         }
     }
 
+    [HarmonyPatch(typeof(CursorLocationBattleFriendlyTurn), nameof(CursorLocationBattleFriendlyTurn.IsValidTarget))]
+    [SuppressMessage("Minor Code Smell", "S101:Types should be named in PascalCase", Justification = "Patch")]
+    [UsedImplicitly]
+    public static class IsValidTarget_Patch
+    {
+        [UsedImplicitly]
+        public static void Postfix([NotNull] CursorLocationBattleFriendlyTurn __instance,
+            GameLocationCharacter targetCharacter, out bool __result)
+        {
+            //BUGFIX: do not allow attacking effect proxies
+            __result = targetCharacter is { RulesetActor: not RulesetCharacterEffectProxy }
+                       && __instance is { Battle: not null, actingCharacter: not null }
+                       && targetCharacter.Side == RuleDefinitions.GetOpposingSide(__instance.actingCharacter.Side);
+        }
+    }
+
     [HarmonyPatch(typeof(CursorLocationBattleFriendlyTurn), nameof(CursorLocationBattleFriendlyTurn.Initialize))]
     [SuppressMessage("Minor Code Smell", "S101:Types should be named in PascalCase", Justification = "Patch")]
     [UsedImplicitly]
