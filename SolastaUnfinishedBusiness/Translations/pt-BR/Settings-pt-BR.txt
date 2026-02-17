@@ -492,4 +492,4 @@ ModUi/&WeaponMasterySystemCustomizeResetAll=Redefinir tudo
 ModUi/&WeaponMasterySystemCustomizeResetAllWarning=Redefinirá todas as propriedades do domínio das armas para o padrão
 ModUi/&WeaponMasterySystemCustomizeToggle=Personalize propriedades de domínio das armas
 ModUi/&WildSurgeDieRollThreshold=<color=white>Definir limite de dado de chance de <color=#D89555>Magia Selvagem do Feiticeiro</color>:</color>\n<i><color=#F0DAA0>[onda selvagem é acionada se a rolagem for menor ou igual ao limite]</color></i>
-ModUi/&WideScreenBattleUI=Ativar interface de batalha wide-screen <color=#D89555>(Para resoluções com largura superior a 1600 pixels)</color>
+ModUi/&WideScreenBattleUI=Ativar interface de batalha wide-screen <i><color=#F0DAA0>(Para resoluções com proporção superior à 16:9)</color></i>

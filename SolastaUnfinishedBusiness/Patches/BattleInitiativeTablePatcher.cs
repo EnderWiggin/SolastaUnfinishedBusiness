@@ -20,10 +20,13 @@ internal class BattleInitiativeTablePatcher
         {
             if (Main.Settings.WideScreenBattleUI)
             {
-                int width = UiHelpers.GetScreenResolution().x;
-                if (width > 1600)
+                float aspectRatio = UiHelpers.GetAspectRatio();
+                if (aspectRatio > 1.778f)
                 {
-                    __instance.RectTransform.SetSizeWithCurrentAnchors(UnityEngine.RectTransform.Axis.Horizontal, width - 700);
+                    // The Overlay Canvas may use a higher internal resolution than the actual window size. 
+                    //Using it as a reference ensures this works even for unconventional small but wide window sizes.
+                    float expanded = UiHelpers.GetOverlayCanvasSize().x - 552;
+                    __instance.RectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, expanded);
                 }
             }
         }

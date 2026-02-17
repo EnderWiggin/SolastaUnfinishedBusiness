@@ -20,11 +20,13 @@ public static class CharacterControlPanelPatcher
         {
             if (Main.Settings.WideScreenBattleUI)
             {
-                int width = UiHelpers.GetScreenResolution().x;
-                if (width > 1600)
+                float aspectRatio = UiHelpers.GetAspectRatio();
+                if (aspectRatio > 1.778f)
                 {
-                    int expansion = width - 400;
-                    __instance.RectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, expansion);
+                    // The Overlay Canvas may use a higher internal resolution than the actual window size. 
+                    //Using it as a reference ensures this works even for unconventional small but wide window sizes.
+                    float expanded = UiHelpers.GetOverlayCanvasSize().x - 210;
+                    __instance.RectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, expanded);
                 }                
             }
         }

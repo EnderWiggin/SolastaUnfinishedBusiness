@@ -19,4 +19,18 @@ internal static class UiHelpers
         }
         return new Vector2Int(0, 0);
     }
+    internal static float GetAspectRatio()
+    {
+        Vector2Int resolution = GetScreenResolution();
+        return (float)resolution.x / resolution.y;
+    }
+
+    internal static Vector2 GetOverlayCanvasSize()
+    {
+        if (ServiceRepository.GetService<IGuiService>() is not GuiManager gui)
+        {
+            return new Vector2(1920, 1080); //Reference Resolution
+        }
+        return gui.overlayCanvas.GetComponent<RectTransform>().rect.size;
+    }
 }
