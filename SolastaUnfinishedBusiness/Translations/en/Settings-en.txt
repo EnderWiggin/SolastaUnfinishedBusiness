@@ -493,3 +493,4 @@ ModUi/&LegendaryTweaksDetails=Here you can change weapon type of legendary weapo
 ModUi/&WeaponMasterySystemCustomizeToggle=Customize weapon mastery properties
 ModUi/&WeaponMasterySystemCustomizeResetAll=Reset All
 ModUi/&WeaponMasterySystemCustomizeResetAllWarning=Will reset all weapon mastery properties to default
+ModUi/&WideScreenBattleUI=Enable Wide Screen Battle UI <i><color=#F0DAA0>(For resolutions with an Aspect Ratio greater than 16:9)</color></i>

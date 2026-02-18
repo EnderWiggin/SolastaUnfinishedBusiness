@@ -206,6 +206,12 @@ internal static class ToolsDisplay
             Main.Settings.DisableUnofficialTranslations = toggle;
         }
 
+        toggle = Main.Settings.WideScreenBattleUI;
+        if (UI.Toggle(Gui.Localize("ModUi/&WideScreenBattleUI"), ref toggle, UI.AutoWidth()))
+        {
+            Main.Settings.WideScreenBattleUI = toggle;
+        }
+
         if (!Gui.GameCampaign)
         {
             return;
