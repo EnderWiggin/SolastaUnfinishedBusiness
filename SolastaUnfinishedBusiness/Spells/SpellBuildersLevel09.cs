@@ -157,38 +157,28 @@ internal static partial class SpellBuilders
         return SpellDefinitionBuilder
             .Create(NAME)
             .SetGuiPresentation(Category.Spell, Sprites.GetSprite(NAME, Resources.MeteorSwarm, 128))
-            .SetSchoolOfMagic(SchoolOfMagicDefinitions.SchoolTransmutation)
+            .SetSchoolOfMagic(SchoolOfMagicDefinitions.SchoolEvocation)
             .SetSpellLevel(9)
             .SetCastingTime(ActivationTime.Action)
             .SetMaterialComponent(MaterialComponentType.None)
             .SetSomaticComponent(true)
             .SetVerboseComponent(true)
             .SetVocalSpellSameType(VocalSpellSemeType.Attack)
-            .SetEffectDescription(
-                EffectDescriptionBuilder
-                    .Create()
-                    .SetTargetingData(Side.All, RangeType.Distance, 18, TargetType.Sphere, 8)
-                    // 20 dice number because hits dont stack even on single target
-                    .SetEffectForms(
-                        EffectFormBuilder
-                            .Create()
-                            .SetDamageForm(DamageTypeFire, 20, DieType.D6)
-                            .HasSavingThrow(EffectSavingThrowType.HalfDamage)
-                            .Build(),
-                        EffectFormBuilder
-                            .Create()
-                            .SetDamageForm(DamageTypeBludgeoning, 20, DieType.D6)
-                            .HasSavingThrow(EffectSavingThrowType.HalfDamage)
-                            .Build())
-                    .SetSavingThrowData(
-                        false,
-                        AttributeDefinitions.Dexterity,
-                        true,
-                        EffectDifficultyClassComputation.SpellCastingFeature,
-                        AttributeDefinitions.Dexterity,
-                        13)
-                    .SetParticleEffectParameters(FlameStrike)
-                    .Build())
+            .SetEffectDescription(EffectDescriptionBuilder.Create()
+                .SetTargetingData(Side.All, RangeType.Distance, 18, TargetType.Sphere, 8)
+                // 20 dice number because hits dont stack even on single target
+                .SetEffectForms(
+                    EffectFormBuilder.DamageForm(DamageTypeFire, 20, DieType.D6)
+                        .WithSavingThrow(EffectSavingThrowType.HalfDamage),
+                    EffectFormBuilder.DamageForm(DamageTypeBludgeoning, 20, DieType.D6)
+                        .WithSavingThrow(EffectSavingThrowType.HalfDamage))
+                .SetSavingThrowData(
+                    false,
+                    AttributeDefinitions.Dexterity,
+                    true,
+                    EffectDifficultyClassComputation.SpellCastingFeature)
+                .SetParticleEffectParameters(FlameStrike)
+                .Build())
             .AddToDB();
     }
 
