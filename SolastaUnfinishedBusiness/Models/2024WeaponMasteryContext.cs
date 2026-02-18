@@ -629,6 +629,11 @@ public static partial class Tabletop2024Context
             RollOutcome rollOutcome,
             int damageAmount)
         {
+            if (defender.RulesetActor is RulesetCharacterEffectProxy or RulesetGadget)
+            {
+                yield break;
+            }
+            
             if (!IsValid(attacker, attackMode))
             {
                 yield break;
