@@ -1,3 +1,7 @@
+1.5.97.124:
+- Add Widescreen Battle UI option (PR by Kiloku)
+- fixed crash when trying to attack spell effect proxies (like Dawn spell)
+
 1.5.97.123:
 - added setting to prioritize pact slots usage by default (PR by FelipeRenault)
 - fixed potential MP crashes during level-up caused by ui and mechanics patches added by UB
