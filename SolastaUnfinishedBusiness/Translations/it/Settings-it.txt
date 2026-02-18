@@ -39,6 +39,7 @@ ModUi/&AllowMoreRealStateOnRestPanel=Consenti più stato reale sul pannello di r
 ModUi/&AllowStackedMaterialComponent=Consenti componente materiale impilato <i><color=#F0DAA0>[ad esempio 2x500gp diamante equivalgono a 1000gp diamante]</color></i>
 ModUi/&AllowTargetingSelectionWhenCastingChainLightningSpell=Consenti la selezione del bersaglio quando lanci l'incantesimo <color=#D89555>Catena di fulmini</color>
 ModUi/&AltOnlyHighlightItemsInPartyFieldOfView=Il tasto <color=#1E81B0>ALT</color> evidenzia solo i gadget nel campo visivo del gruppo <i><color=#F0DAA0>[solo dungeon personalizzati]</color></i>
+ModUi/&AlwaysSpendPactSlotsFirst=<i>+ Spendi sempre prima gli slot patto <color=#D89555> Stregone</color>, se possibile</i>
 ModUi/&ArcaneShieldstaffOptions=Consenti a <color=#D89555>Arcane Shieldstaff</color> di essere sintonizzato da qualsiasi classe
 ModUi/&Backgrounds=<color=#F0DAA0>Sfondi</color>
 ModUi/&BackgroundsAndRaces=Background e razze
@@ -491,4 +492,5 @@ ModUi/&UseWeaponMasterySystemPushSave=<i>+ La padronanza della spinta richiede c
 ModUi/&WeaponMasterySystemCustomizeResetAll=Ripristina tutto
 ModUi/&WeaponMasterySystemCustomizeResetAllWarning=Ripristinerà tutte le proprietà di padronanza delle armi a default
 ModUi/&WeaponMasterySystemCustomizeToggle=Personalizza le proprietà della padronanza delle armi
+ModUi/&WideScreenBattleUI=Abilita l'interfaccia utente della battaglia su schermo ampio <i><color=#F0DAA0>(per risoluzioni con proporzioni superiori a 16:9)</color></i>
 ModUi/&WildSurgeDieRollThreshold=<color=white>Imposta la soglia di probabilità di dado <color=#D89555>Magia selvaggia dello stregone</color>:</color>\n<i><color=#F0DAA0>[L'ondata selvaggia si innesca se i tiri sono inferiori o uguali alla soglia]</color></i>

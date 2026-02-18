@@ -39,6 +39,7 @@ ModUi/&AllowMoreRealStateOnRestPanel=Permitir mais estado real no painel de desc
 ModUi/&AllowStackedMaterialComponent=Permitir componente de material empilhado <i><color=#F0DAA0>[por exemplo, 2x500gp diamante é equivalente a 1000gp diamante]</color></i>
 ModUi/&AllowTargetingSelectionWhenCastingChainLightningSpell=Permitir seleção de alvo ao conjurar o feitiço <color=#D89555>Chain Lightning</color>
 ModUi/&AltOnlyHighlightItemsInPartyFieldOfView=A tecla <color=#1E81B0>ALT</color> destaca apenas os gadgets no campo de visão do grupo <i><color=#F0DAA0>[apenas masmorras personalizadas]</color></i>
+ModUi/&AlwaysSpendPactSlotsFirst=<i>+ Sempre gaste primeiro os espaços do pacto do <color=#D89555>Warlock</color>, se possível</i>
 ModUi/&ArcaneShieldstaffOptions=Permitir que <color=#D89555>Arcane Shieldstaff</color> seja sintonizado por qualquer classe
 ModUi/&Backgrounds=<color=#F0DAA0>Fundos</color>
 ModUi/&BackgroundsAndRaces=Origens e Raças
@@ -491,5 +492,5 @@ ModUi/&UseWeaponMasterySystemPushSave=<i>+ A maestria em empurrar requer que a c
 ModUi/&WeaponMasterySystemCustomizeResetAll=Redefinir tudo
 ModUi/&WeaponMasterySystemCustomizeResetAllWarning=Redefinirá todas as propriedades do domínio das armas para o padrão
 ModUi/&WeaponMasterySystemCustomizeToggle=Personalize propriedades de domínio das armas
-ModUi/&WildSurgeDieRollThreshold=<color=white>Definir limite de dado de chance de <color=#D89555>Magia Selvagem do Feiticeiro</color>:</color>\n<i><color=#F0DAA0>[onda selvagem é acionada se a rolagem for menor ou igual ao limite]</color></i>
 ModUi/&WideScreenBattleUI=Ativar interface de batalha wide-screen <i><color=#F0DAA0>(Para resoluções com proporção superior à 16:9)</color></i>
+ModUi/&WildSurgeDieRollThreshold=<color=white>Definir limite de dado de chance de <color=#D89555>Magia Selvagem do Feiticeiro</color>:</color>\n<i><color=#F0DAA0>[onda selvagem é acionada se a rolagem for menor ou igual ao limite]</color></i>

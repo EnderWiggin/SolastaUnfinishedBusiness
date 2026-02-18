@@ -39,6 +39,7 @@ ModUi/&AllowMoreRealStateOnRestPanel=Permitir más estado real en el panel de de
 ModUi/&AllowStackedMaterialComponent=Permitir componente de material apilado <i><color=#F0DAA0>[p. ej., 2 diamantes de 500 gp equivalen a 1000 gp]</color></i>
 ModUi/&AllowTargetingSelectionWhenCastingChainLightningSpell=Permitir la selección de objetivo al lanzar el hechizo <color=#D89555>Cadena de relámpagos</color>
 ModUi/&AltOnlyHighlightItemsInPartyFieldOfView=La tecla <color=#1E81B0>ALT</color> solo resalta los dispositivos en el campo de visión del grupo. <i><color=#F0DAA0>[solo mazmorras personalizadas]</color></i>
+ModUi/&AlwaysSpendPactSlotsFirst=<i>+ Siempre gasta <color=#D89555>Brujo</color> espacios de pacto primero si es posible</i>
 ModUi/&ArcaneShieldstaffOptions=Permitir que cualquier clase sintonice <color=#D89555>Bastón escudo arcano</color>
 ModUi/&Backgrounds=<color=#F0DAA0>Fondos</color>
 ModUi/&BackgroundsAndRaces=Antecedentes y razas
@@ -491,4 +492,5 @@ ModUi/&UseWeaponMasterySystemPushSave=<i>+ La maestría de empuje requiere que l
 ModUi/&WeaponMasterySystemCustomizeResetAll=Restablecer todo
 ModUi/&WeaponMasterySystemCustomizeResetAllWarning=Restablecerá todas las propiedades de dominio de arma al valor predeterminado
 ModUi/&WeaponMasterySystemCustomizeToggle=Personalizar propiedades de dominio de armas
+ModUi/&WideScreenBattleUI=Habilite la interfaz de usuario de batalla en pantalla ancha <i><color=#F0DAA0>(Para resoluciones con una relación de aspecto superior a 16:9)</color></i>
 ModUi/&WildSurgeDieRollThreshold=<color=white>Establecer umbral de dados de probabilidad de <color=#D89555>Magia salvaje de hechicero</color>:</color><99}<i><color=#F0DAA0>[la oleada salvaje se activa si los resultados son menores o iguales al umbral]</color></i>

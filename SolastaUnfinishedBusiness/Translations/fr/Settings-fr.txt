@@ -39,6 +39,7 @@ ModUi/&AllowMoreRealStateOnRestPanel=Autoriser plus d'état réel sur le panneau
 ModUi/&AllowStackedMaterialComponent=Autoriser les composants de matériaux empilés <i><color=#F0DAA0>[par exemple, 2x500gp diamant équivaut à 1000gp diamant]</color></i>
 ModUi/&AllowTargetingSelectionWhenCastingChainLightningSpell=Autoriser la sélection de la cible lors du lancement du sort <color=#D89555>Chaîne d'éclairs</color>
 ModUi/&AltOnlyHighlightItemsInPartyFieldOfView=La touche <color=#1E81B0>ALT</color> met en surbrillance uniquement les gadgets dans le champ de vision du groupe <i><color=#F0DAA0>[donjons personnalisés uniquement]</color></i>
+ModUi/&AlwaysSpendPactSlotsFirst=<i>+ Dépensez toujours les emplacements de pacte <color=#D89555>Warlock</color> en premier si possible</i>
 ModUi/&ArcaneShieldstaffOptions=Autoriser l'harmonisation de <color=#D89555>Arcane Shieldstaff</color> avec n'importe quelle classe
 ModUi/&Backgrounds=<color=#F0DAA0>Arrière-plans</color>
 ModUi/&BackgroundsAndRaces=Origines et races
@@ -491,4 +492,5 @@ ModUi/&UseWeaponMasterySystemPushSave=<i>+ La maîtrise de la poussée nécessit
 ModUi/&WeaponMasterySystemCustomizeResetAll=Réinitialisez tout
 ModUi/&WeaponMasterySystemCustomizeResetAllWarning=Réinitialisera toutes les propriétés de maîtrise des armes par défaut
 ModUi/&WeaponMasterySystemCustomizeToggle=Personnaliser les propriétés de maîtrise des armes
+ModUi/&WideScreenBattleUI=Activer l'interface utilisateur de combat sur écran large <i><color=#F0DAA0>(Pour les résolutions avec un rapport hauteur/largeur supérieur à 16:9)</color></i>
 ModUi/&WildSurgeDieRollThreshold=<color=white>Définissez le seuil de chances de dé de <color=#D89555>Magie sauvage du sorcier</color> :</color>\n<i><color=#F0DAA0>[la poussée sauvage se déclenche si le résultat est inférieur ou égal au seuil]</color></i>
