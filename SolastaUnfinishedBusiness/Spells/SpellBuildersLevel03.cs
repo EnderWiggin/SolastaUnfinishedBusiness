@@ -539,7 +539,7 @@ internal static partial class SpellBuilders
             .SetGuiPresentation(Category.Spell, Sprites.GetSprite(Name, Resources.AshardalonStride, 128))
             .SetSchoolOfMagic(SchoolOfMagicDefinitions.SchoolTransmutation)
             .SetSpellLevel(3)
-            .SetCastingTime(ActivationTime.Action)
+            .SetCastingTime(ActivationTime.BonusAction)
             .SetMaterialComponent(MaterialComponentType.None)
             .SetVerboseComponent(true)
             .SetSomaticComponent(true)
