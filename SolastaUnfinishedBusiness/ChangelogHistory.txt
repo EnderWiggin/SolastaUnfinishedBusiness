@@ -1,3 +1,8 @@
+1.5.97.125:
+- reworked `Sculpt Spells` from Evocation Wizard to allow it to work with ongoing effect spells (like Sickening Radiance)
+- fixed Meteor Swarm school (Transmutation => Evocation) + small code cleanup
+- fixed casting time of `Ashardalon's Stride` (Action => Bonus Action)
+
 1.5.97.124:
 - Add Widescreen Battle UI option (PR by Kiloku)
 - fixed crash when trying to attack spell effect proxies (like Dawn spell)
