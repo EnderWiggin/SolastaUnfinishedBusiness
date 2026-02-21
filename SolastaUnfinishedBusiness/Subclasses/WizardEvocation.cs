@@ -55,7 +55,7 @@ public sealed class WizardEvocation : AbstractSubclass
     private static readonly FeatureDefinition FeatureSculptSpells = FeatureDefinitionBuilder
         .Create($"Feature{Name}SculptSpells")
         .SetGuiPresentation(Category.Feature)
-        .AddCustomSubFeatures(new MagicEffectInitiatedByMeSculptSpells())
+        .AddCustomSubFeatures(new FilterRulesetEffectTargetsSculptSpells())
         .AddToDB();
 
     private static readonly FeatureDefinitionMagicAffinity MagicAffinityPotentCantrip =
@@ -268,37 +268,25 @@ public sealed class WizardEvocation : AbstractSubclass
     // Sculpt Spells
     //
 
-    private sealed class MagicEffectInitiatedByMeSculptSpells : IMagicEffectInitiatedByMe
+    private sealed class FilterRulesetEffectTargetsSculptSpells : IFilterRulesetEffectTargets
     {
-        public IEnumerator OnMagicEffectInitiatedByMe(
-            CharacterAction action,
-            RulesetEffect rulesetEffect,
-            GameLocationCharacter attacker,
-            List<GameLocationCharacter> targets)
+        public bool CanAffectTarget(RulesetEffect rulesetEffect, GameLocationCharacter caster,
+            GameLocationCharacter target)
         {
             if (rulesetEffect.SourceDefinition is not SpellDefinition { SchoolOfMagic: SchoolEvocation } spell ||
                 spell.EffectDescription.TargetSide == Side.Ally ||
                 spell.EffectDescription.TargetType == TargetType.Self)
             {
-                yield break;
+                return true;
             }
 
-            var rulesetAttacker = attacker.RulesetCharacter;
-            var hasAlly = false;
-
-            foreach (var ally in targets
-                         .Where(x => !x.IsOppositeSide(attacker.Side) 
-                             && (Main.Settings.EvocationSculptSpellNoPerception || attacker.CanPerceiveTarget(x)))
-                         .ToArray())
+            if (target.IsOppositeSide(caster.Side)
+                || (!Main.Settings.EvocationSculptSpellNoPerception && !caster.CanPerceiveTarget(target)))
             {
-                hasAlly = true;
-                targets.Remove(ally);
+                return true;
             }
 
-            if (hasAlly)
-            {
-                rulesetAttacker.LogCharacterUsedFeature(FeatureSculptSpells);
-            }
+            return false;
         }
     }
 

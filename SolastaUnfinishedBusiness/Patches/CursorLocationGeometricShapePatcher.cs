@@ -6,8 +6,10 @@ using System.Reflection;
 using System.Reflection.Emit;
 using HarmonyLib;
 using JetBrains.Annotations;
+using SolastaUnfinishedBusiness.Api.GameExtensions;
 using SolastaUnfinishedBusiness.Api.Helpers;
 using SolastaUnfinishedBusiness.CustomUI;
+using SolastaUnfinishedBusiness.Interfaces;
 using SolastaUnfinishedBusiness.Models;
 using UnityEngine;
 
@@ -182,6 +184,27 @@ public static class CursorLocationGeometricShapePatcher
             cursor.hasMagneticTargeting = SettingsContext.InputModManagerInstance.EnableShiftToSnapLineSpells
                                           && Global.IsShiftPressed
                                           && cursor.shapeType == MetricsDefinitions.GeometricShapeType.Line;
+        }
+    }
+
+    //PATCH: support for `IFilterRulesetEffectTargets` (Evocation wizard)
+    [HarmonyPatch(typeof(CursorLocationGeometricShape), nameof(CursorLocationGeometricShape.EnableHighlight))]
+    [SuppressMessage("Minor Code Smell", "S101:Types should be named in PascalCase", Justification = "Patch")]
+    [UsedImplicitly]
+    public static class EnableHighlight_Patch
+    {
+        [UsedImplicitly]
+        public static void Prefix(CursorLocationGeometricShape __instance, bool enabled)
+        {
+            if (!enabled) { return;} //filter only when enabling highlights
+
+            var actingCharacter = __instance.ActionParams.ActingCharacter;
+            var caster = actingCharacter.RulesetCharacter;
+            var effect = __instance.actionParams.RulesetEffect;
+            var filters = caster.GetSubFeaturesByType<IFilterRulesetEffectTargets>();
+
+            __instance.affectedCharacters.RemoveAll(c =>
+                !filters.All(f => f.CanAffectTarget(effect, actingCharacter, c)));
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 using System.Reflection.Emit;
 using HarmonyLib;
 using JetBrains.Annotations;
@@ -8,6 +9,7 @@ using SolastaUnfinishedBusiness.Api.GameExtensions;
 using SolastaUnfinishedBusiness.Api.Helpers;
 using SolastaUnfinishedBusiness.Behaviors;
 using SolastaUnfinishedBusiness.Behaviors.Specific;
+using SolastaUnfinishedBusiness.Interfaces;
 using SolastaUnfinishedBusiness.Models;
 using TA;
 using static RuleDefinitions;
@@ -34,6 +36,14 @@ public static class RulesetEffectSpellPatcher
             var spellDefinition = __instance.SpellDefinition;
             var rulesetSource = EffectHelpers.GetCharacterByGuid(__instance.SourceGuid);
             var source = GameLocationCharacter.GetFromActor(rulesetSource);
+            var locationTarget = GameLocationCharacter.GetFromActor(targetCharacter);
+
+            //PATCH: support for `IFilterRulesetEffectTargets` (Evocation wizard)
+            var filters = rulesetSource.GetSubFeaturesByType<IFilterRulesetEffectTargets>();
+            if (!filters.All(f => f.CanAffectTarget(__instance, source, locationTarget)))
+            {
+                return false;
+            }
 
             if (!hasValidPosition ||
                 !IsPositionImmuneToSpell(targetPosition, source.LocationPosition, spellDefinition.SpellLevel,
