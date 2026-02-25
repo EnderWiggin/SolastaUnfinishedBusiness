@@ -156,46 +156,48 @@ internal static class PickPocketContext
         {
             switch (monster.CharacterFamily)
             {
-                case "Humanoid" when monster.DefaultFaction == "HostileMonsters" &&
+                case "Humanoid" when monster.DefaultFaction == "HostileMonsters" ||
+                                     Main.Settings.PickPocketNonHostiles &&
                                      !monster.StealableLootDefinition:
-                {
-                    if (monster.ChallengeRating < 1.0)
                     {
-                        monster.stealableLootDefinition = pickPocketableLootTrivial;
-                    }
+                        if (monster.ChallengeRating < 1.0)
+                        {
+                            monster.stealableLootDefinition = pickPocketableLootTrivial;
+                        }
 
-                    if (monster.ChallengeRating > 0.9 &&
-                        monster.ChallengeRating < 2.0)
-                    {
-                        monster.stealableLootDefinition = pickPocketableLootA;
-                    }
+                        if (monster.ChallengeRating > 0.9 &&
+                            monster.ChallengeRating < 2.0)
+                        {
+                            monster.stealableLootDefinition = pickPocketableLootA;
+                        }
 
-                    if (monster.ChallengeRating > 1.9 &&
-                        monster.ChallengeRating < 3.0)
-                    {
-                        monster.stealableLootDefinition = pickPocketableLootB;
-                    }
+                        if (monster.ChallengeRating > 1.9 &&
+                            monster.ChallengeRating < 3.0)
+                        {
+                            monster.stealableLootDefinition = pickPocketableLootB;
+                        }
 
-                    if (monster.ChallengeRating > 2.9 &&
-                        monster.ChallengeRating < 5.0)
-                    {
-                        monster.stealableLootDefinition = pickPocketableLootC;
-                    }
+                        if (monster.ChallengeRating > 2.9 &&
+                            monster.ChallengeRating < 5.0)
+                        {
+                            monster.stealableLootDefinition = pickPocketableLootC;
+                        }
 
-                    if (monster.ChallengeRating > 4.9 &&
-                        monster.ChallengeRating < 7.0)
-                    {
-                        monster.stealableLootDefinition = pickPocketableLootD;
-                    }
+                        if (monster.ChallengeRating > 4.9 &&
+                            monster.ChallengeRating < 7.0)
+                        {
+                            monster.stealableLootDefinition = pickPocketableLootD;
+                        }
 
-                    if (monster.ChallengeRating > 6.9)
-                    {
-                        monster.stealableLootDefinition = pickPocketableLootE;
-                    }
+                        if (monster.ChallengeRating > 6.9)
+                        {
+                            monster.stealableLootDefinition = pickPocketableLootE;
+                        }
 
-                    break;
-                }
-                case "Undead" when monster.DefaultFaction.Contains("HostileMonsters") &&
+                        break;
+                    }
+                case "Undead" when monster.DefaultFaction.Contains("HostileMonsters") ||
+                                   Main.Settings.PickPocketNonHostiles &&
                                    !monster.StealableLootDefinition && !monster.Name.Contains("Ghost") &&
                                    !monster.Name.Contains("Spectral") && !monster.Name.Contains("Servant"):
                     monster.stealableLootDefinition = pickPocketableLootUndead;
