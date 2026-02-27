@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using SolastaUnfinishedBusiness.Api.GameExtensions;
+using SolastaUnfinishedBusiness.Behaviors.Specific;
 using SolastaUnfinishedBusiness.Builders;
 using SolastaUnfinishedBusiness.Builders.Features;
 using SolastaUnfinishedBusiness.Interfaces;
@@ -17,7 +18,14 @@ internal static class CustomItemsContext
     private static readonly Dictionary<string, TagsDefinitions.Criticity> Tags = [];
     private static ItemDefinition _helmOfAwareness;
     private static ItemDefinition _glovesOfThievery;
-
+    private static FeatureDefinitionAttributeModifier featureAllMagicThrownReturn = FeatureDefinitionAttributeModifierBuilder
+        .Create($"AttributeModifierAllMagicThrownReturn")
+        .SetGuiPresentationNoContent()
+        .AddCustomSubFeatures(ReturningWeapon.AlwaysValid)
+        .AddToDB();
+    private static readonly ItemPropertyDescription itemPropertyAllMagicThrownReturn = ItemPropertyDescriptionBuilder
+        .From(featureAllMagicThrownReturn, true)
+        .Build();
     internal static ItemDefinition HelmOfAwareness => _helmOfAwareness ??= BuildHelmOfAwareness();
     internal static ItemDefinition GlovesOfThievery => _glovesOfThievery ??= BuildGlovesOfThievery();
 
@@ -31,6 +39,7 @@ internal static class CustomItemsContext
         SwitchAllowClubsToBeThrown();
         SwitchUniversalSylvanArmorAndLightbringer();
         SwitchMagicStaffFoci();
+        AllMagicThrownReturn();
     }
 
     private static ItemDefinition BuildHelmOfAwareness()
@@ -212,6 +221,22 @@ internal static class CustomItemsContext
         {
             item.IsFocusItem = true;
             item.FocusItemDescription.focusType = EquipmentDefinitions.FocusType.Arcane;
+        }
+    }
+
+    internal static void AllMagicThrownReturn()
+    {
+
+        foreach (var item in DatabaseRepository.GetDatabase<ItemDefinition>()
+                    .Where(x => x.IsWeapon &&
+                    x.Magical &&
+                    x.WeaponDescription.WeaponTags.Contains("Thrown")))
+        {
+            if (Main.Settings.AllMagicThrownReturn &&
+                    !item.HasSubFeatureOfType<ReturningWeapon>())
+            {
+                item.staticProperties.Add(itemPropertyAllMagicThrownReturn);
+            }
         }
     }
 
