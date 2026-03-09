@@ -140,6 +140,9 @@ internal static class MeleeCombatFeats
 
         GroupFeats.FeatGroupSupportCombat.AddFeats(
             featGreatWeaponDefense);
+
+        GroupFeats.FeatGroupOrigin.AddFeats(
+            featSavageAttack);
     }
 
     #region Reckless Attack

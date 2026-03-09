@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.Linq;
 using SolastaUnfinishedBusiness.Api.ModKit;
+using SolastaUnfinishedBusiness.Feats;
 using SolastaUnfinishedBusiness.Models;
 using SolastaUnfinishedBusiness.Subclasses;
 #if DEBUG
@@ -1057,6 +1058,39 @@ internal static class ToolsDisplay
         UI.Label();
         UI.Label("<color=#F0DAA0>" + Gui.Localize("ModUi/&DocsRaces") + ":</color>");
         UI.Label();
+
+        toggle = Main.Settings.EnableBackgroundASI;
+        if (UI.Toggle(Gui.Localize("ModUi/&EnableBackgroundAbilityScoreIncreases"), ref toggle, UI.AutoWidth()))
+        {
+            Main.Settings.EnableBackgroundASI = toggle;
+
+            if (toggle)
+            {
+                // Turning Background ASI ON disables Flexible Races
+                Main.Settings.EnableFlexibleRaces = false;
+            }
+
+            FlexibleRacesContext.SwitchFlexibleRaces(); // update flexible races state if needed
+            Tabletop2024Context.SwitchBackgroundASI();
+
+        }
+
+        toggle = Main.Settings.EnableBackgroundBonusFeats;
+        if (UI.Toggle(Gui.Localize("ModUi/&EnableBackgroundBonusFeats"), ref toggle, UI.AutoWidth()))
+        {
+            Main.Settings.EnableBackgroundBonusFeats = toggle;
+
+            if (toggle)
+            {
+                // Turning Bonus Feats ON disables Flexible Backgrounds
+                Main.Settings.EnableFlexibleBackgrounds = false;
+                FeatsContext.SwitchFeatGroup(GroupFeats.FeatGroupOrigin, true);
+            }
+
+            FlexibleBackgroundsContext.SwitchFlexibleBackgrounds(); // update flexible-backgrounds state if needed
+            Tabletop2024Context.SwitchBackgroundBonusFeats();
+
+        }
 
         toggle = Main.Settings.RaceLightSensitivityApplyOutdoorsOnly;
         if (UI.Toggle(Gui.Localize("ModUi/&RaceLightSensitivityApplyOutdoorsOnly"), ref toggle, UI.AutoWidth()))

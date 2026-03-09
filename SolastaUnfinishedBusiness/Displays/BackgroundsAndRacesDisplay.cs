@@ -1,5 +1,6 @@
 ﻿using SolastaUnfinishedBusiness.Api.LanguageExtensions;
 using SolastaUnfinishedBusiness.Api.ModKit;
+using SolastaUnfinishedBusiness.Feats;
 using SolastaUnfinishedBusiness.Models;
 
 namespace SolastaUnfinishedBusiness.Displays;
@@ -27,14 +28,62 @@ internal static class BackgroundsAndRacesDisplay
         if (UI.Toggle(Gui.Localize("ModUi/&EnableFlexibleBackgrounds"), ref toggle, UI.AutoWidth()))
         {
             Main.Settings.EnableFlexibleBackgrounds = toggle;
+
+            if (toggle)
+            {
+                // Turning Flexible Backgrounds ON disables Background Bonus Feats
+                Main.Settings.EnableBackgroundBonusFeats = false;
+            }
+
             FlexibleBackgroundsContext.SwitchFlexibleBackgrounds();
+            Tabletop2024Context.SwitchBackgroundBonusFeats(); // update bonus-feat state if needed
         }
 
         toggle = Main.Settings.EnableFlexibleRaces;
         if (UI.Toggle(Gui.Localize("ModUi/&EnableFlexibleRaces"), ref toggle, UI.AutoWidth()))
         {
             Main.Settings.EnableFlexibleRaces = toggle;
+
+            if (toggle)
+            {
+                // Turning Flexible Races ON disables Background ASI
+                Main.Settings.EnableBackgroundASI = false;
+            }
+
             FlexibleRacesContext.SwitchFlexibleRaces();
+            Tabletop2024Context.SwitchBackgroundASI(); // update ASI state if needed
+        }
+
+        toggle = Main.Settings.EnableBackgroundASI;
+        if (UI.Toggle(Gui.Localize("ModUi/&EnableBackgroundAbilityScoreIncreases"), ref toggle, UI.AutoWidth()))
+        {
+            Main.Settings.EnableBackgroundASI = toggle;
+
+            if (toggle)
+            {
+                // Turning Background ASI ON disables Flexible Races
+                Main.Settings.EnableFlexibleRaces = false;
+            }
+
+            FlexibleRacesContext.SwitchFlexibleRaces(); // update flexible races state if needed
+            Tabletop2024Context.SwitchBackgroundASI();
+
+        }
+
+        toggle = Main.Settings.EnableBackgroundBonusFeats;
+        if (UI.Toggle(Gui.Localize("ModUi/&EnableBackgroundBonusFeats"), ref toggle, UI.AutoWidth()))
+        {
+            Main.Settings.EnableBackgroundBonusFeats = toggle;
+
+            if (toggle)
+            {
+                // Turning Bonus Feats ON disables Flexible Backgrounds
+                Main.Settings.EnableFlexibleBackgrounds = false;
+                FeatsContext.SwitchFeatGroup(GroupFeats.FeatGroupOrigin, true);
+            }
+
+            Tabletop2024Context.SwitchBackgroundBonusFeats();
+            FlexibleBackgroundsContext.SwitchFlexibleBackgrounds(); // update flexible-backgrounds state if needed
         }
 
         UI.Label();
@@ -51,6 +100,8 @@ internal static class BackgroundsAndRacesDisplay
         {
             Main.Settings.EnableAlternateHuman = toggle;
             FeatsContext.SwitchFirstLevelTotalFeats();
+            Tabletop2024Context.SwitchBackgroundBonusFeats();
+            Tabletop2024Context.SwitchBackgroundASI();
         }
 
         toggle = Main.Settings.UseOfficialSmallRacesDisWithHeavyWeapons;

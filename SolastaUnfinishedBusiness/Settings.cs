@@ -451,6 +451,8 @@ public class Settings : UnityModManager.ModSettings
     // Characters - Backgrounds, Races & Subraces
     //
 
+    [Tag(Type = TagType.T2024)] public bool EnableBackgroundASI { get; set; }
+    [Tag(Type = TagType.T2024)] public bool EnableBackgroundBonusFeats { get; set; }
     public bool EnableFlexibleBackgrounds { get; set; }
     public bool EnableFlexibleRaces { get; set; }
     public bool ChangeDragonbornElementalBreathUsages { get; set; }

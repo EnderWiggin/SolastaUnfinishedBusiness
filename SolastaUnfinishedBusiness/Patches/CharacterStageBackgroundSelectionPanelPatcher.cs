@@ -38,4 +38,30 @@ public static class CharacterStageBackgroundSelectionPanelPatcher
             __instance.compatibleBackgrounds.Sort(__instance);
         }
     }
+
+    //PATCH: allows selecting personality flags after background ability score increases
+    [HarmonyPatch(typeof(CharacterStageBackgroundSelectionPanel),
+    nameof(CharacterStageBackgroundSelectionPanel.FillBackgroundFeatures))]
+    [SuppressMessage("Minor Code Smell", "S101:Types should be named in PascalCase", Justification = "Patch")]
+    [UsedImplicitly]
+    public static class FillBackgroundFeatures_Patch
+    {
+        [UsedImplicitly]
+
+        // Cache a fast field accessor for the private bool newBackgroundSelected
+        private static readonly AccessTools.FieldRef<CharacterStageBackgroundSelectionPanel, bool>
+        NewBackgroundSelectedRef =
+            AccessTools.FieldRefAccess<CharacterStageBackgroundSelectionPanel, bool>("newBackgroundSelected");
+        public static bool Prefix(CharacterStageBackgroundSelectionPanel __instance)
+        {
+            // If no new background was selected, skip the original method entirely
+            if (!NewBackgroundSelectedRef(__instance))
+            {
+                return false;
+            }
+
+            // Otherwise, let the game run its normal logic
+            return true;
+        }
+    }
 }

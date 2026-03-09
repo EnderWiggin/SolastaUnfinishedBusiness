@@ -155,6 +155,7 @@ internal static class FlexibleRacesContext
         { "RaceTieflingZariel", ["AttributeModifierTieflingStrengthAbilityScoreIncrease"] }
     };
 
+    public static IReadOnlyDictionary<string, List<string>> publicRemovedFeatures => RemovedFeatures;
     private static void RemoveMatchingFeature([NotNull] List<FeatureUnlockByLevel> unlocks, BaseDefinition toRemove)
     {
         unlocks.RemoveAll(u => u.FeatureDefinition.GUID == toRemove.GUID);
