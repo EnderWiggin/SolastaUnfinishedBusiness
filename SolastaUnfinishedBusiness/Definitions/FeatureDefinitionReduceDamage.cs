@@ -46,7 +46,7 @@ internal sealed class FeatureDefinitionReduceDamage : FeatureDefinition
             }
 
             var prefix = $"{feature.Name}:{defender.Guid}:";
-            var k = formsParams.sourceTags.FindIndex(x => x.StartsWith(prefix));
+            var k = formsParams.sourceTags?.FindIndex(x => x.StartsWith(prefix)) ?? -1;
 
             if (k < 0)
             {
