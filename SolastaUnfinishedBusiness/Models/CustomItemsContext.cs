@@ -11,6 +11,7 @@ using static RuleDefinitions;
 using static SolastaUnfinishedBusiness.Api.DatabaseHelper.CharacterClassDefinitions;
 using static SolastaUnfinishedBusiness.Api.DatabaseHelper.ItemDefinitions;
 
+
 namespace SolastaUnfinishedBusiness.Models;
 
 internal static class CustomItemsContext
@@ -18,7 +19,7 @@ internal static class CustomItemsContext
     private static readonly Dictionary<string, TagsDefinitions.Criticity> Tags = [];
     private static ItemDefinition _helmOfAwareness;
     private static ItemDefinition _glovesOfThievery;
-    private static FeatureDefinitionAttributeModifier featureAllMagicThrownReturn = FeatureDefinitionAttributeModifierBuilder
+    private static readonly FeatureDefinitionAttributeModifier featureAllMagicThrownReturn = FeatureDefinitionAttributeModifierBuilder
         .Create($"AttributeModifierAllMagicThrownReturn")
         .SetGuiPresentationNoContent()
         .AddCustomSubFeatures(ReturningWeapon.AlwaysValid)
@@ -39,7 +40,7 @@ internal static class CustomItemsContext
         SwitchAllowClubsToBeThrown();
         SwitchUniversalSylvanArmorAndLightbringer();
         SwitchMagicStaffFoci();
-        AllMagicThrownReturn();
+        SwitchAllMagicThrownReturn();
     }
 
     private static ItemDefinition BuildHelmOfAwareness()
@@ -224,18 +225,32 @@ internal static class CustomItemsContext
         }
     }
 
-    internal static void AllMagicThrownReturn()
+    internal static void SwitchAllMagicThrownReturn()
     {
-
         foreach (var item in DatabaseRepository.GetDatabase<ItemDefinition>()
-                    .Where(x => x.IsWeapon &&
-                    x.Magical &&
-                    x.WeaponDescription.WeaponTags.Contains("Thrown")))
+                     .Where(x => x.IsWeapon &&
+                                 x.Magical &&
+                                 x.WeaponDescription.WeaponTags.Contains("Thrown")))
         {
-            if (Main.Settings.AllMagicThrownReturn &&
-                    !item.HasSubFeatureOfType<ReturningWeapon>())
+            bool hasProperty = item.StaticProperties
+                    .Exists(p => p.FeatureDefinition.Name.Contains("AttributeModifierAllMagicThrownReturn"));
+
+            if (Main.Settings.AllMagicThrownReturn)
             {
-                item.staticProperties.Add(itemPropertyAllMagicThrownReturn);
+                // ENABLED → add if missing
+                if (!hasProperty)
+                {
+                    item.staticProperties.Add(itemPropertyAllMagicThrownReturn);
+                }
+            }
+            else
+            {
+                // DISABLED → remove if present
+                if (hasProperty)
+                {
+                    item.staticProperties
+                            .RemoveAll(p => p.FeatureDefinition.Name.Contains("AttributeModifierAllMagicThrownReturn"));
+                }
             }
         }
     }

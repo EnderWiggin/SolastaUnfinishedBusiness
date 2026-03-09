@@ -147,7 +147,7 @@ internal static class CraftingAndItems
         if (UI.Toggle(Gui.Localize("ModUi/&AllMagicThrownReturn"), ref toggle, UI.AutoWidth()))
         {
             Main.Settings.AllMagicThrownReturn = toggle;
-            CustomItemsContext.AllMagicThrownReturn();
+            CustomItemsContext.SwitchAllMagicThrownReturn();
         }
 
         toggle = Main.Settings.UseOfficialFoodRationsWeight;
