@@ -1,3 +1,6 @@
+1.5.97.126:
+- fixed generic Wisdom (Perception) ability check affinities from hero (like `Enhance Ability: Owl's Wisdom` or `Foresight` spells) applied to enemies when checking for stealth breaks
+
 1.5.97.125:
 - reworked `Sculpt Spells` from Evocation Wizard to allow it to work with ongoing effect spells (like Sickening Radiance)
 - fixed Meteor Swarm school (Transmutation => Evocation) + small code cleanup
