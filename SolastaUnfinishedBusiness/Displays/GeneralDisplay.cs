@@ -1092,6 +1092,16 @@ internal static class ToolsDisplay
 
         }
 
+        if (Main.Settings.EnableBackgroundBonusFeats)
+        {
+            toggle = Main.Settings.AddOriginFeatsToAutoLearn;
+            if (UI.Toggle(Gui.Localize("ModUi/&AddOriginFeatsToAutoLearn"), ref toggle, UI.AutoWidth()))
+            {
+                Main.Settings.AddOriginFeatsToAutoLearn = toggle;
+                Tabletop2024Context.SwitchAddOriginFeatsToAutoLearn();
+            }
+        }
+
         toggle = Main.Settings.RaceLightSensitivityApplyOutdoorsOnly;
         if (UI.Toggle(Gui.Localize("ModUi/&RaceLightSensitivityApplyOutdoorsOnly"), ref toggle, UI.AutoWidth()))
         {

@@ -86,6 +86,16 @@ internal static class BackgroundsAndRacesDisplay
             FlexibleBackgroundsContext.SwitchFlexibleBackgrounds(); // update flexible-backgrounds state if needed
         }
 
+        if (Main.Settings.EnableBackgroundBonusFeats)
+        {
+            toggle = Main.Settings.AddOriginFeatsToAutoLearn;
+            if (UI.Toggle(Gui.Localize("ModUi/&AddOriginFeatsToAutoLearn"), ref toggle, UI.AutoWidth()))
+            {
+                Main.Settings.AddOriginFeatsToAutoLearn = toggle;
+                Tabletop2024Context.SwitchAddOriginFeatsToAutoLearn();
+            }
+        }
+
         UI.Label();
 
         toggle = Main.Settings.ChangeDragonbornElementalBreathUsages;

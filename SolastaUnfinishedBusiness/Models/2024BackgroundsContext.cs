@@ -170,6 +170,19 @@ public static partial class Tabletop2024Context
 
     private static Dictionary<string, FeatureDefinitionFeatureSet> BackgroundASISets = new();
     private static Dictionary<CharacterRaceDefinition, FeatureUnlockByLevel> ASIFeaturesToRemove = new();
+    private static readonly List<string> originFeats =
+        new()
+        {
+                "FeatAlert",
+                "FeatTough",
+                "FeatLucky",
+                "FeatHealer",
+                "FeatSavageAttack",
+                "FeatMagicInitiateCleric",
+                "FeatMagicInitiateWizard",
+                "FeatMagicInitiateBard"
+        };
+
     internal static void Load2024BackgroundsASIAndFeats()
     {
         // Populate BackgroundASISets
@@ -338,6 +351,27 @@ public static partial class Tabletop2024Context
         }
     }
 
+    internal static void SwitchAddOriginFeatsToAutoLearn()
+    {
+        var allClasses = DatabaseRepository.GetDatabase<CharacterClassDefinition>();
+
+        foreach (var characterClass in allClasses)
+        {
+            if (Main.Settings.EnableBackgroundBonusFeats &&
+                    Main.Settings.AddOriginFeatsToAutoLearn)
+            {
+                characterClass.featAutolearnPreference.AddRange(originFeats);
+            }
+            else
+            {
+                foreach (var feat in originFeats)
+                {
+                    characterClass.featAutolearnPreference.Remove(feat);
+                }
+            }
+        }
+    }
+
     internal static void SwitchBackgroundBonusFeats()
     {
         var dbBackgrounds = DatabaseRepository.GetDatabase<CharacterBackgroundDefinition>();
@@ -379,5 +413,7 @@ public static partial class Tabletop2024Context
                 }
             }
         }
+
+        SwitchAddOriginFeatsToAutoLearn();
     }
 }
