@@ -187,8 +187,77 @@ internal static class RulesContext
         }
     }
 
+    private static void InitializeHalfElfVariants()
+    {
+        // Move Half-Elf default names into each Half-Elf variant so they can be added to separately
+        var basePres = HalfElf.RacePresentation;
+
+        var defaultMale = basePres.maleNameOptions.ToList();
+        var defaultFemale = basePres.femaleNameOptions.ToList();
+        var defaultSur = basePres.surNameOptions.ToList();
+
+        var parentPres = RaceHalfElfBuilder.RaceHalfElfVariant.RacePresentation;
+        parentPres.maleNameOptions.Clear();
+        parentPres.femaleNameOptions.Clear();
+        parentPres.surNameOptions.Clear();
+
+        var variants = new[]
+        {
+            RaceHalfElfBuilder.RaceHalfElfHighVariant,
+            RaceHalfElfBuilder.RaceHalfElfSylvanVariant,
+            RaceHalfElfBuilder.RaceHalfElfDarkVariant
+        };
+
+        foreach (var variant in variants)
+        {
+            var pres = variant.RacePresentation;
+            pres.maleNameOptions.AddRange(defaultMale);
+            pres.femaleNameOptions.AddRange(defaultFemale);
+            pres.surNameOptions.AddRange(defaultSur);
+        }
+    }
+
     private static void LoadAdditionalNames()
     {
+        InitializeHalfElfVariants();
+
+        var db = DatabaseRepository.GetDatabase<CharacterRaceDefinition>();
+
+        var nameMapping = new Dictionary<CharacterRaceDefinition, List<CharacterRaceDefinition>>
+        {
+            [Human] =
+                [
+                    Human,
+                    HalfElf,
+                    RaceHalfElfBuilder.RaceHalfElfHighVariant,
+                    RaceHalfElfBuilder.RaceHalfElfSylvanVariant,
+                    RaceHalfElfBuilder.RaceHalfElfDarkVariant
+                ],
+
+            [ElfSylvan] =
+                [
+                    ElfSylvan,
+                    HalfElf,
+                    RaceHalfElfBuilder.RaceHalfElfSylvanVariant
+                ],
+
+            [ElfHigh] =
+                [
+                    ElfHigh,
+                    SubraceDarkelfBuilder.SubraceDarkelf,
+                    SubraceShadarKaiBuilder.SubraceShadarKai,
+                    HalfElf,
+                    RaceHalfElfBuilder.RaceHalfElfHighVariant,
+                    RaceHalfElfBuilder.RaceHalfElfDarkVariant
+                ],
+
+            [Tiefling] =
+                [
+                    Tiefling,
+                    RaceTieflingBuilder.RaceTiefling
+                ]
+        };
+
         char[] separator = ['\t'];
 
         if (!SettingsContext.GuiModManagerInstance.UnlockAdditionalLoreFriendlyNames)
@@ -214,23 +283,22 @@ internal static class RulesContext
             var gender = columns[1];
             var name = columns[2];
 
-            if (DatabaseRepository.GetDatabase<CharacterRaceDefinition>().TryGetElement(raceName, out var race))
+            if (!db.TryGetElement(raceName, out var race))
             {
-                if (race.subRaces.Count == 0)
+                Main.Error($"additional names cannot load: {line}.");
+                continue;
+            }
+
+            if (nameMapping.TryGetValue(race, out var subs))
+            {
+                foreach (var sub in subs)
                 {
-                    AddNameToRace(race, gender, name);
-                }
-                else
-                {
-                    foreach (var subRace in race.SubRaces)
-                    {
-                        AddNameToRace(subRace, gender, name);
-                    }
+                    AddNameToRace(sub, gender, name);
                 }
             }
             else
             {
-                Main.Error($"additional names cannot load: {line}.");
+                AddNameToRace(race, gender, name);
             }
         }
     }
