@@ -298,50 +298,12 @@ internal static class SharedSpellsContext
 
         internal int GetCasterLevel()
         {
-            var totalKeysGreaterThanZero = 0;
-            var fullLevels = 0f;
-            var halfLevels = 0f;
-            var oneThirdLevels = 0f;
-
-            foreach (var level in _levels)
-            {
-                var casterType = level.Key;
-                var levels = level.Value;
-
-                // ReSharper disable once SwitchStatementMissingSomeEnumCasesNoDefault
-                switch (casterType)
-                {
-                    case CasterProgression.Full when levels > 0:
-                        totalKeysGreaterThanZero++;
-                        fullLevels += levels;
-                        break;
-                    case CasterProgression.Half or CasterProgression.HalfRoundUp when levels > 0:
-                        totalKeysGreaterThanZero++;
-                        halfLevels += levels / 2f;
-                        break;
-                    case CasterProgression.OneThird when levels > 0:
-                        totalKeysGreaterThanZero++;
-                        oneThirdLevels += levels / 3f;
-                        break;
-                }
-            }
-
-            // ReSharper disable once InvertIf
-            if (totalKeysGreaterThanZero == 1)
-            {
-                if (halfLevels > 1 / 2f ||
-                    _levels[CasterProgression.HalfRoundUp] > 0)
-                {
-                    halfLevels += 1 / 2f;
-                }
-
-                if (oneThirdLevels > 0.7f)
-                {
-                    oneThirdLevels += 2 / 3f;
-                }
-            }
-
-            return (int)Math.Floor(fullLevels) + (int)Math.Floor(halfLevels) + (int)Math.Floor(oneThirdLevels);
+            return (int)(
+                _levels[CasterProgression.Full]
+                + Math.Floor(_levels[CasterProgression.Half] / 2f)
+                + Math.Ceiling(_levels[CasterProgression.HalfRoundUp] / 2f)
+                + Math.Floor(_levels[CasterProgression.OneThird] / 3f)
+            );
         }
     }
 
