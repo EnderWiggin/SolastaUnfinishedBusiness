@@ -11,6 +11,7 @@ ModUi/&AddNewScrollsToTreasure=Add scrolls for new spells to appropriate treasur
 ModUi/&AddNewWeaponsAndRecipesToShops=Add new weapons and recipes to shops <i><color=#F0DAA0>[hand wraps, halberds, pikes, long maces, hand crossbows]</color></i> <b><i><color=#C04040E0>[Requires Restart]</color></i></b>
 ModUi/&NewWeaponsAndRecipesBaseInsteadOfPrimed=<i>+ Use base weapons and armor as ingredients instead of Primed versions</i> <b><i><color=#C04040E0>[Requires Restart]</color></i></b>
 ModUi/&NewWeaponsAndRecipesSimplified=<i>+ Use simple all-in-one recipes <color=#F0DAA0>[base ingredients only, does not affect custom items from campaigns]</color></i> <b><i><color=#C04040E0>[Requires Restart]</color></i></b>
+ModUi/&AddOriginFeatsToAutoLearn= + Add Origin Feats to Auto-Learn
 ModUi/&AddPaladinSmiteToggle=Add a toggle to allow <color=#D89555>Divine Smite</color> to only trigger on critical hits <i><color=#F0DAA0>[minimizes reaction prompts, applies to smite spells if 2024 smite spells are enabled]</color></i>
 ModUi/&AddPickPocketableLoot=Add pickpocketable loot <i><color=#F0DAA0>[suggested if <color=#D89555>Pickpocket</color> feat is enabled]</color></i>
 ModUi/&EnemySpellcastersDropScribedSpellbooks=Enemy spellcasters drop scribed spellbooks <i><color=#F0DAA0>[contains their known spells from the wizard list]</color></i>
@@ -103,6 +104,8 @@ ModUi/&EnableAdditionalItemsInDungeonMaker=Add modded items to Editor
 ModUi/&EnableAllyMovementAllowsFlight=Allow features that move self or allies to include mid-air positions if that creature is flying (eg. <color=#D89555>Maneuvering Strike</color>, <color=#D89555>Instinctive Pounce</color>)
 ModUi/&EnableAlternateHuman=Enable the alternate <color=#D89555>Human</color> <i><color=#F0DAA0>[+1 feat / +2 attribute choices / +1 skill]</color></i>
 ModUi/&EnableAlternateVotingSystem=Enable alternate voting system <i><color=#F0DAA0>[choice weight = votes * hero Charisma modifier]</color></i>
+ModUi/&EnableBackgroundAbilityScoreIncreases=Ability score increases come from background instead of race <i><color=#F0DAA0>[Flexible Races is incompatible and will be toggled off]</color></i>
+ModUi/&EnableBackgroundBonusFeats=Enable background bonus feats <i><color=#F0DAA0>[Flexible Backgrounds is incompatible and will be toggled off]</color></i>
 ModUi/&EnableBG3AbjurationArcaneWard=Enable <b>Abjurer</b> <color=#D89555>Arcane Ward</color> implementation to behave like BG3
 ModUi/&EnableBG3AbjurationArcaneWardHelp=<i><color=#F0DAA0>[Decrease by 1 each time it prevents damage, instead of by damage prevented. No need to cast abjuration spell to be active\nbut max value is 2x Wizard level instead of 2x Wizard level + INT mod and is only recharged to half on a long rest]</color></i>
 ModUi/&EnableBarbarianBrutalStrike2024=Enable <color=#D89555>Brutal Strike</color> and <color=#D89555>Brutal Strike Improvement</color> to replace <color=#D89555>Brutal Critical</color> at levels 9, 13 and 17

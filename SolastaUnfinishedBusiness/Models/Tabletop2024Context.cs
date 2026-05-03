@@ -63,6 +63,7 @@ public static partial class Tabletop2024Context
 
     internal static void LateLoad()
     {
+        Load2024BackgroundsASIAndFeats();
         LoadBarbarianBrutalStrike();
         LoadBarbarianInstinctivePounce();
         LoadBarbarianPersistentRage();
@@ -87,6 +88,8 @@ public static partial class Tabletop2024Context
         LoadSorcererSorcerousRestoration();
         LoadWizardMemorizeSpell();
         LoadWeaponMastery();
+        SwitchBackgroundASI();
+        SwitchBackgroundBonusFeats();
         SwitchBarbarianBrutalStrike();
         SwitchBarbarianInstinctivePounce();
         SwitchBarbarianPersistentRage();

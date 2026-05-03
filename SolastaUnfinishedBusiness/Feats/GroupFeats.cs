@@ -46,6 +46,9 @@ internal static class GroupFeats
 
     internal static FeatDefinition FeatGroupFightingStyle { get; } = MakeGroup("FeatGroupFightingStyle", FightingStyle);
 
+    internal static FeatDefinition FeatGroupOrigin { get; } = MakeGroup("FeatGroupOrigin", null,
+    OtherFeats.FeatAlert);
+
     //
     // Crusher & Piercer
     //
