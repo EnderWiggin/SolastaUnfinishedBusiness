@@ -143,6 +143,13 @@ internal static class CraftingAndItems
             CustomItemsContext.SwitchAllowClubsToBeThrown();
         }
 
+        toggle = Main.Settings.AllMagicThrownReturn;
+        if (UI.Toggle(Gui.Localize("ModUi/&AllMagicThrownReturn"), ref toggle, UI.AutoWidth()))
+        {
+            Main.Settings.AllMagicThrownReturn = toggle;
+            CustomItemsContext.SwitchAllMagicThrownReturn();
+        }
+
         toggle = Main.Settings.UseOfficialFoodRationsWeight;
         if (UI.Toggle(Gui.Localize("ModUi/&UseOfficialFoodRationsWeight"), ref toggle, UI.AutoWidth()))
         {

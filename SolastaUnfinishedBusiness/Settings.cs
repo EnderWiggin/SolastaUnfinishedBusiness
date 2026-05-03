@@ -273,6 +273,7 @@ public class Settings : UnityModManager.ModSettings
     public bool RemoveAttunementRequirements { get; set; }
     public bool AllowAnyClassToWearSylvanArmor { get; set; }
     public bool AllowClubsToBeThrown { get; set; }
+    public bool AllMagicThrownReturn { get; set; }
     [Tag(Type = TagType.T2014)] public bool UseOfficialFoodRationsWeight { get; set; }
     public bool MakeAllMagicStaveArcaneFoci { get; set; }
     [Tag(Type = TagType.T2014)] public bool FixRingOfRegenerationHealRate { get; set; }

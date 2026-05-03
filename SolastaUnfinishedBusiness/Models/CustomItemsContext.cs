@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using SolastaUnfinishedBusiness.Api.GameExtensions;
+using SolastaUnfinishedBusiness.Behaviors.Specific;
 using SolastaUnfinishedBusiness.Builders;
 using SolastaUnfinishedBusiness.Builders.Features;
 using SolastaUnfinishedBusiness.Interfaces;
@@ -10,6 +11,7 @@ using static RuleDefinitions;
 using static SolastaUnfinishedBusiness.Api.DatabaseHelper.CharacterClassDefinitions;
 using static SolastaUnfinishedBusiness.Api.DatabaseHelper.ItemDefinitions;
 
+
 namespace SolastaUnfinishedBusiness.Models;
 
 internal static class CustomItemsContext
@@ -17,7 +19,14 @@ internal static class CustomItemsContext
     private static readonly Dictionary<string, TagsDefinitions.Criticity> Tags = [];
     private static ItemDefinition _helmOfAwareness;
     private static ItemDefinition _glovesOfThievery;
-
+    private static readonly FeatureDefinitionAttributeModifier featureAllMagicThrownReturn = FeatureDefinitionAttributeModifierBuilder
+        .Create($"AttributeModifierAllMagicThrownReturn")
+        .SetGuiPresentationNoContent()
+        .AddCustomSubFeatures(ReturningWeapon.AlwaysValid)
+        .AddToDB();
+    private static readonly ItemPropertyDescription itemPropertyAllMagicThrownReturn = ItemPropertyDescriptionBuilder
+        .From(featureAllMagicThrownReturn, true)
+        .Build();
     internal static ItemDefinition HelmOfAwareness => _helmOfAwareness ??= BuildHelmOfAwareness();
     internal static ItemDefinition GlovesOfThievery => _glovesOfThievery ??= BuildGlovesOfThievery();
 
@@ -31,6 +40,7 @@ internal static class CustomItemsContext
         SwitchAllowClubsToBeThrown();
         SwitchUniversalSylvanArmorAndLightbringer();
         SwitchMagicStaffFoci();
+        SwitchAllMagicThrownReturn();
     }
 
     private static ItemDefinition BuildHelmOfAwareness()
@@ -212,6 +222,36 @@ internal static class CustomItemsContext
         {
             item.IsFocusItem = true;
             item.FocusItemDescription.focusType = EquipmentDefinitions.FocusType.Arcane;
+        }
+    }
+
+    internal static void SwitchAllMagicThrownReturn()
+    {
+        foreach (var item in DatabaseRepository.GetDatabase<ItemDefinition>()
+                     .Where(x => x.IsWeapon &&
+                                 x.Magical &&
+                                 x.WeaponDescription.WeaponTags.Contains("Thrown")))
+        {
+            bool hasProperty = item.StaticProperties
+                    .Exists(p => p.FeatureDefinition.Name.Contains("AttributeModifierAllMagicThrownReturn"));
+
+            if (Main.Settings.AllMagicThrownReturn)
+            {
+                // ENABLED → add if missing
+                if (!hasProperty)
+                {
+                    item.staticProperties.Add(itemPropertyAllMagicThrownReturn);
+                }
+            }
+            else
+            {
+                // DISABLED → remove if present
+                if (hasProperty)
+                {
+                    item.staticProperties
+                            .RemoveAll(p => p.FeatureDefinition.Name.Contains("AttributeModifierAllMagicThrownReturn"));
+                }
+            }
         }
     }
 
