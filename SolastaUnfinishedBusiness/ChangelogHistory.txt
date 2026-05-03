@@ -1,3 +1,10 @@
+1.5.97.127:
+- Fixed subraces not getting names, build half-elf names dynamically, added many names (PR by Silvergriffon)
+- Added option to allows pickpocketing of allies (PR by Silvergriffon)
+- Added option for all magical thrown weapons to return to the thrower's hand (PR by Silvergriffon)
+- Added 2024 Background options - ASI moved from races to origins, origin feat (PR by Silvergriffon)
+- Fixed multiclass spell slot progression
+
 1.5.97.126:
 - fixed generic Wisdom (Perception) ability check affinities from hero (like `Enhance Ability: Owl's Wisdom` or `Foresight` spells) applied to enemies when checking for stealth breaks
 
