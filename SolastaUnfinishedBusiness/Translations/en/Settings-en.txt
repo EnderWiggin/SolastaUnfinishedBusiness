@@ -344,6 +344,7 @@ ModUi/&OutlineGridWidthSpeed=<color=white>Multiply the outline grid animation sp
 ModUi/&OverrideMinMaxLevel=Override the required min and max levels when starting new adventures
 ModUi/&OverridePartySize=<color=white>Override the party size</color>
 ModUi/&Patches=<color=#F0DAA0>Patches:</color>
+ModUi/&PickPocketNonHostiles=Also add pickpocketable loot to many non-hostile NPCs <i><color=#F0DAA0>[failure will affect reputation]</color></i>
 ModUi/&PortraitsOpenFolder=Open portraits folder
 ModUi/&PrimedItems=Primed Items
 ModUi/&QuickCastLightCantripOnWornItemsFirst=Enable quick cast <color=#D89555>Light Cantrip</color> to use head, neck or torso worn items first
