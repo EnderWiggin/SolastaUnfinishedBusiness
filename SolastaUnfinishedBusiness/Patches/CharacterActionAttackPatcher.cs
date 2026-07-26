@@ -46,6 +46,7 @@ public static class CharacterActionAttackPatcher
             var rulesetCharacter = actingCharacter.RulesetCharacter;
             var actionParams = __instance.ActionParams;
             var attackMode = actionParams.AttackMode;
+            var ammunitionEffectDescription = GetAmmunitionEffectDescription(rulesetCharacter, attackMode);
             var locationPositioningService = ServiceRepository.GetService<IGameLocationPositioningService>();
             var locationEntityFactoryService = ServiceRepository.GetService<IWorldLocationEntityFactoryService>();
             var implementationService = ServiceRepository.GetService<IRulesetImplementationService>();
@@ -521,42 +522,80 @@ public static class CharacterActionAttackPatcher
 
                     // Saving throw?
                     var hasBorrowedLuck = rulesetDefender.HasConditionOfTypeOrSubType(ConditionBorrowedLuck);
+                    var attackEffectDescription = attackMode.EffectDescription;
+                    EffectDescription originalEffectDescription = null;
 
-                    // These bool information must be store as a class member, as it is passed to HandleFailedSavingThrow
-                    __instance.RolledSaveThrow = attackMode.TryRollSavingThrow(
-                        rulesetCharacter,
-                        rulesetDefender,
-                        attackModifier,
-                        __instance.actualEffectForms,
-                        out var saveOutcome,
-                        out var saveOutcomeDelta);
-
-                    __instance.SaveOutcome = saveOutcome;
-                    __instance.SaveOutcomeDelta = saveOutcomeDelta;
-
-                    if (__instance.RolledSaveThrow)
+                    // Poisoned ammunition keeps its saving throw metadata outside the generated attack mode.
+                    // Temporarily borrow only that save metadata so the attack pipeline rolls and applies it.
+                    if (!attackEffectDescription.HasSavingThrow &&
+                        ammunitionEffectDescription?.HasSavingThrow == true)
                     {
-                        var savingThrowData = new SavingThrowData
-                        {
-                            SaveActionModifier = attackModifier,
-                            SaveOutcome = __instance.SaveOutcome,
-                            SaveOutcomeDelta = __instance.SaveOutcomeDelta,
-                            SaveDC = RulesetActorExtensions.SaveDC,
-                            SaveBonusAndRollModifier = RulesetActorExtensions.SaveBonusAndRollModifier,
-                            SavingThrowAbility = RulesetActorExtensions.SavingThrowAbility,
-                            SourceDefinition = null,
-                            EffectDescription = attackMode.EffectDescription,
-                            Title = __instance.FormatTitle(),
-                            Action = __instance
-                        };
+                        originalEffectDescription = new EffectDescription();
+                        originalEffectDescription.Copy(attackEffectDescription);
 
-                        yield return TryAlterOutcomeSavingThrow.Handler(
-                            battleManager,
-                            actingCharacter,
-                            target,
-                            savingThrowData,
-                            hasBorrowedLuck,
-                            attackMode.EffectDescription);
+                        attackEffectDescription.hasSavingThrow = ammunitionEffectDescription.hasSavingThrow;
+                        attackEffectDescription.disableSavingThrowOnAllies =
+                            ammunitionEffectDescription.disableSavingThrowOnAllies;
+                        attackEffectDescription.savingThrowAbility = ammunitionEffectDescription.savingThrowAbility;
+                        attackEffectDescription.difficultyClassComputation =
+                            ammunitionEffectDescription.difficultyClassComputation;
+                        attackEffectDescription.savingThrowDifficultyAbility =
+                            ammunitionEffectDescription.savingThrowDifficultyAbility;
+                        attackEffectDescription.fixedSavingThrowDifficultyClass =
+                            ammunitionEffectDescription.fixedSavingThrowDifficultyClass;
+                        attackEffectDescription.advantageForEnemies = ammunitionEffectDescription.advantageForEnemies;
+                        attackEffectDescription.savingThrowAffinitiesBySense.Clear();
+                        attackEffectDescription.savingThrowAffinitiesBySense.AddRange(
+                            ammunitionEffectDescription.savingThrowAffinitiesBySense);
+                        attackEffectDescription.savingThrowAffinitiesByFamily =
+                            ammunitionEffectDescription.savingThrowAffinitiesByFamily;
+                    }
+
+                    try
+                    {
+                        // These bool information must be store as a class member, as it is passed to HandleFailedSavingThrow
+                        __instance.RolledSaveThrow = attackMode.TryRollSavingThrow(
+                            rulesetCharacter,
+                            rulesetDefender,
+                            attackModifier,
+                            __instance.actualEffectForms,
+                            out var saveOutcome,
+                            out var saveOutcomeDelta);
+
+                        __instance.SaveOutcome = saveOutcome;
+                        __instance.SaveOutcomeDelta = saveOutcomeDelta;
+
+                        if (__instance.RolledSaveThrow)
+                        {
+                            var savingThrowData = new SavingThrowData
+                            {
+                                SaveActionModifier = attackModifier,
+                                SaveOutcome = __instance.SaveOutcome,
+                                SaveOutcomeDelta = __instance.SaveOutcomeDelta,
+                                SaveDC = RulesetActorExtensions.SaveDC,
+                                SaveBonusAndRollModifier = RulesetActorExtensions.SaveBonusAndRollModifier,
+                                SavingThrowAbility = RulesetActorExtensions.SavingThrowAbility,
+                                SourceDefinition = null,
+                                EffectDescription = attackMode.EffectDescription,
+                                Title = __instance.FormatTitle(),
+                                Action = __instance
+                            };
+
+                            yield return TryAlterOutcomeSavingThrow.Handler(
+                                battleManager,
+                                actingCharacter,
+                                target,
+                                savingThrowData,
+                                hasBorrowedLuck,
+                                attackMode.EffectDescription);
+                        }
+                    }
+                    finally
+                    {
+                        if (originalEffectDescription != null)
+                        {
+                            attackEffectDescription.Copy(originalEffectDescription);
+                        }
                     }
 
                     // Check for resulting actions, if any of them is a CharacterSpendPower w/ a Motion effect form, don't wait for hit animation
@@ -952,6 +991,21 @@ public static class CharacterActionAttackPatcher
 
             yield return battleManager.HandleCharacterAttackOrMagicEffectFinishedLate(
                 __instance, actingCharacter);
+        }
+
+        private static EffectDescription GetAmmunitionEffectDescription(
+            RulesetCharacter rulesetCharacter,
+            RulesetAttackMode attackMode)
+        {
+            if (rulesetCharacter is not RulesetCharacterHero hero)
+            {
+                return null;
+            }
+
+            var ammunitionType = hero.GetAmmunitionType(attackMode);
+            var ammunitionSlot = hero.CharacterInventory.GetCurrentAmmunitionSlot(ammunitionType);
+
+            return ammunitionSlot?.EquipedItem?.ItemDefinition.AmmunitionDescription?.EffectDescription;
         }
     }
 }

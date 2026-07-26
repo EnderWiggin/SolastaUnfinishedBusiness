@@ -623,7 +623,7 @@ internal static partial class SpellBuilders
         {
             if (outcome == RollOutcome.Success)
             {
-                GameLocationCharacter.GetFromActor(rulesetActorDefender).UsedSpecialFeatures
+                GameLocationCharacter.GetFromActor(rulesetActorDefender)?.UsedSpecialFeatures
                     .TryAdd(CircleOfMagicalNegationSavedTag, 0);
             }
         }
