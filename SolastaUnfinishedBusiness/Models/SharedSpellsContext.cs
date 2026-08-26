@@ -298,12 +298,36 @@ internal static class SharedSpellsContext
 
         internal int GetCasterLevel()
         {
-            return (int)(
-                _levels[CasterProgression.Full]
-                + Math.Floor(_levels[CasterProgression.Half] / 2f)
-                + Math.Ceiling(_levels[CasterProgression.HalfRoundUp] / 2f)
-                + Math.Floor(_levels[CasterProgression.OneThird] / 3f)
-            );
+            var full = _levels[CasterProgression.Full];
+            var half = _levels[CasterProgression.Half];
+            var halfRoundUp = _levels[CasterProgression.HalfRoundUp];
+            var oneThird = _levels[CasterProgression.OneThird];
+
+            // single classed half and third casters (e.g. solo Paladin/Ranger or solo Eldritch
+            // Knight/Arcane Trickster) follow their own spell slots table which rounds up on
+            // odd/non-multiple-of-3 levels, unlike the multiclass spellcaster table which always
+            // rounds down
+            var soloCaster =
+                (full > 0 ? 1 : 0) + (half > 0 ? 1 : 0) + (halfRoundUp > 0 ? 1 : 0) + (oneThird > 0 ? 1 : 0) == 1;
+
+            var halfLevel = half / 2f;
+
+            if (soloCaster && halfLevel > 0.5f)
+            {
+                halfLevel += 0.5f;
+            }
+
+            var oneThirdLevel = oneThird / 3f;
+
+            if (soloCaster && oneThirdLevel > 0.7f)
+            {
+                oneThirdLevel += 2 / 3f;
+            }
+
+            return full
+                   + (int)Math.Floor(halfLevel)
+                   + (int)Math.Ceiling(halfRoundUp / 2f)
+                   + (int)Math.Floor(oneThirdLevel);
         }
     }
 
