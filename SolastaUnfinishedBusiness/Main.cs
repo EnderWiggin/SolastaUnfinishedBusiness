@@ -97,6 +97,7 @@ internal static class Main
         EnsureFolderExists(SettingsFolder);
         PortraitsContext.EnsureFolderExists();
         SaveByLocationContext.EnsureFoldersExist();
+        SettingsCloudSync.PullIfNewer(modEntry);
 
         try
         {

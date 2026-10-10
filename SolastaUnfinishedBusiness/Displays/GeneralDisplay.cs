@@ -165,7 +165,13 @@ internal static class ToolsDisplay
 
         UI.Label();
 
-        var toggle = Main.Settings.EnablePcgRandom;
+        var toggle = Main.Settings.SyncSettingsThroughSteamCloud;
+        if (UI.Toggle(Gui.Localize("ModUi/&SyncSettingsThroughSteamCloud"), ref toggle, UI.AutoWidth()))
+        {
+            Main.Settings.SyncSettingsThroughSteamCloud = toggle;
+        }
+
+        toggle = Main.Settings.EnablePcgRandom;
         if (UI.Toggle(Gui.Localize("ModUi/&EnablePcgRandom"), ref toggle, UI.AutoWidth()))
         {
             Main.Settings.EnablePcgRandom = toggle;

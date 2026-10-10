@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 using HarmonyLib;
 using JetBrains.Annotations;
+using SolastaUnfinishedBusiness.Models;
 using UnityModManagerNet;
 
 namespace SolastaUnfinishedBusiness.Api.ModKit;
@@ -24,6 +25,7 @@ internal sealed class ModManager<TCore, TSettings>
     private void HandleSaveGUI(UnityModManager.ModEntry modEntry)
     {
         UnityModManager.ModSettings.Save(Settings, modEntry);
+        SettingsCloudSync.Push(modEntry);
     }
 
     #endregion

@@ -68,7 +68,9 @@ internal static class SaveByLocationContext
 
     private static SavePlace MostRecentFile(string dir, LocationType type)
     {
-        var files = Directory.EnumerateFiles(dir, "*.sav").ToArray();
+        var files = Directory.EnumerateFiles(dir, "*.sav")
+            .Where(file => !SettingsCloudSync.IsMirrorFile(file))
+            .ToArray();
         var place = new SavePlace
         {
             Name = type == LocationType.Default ? DefaultName : Path.GetFileName(dir),
